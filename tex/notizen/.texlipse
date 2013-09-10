@@ -1,0 +1,14 @@
+#TeXlipse project settings
+#Tue Jun 11 15:51:35 CEST 2013
+markTmpDer=true
+builderNum=2
+outputDir=
+makeIndSty=
+bibrefDir=
+outputFormat=pdf
+tempDir=tmp
+mainTexFile=notizen.tex
+outputFile=notizen.pdf
+langSpell=de
+markDer=true
+srcDir=

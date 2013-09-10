@@ -1,0 +1,82 @@
+%Dokumentenklasse
+\documentclass{article}
+
+%Sprach-Packages
+%\usepackage[utf8]{inputenc}%Uni
+\usepackage{etex}
+\usepackage[utf8]{inputenc}%AT home
+\usepackage[german]{babel}
+\usepackage[T1]{fontenc}
+
+
+\include{inc/mathenv}
+\include{inc/commands}
+%-----
+\title{Problemstellung}
+\author{Ben Lenser}
+%\date{}                                           % Activate to display a given date or no date
+
+\begin{document}
+\maketitle
+
+
+
+\section{Gegeben}
+\begin{itemize}
+	\item X(T)  State Variable, beschreibt evolution des Mediums in den Grid Points
+	\item $\begin{cases}
+						\frac{dX}{dt} = F(X,U)\\
+					  X(0) = V
+					 \end{cases}$
+					Modell, beschreibt Fließ-Evolution; System nicht linearer differentialgleichungen
+	\item Kontrollvariablen $(U,V)\in \P$ im Kontrollraum (erstellt aus den Anfangsbedingungen oder interne Variablen des Modells (Parameter oder Boundary Conditions))
+	\item $\Xobs$ Diskrete Messdaten (zeitabhängig, Funktionsraum abhängig)
+	\item $C:S\to O$: Abbildung vom State Raum $S$ in Observationraum ($O$)
+	\item $J:= \int_0^T \frac{1}{2} \|C\cdot X(U,V) - \Xobs \|$ Kostenfunktion (Diskrepanz zwischen Modelllösung und Messwerten)
+\end{itemize}
+
+\section{Problem}
+\begin{ass}
+	Finde Lösungen $U=U^*, V=V^*$ mit
+	\[ J(U^*,V^*) = \inf_{(U,V)\in \P}J(U,V)\]
+	\end{ass}
+Sei 
+\begin{itemize}
+	\item $(u,v) \in \P$: Richtungen aus dem Steuerungsraum
+	\item $\Xhat$: Gateaux Ableitung (Richtungsableitung) von $X$ in Richtung $(u,v)$: Ist die Lösung von Tangent Linear Model (TLM):
+	\[
+		\begin{cases}
+				\frac{d\Xhat}{dt} =\left[ \frac{\partial F}{\partial X}\right]\cdot \Xhat +  \left[ \frac{\partial F}{\partial U}\right] \cdot u\\
+				\Xhat(0) = v
+		\end{cases}
+	\], $\left[ \frac{\partial F}{\partial X}\right]$ ist Jacobimatrix des Modells bezüglich der State variable
+\end{itemize}
+
+Einfaches Ableiten von $J$ ergibt:
+\begin{align*}
+	\hat{J}(U,V,u,v)&= (J(U,V))'\\
+									&= (\int_0^T \frac{1}{2} \|C\cdot X(U,V) - \Xobs \|)'\\
+									&= \int_0^T (C\cdot X(U,V) - \Xobs ,C\Xhat)dt
+\end{align*}
+$\hat{J}$ ist linear abhängig von (u,v), es ergibt sich ein expliziter Ausruch des Funktional - Gradienten.\\
+Wir definieren $P$ als adjungierte Variable.
+
+ 
+\end{document}  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
