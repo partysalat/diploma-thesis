@@ -8,3 +8,7 @@
 *.thm
 *.toc
 *.auxlock
+*.backup
+*.pdf
+*.kate-swp
+*.run.xml

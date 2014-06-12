@@ -6,3 +6,33 @@
 % \end{document}
 
 \section{Shallow Water Equation}
+Ein oft genutztes Beispiel, um Datenassimilierungsmethoden zu testen ist die sogenannte Shallow Water Equation (vgl. \cite{zou,navon}). Diese beschreibt die Bewegung einer Flüssigkeit in einem quadratischen Gebiet unter Berücksichtigung von Gravitationswellen. In kartesischen Koordinaten erhält man folgende Gleichungen
+\begin{equation}
+\begin{aligned}
+ \frac{\partial u }{\partial t} = -u\frac{\partial u}{\partial x} -v\frac{\partial u}{\partial y} + fv - \frac{\partial \phi}{\partial x}\\
+ \frac{\partial v }{\partial t} = -u\frac{\partial v}{\partial x} -v\frac{\partial v}{\partial y} - fu - \frac{\partial \phi}{\partial y}\\
+ \frac{\partial \phi }{\partial t} = -\frac{\partial u\phi}{\partial x} -\frac{\partial v\phi}{\partial y} 
+\end{aligned}
+\label{eq:swe}
+ \end{equation}
+Hierbei sind $u$ und $v$ die zwei Komponenten des Fließgeschwindigkeitsfeldes in $s^{-1}$ und $\phi$ das Geopotential in $m^2 s^{-1}$; 
+$f$ bezeichnet den Coriolisfaktor.
+Die Anfangsbedingungen für die folgenden Experimente wurden aus \cite{grammeltvedt}(6.I) übernommen. Es handelt sich hierbei um eine westwärtgsgerichtete Strömung mit Nord - Süd Störungen verschiedener Wellenlängen und Amplituden entlang der Zonal - Achse der Strömung. Das anfängliche Höhenfeld wurde gewählt mittels Höhenfunktion
+\begin{align*}
+ h(x,y) = H_0 + H_1 \tanh \left( \frac{9(y-y_0)}{2D}\right) + H_2 \sech^2\left(\frac{9(y-y_0)}{D}\right) \sin\left(\frac{2\pi x}{L}\right)
+\end{align*}
+und Ableitungen
+\begin{align*}
+ \frac{\partial h}{\partial x}(x,y) &= h_2\sech^2\left( \frac{9(y-y_0)}{D}\right) \cos\left( \frac{2\pi x}{L} \right)\frac{2\pi}{L} \\
+ \frac{\partial h}{\partial y}(x,y) &= h_1 \sech^2\left( \frac{9(y-y_0)}{2D}\right)\frac{9}{2D} -  h_2\frac{18}{D} \sin\left( \frac{2\pi x}{L}\right) \frac{\sinh(9(y-y_0)/D)}{\cosh^3(9(y-y_0)/D)}\\
+\end{align*}
+wobei $D$ die Breite, $L$ die Länge der betrachteten Fläche ist,  $h_0 := 2000m$, $h_1 := -220m$, $h_2 := 133m$ und $y_0 = D/2$. Als schlussendliche Anfangsbedingungen ergeben sich
+\begin{align*}
+ \phi_0(x,y) &= gh(x,y)\\
+ u_0(x,y) &= -\frac{f}{g} \frac{\partial h}{\partial y}(x,y)\\
+ v_0(x,y) &= \frac{f}{g} \frac{\partial h}{\partial x}(x,y)
+\end{align*}
+mit $f := 10^{-4} s^{-1}$ und $g:= 10 ms^{-1}$.
+Damit wir die Datenassimilierungsmethode auf \ref{eq:swe} anwenden können, müssen wir die Gleichung in eine Form überführen, welche nur noch von der Zeit $t$ abhängt. Grammeltvedt (in \cite{grammeltvedt}) bietet dazu diverse Finite Differenzen Schematas an, mit denen sich \ref{eq:swe} in die gewünschte Form überführen lässt. In unserem Fall nut
+
+
