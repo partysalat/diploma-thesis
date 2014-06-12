@@ -1,0 +1,10 @@
+*.md5
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.log
+*.out
+*.thm
+*.toc
+*.auxlock
