@@ -1,0 +1,34 @@
+\documentclass{standalone}
+\IfStandalone{
+	\usepackage{pgfplots,pgfplotstable}
+	\usetikzlibrary{external}
+	\newcommand{\fromRoot}[1]{../#1}
+}{%
+}
+
+\begin{document}
+
+\tikzsetnextfilename{fc-sol-vel}
+\def\N{4}
+\def\indices{1,...,\N}
+\pgfplotstableread{\fromRoot{data/arnold_n_sol.dat}}\values
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+	height=.42\textheight,
+	width=.9\textwidth,
+	xlabel = Time $t$,
+	ylabel = Solution,
+]
+\foreach \i in \indices {
+\edef\theLegend{\noexpand\addlegendentry{$\noexpand\dot p_\i$}}
+\addplot+[%
+	mark=none,
+	very thin,
+] table[x=t,y=v\i]{\values};
+\theLegend
+}
+\end{axis}
+\end{tikzpicture}
+ 
+\end{document}

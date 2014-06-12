@@ -1,0 +1,40 @@
+\documentclass{standalone}
+\usepackage{pgfplots,pgfplotstable}
+
+\usetikzlibrary{external}
+\usetikzlibrary{positioning,shapes}
+\newcommand{\abs}{abs}
+\begin{document}
+
+\tikzsetnextfilename{computational_graph}
+\begin{tikzpicture}[
+  node distance = 2em and 3em,
+% 	state/.style={draw,ellipse,minimum width=6em},
+% 	operation/.style={above,sloped,font={\tiny}},
+%   every node/.style={draw},
+  pl/.style={draw=none,sloped,font={\tiny}},
+  every edge/.style={very thin,draw},
+% 	>=triangle 90,
+]
+\node (v1) {$v_1$};
+\node (v2) [below=of v1] {$v_2$};
+\node (v3) [below=of v2] {$v_3$};
+
+\node (z) [draw,double,right=of v2] {$v_4 = z$};
+\node (v5) [above right=of z] {$v_5 = -z$};
+\node (v52) [below right=of z] {$v_5 = +z$};
+\node (v6) [below right=of v5] {$v6$};
+
+\path[->] 
+  (v1) edge (z.north west)
+  (v2) edge (z.west)
+  (v3) edge (z.south west)
+  (v5) edge (v6)
+  (v52) edge (v6);
+  
+\path[->]
+  (z.north east) edge node[pl,anchor=base] {$\sigma = -1$} (v5)
+  (z.south east) edge node[pl,anchor=base] {$\sigma = +1$} (v52);
+
+\end{tikzpicture} 
+\end{document}

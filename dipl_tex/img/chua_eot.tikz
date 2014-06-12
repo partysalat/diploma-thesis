@@ -1,0 +1,36 @@
+\documentclass{standalone}
+\IfStandalone{
+	\usepackage{pgfplots,pgfplotstable}
+	\usetikzlibrary{external}
+	\newcommand{\fromRoot}[1]{../#1}
+}{%
+}
+
+\begin{document}
+
+\tikzsetnextfilename{chua-eot}
+\begin{tikzpicture}
+\pgfplotstableread{\fromRoot{data/chua_eot.dat}}\values
+\begin{semilogyaxis}[
+	height=0.36\textheight,
+	width=.89\textwidth,
+	legend pos = north west,
+	xlabel=Time $t$,
+	ylabel=Error over all components
+]
+	\addplot+[
+	  mark=none,
+	] table[x=t,y=err_plan] {\values};
+	\addlegendentry{Generalized Midpoint},
+	\addplot+[
+	  mark=none,
+	] table[x=t,y=err_exp] {\values};
+	\addlegendentry{Explicit Midpoint}
+	\addplot+[
+	  mark=none,
+	] table[x=t,y=err_impl] {\values};
+	\addlegendentry{Implicit Midpoint}	
+\end{semilogyaxis}
+\end{tikzpicture}
+ 
+\end{document}

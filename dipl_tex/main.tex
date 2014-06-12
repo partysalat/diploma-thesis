@@ -1,0 +1,70 @@
+\RequirePackage{nag}
+\documentclass[
+	12pt,
+	a4paper,
+	twoside,
+	titlepage,
+	parskip=half,
+	BCOR=10mm,
+	bibliography=totoc,
+	headings=normal,
+	DIV=calc,
+% 	draft
+]{scrreprt}
+
+\usepackage{thesis_lenser}
+\usepackage{scrhack}
+
+\input{tex/meta/settings}
+\input{tex/meta/macros}
+
+\addbibresource{lenser.bib}
+
+\includeonly{
+   tex/chapters/titlepage,
+  tex/chapters/introduction,
+  tex/chapters/odes,
+  tex/chapters/adpl,
+  tex/chapters/data_assimilation,
+  tex/chapters/pl_data_assimilation,
+  tex/chapters/pl_solve_ode,
+  tex/chapters/experiments,
+  tex/chapters/implementation,
+ %  tex/appendix/source,
+ %  tex/appendix/selbststaendig,
+ %  tex/appendix/theses
+}
+
+\graphicspath{img/}
+
+\begin{document}
+
+\author{Ben Lenser}
+\title{Data Asssimilation via Piecewise Linearization}
+\date{\today}
+
+\pagenumbering{roman}
+  \include{tex/chapters/titlepage}
+
+\cleardoublepage
+\pagenumbering{arabic}
+\include{tex/chapters/introduction}
+\include{tex/chapters/odes}
+\include{tex/chapters/adpl}
+\include{tex/chapters/data_assimilation}
+\include{tex/chapters/pl_data_assimilation}
+\include{tex/chapters/pl_solve_ode}
+\include{tex/chapters/experiments}
+\include{tex/chapters/implementation}
+
+
+\begin{spacing}{1}
+ \printbibliography
+\end{spacing}
+
+\appendix
+\include{tex/appendix/source}
+\include{tex/appendix/selbststaendig}
+\include{tex/appendix/theses}
+
+\end{document}

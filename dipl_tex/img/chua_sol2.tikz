@@ -1,0 +1,26 @@
+\documentclass{standalone}
+\IfStandalone{
+	\usepackage{pgfplots,pgfplotstable}
+	\usetikzlibrary{external}
+	\newcommand{\fromRoot}[1]{../#1}
+}{%
+}
+
+\begin{document}
+
+\tikzsetnextfilename{chua-sol2}
+\begin{tikzpicture}
+\pgfplotstableread{\fromRoot{data/chua_sol_plan.dat}}\values
+\begin{axis}[
+  width = 0.9\textwidth,
+  xlabel=Time $t$,
+  ylabel=Voltages
+]
+\addplot+[mark=none] table[x index=0, y index = 1] {\values};
+\addlegendentry{$x_1$}
+\addplot+[mark=none] table[x index=0, y index = 3] {\values};
+\addlegendentry{$x_3$}
+\end{axis}
+\end{tikzpicture}
+ 
+\end{document}

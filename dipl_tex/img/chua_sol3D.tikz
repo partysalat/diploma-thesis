@@ -1,0 +1,30 @@
+\documentclass{standalone}
+\IfStandalone{
+	\usepackage{pgfplots,pgfplotstable}
+	\usetikzlibrary{external}
+	\newcommand{\fromRoot}[1]{../#1}
+}{%
+}
+
+\begin{document}
+
+\tikzsetnextfilename{chua-sol3D}
+\begin{tikzpicture}
+\pgfplotstableread{\fromRoot{data/chua_sol_plan.dat}}\values
+\begin{axis}[
+  height=0.42\textheight,
+  width=.9\textwidth,
+  xlabel=Voltage $x_1$,
+  ylabel=Voltage $x_2$,
+  zlabel=Current $x_3$,
+  xtick=\empty,ytick=\empty,ztick=\empty,
+]
+\addplot3+[
+  mark=none,
+  very thin,
+  ] table[x index=1, y index = 2, z index=3]{\values};
+\end{axis}
+\end{tikzpicture}
+
+ 
+\end{document}

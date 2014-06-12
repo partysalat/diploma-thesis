@@ -1,0 +1,109 @@
+\ProvidesPackage{thesis_lenser}
+
+%BEGIN PACKAGES
+
+% Load all used languages. Last language is default
+\usepackage[ngerman,english]{babel}
+
+% Bibliography management. biber must be installed (may not be the default for older distributions)
+\usepackage[backend=biber,style=alphabetic]{biblatex}
+
+% Provides better cm font
+\usepackage{lmodern}	
+
+% Fine-tuning of the font (handles lots of bad boxes)
+\usepackage[expansion, final]{microtype} %fine tuning of font
+
+% Endcoding of the document source
+\usepackage[utf8]{inputenc}
+
+% Encoding of the pdf (better C&P support)
+\usepackage[T1]{fontenc}
+
+% Provides \enquote command
+\usepackage{csquotes}
+
+% Loading graphics
+\usepackage{graphicx}
+
+%BEGIN LAYOUT
+% Global options for captions
+% \usepackage[]{caption}
+
+% Allows subfigures
+\usepackage{subcaption}
+\captionsetup{justification=centering}
+
+% Change line spacing
+\usepackage{setspace}\onehalfspacing
+
+%Provides \thetitle and more
+\usepackage{titling}
+
+% multicolumns environment
+\usepackage{multicol}
+
+% supports H to turn floats into non-floats
+\usepackage{float}
+
+% KOMA script page layout package
+\usepackage[
+	automark, % chapter names in head
+	headsepline, % a line under head
+	ilines % line on the left
+]{scrpage2} 
+
+% customizable lists
+\usepackage{enumitem}
+%END
+
+%BEGIN MATHS
+
+% core math
+\usepackage{amsmath,amssymb,array}
+
+% inverse ddots \iddots
+\usepackage{mathdots}
+
+% minor additions for ams
+\usepackage{mathtools} 							
+
+% 1/2 style fracs with \sfrac
+\usepackage{xfrac}
+
+% \cancel out terms
+\usepackage{cancel}
+
+% Provide detailed control over theorems
+\usepackage[thmmarks,amsmath,hyperref,thref]{ntheorem}
+%END
+
+%BEGIN FEATURES
+% pretty print source code, ignore draft option
+\usepackage[final]{listings}
+
+% pseudo code
+\usepackage{algorithm,algpseudocode}
+
+%tikz and co
+\usepackage{tikz,pgfplots,circuitikz,pgfplotstable}
+
+\usetikzlibrary{positioning}% enables right of $NODE_NAME
+\usetikzlibrary{shapes}% gives me ellipse as shape for nodes
+
+\usetikzlibrary{matrix,calc,patterns,arrows,backgrounds}
+
+\usetikzlibrary{external}
+
+% Loading late to avoid clashes with other packages
+\usepackage{hyperref}
+\usepackage{url}
+
+% allow to \input standalone tikz files while ignoring their preamble
+\usepackage{standalone}
+%END
+
+%BEGIN DEVELOPEMENT
+\usepackage[debrief,immediate]{silence}
+%END
+%END

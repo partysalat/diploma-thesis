@@ -1,0 +1,22 @@
+\documentclass{standalone}
+\IfStandalone{
+	\usepackage{pgfplots,pgfplotstable}
+	\usetikzlibrary{external}
+	\newcommand{\fromRoot}[1]{../#1}
+	\usepackage{amsmath}
+}{%
+}
+
+\begin{document}
+
+\tikzsetnextfilename{abs-clark}
+\begin{tikzpicture}[x=3em,y=3em]
+\draw[very thin,->] (-1,0) -- (1,0) node[anchor=south] {$x$};
+\draw[very thin,->] (0,-1.2) -- (0,1.2) node[anchor=west] {$\textrm D_{\textrm C}|x|$};
+\draw (-1,1) --(0,1);
+\draw (0,-1) --(1,-1);
+\draw[ultra thick] (0,-1) -- (0,1);
+\end{tikzpicture}
+
+ 
+\end{document}

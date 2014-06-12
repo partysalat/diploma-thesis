@@ -1,0 +1,60 @@
+\documentclass{standalone}
+\IfStandalone{
+	\usepackage{pgfplots,pgfplotstable}
+	\usetikzlibrary{external}
+	\newcommand{\fromRoot}[1]{../#1}
+	\newcommand{\D}{\Delta}
+	\pgfplotsset{compat=1.9}
+}{%
+}
+
+\begin{document}
+\tikzsetnextfilename{piecewise_linearization}
+\begin{tikzpicture}
+\def\xo{-1};
+\pgfmathdeclarefunction{f1}{1}{%
+	\pgfmathparse{-(6/10)*(#1+2)^2}%
+}
+\pgfmathdeclarefunction{f2}{1}{%
+	\pgfmathparse{3*( #1+sin((11/10)*deg(#1)) )}%
+}
+\pgfmathdeclarefunction{tf1}{1}{%
+	\pgfmathparse{-1.2*(#1+1)-0.6}%
+}
+\pgfmathdeclarefunction{tf2}{1}{%
+	\pgfmathparse{4.49687*(#1+1)-5.67362}%
+}
+\begin{axis}[
+	height=0.45\textheight,
+	axis y line = none,
+	axis x line = bottom,
+	xmin=-4,xmax=4,
+	xtick = \empty,
+	ytick = \empty,
+	extra x ticks = {\xo},
+	extra x tick labels={\(\mathring x\)},
+	extra x tick style = {grid=major},
+	domain=-4:4,
+	samples=500,
+]
+\addplot[red!60!white] {f1(x)} 
+	[yshift=2pt] 
+	node[anchor=south,pos=0.8] {$F_1$};
+\addplot[blue!60!white] {f2(x)} 
+	node[anchor=south,pos=0.1] {$F_2$};
+\addplot[black,yshift=1pt] {max(f1(x),f2(x)} 
+	node[anchor=south,pos=0.2] {$F = \max(F_1,F_2)$};
+
+\addplot[red!60!white,very thin] {tf1(x)} 
+	node[anchor=south,pos=0.75,sloped] {$\mathring F_1 + F_1'(\mathring x)\D x$};
+\addplot[blue!60!white,very thin] {tf2(x)} 
+	node[anchor=north,pos=0.15,sloped] {$\mathring F_2 + F_2'(\mathring x)\D x$};
+\addplot[black,very thin,yshift=1pt] {max(tf1(x),tf2(x)} 
+	node[anchor=south,pos=0.75,sloped] {$\mathring F + \D F(\mathring x)\D x$};
+%\addplot [color=black,only marks,mark=*] coordinates { (-1,-0.6) };
+%\addplot [color=black,only marks,mark=*] coordinates { (-1,-5.67362) };
+\end{axis}
+\end{tikzpicture}
+
+ 
+\end{document}

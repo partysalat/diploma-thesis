@@ -1,0 +1,157 @@
+%BEGIN COLORS
+% Light gray
+\definecolor{Lgray}{HTML}{CCCCCC}
+% Dark gray
+\definecolor{Dgray}{HTML}{727272}
+% Almost black, for links and stuff
+\definecolor{Ddgray}{HTML}{4C4C4C}
+%END
+
+%BEGIN KOMA
+% No font changing for headers
+\setkomafont{sectioning}{\normalcolor\bfseries}
+\KOMAoptions{DIV=last}
+
+% enable head and foot
+\pagestyle{scrheadings}
+\clearscrheadings
+ 
+% head and foot for chapter beginning
+\renewcommand*{\chapterpagestyle}{scrheadings}	
+ 
+\ohead{\headmark}
+%\setlength{\headheight}{21mm} 				% height of head
+%\setheadwidth[0pt]{textwithmarginpar} % head above text
+\setheadsepline[text]{0.4pt} 					% 
+ 
+\ofoot{\pagemark}
+% \lofoot{\theauthor}
+% \rofoot{\pagemark}
+% \lefoot{\pagemark}
+
+\setkomafont{caption}{\small}
+
+% normal font for head and foot
+\setkomafont{pageheadfoot}{\small}
+\setkomafont{footnote}{\small\linespread{1}\selectfont}
+%END
+
+%BEGIN MATH
+
+% better definition for :=
+\mathtoolsset{centercolon}
+
+%space around equations (with glue)
+\AtBeginDocument{%
+% DEFAULT:
+%  \abovedisplayskip=12pt plus 3pt minus 9pt
+%  \abovedisplayshortskip=0pt plus 3pt
+%  \belowdisplayskip=12pt plus 3pt minus 9pt
+%  \belowdisplayshortskip=7pt plus 3pt minus 4pt
+% HALF:
+%  \abovedisplayskip=6pt plus 2pt minus 4pt
+%  \abovedisplayshortskip=0pt plus 3pt
+%  \belowdisplayskip=6pt plus 2pt minus 4pt
+%  \belowdisplayshortskip=4pt plus 2pt minus 2pt
+}
+
+%END
+
+%BEGIN THEOREMS
+% break after title
+\theoremstyle{break}
+\theorembodyfont{\normalfont}
+%syntax: \newtheorem{<inner_name>}[<common_counter>]{<printed_name>}[<refence_counter>]
+
+\newtheorem{theorem}{Theorem}[chapter]
+% \newtheorem{satz}[theorem]{Satz}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{corollary}[theorem]{Corollary}
+% \newtheorem{korollar}[theorem]{Korollar}
+
+\theoremindent0.7cm
+\theoremsymbol{\ensuremath{\square}}
+\theoremstyle{plain}
+\newtheorem*{proof}{Proof}
+% \newtheorem*{beweis}{Beweis}
+
+\theoremsymbol{}
+\theoremindent0cm
+\newtheorem{example}[theorem]{Example}
+\renewtheorem*{example*}{Example}
+% \newtheorem{beispiel}[theorem]{Beispiel}
+% \renewtheorem*{beispiel*}{Beispiel}
+
+\newtheorem*{remark}{Remark}
+% \newtheorem*{bemerkung}{Bemerkung}
+%END
+
+%BEGIN LISTINGS
+\makeatletter
+%%inline listings in description items; it's a modified version of \lstinline
+\newcommand\lstinlineitem[1][]{%
+  \setbox0=\hbox\bgroup % \lstinline has \leavevmode\bgroup
+  \aftergroup\finish@off@lstinlineitem % do something after building the box
+  \def\lst@boxpos{b}%
+  \lsthk@PreSet\lstset{flexiblecolumns,#1}%
+  \lsthk@TextStyle
+  \@ifnextchar\bgroup{\afterassignment\lst@InlineG \let\@let@token}%
+  \lstinline@}
+\def\finish@off@lstinlineitem{\item[\usebox0]} % output the \item
+\makeatother
+
+
+\lstloadlanguages{C++}
+\lstset{
+	numbers=left, 
+	numberstyle=\tiny, 
+	basicstyle=\ttfamily,
+	morecomment=[l][commentstyle]{//},
+	commentstyle={\tiny\itshape},
+	% highlight between @..@
+	moredelim=**[is][\color{Dgray}]{@}{@},	% highlight between @..@
+	aboveskip=\smallskipamount,
+	belowskip=\smallskipamount,
+	mathescape=true,
+	breaklines,
+	captionpos=b,
+}
+\usepackage{scrhack}									% ignores warning from listings
+%END
+
+%BEGIN HYPERREF
+\hypersetup{
+  colorlinks=true,
+  linkcolor=black,
+  urlcolor=black,
+  citecolor=black,
+  pdftitle=Data Assimilation via PL,
+  pdfauthor=Ben Lenser,
+}
+%END
+
+%BEGIN TIKZ
+
+%compat
+\pgfplotsset{compat=1.9}
+
+% make externalized images subject to draft option
+\pgfkeys{/pgf/images/include external/.code=\includegraphics{#1}}
+
+% output folder
+\tikzsetexternalprefix{img/tikz/}
+\tikzexternalize
+
+% define table read from image folder
+% \let\OLDpgfplotstableread\pgfplotstableread
+% \renewcommand{\pgfplotstableread}[1]{\OLDpgfplotstableread{img/#1}}
+
+%global options for pgfplots
+\pgfplotsset{legend cell align=left}
+%END
+
+%BEGIN DEVELOPEMENT
+%filter dest warnings
+%END

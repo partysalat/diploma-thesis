@@ -1,0 +1,26 @@
+\documentclass{standalone}
+\usepackage{pgfplots,pgfplotstable}
+
+\usetikzlibrary{external}
+
+\begin{document}
+
+\tikzsetnextfilename{integrate}
+\begin{tikzpicture}
+\begin{axis}[
+	height=4cm,
+	xtick={2,4},
+	xticklabels={$\tau_i$,$\tau_{i+1}$},
+	ytick={2,3},
+	yticklabels={$y_{i+1}$,$y_i$},
+	grid=major,
+	enlarge x limits = false
+]
+\addplot[mark=none] coordinates {(0,1) (2,3) (4,2) (6,3)};
+\addplot[domain=2:4,fill=black, pattern=north east lines,mark=none] {-0.5*x +4} \closedcycle;
+\end{axis}
+\end{tikzpicture}
+
+
+ 
+\end{document}

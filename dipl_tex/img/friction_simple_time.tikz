@@ -1,0 +1,31 @@
+\documentclass{standalone}
+\IfStandalone{
+	\usepackage{pgfplots,pgfplotstable}
+	\usetikzlibrary{external}
+	\newcommand{\fromRoot}[1]{../#1}
+}{%
+}
+
+\begin{document}
+
+\tikzsetnextfilename{friction-simple-time}
+\begin{tikzpicture}
+\pgfplotstableread{\fromRoot{data/arnold_convergence.dat}}\values
+\begin{loglogaxis}[
+	height=0.4\textheight,
+	width=.9\textwidth,
+	xlabel=Degrees of freedom $N$,
+	ylabel=Time needed in $s$,
+	legend pos=north west,
+]
+	\addplot+[mark=*,mark size=0.3] table[x=n,y=t_plan] {\values};
+	\addlegendentry{Generalized Midpoint},
+	\addplot+[mark=*,mark size=0.3] table[x=n,y=t_exp] {\values};
+	\addlegendentry{Explicit Midpoint},
+	\addplot+[mark=*,mark size=0.3] table[x=n,y=t_impl] {\values};
+	\addlegendentry{Implicit Midpoint},
+\end{loglogaxis}
+\end{tikzpicture}
+
+ 
+\end{document}

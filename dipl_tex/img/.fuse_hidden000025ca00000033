@@ -1,0 +1,69 @@
+\documentclass{standalone}
+\usepackage{pgfplots,pgfplotstable}
+
+\usetikzlibrary{external}
+
+\begin{document}
+
+\tikzsetnextfilename{friction-simple-converge-eps}
+\pgfplotstableread{../data/arnold_eps.dat}\values
+\pgfplotstableread{../data/arnold_eps_meta.dat}\meta
+\pgfplotstablegetrowsof{\meta}
+\pgfmathsetmacro{\N}{\pgfplotsretval-1}
+% \def\indices{0,...,\N}
+\def\indices{0,1,2,4}
+% \pgfplotsset{cycle list name=color list}
+\begin{tikzpicture}
+\begin{loglogaxis}[
+%   height=0.5\textheight,
+% 	width=.89\textwidth,
+  xlabel={Number of time steps $N= \frac{T}{h}$},
+  ylabel=Error over all components,
+  legend style={
+    at={(0.5,1.05)},
+    anchor=south,
+    legend columns = 2,
+  },
+  cycle multi list ={	  
+    color\nextlist
+    solid,dashed
+},
+]
+\foreach \i in \indices {
+\pgfplotstablegetelem{\i}{[index]0}\of{\meta} 
+\let\muval\pgfplotsretval
+\edef\legendGeneralized{\noexpand\addlegendentry{Generalized 
+$\epsilon =\muval$
+}}
+\addplot+[no marks] table[x=n,y=err_plan_\i]{\values};
+\legendGeneralized
+\edef\legendImplicit{\noexpand\addlegendentry{Implicit $\epsilon = \muval$}}
+\addplot+[no marks] table[x=n,y=err_impl_\i]{\values};
+\legendImplicit
+% 
+% \edef\legendExplicit{\noexpand\addlegendentry{Explicit $\mu = \muval$}}
+% \addplot+[color=green,] table[x=n,y=err_exp_\i]{\values};
+% \legendExplicit
+} %end foreach
+% %BEGIN SLOPE
+\addplot[mark=none,very thin,gray,xshift=0pt, yshift=-10pt] 
+		table[y={create col/linear regression={x=n,y=err}}] {
+n err
+1E3 1E-5
+1E5 1E-9
+} coordinate [pos=0.5] (A) coordinate [pos=0.6] (B);
+	% save the slope parameter:
+	\pgfmathparse{-\pgfplotstableregressiona}	
+	\pgfmathsetmacro{\slope}{\pgfmathresult}
+	
+	% draw the opposite and adjacent sides
+	% of the triangle
+	\draw[very thin,gray] (B) -| (A)
+	node [pos=0.2,anchor=north]
+	{\pgfmathprintnumber{\slope}};
+%END
+\end{loglogaxis}
+\end{tikzpicture}
+
+ 
+\end{document}

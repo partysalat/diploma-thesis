@@ -1,0 +1,73 @@
+
+\renewcommand{\epsilon}{\varepsilon}
+\renewcommand{\phi}{\varphi}
+
+\newcommand{\pma}[1]{\begin{pmatrix} #1 \end{pmatrix}}
+\newcommand{\bma}[1]{\begin{bmatrix} #1 \end{bmatrix}}
+\newcommand{\tma}[1]{\left(\begin{smallmatrix}#1\end{smallmatrix}\right)}
+
+\newcommand{\qtext}[1]{\quad\text{#1}\quad}
+\newcommand{\ouset}[3][\empty]{\underset{#1}{\overset{#2}{#3}}}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\DD}{\mathcal{D}}
+\newcommand{\CC}{\mathcal{C}}
+\newcommand{\PC}{\mathcal{PC}}
+\newcommand{\OO}{\mathcal{O}}
+% \renewcommand{\O}{\mathcal{O}}
+
+\newcommand{\EJ}{\mathcal{E}} %extended Jacobian
+\renewcommand{\d}{\mathchoice{\,d\!\;\!}{\,d}{\,d}{d}} %integral d
+
+\DeclareMathOperator{\sgn}{sign}
+\DeclareMathOperator{\diag}{diag}
+\DeclareMathOperator{\abs}{abs}
+
+\newcommand{\D}{\triangle}%%todo better symbol/space around
+\newcommand{\pl}{\square}
+
+\newcommand{\floor}[1]{\lfloor#1\rfloor}
+\newcommand{\floorS}[1]{\left\lfloor#1\right\rfloor}
+\newcommand{\ceil}[1]{\lceil#1\rceil}
+\newcommand{\ceilS}[1]{\left\lceil#1\right\rceil}
+
+\newcommand{\rx}{\mathring{x}}
+\newcommand{\hx}{\hat{x}}
+\newcommand{\cx}{\check{x}}
+
+\newcommand{\old}{_\textrm{old}}
+\newcommand{\new}{_\textrm{new}}
+
+\newcommand{\src}[1]{\lstinline{#1}}
+
+\newcommand{\one}{\mathrm{e}}
+
+%macro used for relative paths inside pictures
+\newcommand{\fromRoot}[1]{./#1}
+
+
+%My Own
+
+\newcommand{\case}[1]{\begin{cases} #1 \end{cases}}
+
+
+\newcommand{\xo}{\mathring{x}}
+
+\newcommand{\xobs}{x_{Obs}}
+\newcommand{\rxobs}{\mathring{x}_{Obs}}
+\newcommand{\diff}{\bigtriangleup}
+\newcommand{\xhat}{\hat{x}}
+\newcommand{\xcheck}{\check{x}}
+\newcommand{\eq}{\Longleftrightarrow}
+%\newcommand{\nfrac}[2]{\mbox{^#1/$_#2}}
+\newcommand{\xadj}{\bar{x}}
+\newcommand{\rxadj}{\mathring{\bar{x}}}
+
+\newcommand{\rtau}{\mathring{\tau}}
+
+
+\floatname{algorithm}{Procedure}
+\renewcommand{\algorithmicrequire}{\textbf{Input:}}
+\renewcommand{\algorithmicensure}{\textbf{Output:}}
+
+\algtext*{EndIf}% Remove "end if" text

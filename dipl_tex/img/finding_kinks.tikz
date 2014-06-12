@@ -1,0 +1,22 @@
+\documentclass{standalone}
+\usepackage{pgfplots,pgfplotstable}
+
+\usetikzlibrary{external}
+
+\begin{document}
+
+\tikzsetnextfilename{finding_kinks}
+\begin{tikzpicture}[x=1.7cm,y=1.7cm]
+\draw[->] (0,-.2) -- (0,2.5);
+\draw[->] (-.2,0) -- (2.5,0);
+\draw[] (-.2,2.2) -- (2.2,-.2) 
+node[sloped,pos=0.5,anchor=north] {$\dot z_j \equiv$ slope};
+\draw[decorate,decoration={brace,raise=4pt}] (0,2) -- (2,0) 
+node[pos=0.5,anchor=south west] {$\tau$};
+\draw[] (-.1,2) -- (.1,2);
+\draw (2,-.1) -- (2,.1);
+\node[] at (-.3,2) {$z_j$};
+\end{tikzpicture}
+
+ 
+\end{document}

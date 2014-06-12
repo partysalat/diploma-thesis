@@ -1,0 +1,59 @@
+\documentclass{standalone}
+\IfStandalone{
+	\usepackage{pgfplots,pgfplotstable}
+	\usetikzlibrary{external}
+	\newcommand{\fromRoot}[1]{../#1}
+}{%
+}
+
+\begin{document}
+
+\tikzsetnextfilename{fs-simple-eot-eps}
+\pgfplotstableread{\fromRoot{data/arnold_eps_eot.dat}}\eot
+\pgfplotstableread{\fromRoot{data/arnold_eps_meta.dat}}\meta
+\pgfplotstablegetrowsof{\meta}
+\pgfmathsetmacro{\N}{\pgfplotsretval-1}
+% \def\indices{0,...,\N}
+\def\indices{0,1,2}
+% \pgfplotsset{cycle list name=color list}
+\begin{tikzpicture}
+\begin{semilogyaxis}[
+  width=.88\textwidth,
+  height=.5\textheight,
+  xlabel=Time $t$,
+  ylabel=Error over all components,
+  legend style={
+    at={(0.5,1.05)},
+    anchor=south,
+    legend columns = 2,
+  },
+  cycle multi list ={	  
+    color list\nextlist
+    solid,dashed
+  },
+]
+\foreach \i in \indices{
+\pgfplotstablegetelem{\i}{[index]0}\of{\meta} 
+\let\muval\pgfplotsretval
+\edef\legendGeneralized{\noexpand\addlegendentry{Generalized 
+$\epsilon = \muval$
+}}
+\addplot+[%
+	no marks,
+] table[x=t,y=eg_\i]{\eot};
+\legendGeneralized
+
+
+\edef\legendImplicit{\noexpand\addlegendentry{Implicit 
+$\epsilon = \muval$
+}}
+\addplot+[%
+	no marks,
+] table[x=t,y=ei_\i]{\eot};
+\legendImplicit
+}	
+\end{semilogyaxis}
+\end{tikzpicture}
+
+ 
+\end{document}

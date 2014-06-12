@@ -1,0 +1,191 @@
+% \documentclass[../../diplom_data_assimilation.tex]{subfiles}
+%use the following makro for all include paths (graphics, data files, other tex files,...)
+% \makeatletter\@ifundefined{fromRoot}{\newcommand{\fromRoot}[1]{../../#1}}{}\makeatother
+% \begin{document}
+\chapter{Datenassimilierung mittels stückweiser Linearisierung}
+\section{Kinks ermitteln}
+test
+\section{Verallgemeinerter Gradient}
+Wenn wir die Stückweise Linearisierung unserer Funktion in Abs Normal Form haben, ist es ein Leichtes, den verallgemeinerten Gradienten zu bestimmen. Dazu betrachten wir die ausmultiplizierte Abs Normal Form
+\begin{align*}
+	z &= c+ Zx + L|z|
+\end{align*}
+Wenn wir uns auf einem Polyeder befinden, sind die Vorzeichen von $z$ eindeutig bestimmt, es ergibt sich also  
+\begin{align*}
+|z| = \Sigma z~ \text{ für }~\Sigma_{ii} =\case{
+\text{sign}(z_i) & z_i\neq 0\\
+0 & \text{sonst}
+},\quad i=1\ldots s
+\end{align*}
+Umgestellt ergibt sich 
+\begin{align*}
+&&z &= c+ Zx + L\Sigma z\\
+&\iff & (I-L\Sigma)z &= c+ Zx \\
+&\iff & z &= (I-L\Sigma)^{-1}(c+ Zx)\\
+\end{align*}
+Das Inverse von $(I-L\Sigma)$ ist wohldefiniert, da $\Sigma$ eine Diagonalmatrix, $L$ eine strikt untere Dreiecksmatrix und damit $(I-L\Sigma)$ invertierbar ist. 
+Aufgrund der strikt unteren Dreiecksstruktur von L ist die Matrix nilpotent vom Grade $\nu<s$, das bedeutet, dass die Neumannreihe konvergiert und insbesondere endlich ist
+\[
+(I-L\Sigma)^{-1} = I+L\Sigma + (L\Sigma)^2 + \ldots + (L\Sigma)^{\nu -1}
+\] 
+
+Offensichtlich ergibt sich im einfachen Fall mit \textit{switching depth} $\nu = 1$, dass $L=0$ und damit $(I-L\Sigma)^{-1} = I^{-1} = I$. Im \textit{simply switched}- Fall, $\nu=2$, ergibt sich immer noch, dass $(I-L\Sigma)^{-1} =I+L\Sigma$.
+Eingesetzt in Gleichung (??) folgt
+\begin{align*}
+y &= b+Jx + Y|z|\\
+y &= b+Jx + Y\Sigma z\\
+y &= b+ Jx + Y\Sigma ((I-L\Sigma)^{-1}(c+ Zx))z\\
+y &= b + Y\Sigma(I-L\Sigma)^{-1}c+\underbrace{(J+Y\Sigma(I-L\Sigma)^{-1}Z)}_{J_\sigma}x \\
+\end{align*}
+
+wobei gerade $J_\sigma$ der gesuchten Jacobimatrix von F im Polyeder $P_\sigma$ entspricht. 
+Griewank et al. haben dieses Ergebnis in \cite[Proposition 2.2]{plan} zusammengefasst zu  
+\begin{theorem}[Explizite Jacobimatrix Darstellung]
+Auf allen offenen $P_\sigma$ kann $y$ direkt in Abhängigkeit von x ausgedrückt werden als
+\begin{equation}
+y = b+Y\Sigma(I-L\Sigma)^{-1}c + J_\sigma x  \quad \text{mit} \quad J_\sigma = J+Y\Sigma(I-L\Sigma)^{-1} Z
+\label{eq:explJacRepresentation}
+\end{equation}
+Hier ist $J_\sigma$ die Jacobimatrix von F eingeschränkt auf $P_\sigma$. Sie reduziert sich zu $J_\sigma=J+Y\Sigma Z$ für einfache Verschachtelungstiefe und zu $J$ für glatte Probleme.
+\end{theorem}
+Da die Jacobimatrix an Kinks nicht eindeutig sein muss, wird ein Vektor $d$ mit angegeben, welcher uns die Richtung der Ableitung vorgibt. Diese ist dann wiederum eindeutig bestimmt. Um dies mit unseren eben geführten Betrachtungen zu vereinen berechnen wir also den Gradienten $J_\sigma$ nicht an der gegebenen Stelle $x_0$, sondern gehen ein Stück in das durch $d$ und $\Sigma$ vorgegebene Polyeder und berechnen dort die Ableitung an Stelle $\xo_0 = x_0+\frac{1}{2}\tau\cdot d$. Aufgrund der Linearität der Polyeder stimmen die Ableitung an der Stelle $x_0$ und jene an Stelle $\xo_0$ überein. Der Algorithmus ergibt sich sofort zu
+[Bild auf Linker Seite]
+\begin{algorithm}[H]
+\caption{Berechnung des verallgemeinerten Gradienten an Stelle $x_0$}
+\label{alg:genjac}
+\algrenewcommand{\algorithmiccomment}[1]{\hfill{\scriptsize #1}}
+\begin{algorithmic}
+\Function{genJac}{$x$, $d$} 
+		\State $\tau \gets$ crit\_mult($x,d$) \Comment{$0<\tau<1$, berechne $\tau$ an Stelle $x$ in $d$}
+		\State $z \gets$ calculate\_z($x+0.5\cdot\tau\cdot d$) \Comment{Berechne Gradient an Mittelpunkt}
+		\State $\Sigma \gets$ calc\_sigma(z) \Comment{Berechne Vorzeichenmatrix $\Sigma$}
+		\State $L_\sigma \gets L\cdot\Sigma$
+		\State $L_{\sigma+} \gets 0$, $L_{\sigma*}\gets I$
+		\Repeat \Comment{Berechne Neumann Reihe bis Konvergenz}
+			\State $L_{\sigma+} \gets L_{\sigma+}+ L_{\sigma*}$
+			\State $L_{\sigma*} \gets L_{\sigma*}\cdot L_\sigma$
+		\Until($L_{\sigma*} \equiv 0$)\Comment{Überprüfe auf Konvergenz}
+		\State $J_\sigma \gets J+Y\cdot \Sigma\cdot L_{\sigma+} \cdot Z$ \Comment{Berechne Gradienten}
+		\State \Return $J_\sigma$
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
+
+%% GENERALIZED ADJOINT MIDPOINT RULE
+\section{Verallgemeinerte Mittelpunktsregel für das adjungierte Modell}
+
+Wie wir in (??) beobachtet haben, müssen wir das Adjungierte Modell rückwärts integrieren. Die Grundidee besteht darin, dass wir auf das Adjungierte Modell (??) der Datenassimilierung ebenfalls wieder die verallgemeinerte Mittelpunktsregel (??) anwenden. Daher, dass wir das Integral in Teilintervalle zerlegen können, berechnen wir die kritischen Multiplikatoren, springen von Kink zu Kink und berechnen auf diesen Teilintervalen den Gradienten unserer rechten Seite $F$.
+Sei $\tau$ der kritische Multiplikator zum nächsten Kink. $x_n$ und $x_a$ sind die jeweiligen iterierten Werte mit $\xo$ als deren Mittelpunkt und $\diff \xo$ als Differenz. Dann ergibt sich sofort 
+\begin{align*}
+\xo &= \frac{\xhat+\xcheck}{2}\eq \xcheck = 2\xo - \xhat\\
+\diff \xo &= \xo_n - \xo_a \eq \xo_n = \diff \xo + \xo_a\\
+\xhat - \xcheck &= 2\xhat - 2\xo\\
+\diff \tau_j&=\tau_j-\tau_{j-1}
+\end{align*}
+Unsere adjungierte Differentialgleichung mit adjungierter Variable $\xadj$ ergibt sich zu
+\begin{equation}
+\dot{\xadj} = x - x_{obs} - \frac{\partial F(x,d)}{\partial x}^T \cdot \xadj
+\label{eq:adjModel}
+\end{equation}
+
+Wenn wir nun die verallgemeinerte Mittelpunktsregel (??) auf \ref{eq:adjModel} anwenden, folgt
+\begin{align*}
+\xadj_n - \xadj_a &= h\cdot \int_{-0.5}^{0.5}\xo-\rxobs - \frac{\partial F(\xo,d)}{\partial x}^T \cdot \xadj\\
+									&= h\cdot (\xo-\rxobs - \int_{-0.5}^{0.5} \frac{\partial F(\xo ,d)}{\partial x}^T \cdot \xadj dt)\\
+\end{align*}
+Angenommen wir haben $l \in \mathbb{N}$ Kinks zwischen $x_n$ und $x_{a}$, wobei $-0.5 = \tau_0 <\tau_1 <\ldots < \tau_l=0.5$, dann können wir unser Integral aufteilen in
+\begin{align*}
+\xadj_n - \xadj_a &= h\cdot ( \xo-\rxobs - \sum_{i=1}^l \int_{\tau_{i-1}}^{\tau_{i}}\frac{\partial F(\xo+\tau_{i-1}d,d)}{\partial x}^T \cdot \xadj dt)\\
+									&= h\cdot (\xo -\rxobs - \sum_{i=1}^l \underbrace{\frac{\partial F(\xo+\tau_{i-1}d,d)}{\partial x}^T }_{A_i^T} \cdot \int_{\tau_{i-1}}^{\tau_{i}} \xadj dt)\\
+\end{align*}
+
+Nun wenden wir die stückweise Linearisierung auf $\xadj$ an. Es entsteht
+\begin{align*}
+\xadj_n - \xadj_a &= h\cdot (\xo -\rxobs - \sum_{i=1}^l A_i^T \cdot \int_{\tau_{i-1}}^{\tau_{i}} \rxadj + t\diff \xadj dt)\\
+									&= h\cdot (\xo -\rxobs - \sum_{i=1}^l A_i^T \cdot \left[t\rxadj + \frac{t^2}{2}\diff \xadj \right]_{\tau_{i-1}}^{\tau_i} )\\
+									&= h\cdot (\xo -\rxobs - \sum_{i=1}^l A_i^T \cdot \left( (\tau_i - \tau_{i-1})\cdot \rxadj + \frac{1}{2}\diff \xadj \cdot(\tau_i^2-\tau_{i-1}^2) \right))\\
+									&= h\cdot (\xo -\rxobs - \sum_{i=1}^l A_i^T \cdot \left(\diff \tau_i\cdot \rxadj +  \diff \tau_i \frac{1}{2}\cdot(\tau_i+\tau_{i-1})\cdot \diff \xadj \right))\\
+									&= h\cdot (\xo -\rxobs - \sum_{i=1}^l A_i^T \cdot \left( \diff \tau_i\cdot \rxadj +  \diff \tau_i \rtau_i \diff \xadj \right))\\
+\end{align*}
+Mit $\rxadj =\frac{1}{2}(\xadj_n + \xadj_a) $ und $\diff \xadj =\xadj_n - \xadj_a $ ergibt sich
+\begin{align*}
+\xadj_n - \xadj_a &= h\cdot (\xo -\rxobs - \sum_{i=1}^l A_i^T \cdot \left[ \diff \tau_i\cdot \frac{\xadj_n + \xadj_a}{2} +  \diff \tau_i \rtau_i (\xadj_n - \xadj_a) \right])\\
+ &= h\cdot (\xo -\rxobs - \sum_{i=1}^l A_i^T \cdot \left[ \left(\frac{1}{2} \diff \tau_i +\diff \tau_i \rtau_i\right) \cdot \xadj_n  +  \left(\frac{1}{2}\diff \tau_i-\diff \tau_i \rtau_i\right) \cdot \xadj_a \right])\\
+ &= h\cdot (\xo -\rxobs -  \left[ \sum_{i=1}^l A_i^T \left(\frac{1}{2} \diff \tau_i +\diff \tau_i \rtau_i\right) \cdot \xadj_n  + \sum_{i=1}^l A_i^T  \left(\frac{1}{2}\diff \tau_i-\diff \tau_i \rtau_i\right) \cdot \xadj_a \right])\\
+\end{align*}
+Durch Umsortierung erhalten wir
+\begin{align*}
+&& (I +h\sum_{i=1}^l A_i^T \left(\frac{1}{2} \diff \tau_i +\diff \tau_i \rtau_i\right) )\xadj_n &= 
+\begin{aligned}[t]
+&(I - h\sum_{i=1}^l A_i^T  \left(\frac{1}{2}\diff \tau_i-\diff \tau_i \rtau_i\right)\xadj_a \\
+& +h\cdot (\xo -\rxobs)
+\end{aligned}\\
+\iff&& \left(I +\frac{h}{2} \bar{A}^T +h\hat{A}^T\right)\xadj_n &= \left(I - \frac{h}{2}\bar{A}^T + h\hat{A}^T\right)\xadj_a  +h\cdot (\xo -\rxobs)\\
+\end{align*}
+mit $\bar{A}^T = \sum_{i=1}^l A_i^T \diff \tau_i $ und $\hat{A}^T = \sum_{i=1}^l A_i^T \diff \tau_i \rtau_i$.
+Als Algorithmus ergibt sich folglich
+ \begin{algorithm}[H]
+ \algrenewcommand{\algorithmiccomment}[1]{\hfill{\scriptsize #1}}
+ \caption{\texttt{PlanC::calc\_kink\_partials}}
+ \label{alg:kinkPartials}
+ \begin{algorithmic}[1]
+ \Function{calc\_kink\_partials}{$\cx,\hx,d$}
+ 	\State $\hat{\tau} \gets 0$, $x_{kink} \gets \cx$
+ 	\State $\bar{A} \gets 0 $, $\hat{A} \gets 0$
+	\State $d\gets \frac{d}{\|d\|}\cdot \|\xhat - \xcheck\|$ \Comment{Normalize direction}
+ 	\Repeat
+ 	  \State $\check{\tau} \gets \hat{\tau}, ~ x_{kink} \gets x_{kink} +\check{\tau}d$
+ 	  \State $\hat{\tau} \gets \Call{critMult}{ x_{kink},d}$ 		 \Comment{Berechne kritischen Multiplikator bis zum nächsten Kink}
+		\If{$\hat{\tau}>1$} $\hat{\tau}\gets 1$ \EndIf 
+ 		\State $\rx \gets x_{kink}+0.5\cdot \hat{\tau} d$	\Comment{Berechne Mittelpunkt zwischen den Kinks}
+ 	  \State $\frac{\partial F(\rx)}{\partial x} \gets $ gen\_jac($\rx,d$) \Comment{Berechne $\partial F$ aus der Abs-Normalform}
+ 
+ % 		\State $\rx \gets \Call{Solve}{\rx_\mathrm{new}}$
+ 	  \State $\bar{A} \gets \bar{A} +  \frac{\partial F(\rx)}{\partial x} \cdot (\hat{\tau} - \check{\tau})$ 
+ 		\State $\hat{A} \gets \hat{A} +  \frac{\partial F(\rx)}{\partial x} \cdot  \frac{1}{2}(\check{\tau} + \hat{\tau})-0.5$ \Comment{Verschiebe $\tau$ um $-0.5$}
+ 		
+ \Until{$\hat{\tau} \geq 1$	}
+ \State \Return $[\bar{A}, \hat{A}]$;
+ \EndFunction
+ \end{algorithmic}
+ \end{algorithm}
+\begin{algorithm}[H]
+ \algrenewcommand{\algorithmiccomment}[1]{\hfill{\scriptsize #1}}
+ \caption{\texttt{PlanC::jac\_data\_assimilation}}
+ \label{alg:jacDataAssimilation}
+ \begin{algorithmic}[1]
+ \Require $x_{0},t_0,T, h,x_{Obs}, TOL$
+ \State $N = \ceilS{\frac{t_0 - T}{h}}$
+ \State $\hat{\bar{x}} \gets 0$ \Comment{Setze Anfangswert}
+ \State $x \gets  \Call{solveODE}{x_0,t_0, T,h, TOL};$\Comment{Löse ODE in Vorwärtsrichtung}
+ \For{$k\gets$ N-1 to $1$} \Comment{Zeitschritt rückwärts}
+ 	%\State $\rx \gets \cx - \frac h2 F(\cx)$ \Comment{initialization by half Euler}
+ 	\State $\rx \gets 0.5(x_k + x_{k-1})$ \Comment{Berechne Mittelpunkt}
+ 	\State $\pl_{\rx} F \gets \Call{Update}{}$ \Comment{Berechne neue Linearisierung am Mittelpunkt $\rx$}
+ 	\State $d \gets x_{k-1}-x_k$\Comment{Berechne neue Richtung}
+ 	\State $[\bar{A},\hat{A}] \gets \Call{calc\_kink\_partials}{x_k,x_{k-1},d}$  \Comment{Berechne $\partial F$ zwischen jedem Kink}
+ 	%\Until{$\|\hx - \cx - r - h F(\rx)\|$} < TOL
+ 	\State $\check{\bar{x}} \gets \Call{Solve}{( I-\frac{h}{2}\bar{A}^T + h \hat{A}^T)\check{\bar{x}}  = (I+\frac{h}{2}\bar{A}^T + h\hat{A}^T)\hat{\bar{x}}- h(\rx-\rx_{Obs})}$
+ \EndFor
+ \State \Return $-\check{\bar{x}}$
+ \end{algorithmic}
+ \end{algorithm}
+Bemerkt sei, dass sich die Formel für $l=1$, also kein Kink zwischen $x_n$ und $x_a$, zur bekannten impliziten Mittelpunktsregel vereinfacht. Für diesen Fall gilt $\diff \tau =1,\rtau = 0$ und damit
+\begin{align*}
+&& (I +h\sum_{i=1}^1 A_i^T \left(\frac{1}{2} \diff \tau_i +\diff \tau_i \rtau_i\right) )\xadj_n &=\begin{aligned}[t]
+   & (I - h\sum_{i=1}^1 A_i^T  \left(\frac{1}{2}\diff \tau_i-\diff \tau_i \rtau_i\right)\xadj_a  \\
+	&+	h\cdot (\xo -\rxobs) 
+       \end{aligned} \\
+\iff &&  (I +h A_1^T \left(\frac{1}{2} \diff \tau_1 +\diff \tau_1 \rtau_1\right) )\xadj_n &= 
+  \begin{aligned}[t]	
+&(I - h A_1^T  \left(\frac{1}{2}\diff \tau_1-\diff \tau_1 \rtau_1\right)\xadj_a  \\
+&+h\cdot (\xo -\rxobs)
+  \end{aligned} \\
+\iff &&  (I +h A_1^T \left(\frac{1}{2} \cdot 1+0\right) )\xadj_n &= (I - h A_1^T  \left(\frac{1}{2} \cdot 1-0\right)\xadj_a  +h\cdot (\xo -\rxobs)\\
+\iff &&  \left( I +\frac{h}{2} \frac{\partial F(\xo ,d)}{\partial x}^T \right)\xadj_n &= \left( I - \frac{h}{2}  \frac{\partial F(\xo ,d)}{\partial x}^T  \right)\xadj_a  +h\cdot (\xo -\rxobs)\\
+\iff &&  \xadj_n - \xadj_a &=h\cdot \left(\xo -\rxobs - \frac{\partial F(\xo ,d)}{\partial x}^T  \frac{\xadj_n + \xadj_a}{2}\right)\\
+\end{align*}
+vgl. [Satz wo normale implizite midpointrule aufgeführt wird]
+ 
+
+% \end{document}

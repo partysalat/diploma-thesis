@@ -1,0 +1,42 @@
+\documentclass{standalone}
+\IfStandalone{
+	\usepackage{pgfplots,pgfplotstable}
+	\usetikzlibrary{external}
+	\newcommand{\fromRoot}[1]{../#1}
+	\usetikzlibrary{positioning,shapes}
+	\newcommand{\abs}{abs}
+}{%
+}
+
+\begin{document}
+
+\tikzsetnextfilename{comp-graph-simple}
+\begin{tikzpicture}[
+	state/.style={draw,ellipse,minimum width=5em},
+% 	operation/.style={above,sloped,font={\tiny}},
+	pl/.style={above,sloped},
+% 	every node/.style={draw,ellipse,font={\tiny}},
+	every edge/.style={thick,draw},
+% 	>=triangle 90,
+]
+
+\node[state,double] (v0) {$v_0$};
+\node[state,double] (v-1)[below= of v0] {$v_{-1}$};
+
+
+\node (v1) [right=of v-1]{$v1$};
+\node (v2) [right=of v1]{$v2$};
+\node (v3) [right=of v2]{$v3$};
+\node[state,double] (v4) [below right= of v3]{$v4$};
+
+\path[->]
+	(v-1) edge (v1)
+	(v0) edge (v2)
+	(v1) edge (v2)
+	(v2) edge (v3)
+	(v3) edge (v4)
+	(v-1) edge (v4);
+\end{tikzpicture}
+
+ 
+\end{document}

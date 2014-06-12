@@ -1,0 +1,20 @@
+\documentclass{standalone}
+\usepackage{pgfplots,pgfplotstable}
+
+\usetikzlibrary{external}
+
+\begin{document}
+
+\tikzsetnextfilename{sgn-eps}
+\begin{tikzpicture}[x=3em,y=3em]
+\def\eps{0.3}
+% \draw[help lines] (-2,-2) grid (2,2);
+\draw[->] (0,-1.5) -- (0,1.5) node[anchor=north east] {$\sgn_\epsilon(x)$};
+\draw[->] (-2,0) -- (2,0) node[anchor=north east] {$x$};
+\draw[thick] (-2,-1) -- (-\eps,-1) -- (\eps,1) -- (2,1);
+\draw (-\eps,-.1) -- (-\eps,.1) node[anchor=south] {$\hphantom\epsilon\mathllap{-\epsilon}$};
+\draw (\eps,-.1) node[anchor=north] {$\epsilon$} -- (\eps,.1);
+\end{tikzpicture}
+
+ 
+\end{document}
