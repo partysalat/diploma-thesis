@@ -33,6 +33,34 @@ wobei $D$ die Breite, $L$ die Länge der betrachteten Fläche ist,  $h_0 := 2000
  v_0(x,y) &= \frac{f}{g} \frac{\partial h}{\partial x}(x,y)
 \end{align*}
 mit $f := 10^{-4} s^{-1}$ und $g:= 10 ms^{-1}$.
-Damit wir die Datenassimilierungsmethode auf \ref{eq:swe} anwenden können, müssen wir die Gleichung in eine Form überführen, welche nur noch von der Zeit $t$ abhängt. Grammeltvedt (in \cite{grammeltvedt}) bietet dazu diverse Finite Differenzen Schematas an, mit denen sich \ref{eq:swe} in die gewünschte Form überführen lässt. In unserem Fall nut
-
-
+Damit wir die Datenassimilierungsmethode auf (\ref{eq:swe}) anwenden können, müssen wir die Gleichung in eine Form überführen, welche nur noch von der Zeit $t$ abhängt. Grammeltvedt (in \cite{grammeltvedt}) bietet dazu diverse Finite Differenzen Schematas für die Shallow Water Equation an, mit denen sich \ref{eq:swe} in die gewünschte Form überführen lässt. In unserem Fall nutzen wir Schema F. (\ref{eq:swe}) erhält somit die Form:
+\begin{equation}
+ \begin{aligned}
+  \frac{\partial u}{\partial t} &= -(\bar{u}^x\bar{u}^x)_x - (\bar{u}^y\bar{v}^y)_y + u(\bar{u}^x_x+ \bar{v}^y_y) +fv - \bar{\phi}^x_x\\
+  \frac{\partial v}{\partial t} &= -(\bar{v}^x\bar{u}^x)_x - (\bar{v}^y\bar{v}^y)_y + v(\bar{u}^x_x+ \bar{v}^y_y) -fv - \bar{\phi}^y_y\\
+  \frac{\partial \phi}{\partial t} &= -(\bar{\phi}^x\bar{u}^x)_x - (\bar{\phi}^y\bar{v}^y)_y   
+ \end{aligned}
+ \label{eq:schemef}
+\end{equation}
+mit \[
+\begin{aligned}
+\overline{(uv)}^x_x & = \bar{u}^{2x} \bar{v}^x_x +\bar{v}^{2x} \bar{u}^x_x \\
+(\bar{u}^z\bar{v}^z)_z &= \frac{1}{2} \left[ \overline{(uv)}^x_x + u \bar{v}^x_x + v \bar{u}^x_x \right] \\
+ &= \frac{1}{2} \left[ \bar{u}^{2x}\bar{v}^x_x +  \bar{v}^{2x}\bar{u}^x_x  + u \bar{v}^x_x + v \bar{u}^x_x \right]\\
+ \bar{u}^x_x &= \frac{1}{\Delta} \left[ \bar{u}^x(x_i+\frac{\Delta}{2}) -\bar{u}^x(x_i-\frac{\Delta}{2})  ) \right]\\
+	    &=  \frac{1}{2\Delta} \left[ u(x_i+\Delta)+u(x_i)-u(x_i)-u(x_i-\Delta) \right]\\
+	    &=  \frac{1}{2\Delta} \left[ u(x_i+\Delta)-u(x_i-\Delta) \right]\\
+ \bar{u}^{2x}&= \frac{1}{2} \left[ u(x_i+\Delta) + u(x_i - \Delta)\right]
+\end{aligned}
+\]
+Mit diesen Gleichungen können wir das Schema programmieren. Die Randbedingungen sind durch starre homogene Neumannbedingungen entlang der Nord- und Süd Grenzen und periodischen Randbedingungen bezüglich der Ost/West Grenzen gegeben. Seien $x_l,x_r,y_t,y_b$ die Koordinaten bzgl. der linken (l), rechten (r), oberen (t) und unteren (b) Ränder. Dann sind die Randbedingungen folgendermaßen definiert:
+\begin{equation}
+ \begin{aligned}
+  u(x_l,y,t) = u(x_r,y,t)\\
+  v(x_l,y,t) = v(x_r,y,t)\\
+  \phi(x_l,y,t) = \phi(x_r,y,t)\\
+  \frac{\partial u}{\partial y}(x,y_t,t) = 0 = \frac{\partial u}{\partial y}(x,y_b,t)\\ 
+  v(x,y_t,t) = 0 = v(x,y_b,t)\\
+  \frac{\partial \phi}{\partial y}(x,y_t,t) = 0 = \frac{\partial \phi}{\partial y}(x,y_b,t)\\ 
+ \end{aligned}
+\end{equation}
