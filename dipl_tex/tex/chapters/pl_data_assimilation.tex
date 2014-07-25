@@ -3,8 +3,7 @@
 % \makeatletter\@ifundefined{fromRoot}{\newcommand{\fromRoot}[1]{../../#1}}{}\makeatother
 % \begin{document}
 \chapter{Datenassimilierung mittels stückweiser Linearisierung}
-\section{Kinks ermitteln}
-test
+\section{Einführung}
 \section{Verallgemeinerter Gradient}
 Wenn wir die Stückweise Linearisierung unserer Funktion in Abs Normal Form haben, ist es ein Leichtes, den verallgemeinerten Gradienten zu bestimmen. Dazu betrachten wir die ausmultiplizierte Abs Normal Form
 \begin{align*}
@@ -91,36 +90,36 @@ Unsere adjungierte Differentialgleichung mit adjungierter Variable $\xadj$ ergib
 Wenn wir nun die verallgemeinerte Mittelpunktsregel (??) auf \ref{eq:adjModel} anwenden, folgt
 \begin{align*}
 \xadj_n - \xadj_a &= h\cdot \int_{-0.5}^{0.5}\xo-\rxobs - \frac{\partial F(\xo,d)}{\partial x}^\tr \cdot \xadj\\
-									&= h\cdot (\xo-\rxobs - \int_{-0.5}^{0.5} \frac{\partial F(\xo ,d)}{\partial x}^\tr \cdot \xadj dt)\\
+									&= h\cdot \left[\xo-\rxobs - \int_{-0.5}^{0.5} \frac{\partial F(\xo ,d)}{\partial x}^\tr \cdot \xadj dt\right]\\
 \end{align*}
 Angenommen wir haben $l \in \mathbb{N}$ Kinks zwischen $x_n$ und $x_{a}$, wobei $-0.5 = \tau_0 <\tau_1 <\ldots < \tau_l=0.5$, dann können wir unser Integral aufteilen in
 \begin{align*}
-\xadj_n - \xadj_a &= h\cdot ( \xo-\rxobs - \sum_{i=1}^l \int_{\tau_{i-1}}^{\tau_{i}}\frac{\partial F(\xo+\tau_{i-1}d,d)}{\partial x}^\tr \cdot \xadj dt)\\
-									&= h\cdot (\xo -\rxobs - \sum_{i=1}^l \underbrace{\frac{\partial F(\xo+\tau_{i-1}d,d)}{\partial x}^\tr }_{A_i^\tr} \cdot \int_{\tau_{i-1}}^{\tau_{i}} \xadj dt)\\
+\xadj_n - \xadj_a &= h\cdot \left[ \xo-\rxobs - \sum_{i=1}^l \int_{\tau_{i-1}}^{\tau_{i}}\frac{\partial F(\xo+\tau_{i-1}d,d)}{\partial x}^\tr \cdot \xadj dt\right]\\
+									&= h\cdot \left[\xo -\rxobs - \sum_{i=1}^l \underbrace{\frac{\partial F(\xo+\tau_{i-1}d,d)}{\partial x}^\tr }_{A_i^\tr} \cdot \int_{\tau_{i-1}}^{\tau_{i}} \xadj dt\right]\\
 \end{align*}
 
 Nun wenden wir die stückweise Linearisierung auf $\xadj$ an. Es entsteht
 \begin{align*}
 \xadj_n - \xadj_a &= h\cdot (\xo -\rxobs - \sum_{i=1}^l A_i^\tr \cdot \int_{\tau_{i-1}}^{\tau_{i}} \rxadj + t\diff \xadj dt)\\
-									&= h\cdot (\xo -\rxobs - \sum_{i=1}^l A_i^\tr \cdot \left[t\rxadj + \frac{t^2}{2}\diff \xadj \right]_{\tau_{i-1}}^{\tau_i} )\\
-									&= h\cdot (\xo -\rxobs - \sum_{i=1}^l A_i^\tr \cdot \left( (\tau_i - \tau_{i-1})\cdot \rxadj + \frac{1}{2}\diff \xadj \cdot(\tau_i^2-\tau_{i-1}^2) \right))\\
-									&= h\cdot (\xo -\rxobs - \sum_{i=1}^l A_i^\tr \cdot \left(\diff \tau_i\cdot \rxadj +  \diff \tau_i \frac{1}{2}\cdot(\tau_i+\tau_{i-1})\cdot \diff \xadj \right))\\
-									&= h\cdot (\xo -\rxobs - \sum_{i=1}^l A_i^\tr \cdot \left( \diff \tau_i\cdot \rxadj +  \diff \tau_i \rtau_i \diff \xadj \right))\\
+									&= h\cdot \left[\xo -\rxobs - \sum_{i=1}^l A_i^\tr \cdot \left[t\rxadj + \frac{t^2}{2}\diff \xadj \right]_{\tau_{i-1}}^{\tau_i} \right]\\
+									&= h\cdot \left[\xo -\rxobs - \sum_{i=1}^l A_i^\tr \cdot \left( (\tau_i - \tau_{i-1})\cdot \rxadj + \frac{1}{2}\diff \xadj \cdot(\tau_i^2-\tau_{i-1}^2) \right)\right]\\
+									&= h\cdot \left[\xo -\rxobs - \sum_{i=1}^l A_i^\tr \cdot \left(\diff \tau_i\cdot \rxadj +  \diff \tau_i \frac{1}{2}\cdot(\tau_i+\tau_{i-1})\cdot \diff \xadj \right)\right]\\
+									&= h\cdot \left[\xo -\rxobs - \sum_{i=1}^l A_i^\tr \cdot \left( \diff \tau_i\cdot \rxadj +  \diff \tau_i \rtau_i \diff \xadj \right)\right]\\
 \end{align*}
 Mit $\rxadj =\frac{1}{2}(\xadj_n + \xadj_a) $ und $\diff \xadj =\xadj_n - \xadj_a $ ergibt sich
 \begin{align*}
-\xadj_n - \xadj_a &= h\cdot (\xo -\rxobs - \sum_{i=1}^l A_i^\tr \cdot \left[ \diff \tau_i\cdot \frac{\xadj_n + \xadj_a}{2} +  \diff \tau_i \rtau_i (\xadj_n - \xadj_a) \right])\\
- &= h\cdot (\xo -\rxobs - \sum_{i=1}^l A_i^\tr \cdot \left[ \left(\frac{1}{2} \diff \tau_i +\diff \tau_i \rtau_i\right) \cdot \xadj_n  +  \left(\frac{1}{2}\diff \tau_i-\diff \tau_i \rtau_i\right) \cdot \xadj_a \right])\\
- &= h\cdot (\xo -\rxobs -  \left[ \sum_{i=1}^l A_i^\tr \left(\frac{1}{2} \diff \tau_i +\diff \tau_i \rtau_i\right) \cdot \xadj_n  + \sum_{i=1}^l A_i^\tr  \left(\frac{1}{2}\diff \tau_i-\diff \tau_i \rtau_i\right) \cdot \xadj_a \right])\\
+\xadj_n - \xadj_a &= h\cdot \left[\xo -\rxobs - \sum_{i=1}^l A_i^\tr \cdot \left( \diff \tau_i\cdot \frac{\xadj_n + \xadj_a}{2} +  \diff \tau_i \rtau_i (\xadj_n - \xadj_a) \right)\right]\\
+ &= h\cdot \left[\xo -\rxobs - \sum_{i=1}^l A_i^\tr \cdot \left( \left(\frac{1}{2} \diff \tau_i +\diff \tau_i \rtau_i\right) \cdot \xadj_n  +  \left(\frac{1}{2}\diff \tau_i-\diff \tau_i \rtau_i\right) \cdot \xadj_a \right)\right]\\
+ &= h\cdot \left[\xo -\rxobs -  \left( \sum_{i=1}^l A_i^\tr \left(\frac{1}{2} \diff \tau_i +\diff \tau_i \rtau_i\right) \cdot \xadj_n  + \sum_{i=1}^l A_i^\tr  \left(\frac{1}{2}\diff \tau_i-\diff \tau_i \rtau_i\right) \cdot \xadj_a \right)\right])\\
 \end{align*}
 Durch Umsortierung erhalten wir
 \begin{align*}
-&& (I +h\sum_{i=1}^l A_i^\tr \left(\frac{1}{2} \diff \tau_i +\diff \tau_i \rtau_i\right) )\xadj_n &= 
+&& \left[I +h\sum_{i=1}^l A_i^\tr \left(\frac{1}{2} \diff \tau_i +\diff \tau_i \rtau_i\right) \right]\xadj_n &= 
 \begin{aligned}[t]
-&(I - h\sum_{i=1}^l A_i^\tr  \left(\frac{1}{2}\diff \tau_i-\diff \tau_i \rtau_i\right)\xadj_a \\
+&\left[I - h\sum_{i=1}^l A_i^\tr  \left(\frac{1}{2}\diff \tau_i-\diff \tau_i \rtau_i\right)\right]\xadj_a \\
 & +h\cdot (\xo -\rxobs)
 \end{aligned}\\
-\iff&& \left(I +\frac{h}{2} \bar{A}^\tr +h\hat{A}^\tr\right)\xadj_n &= \left(I - \frac{h}{2}\bar{A}^\tr + h\hat{A}^\tr\right)\xadj_a  +h\cdot (\xo -\rxobs)\\
+\iff&& \left[I +\frac{h}{2} \bar{A}^\tr +h\hat{A}^\tr\right]\xadj_n &= \left[I - \frac{h}{2}\bar{A}^\tr + h\hat{A}^\tr\right]\xadj_a  +h\cdot (\xo -\rxobs)\\
 \end{align*}
 mit $\bar{A}^\tr = \sum_{i=1}^l A_i^\tr \diff \tau_i $ und $\hat{A}^\tr = \sum_{i=1}^l A_i^\tr \diff \tau_i \rtau_i$.
 Als Algorithmus ergibt sich folglich
@@ -170,20 +169,23 @@ Als Algorithmus ergibt sich folglich
  \State \Return $-\check{\bar{x}}$
  \end{algorithmic}
  \end{algorithm}
-Bemerkt sei, dass sich die Formel für $l=1$, also kein Kink zwischen $x_n$ und $x_a$, zur bekannten impliziten Mittelpunktsregel vereinfacht. Für diesen Fall gilt $\diff \tau =1,\rtau = 0$ und damit
+Bemerkt sei, dass sich die Formel für $l=1$, wenn sich also kein Kink zwischen $x_n$ und $x_a$ befindet, zur bekannten impliziten Mittelpunktsregel vereinfacht. Für diesen Fall gilt $\diff \tau =1,\rtau = 0$ und damit
 \begin{align*}
-&& (I +h\sum_{i=1}^1 A_i^\tr \left(\frac{1}{2} \diff \tau_i +\diff \tau_i \rtau_i\right) )\xadj_n &=\begin{aligned}[t]
-   & (I - h\sum_{i=1}^1 A_i^\tr  \left(\frac{1}{2}\diff \tau_i-\diff \tau_i \rtau_i\right)\xadj_a  \\
+&& \left[I +h\sum_{i=1}^1 A_i^\tr \left(\frac{1}{2} \diff \tau_i +\diff \tau_i \rtau_i\right) \right]\xadj_n &=\begin{aligned}[t]
+   & \left[I - h\sum_{i=1}^1 A_i^\tr  \left(\frac{1}{2}\diff \tau_i-\diff \tau_i \rtau_i\right)\right]\xadj_a  \\
 	&+	h\cdot (\xo -\rxobs) 
        \end{aligned} \\
-\iff &&  (I +h A_1^\tr \left(\frac{1}{2} \diff \tau_1 +\diff \tau_1 \rtau_1\right) )\xadj_n &= 
+\iff &&  \left[I +h A_1^\tr \left(\frac{1}{2} \diff \tau_1 +\diff \tau_1 \rtau_1\right) \right]\xadj_n &= 
   \begin{aligned}[t]	
-&(I - h A_1^\tr  \left(\frac{1}{2}\diff \tau_1-\diff \tau_1 \rtau_1\right)\xadj_a  \\
+&\left[I - h A_1^\tr  \left(\frac{1}{2}\diff \tau_1-\diff \tau_1 \rtau_1\right)\right]\xadj_a  \\
 &+h\cdot (\xo -\rxobs)
   \end{aligned} \\
-\iff &&  (I +h A_1^\tr \left(\frac{1}{2} \cdot 1+0\right) )\xadj_n &= (I - h A_1^\tr  \left(\frac{1}{2} \cdot 1-0\right)\xadj_a  +h\cdot (\xo -\rxobs)\\
-\iff &&  \left( I +\frac{h}{2} \frac{\partial F(\xo ,d)}{\partial x}^\tr \right)\xadj_n &= \left( I - \frac{h}{2}  \frac{\partial F(\xo ,d)}{\partial x}^\tr  \right)\xadj_a  +h\cdot (\xo -\rxobs)\\
-\iff &&  \xadj_n - \xadj_a &=h\cdot \left(\xo -\rxobs - \frac{\partial F(\xo ,d)}{\partial x}^\tr  \frac{\xadj_n + \xadj_a}{2}\right)\\
+\iff &&  \left[I +h A_1^\tr \left(\frac{1}{2} \cdot 1+0\right) \right]\xadj_n &= \begin{aligned}[t]
+&\left[I - h A_1^\tr  \left(\frac{1}{2} \cdot 1-0\right)\right]\xadj_a \\
+&+h\cdot (\xo -\rxobs)                                                                                  
+\end{aligned}\\
+\iff &&  \left[ I +\frac{h}{2} \frac{\partial F(\xo ,d)}{\partial x}^\tr \right]\xadj_n &= \left[ I - \frac{h}{2}  \frac{\partial F(\xo ,d)}{\partial x}^\tr  \right]\xadj_a  +h\cdot (\xo -\rxobs)\\
+\iff &&  \xadj_n - \xadj_a &=h\cdot \left[\xo -\rxobs - \frac{\partial F(\xo ,d)}{\partial x}^\tr  \frac{\xadj_n + \xadj_a}{2}\right]\\
 \end{align*}
 vgl. [Satz wo normale implizite midpointrule aufgeführt wird]
  

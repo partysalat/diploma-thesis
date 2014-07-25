@@ -1,26 +1,17 @@
-% \documentclass[../../diplom_data_assimilation.tex]{subfiles}
-%use the following makro for all include paths (graphics, data files, other tex files,...)
-% \makeatletter\@ifundefined{fromRoot}{\newcommand{\fromRoot}[1]{../../#1}}{}\makeatother
-% \begin{document}
 \chapter{Datenassimilation}
 \section{Problemstellung}
-Das Ziel der 4-D Datenassimilierung 
-\begin{tikzpicture}
-     \begin{axis}[width=9.8cm,height=5cm,xlabel=t,ylabel=x] 
-     \addplot[blue,domain=0:10,samples=100]{sin(deg(x))};
-     \addplot+[blue,draw=none,mark=*, mark options={blue},error bars/.cd, y dir=plus,y explicit,error mark=o,error mark options={blue,mark size=2pt}] 
-     coordinates { 
-      (0,0) +- (0,0) 
-     (1,0.8415) +- (0.5,-0.5) 
-     (3.14,0) +- (0.05,0.3) 
-     (4.2,-0.8715) +- (0,0.8)
-     (6.0,-0.27942) +- (0,0.8)
-     (7.5,0.93799) +- (0.1,-0.6) 
-     (9,0.41212) +- (0.3,-0.9)}; 
-  \legend{$x$}
-     \end{axis}
-   \end{tikzpicture}
+Die 4D Datenassimilation ist eine Methode, die im Zusammenhang mit hyperbolischen partiellen Differentialgleichungen steht, wie z.B. der Wellengleichung. Ziel ist es durch Steuerungsparameter, wie etwa Anfangswerte zum Zeitpunkt $t_0$, den Abstand eines Modells gegenüber der in der Zeit gemessenen Observierungsparameter minimal werden zu lassen. 
 
+Um dieses Methode herzuleiten nehmen wir zuerst ein Modell der Form
+\begin{equation}\label{eq:odemodel}
+ \xdot = F(t,x)\quad \text{mit} \quad x(t_0) = V \quad \text{und}\quad F:\R^n\to \R^m
+\end{equation}
   
-	
-% \end{document}
+welche eine Gewöhnliche Differentialgleichung beschreibt (vorheriges Kapitel). $x$ sei die zeitabhängige Zustandsvariable, welche die Entwicklung des Systems zu einem Zeitpunkt $t\in \R$ beschreibt. 
+$V \in \R^m$ ist der Anfangswert, über den wir steuern wollen.
+Die Observierungsparameter $\xobs$ sind diskrete Werte, welche Orts - und Zeitabhängig sind. Da $\xobs$ diskret ist wird eine Projektion $C:\Xstate\to \Xobs$ benötigt, welche $x$ aus dem Zustandsraum $\Xstate$ in den Observierungsraum $\Xobs$ abbildet. 
+% Beispielsweise kann diese Funktion durch eine Interpolation der gemessenen Werte $\xobs$ dargestellt werden.
+Als Kostenfunktional dient die $L^2$ - Norm der Differenz der Lösung $x$ von (\ref{eq:odemodel}) zu $\xobs$ über ein gegebenes Zeitinterval $[0,T]$
+\begin{equation}
+ J(x_0) = \frac{1}{2}\int_0^T \|C\cdot x(V)-\xobs\|^2dt
+\end{equation}
