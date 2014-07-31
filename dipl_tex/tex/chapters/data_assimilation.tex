@@ -1,8 +1,49 @@
 \chapter{Datenassimilation}
-\section{Adjungierte Gleichungen}
-Spricht man von variationeller Datenassimilation tritt im gleichen Zusammenhang der Begriff der adjungierten Gleichungen auf. Eine allgemeine Einführung zur Theorie von adjungierten Gleichungen wurde beispielsweise von Cacuci \cite{cacuci1981sensitivity} gegeben, während Talagrand in \cite{talagrand1987variational} adjungierte Gleichungen auf Hilberträume einschränkt und mit Diesen die Datenassimilation einführt.
 
-Ein Hilbertraum ist ein reller oder komplexer Vektorraum mit einem Skalarprodukt, der bzgl. der vom Skalarprodukt induzierten Norm vollständig ist. Da $\R$ vollständig ist, ist jeder endlichdimensionale Vektorraum versehen mit einem Skalarprodukt vollständig. In der numerischen Praxis sind damit sämtliche folgenden Schritte valide. Die folgenden Eigenschaften von Hilberträumen sind besonders nützlich für nachfolgende Betrachtungen.
+
+
+\section{Problemstellung}
+Die 4D variationelle Datenassimilation ist eine Methode, die im Zusammenhang mit hyperbolischen partiellen Differentialgleichungen steht, wie z.B. der Wellengleichung. Ziel ist es durch Steuerungsparameter, wie etwa Anfangswerte zum Zeitpunkt $t_0$, den Abstand eines Modells gegenüber der in der Zeit gemessenen Observierungsparameter minimal werden zu lassen. 
+
+
+Um diese Methode herzuleiten nehmen wir zuerst ein Modell der Form
+\begin{equation}
+\label{eq:odemodel}
+ \frac{dx}{dt} = F(x)\quad \text{mit} \quad x(0) = x_0 \quad \text{und}\quad F:\R^n\to \R^m
+\end{equation}
+  
+welche eine Gewöhnliche Differentialgleichung beschreibt (vorheriges Kapitel). $x$ ist dabei die zeitabhängige Zustandsvariable aus dem Hilbertraum $\mathcal{E}$, welche die Entwicklung des Systems zu einem Zeitpunkt $t\in \R$ beschreibt. 
+$x_0 \in \R^m$ sei der Anfangswert, über den wir steuern wollen.
+Die Observierungsparameter $\xobs$ sind diskrete Werte, welche Orts - und Zeitabhängig und über ein Interval $[0,T]$ verteilt sind. Da $\xobs$ diskret ist wird eine Projektion $C:\Xstate\to \Xobs$ benötigt, welche $x$ aus dem Zustandsraum $\Xstate$ in den Observierungsraum $\Xobs$ abbildet. Üblicherweise ist diese Funktion eine Auswertungsfunktion von $x$ an den Stellen $\tobs$.
+
+Als Kostenfunktional dient die $L^2$ - Norm der Differenz der Lösung $x$ von \eqref{eq:odemodel} zu $\xobs$ über ein gegebenes Zeitinterval $[0,T]$
+\begin{equation}
+ J(x_0) = \frac{1}{2}\int_0^T H(x(t),t)dt= \frac{1}{2}\int_0^T \|C\cdot x(V)-\xobs\|^2dt
+\end{equation}
+Die Skalarwertige Funktion $J$ ist damit jene Funktion, die das Maß zwischen der Lösung $x$ und den Observierungsparametern $\xobs$ darstellt.
+Man beachte, dass das Zielfunktional nur abhängig vom Anfangswert $x_0$ ist. Das Ziel besteht darin, $x_0 = x_0^*$ zu finden, sodass
+\[
+ J(x_0^*) = \inf_{x_0} J(x_0) 
+\]
+minimiert wird. Bei den meisten Optimierungsmethoden benötigt man daher den Gradienten der zu minimierenden Funktion $J$.
+
+\section{Adjungierte Gleichungen}
+Für höhere Dimensionen ist die Bestimmung dieses Gradienten jedoch auf klassischem Weg numerisch sehr komplex. Dazu würde man jede Komponente unseres Systems \eqref{eq:odemodel} stören, das Modell integrieren und das Kostenfunktional für alle Komponenten ausrechnen. Aus der Störung würde sich der Gradient $\partial J/\partial x_0$ ergeben. Mit Hilfe des adjungierten Operators kann die numerische Komplexität der Berechnung des Gradienten auf ein weniges Vielfaches des integrierens von \eqref{eq:odemodel} vermindert werden.
+
+Eine allgemeine Einführung zur Theorie von adjungierten Gleichungen wurde beispielsweise von Cacuci \cite{cacuci1981sensitivity} gegeben, während Talagrand in \cite{talagrand1987variational} adjungierte Gleichungen auf Hilberträume einschränkt und mit Diesen die Datenassimilation einführt.
+Für die folgenden Betrachtungen sind Hilberträume von besonderer Wichtigkeit. Sämtliche Lösungstheorie sowohl bei gewöhnlichen als auch bei partiellen Differentialgleichungen basieren auf den speziellen Eigenschaften dieser Räume.
+
+Ein Hilbertraum ist ein reller oder komplexer Vektorraum mit einem Skalarprodukt, der bzgl. der vom Skalarprodukt induzierten Norm vollständig ist. Da $\R$ vollständig ist, ist jeder endlichdimensionale Vektorraum versehen mit einem Skalarprodukt vollständig. In der numerischen Praxis sind damit sämtliche folgenden Schritte valide. 
+Ein Ableitungsbegriff auf Hilberträumen ist die sogenannte Gâteaux Ableitung.
+\begin{definition}[Gâteaux Ableitung]
+ Seien $X$ und $Y$ Banachräume, $U \subset X$ offen und $F:X\to Y$. Das Gâteaux Differential $\differential F(u;\psi)$ von F an $u\in U$ in Richtung $\psi\in X$ ist definiert als
+ \[
+  \differential F(u;\psi) = \lim_{\tau \to 0} \frac{F(x+\tau \psi) - F(x)}{\tau} = \frac{d}{d\tau} F(u+\tau\psi)\biggr\rvert_{\tau = 0}
+ \]
+ falls der Grenzwert existiert. Existiert der Grenzwert für alle $\psi\in X$, dann heißt $F$ Gâteaux-Differenzierbar in $u$.
+\end{definition}
+Die folgenden Eigenschaften von Hilberträumen sind besonders nützlich für nachfolgende Betrachtungen.
+%TODO Beweisreferenz hinzufügen
 \begin{proposition}[Adjungierte Operatoren]
 \label{prop:adjoints}
 \begin{enumerate}
@@ -11,7 +52,7 @@ Ein Hilbertraum ist ein reller oder komplexer Vektorraum mit einem Skalarprodukt
  \label{eq:diffInnerProduct}
   \differential J = \langle \nabla_v J, \differential v\rangle_\Hil
  \end{equation}
- $\nabla_v J$ ist hierbei der eindeutige Gradient von $J$ nach $v$. Wenn $\Hil$ endlichdimensional und durch orthonormale Koordinaten $v_i$ beschrieben ist, dann sind die Komponenten von $\nabla_v J$ gerade $\partial J/\partial v_i$.
+ $\nabla_v J$ ist hierbei der eindeutige Gradient von $J$ in $v$. Wenn $\Hil$ endlichdimensional und durch orthonormale Koordinaten $v_i$ beschrieben ist, dann sind die Komponenten von $\nabla_v J$ gerade $\partial J/\partial v_i$.
 \item Sei $\Gil$ ein anderer Hilbertraum mit Innenprodukt $\langle \cdot,\cdot \rangle_\Gil$ und $L$ ein stetiger linearer Operator von $\mathcal{G}\to \Hil$. Dann existiert ein eindeutiger stetiger linearer Operator $L^*$ von $\Hil\to\Gil$, sodass für alle $u\in \Gil$ und $v\in \Hil$ gilt
 \begin{equation}
 \label{eq:adjointInnerProduct}
@@ -26,7 +67,7 @@ Seien $\Hil,~\Gil$ und $J$ wie in Proposition \ref{prop:adjoints} eingeführt. B
 \label{eq:diffCompoundFunction}
 \differential v = \differential(G(u)) = G'\differential u
 \end{equation}
-wobei $G'$ ein linearer Operator von $\Gil\to\Hil$. Wenn man nun \eqref{eq:diffCompoundFunction} in \eqref{eq:diffInnerProduct} einsetzt erhält man 
+wobei $G'$ die Ableitung von $G$ bzgl. $u$ und ein linearer Operator von $\Gil\to\Hil$ ist. Wenn man nun \eqref{eq:diffCompoundFunction} in \eqref{eq:diffInnerProduct} einsetzt erhält man 
 \begin{equation}
  \differential J = \langle \nabla_v J,G'\differential u\rangle_\Hil \overset{\eqref{eq:adjointInnerProduct}}{=}  \langle G'^* \nabla_v J,\differential u\rangle_\Gil \overset{n.V.}{=} \langle \nabla_u J,\differential u\rangle_\Gil 
 \end{equation}
@@ -35,41 +76,18 @@ wobei $G'^*$ der adjungierte Operator von $G'$ beschreibt. Damit ist
 \label{eq:adjointEssential}
 \nabla_u J = G'^*\nabla_v J
 \end{equation} 
-Die Gleichung \eqref{eq:adjointEssential} stellt die Basis für adjungierte Gleichungen und insbesondere für die Datenassimilation dar. 
+Die Gleichung \eqref{eq:adjointEssential} stellt die Basis für adjungierte Gleichungen und insbesondere für die Datenassimilation dar. Sie bietet ein besonders effizienten Weg $\nabla_u J$ numerisch zu berechnen. Angewandt auf unser Problem wäre $u\mapsto v =G(u) $ eine Integration eines numerischen Modells. Aus einem Integrierer der $G'^*w$ für ein gegebens $w$ berechnen kann, kann nun aus $\nabla_v J$ mittels \eqref{eq:adjointEssential} einfach $\nabla_u J$ errechnet werden. 
+% Wenn $J$ einfach gewählt wurde, lässt sich daraus $\nabla_v J$ ebenfalls einfach berechnen. 
+Um $\nabla_u J$ zu berechnen, muss zuerst $v = G(u)$ berechnet werden, danach $\nabla_v J$ und schlussendlich wieder $\nabla_u J$ durch \eqref{eq:adjointEssential}.
+
+\section{Anwendung auf die Datenassimilation}
+
+% Zu einem gegebenen Anfangswert $v$ und der dazugehörigen Lösung $x(t)$ von \eqref{eq:odemodel} sieht die Variation erster Ordnung folgendermaßen aus
+% \[
+%  \delta J = \int_0^T \langle \nabla_x H(t), \delta x(t)\rangle dt
+% \]
 
 
-
-\section{Problemstellung}
-Die 4D variationelle Datenassimilation ist eine Methode, die im Zusammenhang mit hyperbolischen partiellen Differentialgleichungen steht, wie z.B. der Wellengleichung. Ziel ist es durch Steuerungsparameter, wie etwa Anfangswerte zum Zeitpunkt $t_0$, den Abstand eines Modells gegenüber der in der Zeit gemessenen Observierungsparameter minimal werden zu lassen. 
-
-
-Um diese Methode herzuleiten nehmen wir zuerst ein Modell der Form
-\begin{equation}
-\label{eq:odemodel}
- \xdot = F(t,x)\quad \text{mit} \quad x(t_0) = x_0 \quad \text{und}\quad F:\R^n\to \R^m
-\end{equation}
-  
-welche eine Gewöhnliche Differentialgleichung beschreibt (vorheriges Kapitel). $x$ ist dabei die zeitabhängige Zustandsvariable aus dem Hilbertraum $\mathcal{E}$, welche die Entwicklung des Systems zu einem Zeitpunkt $t\in \R$ beschreibt. 
-$x_0 \in \R^m$ sei der Anfangswert, über den wir steuern wollen.
-Die Observierungsparameter $\xobs$ sind diskrete Werte, welche Orts - und Zeitabhängig und über ein Interval $[0,T]$ verteilt sind. Da $\xobs$ diskret ist wird eine Projektion $C:\Xstate\to \Xobs$ benötigt, welche $x$ aus dem Zustandsraum $\Xstate$ in den Observierungsraum $\Xobs$ abbildet. Üblicherweise ist diese Funktion eine Auswertungsfunktion von $x$ an den Stellen $\tobs$.
-
-Als Kostenfunktional dient die $L^2$ - Norm der Differenz der Lösung $x$ von \eqref{eq:odemodel} zu $\xobs$ über ein gegebenes Zeitinterval $[0,T]$
-\begin{equation}
- J(x_0) = \frac{1}{2}\int_0^T \|C\cdot x(V)-\xobs\|^2dt
-\end{equation}
-Die Skalarwertige Funktion $J$ ist damit jene Funktion, die das Maß zwischen der Lösung x und den Observierungsparametern $\xobs$ darstellt.
-Man beachte, dass das Zielfunktional nur abhängig vom Anfangswert $x_0$ ist. Das Ziel besteht darin, $x_0 = x_0^*$ zu finden, sodass
-\[
- J(x_0^*) = \inf_{x_0} J(x_0) 
-\]
-minimiert wird. Bei den meisten Optimierungsmethoden benötigt man daher den Gradienten der zu minimierenden Funktion. Dazu wird der Begriff der Gâteaux Ableitung eingeführt.
-\begin{definition}[Gâteaux Ableitung]
- Seien $X$ und $Y$ Banachräume, $U \subset X$ offen und $F:X\to Y$. Das Gâteaux Differential $dF(u;\psi)$ von F an $u\in U$ in Richtung $\psi\in X$ ist definiert als
- \[
-  dF(u;\psi) = \lim_{\tau \to 0} \frac{F(x+\tau \psi) - F(x)}{\tau} = \frac{d}{d\tau} F(u+\tau\psi)\biggr\rvert_{\tau = 0}
- \]
- falls der Grenzwert existiert. Existiert der Grenzwert für alle $\psi\in X$, dann heißt $F$ Gâteaux-Differenzierbar in $u$.
-\end{definition}
 
 
 
