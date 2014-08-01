@@ -1,12 +1,8 @@
 \chapter{Datenassimilation}
-
-
-
 \section{Problemstellung}
 Die 4D variationelle Datenassimilation ist eine Methode, die im Zusammenhang mit hyperbolischen partiellen Differentialgleichungen steht, wie z.B. der Wellengleichung. Ziel ist es durch Steuerungsparameter, wie etwa Anfangswerte zum Zeitpunkt $t_0$, den Abstand eines Modells gegenüber der in der Zeit gemessenen Observierungsparameter minimal werden zu lassen. 
 
-
-Um diese Methode herzuleiten nehmen wir zuerst ein Modell der Form
+Um diese Methode herzuleiten folgen wir der Herangehensweise von Talagrand in \cite{talagrand1987variational} und nehmen zuerst ein Modell der Form
 \begin{equation}
 \label{eq:odemodel}
  \frac{dx}{dt} = F(x)\quad \text{mit} \quad x(0) = x_0 \quad \text{und}\quad F:\R^n\to \R^m
@@ -42,6 +38,7 @@ Ein Ableitungsbegriff auf Hilberträumen ist die sogenannte Gâteaux Ableitung.
   \gatdiff F(u;\psi) = \lim_{\tau \to 0} \frac{F(x+\tau \psi) - F(x)}{\tau} = \frac{d}{d\tau} F(u+\tau\psi)\biggr\rvert_{\tau = 0}
  \]
  falls der Grenzwert existiert. Existiert der Grenzwert für alle $\psi\in X$, dann heißt $F$ Gâteaux-Differenzierbar in $u$.
+ %TODO erwähnen dass das Ding im endlichdimensionalen zurückfällt auf bekannte Ableitung
 \end{definition}
 Die folgenden Eigenschaften von Hilberträumen sind besonders nützlich für nachfolgende Betrachtungen.
 %TODO Beweisreferenz hinzufügen
@@ -83,13 +80,16 @@ Um $\nabla_u J$ zu berechnen, muss zuerst $v = G(u)$ berechnet werden, danach $\
 
 \section{Anwendung auf die Datenassimilation}
 Um vorherige Betrachtungen anwenden zu können wird die Gâteaux Ableitung von \eqref{eq:costfunctional} zu einem Anfangswert $v$ gebildet
-\begin{align*}
+\begin{equation}
+\label{eq:gatcost}
+\begin{aligned}
  \gatdiff J(v)  &= \lim_{\tau\to 0} \frac{1}{\tau}\int_0^T H(x+\tau\gatdiff x)-H(x) dt\\
 	    &= \lim_{\tau\to 0} \frac{1}{\tau}\int_0^T \int_0^1 \frac{d}{ds}H(x+s\tau\gatdiff x) dt\\
 	    &= \lim_{\tau\to 0} \frac{1}{\tau}\int_0^T \int_0^1 \nabla_x H(x+s\tau\gatdiff x)\cdot \gatdiff x dt\\
 	    &= \int_0^T \nabla_x H(x)\cdot \gatdiff x dt\\
 	    &= \int_0^T \langle \nabla_x H(x), \gatdiff x \rangle dt\\  
-\end{align*}
+\end{aligned}
+\end{equation}
 wobei $\nabla_x H(t)$ der Gradient von $H(x,t)$ ausgewertet an der Stelle $(x(t),t)$ und $\gatdiff x$ die Gâteaux-Ableitung von $x$, also eine Störung. beschreibt. Diese hat die Form
 \begin{equation}
 \label{eq:tlm}
@@ -102,10 +102,41 @@ wobei $\nabla_x H(t)$ der Gradient von $H(x,t)$ ausgewertet an der Stelle $(x(t)
 
 und wird als \textit{Tangent Linear Model} bezeichnet. $F'(t)$ ist der Operator, der durch differenzieren von $F(x,t)$ nach $x$ ausgewertet an $x(t)$ entsteht. Da \eqref{eq:tlm} homogen und linear ist, hängt ihre Lösung linear vom Anfangswert $v$ ab und es gilt
 \begin{equation}
+\label{eq:resolvent}
  \gatdiff x(t) = R(t,0)v
 \end{equation}
 %TODO Referenz auf ODE theory einfügen
-Wohlbekannt ist, dass $R$ ein wohldefinierter linearer Operator ist. Er wird als \textit{Resolvent} bezeichnet (siehe dazu REFERENZ FEHLT). Der Resolvent besitzt 
+Wie allgemein bekannt ist, ist $R(t,0)$ ein wohldefinierter linearer Operator. Dieser wird als \textit{Resolvent} bezeichnet (siehe dazu REFERENZ NOCH EINF*GEN). Er besitzt die folgenden Eigenschaften
+\begin{align}
+  R(t,t) &= I\\
+  \frac{\partial}{\partial t}R(t,t') &= F'(t)R(t,t') \text{ für alle } t,t>0
+\end{align}
+Nun kann Gleichung \eqref{eq:gatcost} mittels \eqref{eq:resolvent} und deren adjungiertem Operator $R^*(t,0)$ umgeschrieben werden zu
+\begin{equation*}
+\begin{aligned}
+ \gatdiff J &= \int_0^T \langle \nabla_x H(t), R(t,0)v\rangle dt \\
+	    &= \int_0^T \langle R^*(t,0) \nabla_x H(t), v\rangle dt \\
+	    &= \left\langle \int_0^T R^*(t,0) \nabla_x H(t) dt, v\right\rangle \\
+\end{aligned}
+\end{equation*}
+und es ergibt sich wie in den Betrachtungen zu Gleichung \eqref{eq:adjointEssential} %TODO die Anfangswertbedinungen einheitlich bennen v -> \gatdiff u oder so
+\begin{equation}
+ \nabla_v J = \int_0^T R^*(t,0) \nabla_x H(t) dt
+\end{equation}
+Der adjungierte Operator $R^*(t,0)$ des Resolventen $R(t,0)$ wird durch die Lösung der adjungierten Gleichung von \eqref{eq:tlm} 
+\begin{equation}
+\label{eq:adjointtlm}
+ -\frac{d \gatdiff'x}{dt} = F'^*(t)\gatdiff'x
+\end{equation}
+beschrieben, wobei $\gatdiff'x$ Element von $\Hil$ und $F'^*(t)$ die Adjungierte von $F'(t)$ ist. 
+Sei $S(t,t')$ der Resolvent von \eqref{eq:adjointtlm} zwischen den Zeitpunkten $t$ und $t'$. Für zwei Lösungen $\gatdiff x$ und $\gatdiff' x$ des Tangent Linear Models \eqref{eq:tlm} und deren Adjungierte \eqref{eq:adjointtlm} ist das innere Produkt $\langle \gatdiff x,\gatdiff' x\rangle$ konstant, da das innere Produkt der Ableitungen verschwindet
+\begin{equation}
+\begin{aligned}
+ \frac{d}{dt}\langle \gatdiff x(t),\gatdiff' x(t)\rangle  &= \left\langle \frac{d \gatdiff x}{dt}(t) ,\gatdiff' x\right\rangle +\left\langle \gatdiff x,\frac{d\gatdiff' x}{dt}(t)\right\rangle \\
+ &= \langle F'(t)\gatdiff x(t),\gatdiff'x(t)\rangle - \langle \gardiff x(t),F'^*(t)\gatdiff x(t)\rangle\\
+ &= 0
+\end{aligned}
+\end{equation}
 
 
 % Zu einem gegebenen Anfangswert $v$ und der dazugehörigen Lösung $x(t)$ von \eqref{eq:odemodel} sieht die Variation erster Ordnung folgendermaßen aus
