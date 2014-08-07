@@ -129,14 +129,19 @@ Der adjungierte Operator $R^*(t,0)$ des Resolventen $R(t,0)$ wird durch die Lös
  -\frac{d \gatdiff'x}{dt} = F'^*(t)\gatdiff'x
 \end{equation}
 beschrieben, wobei $\gatdiff'x$ Element von $\Hil$ und $F'^*(t)$ die Adjungierte von $F'(t)$ ist. 
-Sei $S(t,t')$ der Resolvent von \eqref{eq:adjointtlm} zwischen den Zeitpunkten $t$ und $t'$. Für zwei Lösungen $\gatdiff x$ und $\gatdiff' x$ des Tangent Linear Models \eqref{eq:tlm} und deren Adjungierte \eqref{eq:adjointtlm} ist das innere Produkt $\langle \gatdiff x,\gatdiff' x\rangle$ konstant, da das innere Produkt der Ableitungen verschwindet
+Sei $S(t,t')$ der Resolvent von \eqref{eq:adjointtlm} zwischen den Zeitpunkten $t$ und $t'$. Für zwei Lösungen $\gatdiff x$ und $\gatdiff' x$ des Tangent Linear Models \eqref{eq:tlm} und deren Adjungierte \eqref{eq:adjointtlm} ist das innere Produkt $\langle \gatdiff x,\gatdiff' x\rangle$ konstant, da das innere Produkt der Ableitungen nach $t$ verschwindet
 \begin{equation}
 \begin{aligned}
- \frac{d}{dt}\langle \gatdiff x(t),\gatdiff' x(t)\rangle  &= \left\langle \frac{d \gatdiff x}{dt}(t) ,\gatdiff' x\right\rangle +\left\langle \gatdiff x,\frac{d\gatdiff' x}{dt}(t)\right\rangle \\
- &= \langle F'(t)\gatdiff x(t),\gatdiff'x(t)\rangle - \langle \gardiff x(t),F'^*(t)\gatdiff x(t)\rangle\\
+ \frac{d}{dt}\langle \gatdiff x(t),\gatdiff' x(t)\rangle  &= \left\langle \frac{d \gatdiff x}{dt}(t) ,\gatdiff' x\right\rangle +\left\langle \gatdiff x,\frac{d\gatdiff ' x}{dt}(t)\right\rangle \\
+ &= \langle F'(t)\gatdiff x(t),\gatdiff 'x(t)\rangle - \langle \gatdiff x(t),F'^*(t)\gatdiff' x(t)\rangle\\
  &= 0
 \end{aligned}
 \end{equation}
+Daraus folgt unmittelbar, dass die Lösungen zweier Anfangswerte $y,y' \in \Hil$ die Gleichung
+\begin{equation*}
+\langle R(t',t)y,y'\rangle = \langle y,S(t,t')y'\rangle 
+\end{equation*}
+erfüllen, da die Lösung von \eqref{eq:tlm} für die Anfangsbedingung $y$ am Zeitpunkt $t$ gerade den Wert $R(t',t)y$ zum Zeitpunkt $t'$ und die Lösung von \eqref{eq:adjointtlm} für die Anfangsbedingung $y'$ am Zeitpunkt $t'$ den Wert $S(t,t')y'$ zum Zeitpunkt $t$ annimmt. Da dies für alle $y,y'$ gilt, ist $S(t,t')$, der Resolvent der adjungierten Differentialgleichung \eqref{eq:adjointtlm}, der adjungierte Operator von $R(t',t)$, der Resolvent des Tangent Linear Models \eqref{eq:tlm}.
 
 
 % Zu einem gegebenen Anfangswert $v$ und der dazugehörigen Lösung $x(t)$ von \eqref{eq:odemodel} sieht die Variation erster Ordnung folgendermaßen aus
