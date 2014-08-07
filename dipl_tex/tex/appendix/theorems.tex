@@ -1,0 +1,89 @@
+\chapter{Theorems}
+% http://www.math.wisc.edu/~rharron/teaching/MAT203/LeibnizRule.pdf
+\section{Verallgemeinerte Leibniz Integral Regel}
+\begin{theorem}[Leibniz Integral Regel]
+\label{thm:leibnizIntegralRule}
+Sei $f$ eine Funktion auf einem rechteckigen Gebiet $R=[a,b]\times [c,d]$ und $\frac{\partial f}{\partial y}(x,y)$ ist stetig auf $R$. Dann gilt
+\begin{equation}
+ \frac{d}{dy}\int_a^b f(x,y)dx = \int_a^b \frac{\partial f}{\partial y}(x,y)dx
+\end{equation}
+\begin{proof}
+ Wir wissen aus dem Satz von Fubini, dass gilt
+ \begin{equation}
+ \label{eq:leibnizFubiniIntgralRule}
+  \frac{d}{dy}\left( \int_c^y \int_a^b \frac{\partial f}{\partial z}(x,z) dx dz\right) = 
+  \frac{d}{dy}\left( \int_a^b \int_c^y \frac{\partial f}{\partial z}(x,z) dz dx\right) 
+ \end{equation}
+Aus dem Hauptsatz der Differential- und Integralrechnung 
+\[
+ \frac{d}{dt}\left( \int_a^t f(x)dx\right) = f(t)
+\]
+ergibt sich für die linke Seite von \eqref{eq:leibnizFubiniIntgralRule}, dass
+\[
+ \frac{d}{dy}\left( \int_c^y \int_a^b \frac{\partial f}{\partial z}(x,z) dx dz\right)= \int_a^b\frac{\partial f}{\partial y}(x,y)
+\]
+Unter Nutzung der anderen Version des Fundamentalsatzes der Analysis $\int_a^bF'(x) =F(a) - F(b)$ ergibt sich für die rechte Seite
+\[
+\begin{aligned}
+  \frac{d}{dy}\left( \int_a^b \int_c^y \frac{\partial f}{\partial z}(x,z) dz dx\right) &= \frac{d}{dy} \left(\int_a^b f(x,y) - f(x,c)dx\right)\\
+  &= \frac{d}{dy} \left(\int_a^b f(x,y)dx\right)
+\end{aligned}
+ \]
+da $f(x,c)$ unabhängig von $y$ ist und damit die Ableitung nach $y$ verschwindet.
+\end{proof}
+\end{theorem}
+
+\begin{theorem}[Verallgemeinerte Leibniz Integral Regel]
+ Seien die Voraussetzungen wie in \ref{thm:leibnizIntegralRule} gegeben. Dann gilt
+ \begin{equation}
+  \frac{d}{dy}\int_{g_1(y)}^{g_2(y)}f(x,y) dx =\int_{g_1(y)}^{g_2(y)} \frac{\partial f}{\partial y}(x,y) dx + g_2'(y)f(g_2(y),y) - g_1'(y)f(g_1(y),y)
+ \end{equation}
+ \begin{proof}
+  Sei $u = g_2(y)$, $v = g_1(y)$ und $w=y$. Damit folgt für 
+  \[
+  \begin{aligned}
+       F(y) &=  \int_{g_1(y)}^{g_2(y)}f(x,y) dx\\
+	    &=  \int_{v}^{u}f(x,w) dx\\
+	    &= G(u,v,w)
+  \end{aligned}
+  \]
+und damit mit der Kettenregel
+\[
+ \frac{dF}{dy} = \frac{\partial G}{\partial u}\frac{\partial u}{\partial y} + \frac{\partial G}{\partial v}\frac{\partial v}{\partial y}+ \frac{\partial G}{\partial w}\frac{\partial w}{\partial y}
+\]
+da $u, v$ und $w$ von $y$ abhängig sind.
+Nun gilt für den ersten Term 
+\[
+  \frac{\partial G}{\partial u} = \frac{\partial}{\partial u} \int_v^u f(x,w)dx = f(u,w)
+\]
+mit der Leibnizregel \ref{thm:leibnizIntegralRule}. Durch Rücksubstitution erhalten wir
+\[
+ u = g_2(y) \text{ und } \frac{du}{dy} = g_2'(y)
+\]
+und damit 
+\[
+  \frac{\partial G}{\partial u}\frac{\partial u}{\partial y}  = f(g_2(y),y)g_2'(y)
+\]
+Analog folgt der mittlere Term, jedoch entsteht ein negatives Vorzeichen, da
+\[
+\begin{aligned}
+  \frac{\partial G}{\partial v} &= \frac{\partial}{\partial v} \int_v^u f(x,w)dx \\
+				&= -\frac{\partial}{\partial v} \int_u^v f(x,w)dx \\
+				&= -f(v,w) \\
+\end{aligned}
+\]
+Der letzte Term folgt aus
+\[
+\begin{aligned}
+ \frac{\partial G}{\partial w} &= \frac{\partial}{\partial w} \int_v^u f(x,w)dx  \\
+			      &= \int_{v}^{u} \frac{\partial f}{\partial w}(x,w)dx \\
+			      &= \int_{v}^{u} \frac{\partial f}{\partial y}(x,y)dx \\
+\end{aligned}
+ \]
+und damit die Behauptung.
+ \end{proof}
+
+
+\end{theorem}
+
+ 

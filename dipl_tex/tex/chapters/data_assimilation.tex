@@ -121,9 +121,10 @@ Nun kann Gleichung \eqref{eq:gatcost} mittels \eqref{eq:resolvent} und deren adj
 \end{equation*}
 und es ergibt sich wie in den Betrachtungen zu Gleichung \eqref{eq:adjointEssential} %TODO die Anfangswertbedinungen einheitlich bennen v -> \gatdiff u oder so
 \begin{equation}
+\label{eq:gradCostFunctional}
  \nabla_v J = \int_0^T R^*(t,0) \nabla_x H(t) dt
 \end{equation}
-Der adjungierte Operator $R^*(t,0)$ des Resolventen $R(t,0)$ wird durch die Lösung der adjungierten Gleichung von \eqref{eq:tlm} 
+Der adjungierte Operator $R^*(t,0)$ des Resolventen $R(t,0)$ wird durch die Lösung des adjungierten Tangent Linear Models von \eqref{eq:tlm} 
 \begin{equation}
 \label{eq:adjointtlm}
  -\frac{d \gatdiff'x}{dt} = F'^*(t)\gatdiff'x
@@ -141,7 +142,11 @@ Daraus folgt unmittelbar, dass die Lösungen zweier Anfangswerte $y,y' \in \Hil$
 \begin{equation*}
 \langle R(t',t)y,y'\rangle = \langle y,S(t,t')y'\rangle 
 \end{equation*}
-erfüllen, da die Lösung von \eqref{eq:tlm} für die Anfangsbedingung $y$ am Zeitpunkt $t$ gerade den Wert $R(t',t)y$ zum Zeitpunkt $t'$ und die Lösung von \eqref{eq:adjointtlm} für die Anfangsbedingung $y'$ am Zeitpunkt $t'$ den Wert $S(t,t')y'$ zum Zeitpunkt $t$ annimmt. Da dies für alle $y,y'$ gilt, ist $S(t,t')$, der Resolvent der adjungierten Differentialgleichung \eqref{eq:adjointtlm}, der adjungierte Operator von $R(t',t)$, der Resolvent des Tangent Linear Models \eqref{eq:tlm}.
+erfüllen, da die Lösung des Tangent Linear Models \eqref{eq:tlm} für die Anfangsbedingung $y$ am Zeitpunkt $t$ gerade den Wert $R(t',t)y$ zum Zeitpunkt $t'$ und die Lösung des adjungierten Tangent Linear Models \eqref{eq:adjointtlm} für die Anfangsbedingung $y'$ am Zeitpunkt $t'$ den Wert $S(t,t')y'$ zum Zeitpunkt $t$ annimmt. Da dies für alle $y,y'$ gilt, ist $S(t,t')$, der Resolvent der adjungierten Differentialgleichung \eqref{eq:adjointtlm}, der adjungierte Operator von $R(t',t)$, der Resolvent des Tangent Linear Models \eqref{eq:tlm}.
+Für den Gradienten des Kostenfunktionals \eqref{gradCostFunctional} entsteht somit
+\begin{equation}
+ \nabla_v J = \int_0^T S^(0,t) \nabla_x H(t) dt
+\end{equation}
 
 
 % Zu einem gegebenen Anfangswert $v$ und der dazugehörigen Lösung $x(t)$ von \eqref{eq:odemodel} sieht die Variation erster Ordnung folgendermaßen aus
