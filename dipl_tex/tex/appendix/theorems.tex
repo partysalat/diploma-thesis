@@ -22,7 +22,7 @@ ergibt sich für die linke Seite von \eqref{eq:leibnizFubiniIntgralRule}, dass
 \[
  \frac{d}{dy}\left( \int_c^y \int_a^b \frac{\partial f}{\partial z}(x,z) dx dz\right)= \int_a^b\frac{\partial f}{\partial y}(x,y)
 \]
-Unter Nutzung der anderen Version des Fundamentalsatzes der Analysis $\int_a^bF'(x) =F(a) - F(b)$ ergibt sich für die rechte Seite
+Unter Nutzung einer anderen Version des Fundamentalsatzes der Analysis $\int_a^bF'(x) =F(a) - F(b)$ ergibt sich für die rechte Seite
 \[
 \begin{aligned}
   \frac{d}{dy}\left( \int_a^b \int_c^y \frac{\partial f}{\partial z}(x,z) dz dx\right) &= \frac{d}{dy} \left(\int_a^b f(x,y) - f(x,c)dx\right)\\
@@ -34,8 +34,9 @@ da $f(x,c)$ unabhängig von $y$ ist und damit die Ableitung nach $y$ verschwinde
 \end{theorem}
 
 \begin{theorem}[Verallgemeinerte Leibniz Integral Regel]
- Seien die Voraussetzungen wie in \ref{thm:leibnizIntegralRule} gegeben. Dann gilt
+ Seien die Voraussetzungen wie in Theorem \ref{thm:leibnizIntegralRule} gegeben. Dann gilt
  \begin{equation}
+ \label{eq:genLeibnizIntRule}
   \frac{d}{dy}\int_{g_1(y)}^{g_2(y)}f(x,y) dx =\int_{g_1(y)}^{g_2(y)} \frac{\partial f}{\partial y}(x,y) dx + g_2'(y)f(g_2(y),y) - g_1'(y)f(g_1(y),y)
  \end{equation}
  \begin{proof}
@@ -56,7 +57,7 @@ Nun gilt für den ersten Term
 \[
   \frac{\partial G}{\partial u} = \frac{\partial}{\partial u} \int_v^u f(x,w)dx = f(u,w)
 \]
-mit der Leibnizregel \ref{thm:leibnizIntegralRule}. Durch Rücksubstitution erhalten wir
+mit der Leibnizregel \eqref{thm:leibnizIntegralRule}. Durch Rücksubstitution erhalten wir
 \[
  u = g_2(y) \text{ und } \frac{du}{dy} = g_2'(y)
 \]

@@ -25,7 +25,7 @@ Man beachte, dass das Zielfunktional nur abhängig vom Anfangswert $x_0$ ist. Da
 minimiert wird. Bei den meisten Optimierungsmethoden benötigt man daher den Gradienten der zu minimierenden Funktion $J$.
 
 \section{Adjungierte Operatoren}
-Für höhere Dimensionen ist die Bestimmung dieses Gradienten jedoch auf klassischem Weg numerisch sehr komplex. Dazu würde man jede Komponente unseres Systems \eqref{eq:odemodel} stören, das Modell integrieren und das Kostenfunktional für alle Komponenten ausrechnen. Aus der Störung würde sich der Gradient $\partial J/\partial x_0$ ergeben. Mit Hilfe des adjungierten Operators kann die numerische Komplexität der Berechnung des Gradienten auf ein weniges Vielfaches des integrierens von \eqref{eq:odemodel} vermindert werden.
+Für höhere Dimensionen ist die Bestimmung dieses Gradienten jedoch auf klassischem Weg numerisch sehr komplex. Dazu würde man jede Komponente unseres Systems \eqref{eq:odemodel} stören, das gestörte Modell in jeder Komponente integrieren und das Kostenfunktional dieser ausrechnen. Aus der Störung würde sich der Gradient $\partial J/\partial x_0$ ergeben. Mit Hilfe des adjungierten Operators kann die numerische Komplexität der Berechnung des Gradienten auf ein weniges Vielfaches des integrierens von \eqref{eq:odemodel} vermindert werden.
 
 Eine allgemeine Einführung zur Theorie von adjungierten Gleichungen wurde beispielsweise von Cacuci \cite{cacuci1981sensitivity} gegeben, während Talagrand in \cite{talagrand1987variational} adjungierte Operatoren auf Hilberträume einschränkt und mit Diesen die Datenassimilation einführt.
 Für die folgenden Betrachtungen sind Hilberträume von besonderer Wichtigkeit. Sämtliche Lösungstheorie sowohl bei gewöhnlichen als auch bei partiellen Differentialgleichungen basieren auf den speziellen Eigenschaften dieser Räume.
@@ -51,7 +51,7 @@ Die folgenden Eigenschaften von Hilberträumen sind besonders nützlich für nac
   \gatdiff J = \langle \nabla_v J, \gatdiff v\rangle_\Hil
  \end{equation}
  $\nabla_v J$ ist hierbei der eindeutige Gradient von $J$ in $v$. Wenn $\Hil$ endlichdimensional und durch orthonormale Koordinaten $v_i$ beschrieben ist, dann sind die Komponenten von $\nabla_v J$ gerade $\partial J/\partial v_i$.
-\item Sei $\Gil$ ein anderer Hilbertraum mit Innenprodukt $\langle \cdot,\cdot \rangle_\Gil$ und $L$ ein stetiger linearer Operator von $\mathcal{G}\to \Hil$. Dann existiert ein eindeutiger stetiger linearer Operator $L^*$ von $\Hil\to\Gil$, sodass für alle $u\in \Gil$ und $v\in \Hil$ gilt
+\item Sei $\Gil$ ein anderer Hilbertraum mit Innenprodukt $\langle \cdot,\cdot \rangle_\Gil$ und $L$ ein stetiger linearer Operator $L:\mathcal{G}\to \Hil$. Dann existiert ein eindeutiger stetiger linearer Operator $L^*:\Hil\to\Gil$, sodass für alle $u\in \Gil$ und $v\in \Hil$ gilt
 \begin{equation}
 \label{eq:adjointInnerProduct}
 \langle v,Lu\rangle_\Hil =  \langle L^*v,u \rangle_\Gil
@@ -65,7 +65,7 @@ Seien $\Hil,~\Gil$ und $J$ wie in Proposition \ref{prop:adjoints} eingeführt. B
 \label{eq:diffCompoundFunction}
 \gatdiff v = \gatdiff(G(u)) = G'\gatdiff u
 \end{equation}
-wobei $G'$ die Ableitung von $G$ bzgl. $u$ und ein linearer Operator von $\Gil\to\Hil$ ist. Wenn man nun \eqref{eq:diffCompoundFunction} in \eqref{eq:diffInnerProduct} einsetzt erhält man 
+wobei $G':\Gil\to\Hil$ die Ableitung von $G$ bzgl. $u$ und ein linearer Operator ist. Wenn man nun \eqref{eq:diffCompoundFunction} in \eqref{eq:diffInnerProduct} einsetzt erhält man 
 \begin{equation}
  \gatdiff J = \langle \nabla_v J,G'\gatdiff u\rangle_\Hil \overset{\eqref{eq:adjointInnerProduct}}{=}  \langle G'^* \nabla_v J,\gatdiff u\rangle_\Gil \overset{n.V.}{=} \langle \nabla_u J,\gatdiff u\rangle_\Gil 
 \end{equation}
@@ -74,12 +74,12 @@ wobei $G'^*$ der adjungierte Operator von $G'$ beschreibt. Damit ist
 \label{eq:adjointEssential}
 \nabla_u J = G'^*\nabla_v J
 \end{equation} 
-Die Gleichung \eqref{eq:adjointEssential} stellt die Basis für adjungierte Operatoren und insbesondere für die Datenassimilation dar. Sie bietet ein besonders effizienten Weg $\nabla_u J$ numerisch zu berechnen. Angewandt auf unser Problem wäre $u\mapsto v =G(u) $ eine Integration eines numerischen Modells. Aus einem Integrierer der $G'^*w$ für ein gegebens $w$ berechnen kann, kann nun aus $\nabla_v J$ mittels \eqref{eq:adjointEssential} einfach $\nabla_u J$ errechnet werden. 
+Die Gleichung \eqref{eq:adjointEssential} stellt die Basis für adjungierte Operatoren und insbesondere für die Datenassimilation dar. Sie bietet ein besonders effizienten Weg $\nabla_u J$ numerisch zu berechnen. Angewandt auf unser Problem wäre $u\mapsto v =G(u) $ eine Integration eines numerischen Modells. Aus einem Integrierer der $G'^*w$ für ein gegebenes $w$ berechnen kann, kann nun aus $\nabla_v J$ mittels \eqref{eq:adjointEssential} einfach $\nabla_u J$ errechnet werden. 
 % Wenn $J$ einfach gewählt wurde, lässt sich daraus $\nabla_v J$ ebenfalls einfach berechnen. 
-Um $\nabla_u J$ zu berechnen, muss zuerst $v = G(u)$ berechnet werden, danach $\nabla_v J$ und schlussendlich wieder $\nabla_u J$ durch \eqref{eq:adjointEssential}.
+Um $\nabla_u J$ zu erhalten, muss zuerst $v = G(u)$ berechnet werden, danach $\nabla_v J$ und schlussendlich wieder $\nabla_u J$ durch \eqref{eq:adjointEssential}.
 
-\section{Anwendung auf die Datenassimilation}
-Um vorherige Betrachtungen anwenden zu können wird die Gâteaux Ableitung von \eqref{eq:costfunctional} zu einem Anfangswert $v$ gebildet
+\section{Der Gradient des Zielfunktionals}
+Um vorherige Betrachtungen auf die Ableitung des Zielfunktionals \eqref{eq:costfunctional} anwenden zu können wird die Gâteaux Ableitung von \eqref{eq:costfunctional} zu einem Anfangswert $v$ gebildet
 \begin{equation}
 \label{eq:gatcost}
 \begin{aligned}
@@ -100,7 +100,7 @@ wobei $\nabla_x H(t)$ der Gradient von $H(x,t)$ ausgewertet an der Stelle $(x(t)
 \end{aligned} 
 \end{equation}
 
-und wird als \textit{Tangent Linear Model} bezeichnet. $F'(t)$ ist der Operator, der durch differenzieren von $F(x,t)$ nach $x$ ausgewertet an $x(t)$ entsteht. Da \eqref{eq:tlm} homogen und linear ist, hängt ihre Lösung linear vom Anfangswert $v$ ab und es gilt
+und wird als \textit{Tangent Linear Model} bezeichnet. $F'(t)$ ist der Operator, der durch differenzieren von $F(x,t)$ nach $x$ ausgewertet an $x(t)$ entsteht. Da die gewöhnliche Differentialgleichung \eqref{eq:tlm} homogen und linear ist, hängt ihre Lösung linear vom Anfangswert $v$ ab und es gilt
 \begin{equation}
 \label{eq:resolvent}
  \gatdiff x(t) = R(t,0)v
@@ -108,8 +108,8 @@ und wird als \textit{Tangent Linear Model} bezeichnet. $F'(t)$ ist der Operator,
 %TODO Referenz auf ODE theory einfügen
 Wie allgemein bekannt ist, ist $R(t,0)$ ein wohldefinierter linearer Operator. Dieser wird als \textit{Resolvent} bezeichnet (siehe dazu REFERENZ NOCH EINF*GEN). Er besitzt die folgenden Eigenschaften
 \begin{align}
-  R(t,t) &= I\\
-  \frac{\partial}{\partial t}R(t,t') &= F'(t)R(t,t') \text{ für alle } t,t>0
+  R(t,t) &= I \label{eq:resolventPropertiesA}\\
+  \frac{\partial}{\partial t}R(t,t') &= F'(t)R(t,t') \text{ für alle } t,t>0\label{eq:resolventPropertiesB}
 \end{align}
 Nun kann Gleichung \eqref{eq:gatcost} mittels \eqref{eq:resolvent} und deren adjungiertem Operator $R^*(t,0)$ umgeschrieben werden zu
 \begin{equation*}
@@ -129,8 +129,8 @@ Der adjungierte Operator $R^*(t,0)$ des Resolventen $R(t,0)$ wird durch die Lös
 \label{eq:adjointtlm}
  -\frac{d \gatdiff'x}{dt} = F'^*(t)\gatdiff'x
 \end{equation}
-beschrieben, wobei $\gatdiff'x$ Element von $\Hil$ und $F'^*(t)$ die Adjungierte von $F'(t)$ ist. 
-Sei $S(t,t')$ der Resolvent von \eqref{eq:adjointtlm} zwischen den Zeitpunkten $t$ und $t'$. Für zwei Lösungen $\gatdiff x$ und $\gatdiff' x$ des Tangent Linear Models \eqref{eq:tlm} und deren Adjungierte \eqref{eq:adjointtlm} ist das innere Produkt $\langle \gatdiff x,\gatdiff' x\rangle$ konstant, da das innere Produkt der Ableitungen nach $t$ verschwindet
+beschrieben, wobei $\gatdiff'x \in\Hil$ und $F'^*(t)$ die Adjungierte von $F'(t)$ ist. 
+Sei $S(t,t')$ der Resolvent von \eqref{eq:adjointtlm} zwischen den Zeitpunkten $t$ und $t'$. Für zwei Lösungen $\gatdiff x$ und $\gatdiff' x$ des Tangent Linear Models \eqref{eq:tlm} und deren Adjungierte \eqref{eq:adjointtlm} ist das innere Produkt $\langle \gatdiff x,\gatdiff' x\rangle$ konstant, da das innere Produkt der Ableitungen nach $t$ verschwindet:
 \begin{equation}
 \begin{aligned}
  \frac{d}{dt}\langle \gatdiff x(t),\gatdiff' x(t)\rangle  &= \left\langle \frac{d \gatdiff x}{dt}(t) ,\gatdiff' x\right\rangle +\left\langle \gatdiff x,\frac{d\gatdiff ' x}{dt}(t)\right\rangle \\
@@ -142,26 +142,62 @@ Daraus folgt unmittelbar, dass die Lösungen zweier Anfangswerte $y,y' \in \Hil$
 \begin{equation*}
 \langle R(t',t)y,y'\rangle = \langle y,S(t,t')y'\rangle 
 \end{equation*}
-erfüllen, da die Lösung des Tangent Linear Models \eqref{eq:tlm} für die Anfangsbedingung $y$ am Zeitpunkt $t$ gerade den Wert $R(t',t)y$ zum Zeitpunkt $t'$ und die Lösung des adjungierten Tangent Linear Models \eqref{eq:adjointtlm} für die Anfangsbedingung $y'$ am Zeitpunkt $t'$ den Wert $S(t,t')y'$ zum Zeitpunkt $t$ annimmt. Da dies für alle $y,y'$ gilt, ist $S(t,t')$, der Resolvent der adjungierten Differentialgleichung \eqref{eq:adjointtlm}, der adjungierte Operator von $R(t',t)$, der Resolvent des Tangent Linear Models \eqref{eq:tlm}.
-Für den Gradienten des Kostenfunktionals \eqref{gradCostFunctional} entsteht somit
+erfüllen, da die Lösung des Tangent Linear Models \eqref{eq:tlm} für die Anfangsbedingung $y$ am Zeitpunkt $t$ gerade den Wert $R(t',t)y$ zum Zeitpunkt $t'$ und die Lösung des adjungierten Tangent Linear Models \eqref{eq:adjointtlm} für die Anfangsbedingung $y'$ am Zeitpunkt $t'$ den Wert $S(t,t')y'$ zum Zeitpunkt $t$ annimmt. Da dies für alle $y,y'$ gilt, ist $S(t,t')$ der adjungierte Operator von $R(t',t)$.
+Für den Gradienten des Kostenfunktionals \eqref{eq:gradCostFunctional} entsteht somit
 \begin{equation}
- \nabla_v J = \int_0^T S^(0,t) \nabla_x H(t) dt
+\label{eq:gradCostFunctionalAdjoint}
+ \nabla_v J = \int_0^T S(0,t) \nabla_x H(t) dt
 \end{equation}
+Um den Gradienten des Kostenfunktionals nun darstellen zu können benötigen wir die \textit{Inhomogene Adjungierte Gleichung}
+\begin{equation}
+\label{eq:inhAdjEquation}
+-d\gatdiff'x(t) = F'^*(t)\gatdiff'x - \nabla_x H(t)
+\end{equation}
+welche durch die Lösung 
+\begin{equation}
+\label{eq:solutionInhAdjEquation}
+ \gatdiff'x(t) = \int_t^{t_1} S(t,\tau)\nabla_x H(\tau)d\tau
+\end{equation}
+mit $\gatdiff x(t_1)=0$ beschrieben ist. Dass \eqref{eq:solutionInhAdjEquation} die Inhomomgene Adjungierte Gleichung \eqref{eq:inhAdjEquation} löst lässt sich mittels den Eigenschaften des Resolventen \eqref{eq:resolventPropertiesA} und \eqref{eq:resolventPropertiesB} zeigen. Durch Substituieren erhält man
+\begin{equation*}
+ \begin{aligned}
+  \frac{d\gatdiff'x}{dt} &= \frac{d}{dt} \int_t^{t_1} S(t,\tau)\nabla_x H(\tau)d\tau \\
+			 &= \frac{d}{dt} \int_t^{t_1} G(t,\tau)d\tau 
+\end{aligned}
+\end{equation*}
+Durch ableiten nach $t$ und der verallgemeinerten Leibniz Integral Formel (\ref{eq:genLeibnizIntRule}; siehe Anhang) folgt
+\begin{equation*}
+ \begin{aligned}
+ \frac{d}{dt} \int_t^{t_1} G(t,\tau)d\tau  
+			 &\overset{\eqref{eq:genLeibnizIntRule}}= G(t,t_1)\cdot 0 - G(t,t) + \int_t^{t_1} \frac{d}{dt}G(t,\tau) d\tau \\
+			 &= -S(t,t)\nabla_x H(t) + \int_t^{t_1} \frac{d}{dt}S(t,\tau)\nabla_x H(\tau) d\tau \\
+			 &\overset{\eqref{eq:resolventPropertiesA},\eqref{eq:resolventPropertiesB}}= -\nabla_x H(t) + \int_t^{t_1} F'^*(t)S(t,\tau)\nabla_x H(\tau) d\tau \\
+			  &= -\nabla_x H(t) +F'^*(t) \int_t^{t_1} S(t,\tau)\nabla_x H(\tau) d\tau \\
+			 &= -\nabla_x H(t) +F'^*(t) \gatdiff 'x(t) \\
+ \end{aligned}
+\end{equation*}
+Die umgekehrte Richtung wird fast analog bewiesen; es gilt
+\begin{equation*}
+ -\frac{d\gatdiff 'x}{dt} = F'^*(t) \gatdiff'x - \nabla_x H(t)
+			 = \frac{d}{dt} \int_t^{t_1} S(t,\tau) \nabla_x H(\tau) d\tau
+\end{equation*}
+Integration über $[t,t_1]$ liefert
+\[
+ \gatdiff 'x(t) -  \gatdiff 'x(t_1)  = \int_t^{t_1} S(t,\tau) \nabla_x H(\tau) d\tau
+\]
+Mit $ \gatdiff 'x(t_1) = 0$ und mit \eqref{eq:gradCostFunctionalAdjoint} folgt, dass $\nabla_v J = \gatdiff'x(0)$. Das bedeutet, dass sich der Gradient des Zielfunktionals mithilfe einer Rückwärtsintegration des Adjungierten Modells berechnen lässt.
+Genauer werden folgende Schritte benötigt, um den Gradienten des Zielfunktionals \eqref{eq:costfunctional} zu berechnen
 
+\begin{enumerate}
+ \item Setze $v$ als Anfangswert des Modells \eqref{eq:odemodel} und löse dieses über das Intervall $[0,T]$, speichere berechnete Werte $x(t_i)$ ab ($0= t_0<~ t_1<\ldots<t_l=T$, $l\in \N$)
+ \item Setze $\gatdiff 'x(T) = 0$, integriere die Inhomogene Adjungierte Gleichung \eqref{eq:inhAdjEquation} rückwärts in der Zeit von $T$ bis $0$, berechne zu den Zeitpunkten $t_i$ den Gradienten $F'^*(t_i)$ und $\nabla_x H(t_i)$ aus den gespeicherten Werten $x(t)$ aus Schritt 1.
+ \item $\nabla_v J = \gatdiff 'x(t_0)$
+\end{enumerate}
+TODO: ALGORITHMUS HIER?
 
-% Zu einem gegebenen Anfangswert $v$ und der dazugehörigen Lösung $x(t)$ von \eqref{eq:odemodel} sieht die Variation erster Ordnung folgendermaßen aus
-% \[
-%  \delta J = \int_0^T \langle \nabla_x H(t), \delta x(t)\rangle dt
-% \]
-
-
-
-
-
-
-% Die variationelle Datenassimilation besteht grundsätzlich aus drei Schritten
-% \begin{enumerate}
-%  \item ODE über Interval $[0,T]$ lösen
-%  \item Gradient des Kostenfunktionals errechnen über adjungiertes Modell
-%  \item Minimierungsverfahren 
-% \end{enumerate}
+\section{Abstiegsmethoden}
+Nun, da ein numerischer Weg gefunden wurde, $\nabla_v J$ effizient zu berechnen, stellt die Optimierung des Zielfunktional die letzte Hürde dar, d wir uns annehmen müssen. Das Ausgangsproblem besteht darin, über einer reellwertigen, differenzierbaren Funktion J
+\[
+ \min_{x_0} J(x_0)
+\]
+zu minimieren. Dies ist ein unrestringiertes Optimierungsproblem. Ein einfacher Ansatz ist die Methode des \textit{Steilsten Abstiegs}
