@@ -38,10 +38,10 @@ Ein Ableitungsbegriff auf Hilberträumen ist die sogenannte Gâteaux Ableitung.
   \gatdiff F(u;\psi) = \lim_{\tau \to 0} \frac{F(x+\tau \psi) - F(x)}{\tau} = \frac{d}{d\tau} F(u+\tau\psi)\biggr\rvert_{\tau = 0}
  \]
  falls der Grenzwert existiert. Existiert der Grenzwert für alle $\psi\in X$, dann heißt $F$ Gâteaux-Differenzierbar in $u$.
- %TODO erwähnen dass das Ding im endlichdimensionalen zurückfällt auf bekannte Ableitung
+ TODO erwähnen dass das Ding im endlichdimensionalen zurückfällt auf bekannte Ableitung
 \end{definition}
 Die folgenden Eigenschaften von Hilberträumen sind besonders nützlich für nachfolgende Betrachtungen.
-%TODO Beweisreferenz hinzufügen
+TODO Beweisreferenz hinzufügen
 \begin{proposition}[Adjungierte Operatoren]
 \label{prop:adjoints}
 \begin{enumerate}
@@ -105,7 +105,8 @@ und wird als \textit{Tangent Linear Model} bezeichnet. $F'(t)$ ist der Operator,
 \label{eq:resolvent}
  \gatdiff x(t) = R(t,0)v
 \end{equation}
-%TODO Referenz auf ODE theory einfügen
+TODO Referenz auf ODE theory einfügen
+
 Wie allgemein bekannt ist, ist $R(t,0)$ ein wohldefinierter linearer Operator. Dieser wird als \textit{Resolvent} bezeichnet (siehe dazu REFERENZ NOCH EINF*GEN). Er besitzt die folgenden Eigenschaften
 \begin{align}
   R(t,t) &= I \label{eq:resolventPropertiesA}\\
@@ -196,8 +197,52 @@ Genauer werden folgende Schritte benötigt, um den Gradienten des Zielfunktional
 TODO: ALGORITHMUS HIER?
 
 \section{Abstiegsmethoden}
-Nun, da ein numerischer Weg gefunden wurde, $\nabla_v J$ effizient zu berechnen, stellt die Optimierung des Zielfunktional die letzte Hürde dar, d wir uns annehmen müssen. Das Ausgangsproblem besteht darin, über einer reellwertigen, differenzierbaren Funktion J
+Nun, da ein numerischer Weg gefunden wurde, $\nabla_v J$ effizient zu berechnen, stellt die Optimierung des Zielfunktional die letzte Hürde dar, der wir uns annehmen müssen. Das Ausgangsproblem besteht darin, über einer reellwertigen, differenzierbaren Funktion J
+\begin{equation}
+\label{eq:minProblem}
+ \min_{x_0} J(x_0) 
+\end{equation}
+zu minimieren. Dies ist ein unrestringiertes Optimierungsproblem. 
+ Im folgenden sei vorausgesetzt, dass für ein $\tilde x\in D$ die \textit{Niveaumenge}
+ \[
+  N(J,J(\tilde x)) = \left\{ x\in D \vert J(x)\leq J(\tilde x)\right\}
+ \]
+
+ von $J$ in $x\in \R^n$ kompakt sei. Unter dieser Voraussetzung existiert nach dem Satz von Weierstraß ein $\bar x \in N(J,J(\tilde x))$ mit 
+ \[
+  J(\bar x) \leq J(x) \forall x\in N(J,J(\tilde x))
+ \]
+ und damit ist für $x\in D\textbackslash N(J,J(\tilde x))$: $J(x)>J(\tilde x)> J(\bar x)$. (vgl. \cite[Satz 1.2.2]{alt2002nichtlineare})
+ 
+
+Zur Charakerisierung von Lösungen von \eqref{eq:minProblem} ist folgender Satz über notwendige Bedingungen (vgl. \cite[vgl. Satz 3.1.1 ff.]{alt2002nichtlineare}) hilfreich:
+\begin{theorem}[Notwendige Bedingung erster Ordnung] 
+ Die Zielfunktion $J$ sei in $x\in D$, $D\subset \R^n$ differenzierbar. Ist $\bar x$ lokales Minimum von \eqref{eq:minProblem}, dann gilt
+ \[
+  \nabla J(\bar x)^\tr d \geq 0 \quad \forall d\in \R^n
+ \]
+ Wenn $d\in \R^n$ ist $(-d)\in \R^n$ und damit $\nabla J(\bar x)^\tr (-d) =  - \nabla J(\bar x)^\tr d  \geq 0$. Es folgt also
+ \[
+  \nabla J(\bar x)  =0 \in \R^n
+ \]
+\end{theorem}
+ Der Beweis findet man ebenfalls in \cite[vgl. Satz 3.1.1 ff]{alt2002nichtlineare}.$\proofend$
+
+Dieses Resultat wird zur Konstruktion von Abstiegsverfahren verwendet. Es gilt nämlich (\cite[vgl. Satz 4.1.1]{alt2002nichtlineare}) 
+\begin{lemma}
+ Die Funktion $J:\R^n\to \R^n$ sei differenzierbar in $x$. Weiter sei $d\in \R^n$ mit 
+ \[
+  \nabla J(x)^\tr d<0
+ \]
+ Dann gibt es ein $\bar \sigma>0$ mit $J(x+\bar \sigma d)< J(x)$ für alle $\sigma \in (0,\bar \sigma)$
+\end{lemma}
+Den Beweis findet man u.a. in \cite[vgl. Satz 4.1.1]{alt2002nichtlineare}. Ein Vektor $d$ heißt Abstiegsrichtung von $J$ im Punkt $x$, wenn $\nabla J(x)^\tr d<0$. Im Verfahren des steilsten Abstiegs wird gerade $d=- \nabla J(x)$ als Abstiegsrichtung verwendet, da 
 \[
- \min_{x_0} J(x_0)
-\]
-zu minimieren. Dies ist ein unrestringiertes Optimierungsproblem. Ein einfacher Ansatz ist die Methode des \textit{Steilsten Abstiegs}
+\nabla J(x)d = \nabla J(x) (-\nabla J(x)) = - \|\nabla J(x)\|^2 <0                                                                                                                                                                                                                                                                        \]
+Für dieses Verfahren werden folgende Schritte ausgeführt
+\begin{enumerate}
+ \item Wähle Anfangspunkt $x^{(0)}$ und setze $k:=0$
+ \item Überprüfe $\nabla J(x^{(k)}) == 0$?: Stopp
+ \item Setze als Suchrichtung $d = - \nabla J(x^{(k)})$, berechne effiziente Schrittweite $\alpha_k$ und setze $x^{(k+1)} = x^{(k)}+ \alpha_k d^{(k)}$
+ \item Setze $k:= k+1$ und gehe zu 2.
+\end{enumerate}

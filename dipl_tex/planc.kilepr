@@ -4,7 +4,7 @@ img_extIsRegExp=false
 img_extensions=.eps .jpg .jpeg .png .pdf .ps .fig .gif .tikz
 kileprversion=2
 kileversion=2.1.3
-lastDocument=tex/chapters/data_assimilation.tex
+lastDocument=main.tex
 masterDocument=
 name=planc
 pkg_extIsRegExp=false
@@ -154,13 +154,13 @@ order=5
 
 [item:main.tex]
 archive=true
-column=76
+column=10
 encoding=UTF-8
 highlight=LaTeX
 line=43
 mode=LaTeX
 open=true
-order=2
+order=0
 
 [item:planc.kilepr]
 archive=true
@@ -189,7 +189,7 @@ encoding=UTF-8
 highlight=LaTeX
 line=0
 mode=LaTeX
-open=true
+open=false
 order=1
 
 [item:tex/appendix/theorems.tex]
@@ -199,7 +199,7 @@ encoding=UTF-8
 highlight=LaTeX
 line=83
 mode=LaTeX
-open=true
+open=false
 order=3
 
 [item:tex/appendix/theses.tex]
@@ -230,7 +230,7 @@ highlight=LaTeX
 line=187
 mode=LaTeX
 open=true
-order=0
+order=3
 
 [item:tex/chapters/experiments.tex]
 archive=true
@@ -239,7 +239,7 @@ encoding=UTF-8
 highlight=LaTeX
 line=16
 mode=LaTeX
-open=false
+open=true
 order=2
 
 [item:tex/chapters/implementation.tex]
@@ -279,8 +279,8 @@ encoding=UTF-8
 highlight=LaTeX
 line=143
 mode=LaTeX
-open=false
-order=6
+open=true
+order=1
 
 [item:tex/chapters/pl_solve_ode.tex]
 archive=true
@@ -309,7 +309,7 @@ encoding=UTF-8
 highlight=LaTeX
 line=12
 mode=LaTeX
-open=true
+open=false
 order=4
 
 [item:tex/meta/settings.tex]
@@ -339,10 +339,10 @@ JumpList=
 ViMarks=.,143,0,[,124,0,],143,0
 
 [view-settings,view=0,item:main.tex]
-CursorColumn=76
+CursorColumn=10
 CursorLine=43
 JumpList=
-ViMarks=.,43,75,[,43,74,],43,75
+ViMarks=.,43,9,[,43,9,],43,9
 
 [view-settings,view=0,item:tex/appendix/selbststaendig.tex]
 CursorColumn=0
