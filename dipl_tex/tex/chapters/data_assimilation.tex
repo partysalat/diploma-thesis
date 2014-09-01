@@ -37,6 +37,10 @@ mit $F$ differenzierbar, gegeben ist, ist wohlbekannt, dass sie sich durch Hinzu
 \]
 Durch die Einführung einer weiteren Variablen $x_0 = t$ und Gleichung $\dot x_0=1$ lässt sich die gegebene ODE autonom, also die rechte Seite $F$ unabhängig von der Zeit $t$, schreiben.
 
+Die Existenz und Eindeutigkeit von Lösungen wird durch den Satz von Picard-Lindelöf beschrieben, der die Grundlage zur Lösungstheorie Gewöhnlicher Differentialgleichungen bildet. Dieser wird beispielsweise in \cite{teschl2012ordinary} bewiesen und lautet wie folgt 
+\begin{theorem}[Picard-Lindelöf]
+ Sei $F\in C(U,\R^n)$, wobei $U$ eine offene Teilmenge von $\R^{n+1}$ ist und $(t_0,x_0)\in U$. Falls $F$ im zweiten Argument lokal Lipschitzstetig und gleichmäßig stetig im ersten Argument ist, dann existiert eine eindeutige lokale Lösung $\bar x(t)\in C^1(I)$ des Anfangswertproblems \eqref{eq:odemodel}, wobei $I$ ein Interval um $t_0$ ist.
+\end{theorem}
 
 
 
