@@ -2,32 +2,51 @@
 \section{Problemstellung}
 Die 4D variationelle Datenassimilation ist eine Methode, die im Zusammenhang mit hyperbolischen partiellen Differentialgleichungen steht, wie z.B. der Wellengleichung. Ziel ist es durch Steuerungsparameter, wie etwa Anfangswerte zum Zeitpunkt $t_0$, den Abstand eines Modells gegenüber der in der Zeit gemessenen Observierungsparameter minimal werden zu lassen. 
 
-Um diese Methode herzuleiten folgen wir der Herangehensweise von Talagrand in \cite{talagrand1987variational} und nehmen zuerst ein Modell der Form
+Um diese Methode herzuleiten folgen wir der Herangehensweise von Talagrand in \cite{talagrand1987variational} und nehmen zuerst die Evolutionsgleichung
 \begin{equation}
 \label{eq:odemodel}
- \frac{dx}{dt} = F(x)\quad \text{mit} \quad x(0) = x_0 \quad \text{und}\quad F:\R^n\to \R^m
+ \frac{dx}{dt} = F(x)\quad \text{mit} \quad x(0) = x_0 \quad \text{und}\quad F:\R^n\to \R^n
 \end{equation}
   
-welche eine Gewöhnliche Differentialgleichung beschreibt (vorheriges Kapitel). $x$ ist dabei die zeitabhängige Zustandsvariable aus dem Hilbertraum $\mathcal{E}$, welche die Entwicklung des Systems zu einem Zeitpunkt $t\in \R$ beschreibt. 
-$x_0 \in \R^m$ sei der Anfangswert, über den wir steuern wollen.
-Die Observierungsparameter $\xobs$ sind diskrete Werte, welche Orts - und Zeitabhängig und über ein Interval $[0,T]$ verteilt sind. Da $\xobs$ diskret ist wird eine Projektion $C:\Xstate\to \Xobs$ benötigt, welche $x$ aus dem Zustandsraum $\Xstate$ in den Observierungsraum $\Xobs$ abbildet. Üblicherweise ist diese Funktion eine Auswertungsfunktion von $x$ an den Stellen $\tobs$.
+welche eine Gewöhnliche Differentialgleichung beschreibt. $x$ ist dabei die zeitabhängige Zustandsvariable aus dem Hilbertraum $\R^n$, welche die Entwicklung des Systems zu einem Zeitpunkt $t\in \R$ beschreibt. 
+$x_0 \in \R^n$ sei der Anfangswert, welcher gleichzeitig der Steuerungsparameter ist.
+Die Observierungsparameter $\xobs$ sind diskrete Werte, welche Orts - und Zeitabhängig und über ein Interval $[0,T]$ verteilt sind. Da $\xobs$ diskret ist, wird eine Projektion $C:\Xstate\to \Xobs$ benötigt, welche $x$ aus dem Zustandsraum $\Xstate$ in den Observierungsraum $\Xobs$ abbildet. Üblicherweise ist diese Funktion eine Auswertungsfunktion von $x$ an den Stellen $\tobs$.
 
 Als Kostenfunktional dient die $L^2$ - Norm der Differenz der Lösung $x$ von \eqref{eq:odemodel} zu $\xobs$ über ein gegebenes Zeitinterval $[0,T]$
 \begin{equation}
 \label{eq:costfunctional}
  J(x_0) = \frac{1}{2}\int_0^T H(x(t),t)dt= \frac{1}{2}\int_0^T \|C\cdot x(V)-\xobs\|^2dt
 \end{equation}
-Die Skalarwertige Funktion $J$ ist damit jene Funktion, die das Maß zwischen der Lösung $x$ und den Observierungsparametern $\xobs$ darstellt.
+Die skalarwertige Funktion $J$ ist damit jene Funktion, die das Maß zwischen der Lösung $x$ und den Observierungsparametern $\xobs$ darstellt.
 Man beachte, dass das Zielfunktional nur abhängig vom Anfangswert $x_0$ ist. Das Ziel besteht darin, $x_0 = x_0^*$ zu finden, sodass
 \[
  J(x_0^*) = \inf_{x_0} J(x_0) 
 \]
-minimiert wird. Bei den meisten Optimierungsmethoden benötigt man daher den Gradienten der zu minimierenden Funktion $J$.
+minimiert wird. Die Grundlage zur Minimierung des Kostenfunktionals ist zunächst die Lösungstheorie zu gewöhnlichen Differentialgleichungen.
 
+\section{Gewöhnliche Differentialgleichungen}
+Eine Gleichung der Form \eqref{eq:odemodel} wird eine \textit{Gewöhnliche Differentialgleichung erster Ordnung} genannt. 
+In der nachfolgend betrachteten Theorie sowie in der Implementation der Verfahren in dieser Arbeit werden ausschließlich autonome Gewöhnliche Differentialgleichungen erster Ordnung betrachtet, da sich sämtliche Gewöhnliche Differentialgleichungen in diese Form umschreiben lassen.
+Falls nämlich eine Differentialgleichung n-ter Ordnung der Form 
+\[
+ \frac{d^n x}{dt^n}= F\left(t;x,\frac{dx}{dt},\ldots,\frac{d^{n-1} x}{dt^{n-1}}\right)
+\]
+mit $F$ differenzierbar, gegeben ist, ist wohlbekannt, dass sie sich durch Hinzufügen zusätzlicher Variablen in ein Differentialgleichungssystem erster Ordnung überführen lässt (\cite[S. 105]{arnold2001grundbegriffe}), mittels
+\[
+ \dot x_1 = x_2 \quad ,\ldots,\quad \dot x_{n-1} = x_n, \quad  \dot x_n = F(t;x_1,\ldots,x_{n-1})
+\]
+Durch die Einführung einer weiteren Variablen $x_0 = t$ und Gleichung $\dot x_0=1$ lässt sich die gegebene ODE autonom, also die rechte Seite $F$ unabhängig von der Zeit $t$, schreiben.
+
+
+
+
+
+
+Bei den Optimierungsmethoden, welche wir betrachten, benötigt man daher den Gradienten der zu minimierenden Funktion $J$.
 \section{Adjungierte Operatoren}
-Für höhere Dimensionen ist die Bestimmung dieses Gradienten jedoch auf klassischem Weg numerisch sehr komplex. Dazu würde man jede Komponente unseres Systems \eqref{eq:odemodel} stören, das gestörte Modell in jeder Komponente integrieren und das Kostenfunktional dieser ausrechnen. Aus der Störung würde sich der Gradient $\partial J/\partial x_0$ ergeben. Mit Hilfe des adjungierten Operators kann die numerische Komplexität der Berechnung des Gradienten auf ein weniges Vielfaches des integrierens von \eqref{eq:odemodel} vermindert werden.
+Für höhere Dimensionen ist die Bestimmung dieses Gradienten jedoch auf klassischem Weg numerisch sehr komplex. Dazu würde man jede Komponente unseres Systems \eqref{eq:odemodel} stören, das gestörte Modell in jeder Komponente integrieren und das Kostenfunktional dieser ausrechnen. Aus der Störung würde sich der Gradient $\partial J/\partial x_0$ ergeben. Dies ist sehr ineffizient. Als effiziente Alternative hat sich die Anwendung adjungierter Gleichungen erwiesen. Mit ihrer Hilfe kann die numerische Komplexität der Berechnung des Gradienten auf ein weniges Vielfaches des integrierens der Evolutionsgleichung \eqref{eq:odemodel} vermindert werden.
 
-Eine allgemeine Einführung zur Theorie von adjungierten Gleichungen wurde beispielsweise von Cacuci \cite{cacuci1981sensitivity} gegeben, während Talagrand in \cite{talagrand1987variational} adjungierte Operatoren auf Hilberträume einschränkt und mit Diesen die Datenassimilation einführt.
+Eine allgemeine Einführung zur Theorie von adjungierten Gleichungen wurde beispielsweise von Cacuci \cite{cacuci1981sensitivity} gegeben, während Talagrand in \cite{talagrand1987variational} adjungierte Operatoren auf Hilberträume einschränkt und mit diesen die Datenassimilation einführt.
 Für die folgenden Betrachtungen sind Hilberträume von besonderer Wichtigkeit. Sämtliche Lösungstheorie sowohl bei gewöhnlichen als auch bei partiellen Differentialgleichungen basieren auf den speziellen Eigenschaften dieser Räume.
 
 Ein Hilbertraum ist ein reller oder komplexer Vektorraum mit einem Skalarprodukt, der bzgl. der vom Skalarprodukt induzierten Norm vollständig ist. Da $\R$ vollständig ist, ist jeder endlichdimensionale Vektorraum versehen mit einem Skalarprodukt vollständig. In der numerischen Praxis sind damit sämtliche folgenden Schritte valide. 
@@ -35,35 +54,37 @@ Ein Ableitungsbegriff auf Hilberträumen ist die sogenannte Gâteaux Ableitung.
 \begin{definition}[Gâteaux Ableitung]
  Seien $X$ und $Y$ Banachräume, $U \subset X$ offen und $F:X\to Y$. Das Gâteaux Differential $\gatdiff F(u;\psi)$ von F an $u\in U$ in Richtung $\psi\in X$ ist definiert als
  \[
-  \gatdiff F(u;\psi) = \lim_{\tau \to 0} \frac{F(x+\tau \psi) - F(x)}{\tau} = \frac{d}{d\tau} F(u+\tau\psi)\biggr\rvert_{\tau = 0}
+  \gatdiff F(u;\psi) = \lim_{\tau \to 0} \frac{F(x+\tau \psi) - F(x)}{\tau} = \frac{d}{d\tau} F(u+\tau\psi)\biggr\rvert_{\tau = 0}\quad \forall \psi \in X
  \]
  falls der Grenzwert existiert. Existiert der Grenzwert für alle $\psi\in X$, dann heißt $F$ Gâteaux-Differenzierbar in $u$.
- TODO erwähnen dass das Ding im endlichdimensionalen zurückfällt auf bekannte Ableitung
+ Falls $X$ und $Y$ endlichdimensional sind, entspricht das Konzept der Gâteaux Ableitung der der Richtungsableitung.
 \end{definition}
-Die folgenden Eigenschaften von Hilberträumen sind besonders nützlich für nachfolgende Betrachtungen.
-TODO Beweisreferenz hinzufügen
-\begin{proposition}[Adjungierte Operatoren]
-\label{prop:adjoints}
-\begin{enumerate}
- \item Sei $\Hil$ ein Hilbertraum mit Skalarprodukt $\langle \cdot,\cdot \rangle_\Hil$ und $v:\Hil \to \R,~ v\mapsto J(v)$ eine differenzierbare skalare Funktion definiert auf $\Hil$. Das Differential $\gatdiff J$ von $J$ kann an jedem Punkt von $\Hil$ ausgedrückt werden als
- \begin{equation}
- \label{eq:diffInnerProduct}
-  \gatdiff J = \langle \nabla_v J, \gatdiff v\rangle_\Hil
- \end{equation}
- $\nabla_v J$ ist hierbei der eindeutige Gradient von $J$ in $v$. Wenn $\Hil$ endlichdimensional und durch orthonormale Koordinaten $v_i$ beschrieben ist, dann sind die Komponenten von $\nabla_v J$ gerade $\partial J/\partial v_i$.
-\item Sei $\Gil$ ein anderer Hilbertraum mit Innenprodukt $\langle \cdot,\cdot \rangle_\Gil$ und $L$ ein stetiger linearer Operator $L:\mathcal{G}\to \Hil$. Dann existiert ein eindeutiger stetiger linearer Operator $L^*:\Hil\to\Gil$, sodass für alle $u\in \Gil$ und $v\in \Hil$ gilt
+Die folgende Definition der Adjungierten Operatoren und Proposition von Hilberträumen sind besonders nützlich für nachfolgende Betrachtungen.
+\begin{definition}[Adjungierte Operatoren]
+Sei $\Gil$ ein anderer Hilbertraum mit Innenprodukt $\langle \cdot,\cdot \rangle_\Gil$ und $L$ ein stetiger linearer Operator $L:\mathcal{G}\to \Hil$. Dann existiert ein eindeutiger stetiger linearer Operator $L^*:\Hil\to\Gil$, sodass für alle $u\in \Gil$ und $v\in \Hil$ gilt
 \begin{equation}
 \label{eq:adjointInnerProduct}
 \langle v,Lu\rangle_\Hil =  \langle L^*v,u \rangle_\Gil
 \end{equation}
-$L^*$ heißt der \textit{adjungierte Operator} von $L$. Im Falle das $\Hil$ und $\Gil$ endlichdimensional und durch orthonormale Koordinaten beschrieben sind, ist $L^*$ gerade die transponierte Matrix von $L$
-\end{enumerate} 
+$L^*$ heißt der \textit{adjungierte Operator} von $L$ (vgl. \cite[Definition V.5.1]{werner2007funktionalanalysis}). Im Falle das $\Hil$ und $\Gil$ endlichdimensional und durch orthonormale Koordinaten beschrieben werden kann, ist bekannt, dass  $L^*$ gerade die transponierte Matrix von $L$ ist.
+% , da $\langle x,L^*y\rangle = \langle Lx,y\rangle =(Lx)^\tr y  = x^\tr L^\tr y= \langle x,L^\tr y\rangle  $
+\end{definition}
+Die Gâteaux Ableitung einer differenzierbaren Funktion ergibt sich als Richtungsableitung (vgl. \cite[Example 9.2.4]{debnath2005hilbert})
+\begin{proposition}[Gâteaux Ableitung differenzierbarer Funktionen]
+\label{prop:adjoints}
+Sei $\Hil$ ein Hilbertraum mit Skalarprodukt $\langle \cdot,\cdot \rangle_\Hil$ und $v:\Hil \to \R,~ v\mapsto J(v)$ eine einmal stetig differenzierbare skalare Funktion definiert auf $\Hil$. Das Gâteaux Differential $\gatdiff J$ von $J$ kann an jedem Punkt von $\Hil$ über das Gâteaux Differential $\gatdiff v$ von $v$ ausgedrückt werden als
+ \begin{equation}
+ \label{eq:diffInnerProduct}
+  \gatdiff J(v;\gatdiff v) = \langle \nabla_v J, \gatdiff v\rangle_\Hil
+ \end{equation}
+ $\nabla_v J$ ist hierbei der eindeutige Gradient von $J$ in Richtung $v$ an der Stelle $x$, welche zur Übersichtlichkeit weggelassen wurde. Wenn $\Hil$ endlichdimensional und durch orthonormale Koordinaten $v_i$ beschrieben ist, dann sind die Komponenten von $\nabla_v J$ gerade der Vektor der partiellen Ableitung von $J$ nach $v_i$, also $\partial J/\partial v_i$.
 \end{proposition}
 
-Seien $\Hil,~\Gil$ und $J$ wie in Proposition \ref{prop:adjoints} eingeführt. Betrachtet man jetzt eine Funktion $u:\Gil \to \Hil, ~u\mapsto v = G(u)$ folgt, dass sich $J(v) = J(G(u))$ zu einer zusammengesetzte Funktion von $u$ ergibt. Nun ist 
+
+Seien $\Hil,~\Gil$ und $J$ wie in Proposition \ref{prop:adjoints} eingeführt. Betrachtet man jetzt eine Funktion $u:\Gil \to \Hil, ~u\mapsto v = G(u)$, G differenzierbar, so folgt, dass sich $J(v) = J(G(u))$ zu einer zusammengesetzte Funktion von $u$ ergibt. Nun ist 
 \begin{equation}
 \label{eq:diffCompoundFunction}
-\gatdiff v = \gatdiff(G(u)) = G'\gatdiff u
+\gatdiff v = \gatdiff(G(u)) = G'(u)\gatdiff u
 \end{equation}
 wobei $G':\Gil\to\Hil$ die Ableitung von $G$ bzgl. $u$ und ein linearer Operator ist. Wenn man nun \eqref{eq:diffCompoundFunction} in \eqref{eq:diffInnerProduct} einsetzt erhält man 
 \begin{equation}
@@ -74,12 +95,12 @@ wobei $G'^*$ der adjungierte Operator von $G'$ beschreibt. Damit ist
 \label{eq:adjointEssential}
 \nabla_u J = G'^*\nabla_v J
 \end{equation} 
-Die Gleichung \eqref{eq:adjointEssential} stellt die Basis für adjungierte Operatoren und insbesondere für die Datenassimilation dar. Sie bietet ein besonders effizienten Weg $\nabla_u J$ numerisch zu berechnen. Angewandt auf unser Problem wäre $u\mapsto v =G(u) $ eine Integration eines numerischen Modells. Aus einem Integrierer der $G'^*w$ für ein gegebenes $w$ berechnen kann, kann nun aus $\nabla_v J$ mittels \eqref{eq:adjointEssential} einfach $\nabla_u J$ errechnet werden. 
+Die Gleichung \eqref{eq:adjointEssential} stellt die Basis für die Nutzung der adjungierte Operatoren für die Datenassimilation dar. Sie bietet ein besonders effizienten Weg $\nabla_u J$ numerisch zu berechnen. Angewandt auf unser Problem wäre $u\mapsto v =G(u) $ eine Integration eines numerischen Modells. Aus einem Integrierer der $G'^*w$ für ein gegebenes $w$ berechnen kann, kann nun aus $\nabla_v J$ mittels \eqref{eq:adjointEssential} einfach $\nabla_u J$ errechnet werden. 
 % Wenn $J$ einfach gewählt wurde, lässt sich daraus $\nabla_v J$ ebenfalls einfach berechnen. 
 Um $\nabla_u J$ zu erhalten, muss zuerst $v = G(u)$ berechnet werden, danach $\nabla_v J$ und schlussendlich wieder $\nabla_u J$ durch \eqref{eq:adjointEssential}.
 
-\section{Der Gradient des Zielfunktionals}
-Um vorherige Betrachtungen auf die Ableitung des Zielfunktionals \eqref{eq:costfunctional} anwenden zu können wird die Gâteaux Ableitung von \eqref{eq:costfunctional} zu einem Anfangswert $v$ gebildet
+\section{Gradient des Zielfunktionals}
+Um vorherige Betrachtungen auf die Ableitung des Zielfunktionals \eqref{eq:costfunctional} anwenden zu können wird die Gâteaux Ableitung des Kostenfunktionals \eqref{eq:costfunctional} zu einem Anfangswert $v$ gebildet
 \begin{equation}
 \label{eq:gatcost}
 \begin{aligned}
@@ -90,7 +111,7 @@ Um vorherige Betrachtungen auf die Ableitung des Zielfunktionals \eqref{eq:costf
 	    &= \int_0^T \langle \nabla_x H(x), \gatdiff x \rangle dt\\  
 \end{aligned}
 \end{equation}
-wobei $\nabla_x H(t)$ der Gradient von $H(x,t)$ ausgewertet an der Stelle $(x(t),t)$ und $\gatdiff x$ die Gâteaux-Ableitung von $x$, also eine Störung. beschreibt. Diese hat die Form
+wobei $\nabla_x H(t)$ der Gradient von $H(x,t)$ ausgewertet an der Stelle $(x(t),t)$ und $\gatdiff x$ die Gâteaux-Ableitung von $x$, also eine Störung, beschreibt. Diese ist die Lösung von
 \begin{equation}
 \label{eq:tlm}
 \begin{aligned}
@@ -107,12 +128,12 @@ und wird als \textit{Tangent Linear Model} bezeichnet. $F'(t)$ ist der Operator,
 \end{equation}
 TODO Referenz auf ODE theory einfügen
 
-Wie allgemein bekannt ist, ist $R(t,0)$ ein wohldefinierter linearer Operator. Dieser wird als \textit{Resolvent} bezeichnet (siehe dazu REFERENZ NOCH EINF*GEN). Er besitzt die folgenden Eigenschaften
+Wie allgemein bekannt, ist $R(t,0)$ ein wohldefinierter linearer Operator. Dieser wird als \textit{Resolvent} bezeichnet (siehe dazu REFERENZ NOCH EINF*GEN). Er besitzt die folgenden Eigenschaften
 \begin{align}
   R(t,t) &= I \label{eq:resolventPropertiesA}\\
   \frac{\partial}{\partial t}R(t,t') &= F'(t)R(t,t') \text{ für alle } t,t>0\label{eq:resolventPropertiesB}
 \end{align}
-Nun kann Gleichung \eqref{eq:gatcost} mittels \eqref{eq:resolvent} und deren adjungiertem Operator $R^*(t,0)$ umgeschrieben werden zu
+Nun kann das Differential des Kostenfunktionals \eqref{eq:gatcost} mittels des Resolventen \eqref{eq:resolvent} und deren adjungiertem Operator $R^*(t,0)$ umgeschrieben werden zu
 \begin{equation*}
 \begin{aligned}
  \gatdiff J &= \int_0^T \langle \nabla_x H(t), R(t,0)v\rangle dt \\
@@ -166,7 +187,7 @@ mit $\gatdiff x(t_1)=0$ beschrieben ist. Dass \eqref{eq:solutionInhAdjEquation} 
 			 &= \frac{d}{dt} \int_t^{t_1} G(t,\tau)d\tau 
 \end{aligned}
 \end{equation*}
-Durch ableiten nach $t$ und der verallgemeinerten Leibniz Integral Formel (\ref{eq:genLeibnizIntRule}; siehe Anhang) folgt
+Durch ableiten nach $t$ und der verallgemeinerten Leibniz Integral Formel (\ref{eq:genLeibnizIntRule}) folgt
 \begin{equation*}
  \begin{aligned}
  \frac{d}{dt} \int_t^{t_1} G(t,\tau)d\tau  
@@ -190,10 +211,24 @@ Mit $ \gatdiff 'x(t_1) = 0$ und mit \eqref{eq:gradCostFunctionalAdjoint} folgt, 
 Genauer werden folgende Schritte benötigt, um den Gradienten des Zielfunktionals \eqref{eq:costfunctional} zu berechnen
 
 \begin{enumerate}
- \item Setze $v$ als Anfangswert des Modells \eqref{eq:odemodel} und löse dieses über das Intervall $[0,T]$, speichere berechnete Werte $x(t_i)$ ab ($0= t_0<~ t_1<\ldots<t_l=T$, $l\in \N$)
+ \item Setze $v$ als Anfangswert des Modells \eqref{eq:odemodel} und löse dieses über das Intervall $[0,T]$, speichere berechnete Werte $x(t_i)$ ab\\
+ ($0= t_0<~ t_1<\ldots<t_l=T$, $l\in \N$)
  \item Setze $\gatdiff 'x(T) = 0$, integriere die Inhomogene Adjungierte Gleichung \eqref{eq:inhAdjEquation} rückwärts in der Zeit von $T$ bis $0$, berechne zu den Zeitpunkten $t_i$ den Gradienten $F'^*(t_i)$ und $\nabla_x H(t_i)$ aus den gespeicherten Werten $x(t)$ aus Schritt 1.
  \item $\nabla_v J = \gatdiff 'x(t_0)$
 \end{enumerate}
+
+Übersetzt in Pseudocode lautet der Algorithmus
+
+% \begin{algorithm}[H]
+%  \algrenewcommand{\algorithmiccomment}[1]{\hfill{\scriptsize #1}}
+%  \caption{\texttt{PlanC::calc\_kink\_partials}}
+%  \label{alg:kinkPartials}
+%  \begin{algorithmic}[1]
+% 
+%  \end{algorithmic}
+%  \end{algorithm}
+
+
 TODO: ALGORITHMUS HIER?
 
 \section{Abstiegsmethoden}
