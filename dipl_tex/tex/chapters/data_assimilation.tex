@@ -10,9 +10,9 @@ Um diese Methode herzuleiten folgen wir der Herangehensweise von Talagrand in \c
   
 welche eine Gewöhnliche Differentialgleichung beschreibt. $x$ ist dabei die zeitabhängige Zustandsvariable aus dem Hilbertraum $\R^n$, welche die Entwicklung des Systems zu einem Zeitpunkt $t\in \R$ beschreibt. 
 $x_0 \in \R^n$ sei der Anfangswert, welcher gleichzeitig der Steuerungsparameter ist.
-Die Observierungsparameter $\xobs$ sind diskrete Werte, welche Orts - und Zeitabhängig und über ein Interval $[0,T]$ verteilt sind. Da $\xobs$ diskret ist, wird eine Projektion $C:\Xstate\to \Xobs$ benötigt, welche $x$ aus dem Zustandsraum $\Xstate$ in den Observierungsraum $\Xobs$ abbildet. Üblicherweise ist diese Funktion eine Auswertungsfunktion von $x$ an den Stellen $\tobs$.
+Die Observierungsparameter $\xobs$ sind diskrete Werte, welche Orts - und Zeitabhängig und über ein Intervall $[0,T]$ verteilt sind. Da $\xobs$ diskret ist, wird eine Projektion $C:\Xstate\to \Xobs$ benötigt, welche $x$ aus dem Zustandsraum $\Xstate$ in den Observierungsraum $\Xobs$ abbildet. Üblicherweise ist diese Funktion eine Auswertungsfunktion von $x$ an den Stellen $\tobs$.
 
-Als Kostenfunktional dient die $L^2$ - Norm der Differenz der Lösung $x$ von \eqref{eq:odemodel} zu $\xobs$ über ein gegebenes Zeitinterval $[0,T]$
+Als Kostenfunktional dient die $L^2$ - Norm der Differenz der Lösung $x$ von \eqref{eq:odemodel} zu $\xobs$ über ein gegebenes Zeitintervall $[0,T]$
 \begin{equation}
 \label{eq:costfunctional}
  J(x_0) = \frac{1}{2}\int_0^T H(x(t),t)dt= \frac{1}{2}\int_0^T \|C\cdot x(V)-\xobs\|^2dt
@@ -39,10 +39,30 @@ Durch die Einführung einer weiteren Variablen $x_0 = t$ und Gleichung $\dot x_0
 
 Die Existenz und Eindeutigkeit von Lösungen wird durch den Satz von Picard-Lindelöf beschrieben, der die Grundlage zur Lösungstheorie Gewöhnlicher Differentialgleichungen bildet. Dieser wird beispielsweise in \cite{teschl2012ordinary} bewiesen und lautet wie folgt 
 \begin{theorem}[Picard-Lindelöf]
- Sei $F\in C(U,\R^n)$, wobei $U$ eine offene Teilmenge von $\R^{n+1}$ ist und $(t_0,x_0)\in U$. Falls $F$ im zweiten Argument lokal Lipschitzstetig und gleichmäßig stetig im ersten Argument ist, dann existiert eine eindeutige lokale Lösung $\bar x(t)\in C^1(I)$ des Anfangswertproblems \eqref{eq:odemodel}, wobei $I$ ein Interval um $t_0$ ist.
+\label{thm:picard-lindeloeff}
+ Sei $F\in C(U,\R^n)$, wobei $U$ eine offene Teilmenge von $\R^{n+1}$ ist und $(t_0,x_0)\in U$. Falls $F$ im zweiten Argument lokal Lipschitzstetig und gleichmäßig stetig im ersten Argument ist, dann existiert eine eindeutige lokale Lösung $\bar x(t)\in C^1(I)$ des Anfangswertproblems \eqref{eq:odemodel}, wobei $I$ ein Intervall um $t_0$ ist.
 \end{theorem}
+% 
+% Ein Spezialfall des Modells \eqref{eq:odemodel}, welche wir im Folgenden benötigen werden, sind die Matrix Differentialgleichungen, welche die Form
+% \[
+%  \frac{d}{dt} X = A(t)X,\quad \frac{d}{dt}X(t) =[\frac{d}{dt}x_{ij}(t)] 
+% \]
+% besitzen, mit $A\in R^{n\times n}$
 
-
+TODO: REST IN PLDATAASSIMILATION UMLAGERN? ALSO: FILIPPOV THEOREM ETC??
+TODO: WO NUMERIK VON ODES?
+\[
+ \dot x \in F(t,x)
+\]
+\cite{filippov1971existence}
+\begin{theorem}[Filippov]
+ Sei U wie in \ref{thm:picard-lindeloeff} gegeben und $D\subset U$. Sei $F:D\rightrightarrows \R^n$ eine mengenwertige Abbildung. Für alle Punkte der Region $D$ sei $F(t,x)$ eine nichtleere beschränkte abgeschlossene Menge. Desweiteren sei $F(t,x)$ oberhalbstetig, also für alle $(t,x)\in D$ und alle $\varepsilon>0$ existiert ein $\delta = \delta(\varepsilon,t,x)>0$, sodass für alle Punkte $(t',x')$ der $\delta$- Umgebung von $(t,x)$ die Menge $F(t',x')$ in der $\varepsilon$-Umgebung der menge $F(t,x)$ liegt.
+ Wenn nun $F(t,x)$ überall konvex ist, dann besitzt  
+ \[
+  \dot x \in F(t,x)
+ \]
+ für alle Anfangswerte $x(t_0)=x_0$ mit $(t_0,x_0)\in D$ mindestens eine Lösung.
+\end{theorem}
 
 
 
@@ -130,13 +150,13 @@ und wird als \textit{Tangent Linear Model} bezeichnet. $F'(t)$ ist der Operator,
 \label{eq:resolvent}
  \gatdiff x(t) = R(t,0)v
 \end{equation}
-TODO Referenz auf ODE theory einfügen
 
-Wie allgemein bekannt, ist $R(t,0)$ ein wohldefinierter linearer Operator. Dieser wird als \textit{Resolvent} bezeichnet (siehe dazu REFERENZ NOCH EINF*GEN). Er besitzt die folgenden Eigenschaften
+$R(t,0)$ ein wohldefinierter linearer Operator. Dieser wird als \textit{State Transition Matrix} oder \textit{Resolvent} bezeichnet und wird ausführlich von Zadeh und Desoer in \cite[S. 339 ff.]{zadeh1976linear} beschrieben. Er besitzt die folgenden Eigenschaften
 \begin{align}
   R(t,t) &= I \label{eq:resolventPropertiesA}\\
   \frac{\partial}{\partial t}R(t,t') &= F'(t)R(t,t') \text{ für alle } t,t>0\label{eq:resolventPropertiesB}
 \end{align}
+welche ebenfalls in \cite[S. 339 Theorem 4]{zadeh1976linear} bewiesen werden.
 Nun kann das Differential des Kostenfunktionals \eqref{eq:gatcost} mittels des Resolventen \eqref{eq:resolvent} und deren adjungiertem Operator $R^*(t,0)$ umgeschrieben werden zu
 \begin{equation*}
 \begin{aligned}
