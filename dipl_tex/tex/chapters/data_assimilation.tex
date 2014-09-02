@@ -156,7 +156,7 @@ $R(t,0)$ ein wohldefinierter linearer Operator. Dieser wird als \textit{State Tr
   R(t,t) &= I \label{eq:resolventPropertiesA}\\
   \frac{\partial}{\partial t}R(t,t') &= F'(t)R(t,t') \text{ für alle } t,t>0\label{eq:resolventPropertiesB}
 \end{align}
-welche ebenfalls in \cite[S. 339 Theorem 4]{zadeh1976linear} bewiesen werden.
+welche ebenfalls in \cite[S. 339 Theorem 4]{zadeh1976linear} eingeführt und bewiesen werden.
 Nun kann das Differential des Kostenfunktionals \eqref{eq:gatcost} mittels des Resolventen \eqref{eq:resolvent} und deren adjungiertem Operator $R^*(t,0)$ umgeschrieben werden zu
 \begin{equation*}
 \begin{aligned}
@@ -233,30 +233,36 @@ Integration über $[t,t_1]$ liefert
 \]
 Mit $ \gatdiff 'x(t_1) = 0$ und mit \eqref{eq:gradCostFunctionalAdjoint} folgt, dass $\nabla_v J = \gatdiff'x(0)$. Das bedeutet, dass sich der Gradient des Zielfunktionals mithilfe einer Rückwärtsintegration des Adjungierten Modells berechnen lässt.
 Genauer werden folgende Schritte benötigt, um den Gradienten des Zielfunktionals \eqref{eq:costfunctional} zu berechnen
-
-\begin{enumerate}
+\begin{figure}
+ \begin{enumerate}
  \item Setze $v$ als Anfangswert des Modells \eqref{eq:odemodel} und löse dieses über das Intervall $[0,T]$, speichere berechnete Werte $x(t_i)$ ab\\
  ($0= t_0<~ t_1<\ldots<t_l=T$, $l\in \N$)
  \item Setze $\gatdiff 'x(T) = 0$, integriere die Inhomogene Adjungierte Gleichung \eqref{eq:inhAdjEquation} rückwärts in der Zeit von $T$ bis $0$, berechne zu den Zeitpunkten $t_i$ den Gradienten $F'^*(t_i)$ und $\nabla_x H(t_i)$ aus den gespeicherten Werten $x(t)$ aus Schritt 1.
  \item $\nabla_v J = \gatdiff 'x(t_0)$
 \end{enumerate}
+ \caption{Berechnung der Jacobimatrix des Kostenfunktionals $J$}
+\end{figure}
 
-Übersetzt in Pseudocode lautet der Algorithmus
-
-% \begin{algorithm}[H]
+% Übersetzt in Pseudocode lautet der Algorithmus
+%  \begin{algorithm}[H]
 %  \algrenewcommand{\algorithmiccomment}[1]{\hfill{\scriptsize #1}}
 %  \caption{\texttt{PlanC::calc\_kink\_partials}}
 %  \label{alg:kinkPartials}
 %  \begin{algorithmic}[1]
-% 
+%  \Function{jac\_data\_assimilation}{$f,$}
+%  	\State $xCalc \gets solve_ode()$
+%  	\State $\bar{A} \gets 0 $, $\hat{A} \gets 0$
+% 	\State $d\gets \frac{d}{\|d\|}\cdot \|\xhat - \xcheck\|$ \Comment{Normalize direction}
+%  \Until{$\hat{\tau} \geq 1$	}
+%  \State \Return $[\bar{A}, \hat{A}]$;
+%  \EndFunction
 %  \end{algorithmic}
 %  \end{algorithm}
-
-
-TODO: ALGORITHMUS HIER?
+% 
+% TODO: ALGORITHMUS HIER?
 
 \section{Abstiegsmethoden}
-Nun, da ein numerischer Weg gefunden wurde, $\nabla_v J$ effizient zu berechnen, stellt die Optimierung des Zielfunktional die letzte Hürde dar, der wir uns annehmen müssen. Das Ausgangsproblem besteht darin, über einer reellwertigen, differenzierbaren Funktion J
+Nun, da ein numerischer Weg gefunden wurde, $\nabla_v J$ effizient zu berechnen, stellt die Optimierung des Zielfunktional die letzte Hürde dar, der wir uns annehmen müssen. Das Ausgangsproblem besteht darin, eine reellwertigen, differenzierbaren Funktion J
 \begin{equation}
 \label{eq:minProblem}
  \min_{x_0} J(x_0) 
@@ -276,6 +282,7 @@ zu minimieren. Dies ist ein unrestringiertes Optimierungsproblem.
 
 Zur Charakerisierung von Lösungen von \eqref{eq:minProblem} ist folgender Satz über notwendige Bedingungen (vgl. \cite[vgl. Satz 3.1.1 ff.]{alt2002nichtlineare}) hilfreich:
 \begin{theorem}[Notwendige Bedingung erster Ordnung] 
+\label{thm:optnotbed}
  Die Zielfunktion $J$ sei in $x\in D$, $D\subset \R^n$ differenzierbar. Ist $\bar x$ lokales Minimum von \eqref{eq:minProblem}, dann gilt
  \[
   \nabla J(\bar x)^\tr d \geq 0 \quad \forall d\in \R^n
@@ -285,9 +292,14 @@ Zur Charakerisierung von Lösungen von \eqref{eq:minProblem} ist folgender Satz 
   \nabla J(\bar x)  =0 \in \R^n
  \]
 \end{theorem}
- Der Beweis findet man ebenfalls in \cite[vgl. Satz 3.1.1 ff]{alt2002nichtlineare}.$\proofend$
+ Den Beweis findet man ebenfalls in \cite[vgl. Satz 3.1.1 ff]{alt2002nichtlineare}.$\proofend$
 
-Dieses Resultat wird zur Konstruktion von Abstiegsverfahren verwendet. Es gilt nämlich (\cite[vgl. Satz 4.1.1]{alt2002nichtlineare}) 
+Dieses Resultat wird zur Konstruktion von Optimierungsverfahren, insbesondere Abstiegsverfahren, verwendet. Das folgende Kriterium für Abstiegsrichtungen ist grundlegend für die Konstruktion von Abstiegsverfahren
+
+%Bevor wir uns dieser annehmen, werden grundsätzliche Fragen zur Wahl der Suchrichtung und Schrittweite betrachtet. 
+
+% Unser Ziel besteht darin, motiviert durch das Resultat aus Theorem \ref{thm:optnotbed}, für  
+% (\cite[vgl. Satz 4.1.1]{alt2002nichtlineare}) 
 \begin{lemma}
  Die Funktion $J:\R^n\to \R^n$ sei differenzierbar in $x$. Weiter sei $d\in \R^n$ mit 
  \[
@@ -295,13 +307,52 @@ Dieses Resultat wird zur Konstruktion von Abstiegsverfahren verwendet. Es gilt n
  \]
  Dann gibt es ein $\bar \sigma>0$ mit $J(x+\bar \sigma d)< J(x)$ für alle $\sigma \in (0,\bar \sigma)$
 \end{lemma}
-Den Beweis findet man u.a. in \cite[vgl. Satz 4.1.1]{alt2002nichtlineare}. Ein Vektor $d$ heißt Abstiegsrichtung von $J$ im Punkt $x$, wenn $\nabla J(x)^\tr d<0$. Im Verfahren des steilsten Abstiegs wird gerade $d=- \nabla J(x)$ als Abstiegsrichtung verwendet, da 
+Den Beweis findet man u.a. in \cite[vgl. Satz 4.1.1]{alt2002nichtlineare}. Ein Vektor $d$ heißt Abstiegsrichtung von $J$ im Punkt $x$, wenn $\nabla J(x)^\tr d<0$. Beispielsweise wird im Verfahren des steilsten Abstiegs gerade $d=- \nabla J(x)$ als Abstiegsrichtung verwendet, da 
 \[
 \nabla J(x)d = \nabla J(x) (-\nabla J(x)) = - \|\nabla J(x)\|^2 <0                                                                                                                                                                                                                                                                        \]
+Ein allgemeines Abstiegsverfahren mit Schrittweitensteuerung wird ebenfalls in \cite[S. 69, Verfahren 4.1.4]{alt2002nichtlineare} gegeben
+\begin{figure}[H]
+ \begin{enumerate}
+  \item Wähle einen Startpunkt $x^{(0)}\in \R^n$ und setze $k:=0$
+  \item Ist $\nabla f(x^{(k)})=0_n$: Stopp
+  \item Berechne eine Abstiegsrichtung $d^{(k)}$ und eine Schrittweite $\sigma_k>0$, so dass
+  \[
+   f(x^{(k)} + \sigma_k d^{(k)} < f(x^{(k)}))
+  \]
+  ist und setze $x^{(k+1)} = x^{(k)}+\sigma_k d^{(k)}$
+  \item Setze $k:=k+1$ und gehe zu 2.
+ \end{enumerate}
+\caption{Allgemeines Abstiegsverfahren mit Schrittweitensteuerung}
+\end{figure}
+Um effiziente Schrittweiten zu bestimmen, wird das Prinzip des hinreichenden Abstiegs formuliert:
+\begin{definition}
+ Seien $x\in N(J,J(x^{(0)}))$ und $d\in \R^n$ mit $\nabla_u J(x)^\tr d<0$ gegeben. Eine Schrittweite $\sigma$ erfüllt das \textit{Prinzip des hinreichenden Abstiegs}, falls
+ \[
+  f(x+\sigma d) \leq f(x) + c_1\sigma \nabla f(x)^\tr d
+ \]
+ und 
+ \[
+    \sigma \geq -c_2 \frac{\nabla J(x)^\tr d}{\|d\|^2}
+ \]
+mit von $x$ und $d$ unabhängigen Konstanten $c_1>0$, $c_2>0$ gilt. Eine Schrittweite $\sigma$ heißt \textit{effizient}, falls
+\[
+ f(x+\sigma d) \leq f(x) - c\left( \frac{\nabla J(x)^\tr d}{\|d\|}\right)^2
+\]
+mit einer von $x$ und $d$ unabhängigen Konstanten $c>0$ gilt.
+\end{definition}
+Die erste Bedingung stellt sicher, dass der neue Funktionswert $f(x+\sigma d)$ unterhalb der von $x$ in Abstiegsrichtung $d$ aufgespannten Geraden befindet. Die zweite Bedingung sichert, dass die Schrittweite $\sigma$ in Bezug zu $\nabla J(x)^\tr d$ nicht zu schnell gegen $0$ geht.
+TODO: BILD EINFÜGEN
+
+
+
 Für dieses Verfahren werden folgende Schritte ausgeführt
+\begin{figure}[H]
 \begin{enumerate}
  \item Wähle Anfangspunkt $x^{(0)}$ und setze $k:=0$
  \item Überprüfe $\nabla J(x^{(k)}) == 0$?: Stopp
  \item Setze als Suchrichtung $d = - \nabla J(x^{(k)})$, berechne effiziente Schrittweite $\alpha_k$ und setze $x^{(k+1)} = x^{(k)}+ \alpha_k d^{(k)}$
  \item Setze $k:= k+1$ und gehe zu 2.
-\end{enumerate}
+\end{enumerate} 
+ \caption{Methode des steilsten Abstiegs}
+\end{figure}
+
