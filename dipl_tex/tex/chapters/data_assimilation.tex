@@ -36,7 +36,7 @@ mit $F$ differenzierbar, gegeben ist, ist wohlbekannt, dass sie sich durch Hinzu
  \dot x_1 = x_2 \quad ,\ldots,\quad \dot x_{n-1} = x_n, \quad  \dot x_n = F(t;x_1,\ldots,x_{n-1})
 \]
 Durch die Einführung einer weiteren Variablen $x_0 = t$ und Gleichung $\dot x_0=1$ lässt sich die gegebene ODE autonom, also die rechte Seite $F$ unabhängig von der Zeit $t$, schreiben.
-
+\subsection{Grundlagen}
 Die Existenz und Eindeutigkeit von Lösungen wird durch den Satz von Picard-Lindelöf beschrieben, der die Grundlage zur Lösungstheorie Gewöhnlicher Differentialgleichungen bildet. Dieser wird beispielsweise in \cite{teschl2012ordinary} bewiesen und lautet wie folgt 
 \begin{theorem}[Picard-Lindelöf]
 \label{thm:picard-lindeloeff}
@@ -65,9 +65,11 @@ TODO: WO NUMERIK VON ODES?
 \end{theorem}
 
 
-
+\subsection{Numerik gewöhnlicher Differentialgleichungen}
 Bei den Optimierungsmethoden, welche wir betrachten, benötigt man daher den Gradienten der zu minimierenden Funktion $J$.
-\section{Adjungierte Operatoren}
+
+\section{Der Gradient des Zielfunktionals}
+\subsection{Adjungierte Operatoren}
 Für höhere Dimensionen ist die Bestimmung dieses Gradienten jedoch auf klassischem Weg numerisch sehr komplex. Dazu würde man jede Komponente unseres Systems \eqref{eq:odemodel} stören, das gestörte Modell in jeder Komponente integrieren und das Kostenfunktional dieser ausrechnen. Aus der Störung würde sich der Gradient $\partial J/\partial x_0$ ergeben. Dies ist sehr ineffizient. Als effiziente Alternative hat sich die Anwendung adjungierter Gleichungen erwiesen. Mit ihrer Hilfe kann die numerische Komplexität der Berechnung des Gradienten auf ein weniges Vielfaches des integrierens der Evolutionsgleichung \eqref{eq:odemodel} vermindert werden.
 
 Eine allgemeine Einführung zur Theorie von adjungierten Gleichungen wurde beispielsweise von Cacuci \cite{cacuci1981sensitivity} gegeben, während Talagrand in \cite{talagrand1987variational} adjungierte Operatoren auf Hilberträume einschränkt und mit diesen die Datenassimilation einführt.
@@ -123,7 +125,7 @@ Die Gleichung \eqref{eq:adjointEssential} stellt die Basis für die Nutzung der 
 % Wenn $J$ einfach gewählt wurde, lässt sich daraus $\nabla_v J$ ebenfalls einfach berechnen. 
 Um $\nabla_u J$ zu erhalten, muss zuerst $v = G(u)$ berechnet werden, danach $\nabla_v J$ und schlussendlich wieder $\nabla_u J$ durch \eqref{eq:adjointEssential}.
 
-\section{Gradient des Zielfunktionals}
+\subsection{Berechnung des Gradienten}
 Um vorherige Betrachtungen auf die Ableitung des Zielfunktionals \eqref{eq:costfunctional} anwenden zu können wird die Gâteaux Ableitung des Kostenfunktionals \eqref{eq:costfunctional} zu einem Anfangswert $v$ gebildet
 \begin{equation}
 \label{eq:gatcost}
@@ -261,23 +263,29 @@ Genauer werden folgende Schritte benötigt, um den Gradienten des Zielfunktional
 % 
 % TODO: ALGORITHMUS HIER?
 
-\section{Abstiegsmethoden}
+\section{Optimierungsmethoden}
+
 Nun, da ein numerischer Weg gefunden wurde, $\nabla_v J$ effizient zu berechnen, stellt die Optimierung des Zielfunktional die letzte Hürde dar, der wir uns annehmen müssen. Das Ausgangsproblem besteht darin, eine reellwertigen, differenzierbaren Funktion J
 \begin{equation}
 \label{eq:minProblem}
  \min_{x_0} J(x_0) 
 \end{equation}
 zu minimieren. Dies ist ein unrestringiertes Optimierungsproblem. 
- Im folgenden sei vorausgesetzt, dass für ein $\tilde x\in D$ die \textit{Niveaumenge}
- \[
+
+\subsection{Grundlagen}
+Im folgenden sei vorausgesetzt, dass für ein $\tilde x\in D$ die \textit{Niveaumenge}
+ \begin{equation}
+ \label{eq:niveauset}
   N(J,J(\tilde x)) = \left\{ x\in D \vert J(x)\leq J(\tilde x)\right\}
- \]
+ \end{equation}
+
+  
 
  von $J$ in $x\in \R^n$ kompakt sei. Unter dieser Voraussetzung existiert nach dem Satz von Weierstraß ein $\bar x \in N(J,J(\tilde x))$ mit 
  \[
   J(\bar x) \leq J(x) \forall x\in N(J,J(\tilde x))
  \]
- und damit ist für $x\in D\textbackslash N(J,J(\tilde x))$: $J(x)>J(\tilde x)> J(\bar x)$. (vgl. \cite[Satz 1.2.2]{alt2002nichtlineare})
+ und damit ist für $x\in D\backslash N(J,J(\tilde x))$: $J(x)>J(\tilde x)> J(\bar x)$. (vgl. \cite[Satz 1.2.2]{alt2002nichtlineare})
  
 
 Zur Charakerisierung von Lösungen von \eqref{eq:minProblem} ist folgender Satz über notwendige Bedingungen (vgl. \cite[vgl. Satz 3.1.1 ff.]{alt2002nichtlineare}) hilfreich:
@@ -301,6 +309,7 @@ Dieses Resultat wird zur Konstruktion von Optimierungsverfahren, insbesondere Ab
 % Unser Ziel besteht darin, motiviert durch das Resultat aus Theorem \ref{thm:optnotbed}, für  
 % (\cite[vgl. Satz 4.1.1]{alt2002nichtlineare}) 
 \begin{lemma}
+\label{lem:optstepsize}
  Die Funktion $J:\R^n\to \R^n$ sei differenzierbar in $x$. Weiter sei $d\in \R^n$ mit 
  \[
   \nabla J(x)^\tr d<0
@@ -309,7 +318,7 @@ Dieses Resultat wird zur Konstruktion von Optimierungsverfahren, insbesondere Ab
 \end{lemma}
 Den Beweis findet man u.a. in \cite[vgl. Satz 4.1.1]{alt2002nichtlineare}. Ein Vektor $d$ heißt Abstiegsrichtung von $J$ im Punkt $x$, wenn $\nabla J(x)^\tr d<0$. Beispielsweise wird im Verfahren des steilsten Abstiegs gerade $d=- \nabla J(x)$ als Abstiegsrichtung verwendet, da 
 \[
-\nabla J(x)d = \nabla J(x) (-\nabla J(x)) = - \|\nabla J(x)\|^2 <0                                                                                                                                                                                                                                                                        \]
+\nabla J(x)^\tr d = \nabla J(x)^\tr (-\nabla J(x)) = - \|\nabla J(x)\|^2 <0                                                                                                                                                                                                                                                                        \]
 Ein allgemeines Abstiegsverfahren mit Schrittweitensteuerung wird ebenfalls in \cite[S. 69, Verfahren 4.1.4]{alt2002nichtlineare} gegeben
 \begin{figure}[H]
  \begin{enumerate}
@@ -323,17 +332,29 @@ Ein allgemeines Abstiegsverfahren mit Schrittweitensteuerung wird ebenfalls in \
   \item Setze $k:=k+1$ und gehe zu 2.
  \end{enumerate}
 \caption{Allgemeines Abstiegsverfahren mit Schrittweitensteuerung}
+\label{alg:genSteepestDescent}
 \end{figure}
-Um effiziente Schrittweiten zu bestimmen, wird das Prinzip des hinreichenden Abstiegs formuliert:
-\begin{definition}
+\subsection{Schrittweitensteuerung}
+Um unser Ziel, effiziente Schrittweiten zu bestimmen, näher zu kommen, müssen wir fordern, dass für die Folge $x^{(k)}$ mit jedem weiteren Schritt gegen einen stationären Punkt konvergiert, also dass  
+\begin{equation}
+\label{eq:optstepsizegradtozero}
+ \nabla f(x^{(k)})\to 0 \quad \text{für }k\to \infty
+\end{equation}
+gilt. Um dies zu erreichen wird das Prinzip des hinreichenden Abstiegs formuliert (\cite[Def. 4.4.2]{alt2002nichtlineare}):
+\begin{definition}[Prinzip des hinreichenden Abstiegs]
+\label{def:sufficientdescent}
  Seien $x\in N(J,J(x^{(0)}))$ und $d\in \R^n$ mit $\nabla_u J(x)^\tr d<0$ gegeben. Eine Schrittweite $\sigma$ erfüllt das \textit{Prinzip des hinreichenden Abstiegs}, falls
- \[
+ \begin{equation}
+ \label{eq:armijo1}
   f(x+\sigma d) \leq f(x) + c_1\sigma \nabla f(x)^\tr d
- \]
+ \end{equation}
  und 
- \[
-    \sigma \geq -c_2 \frac{\nabla J(x)^\tr d}{\|d\|^2}
- \]
+ \begin{equation}
+\label{eq:armijo2}
+ \sigma \geq -c_2 \frac{\nabla J(x)^\tr d}{\|d\|^2}
+ \end{equation}
+
+
 mit von $x$ und $d$ unabhängigen Konstanten $c_1>0$, $c_2>0$ gilt. Eine Schrittweite $\sigma$ heißt \textit{effizient}, falls
 \[
  f(x+\sigma d) \leq f(x) - c\left( \frac{\nabla J(x)^\tr d}{\|d\|}\right)^2
@@ -342,8 +363,63 @@ mit einer von $x$ und $d$ unabhängigen Konstanten $c>0$ gilt.
 \end{definition}
 Die erste Bedingung stellt sicher, dass der neue Funktionswert $f(x+\sigma d)$ unterhalb der von $x$ in Abstiegsrichtung $d$ aufgespannten Geraden befindet. Die zweite Bedingung sichert, dass die Schrittweite $\sigma$ in Bezug zu $\nabla J(x)^\tr d$ nicht zu schnell gegen $0$ geht.
 TODO: BILD EINFÜGEN
+Falls die Voraussetzung \eqref{eq:niveauset} erfüllt ist und wir effiziente Schrittweiten benutzen ist 
+\[
+ \frac{\nabla f(x^{(k)})^\tr d^{(k)}}{\|d^{(k)}\|} \to 0 \quad \text{für }k\to \infty
+\]
+erfüllt. Andersherum ist für $\nabla f(x^{(k)})^\tr d^{(k)}<0$
+\[
+ 0 \leftarrow \frac{\nabla f(x)^{(k)} d^{(k)}}{\|d\|} = \frac{\nabla f(x)^{(k)} d^{(k)}}{\|\nabla f(x^{(k)})\|\|d\|}\cdot \|\nabla f(x^{(k)})\| = \beta_k \|\nabla f(x^{(k)})\|
+\]
+für $\beta_k<c<0$ für eine Konstante $c$ erfüllt; damit folgt \eqref{eq:optstepsizegradtozero}. Suchrichtungen, für die diese Bedingung gelten, heißen \textit{gradientenbezogen} (\cite[Def. 4.4.4]{alt2002nichtlineare}).
+\begin{definition}[Gradientenbezogene Suchrichtungen]
+ Es seien $x\in N(f,f(x^{(0)}))$ und $d\in \R^n$. Die Richtung $d$ heißt \textit{gradientenbezogen in x}, wenn
+ \[
+  -\nabla f(x)^\tr d\geq c_3\|\nabla f(x)\| \|d\|
+ \]
+mit einer von $x$ und $d$ unabhängigen Konstante $c_3>0$.
+
+Die Richtung $d$ heißt \textit{streng gradientenbezogen in $x$}, wenn zusätzlicher 
+\[
+ c_4\|\nabla f(x)\| \geq \|d\| \geq \frac{1}{c_4}\|\nabla f(x)\| 
+\]
+
+\end{definition}
+
+Daraus lassen sich Konvergenzsätze herleiten (\cite[Satz 4.4.9]{alt2002nichtlineare})
+\begin{theorem}[Konvergenz des allgemeinen Abstiegsverfahrens]
+ Sei \eqref{eq:niveauset} erfüllt, die Suchrichtungen aus dem allgemeinen Abstiegsverfahren \ref{alg:genSteepestDescent} seien gradientenbezogen in $x^{(k)}$ und die Schrittweiten $\sigma_k$ seien effizient. Stoppt das Verfahren nicht nach endlich vielen Schritten, dann gilt $\nabla f(x^{(k)})\to 0$ für $k\to \infty$. Weiter hat die Folge $\{x^{(k)}\}$ mindestens einen Häufungspunkt und für jeden solchen Punkt $\tilde x$ gilt $\nabla f(\tilde x) = 0$
+% TODO eindige Nullstelle oder mehrere Nullstellen?
+
+Falls zusätzlich $d$ eine streng gradientenbezogene Suchrichtung in $x^{(k)}$, die Schrittweitenfolge $\sigma_k$ beschränkt, die Menge 
+$$M = \{\tilde x\in N(f,f(x^{(0)}))|\nabla f(\tilde x)=0\}$$ endlich ist und das Verfahren nicht nach endlich vielen Schritten stoppt, dann konvergiert die Folge $\{x^{(k)}\}$ gegen eine Nullstelle von $\nabla f$.
+
+ Hat $f$ genau einen stationären Punkt $\tilde x \in N(f,f(x^{(0)}))$ und das allgemeine Abstiegsverfahren nicht nach endlich vielen Schritten stoppt, konvergiert die Folge $\{x^{(k)}\}$ gegen $\tilde x$.
+ \end{theorem}
+ 
+Motiviert aus dem Prinzip des hinreichenden Abstiegs \ref{def:sufficientdescent} ergibt sich das Armijo Verfahren (vgl. \cite[Verfahren 4.5.4]{alt2002nichtlineare}), um eine effiziente Schrittweite $\sigma_A$ zu erhalten:
+\begin{figure}[H]
+ Gegeben seien Konstante $0<c_1<1$, $0<c_2$ und $0<\beta_1\leq \beta_2 <1$ unabhängig von $x$ und $d$.
+ \begin{enumerate}
+  \item Wähle eine Start-Schrittweite 
+  \[
+   \sigma_0 \geq -c_2 \frac{\nabla f(x)^\tr d}{\|d\|^2}
+  \]
+  und setze $j:=0$
+  \item Ist die Bedingung \eqref{eq:armijo1} erfüllt, d.h. gilt
+  \[
+   f(x+\sigma_j d)\leq f(x)+ c_1\sigma_j \nabla f(x)^\tr d
+  \]
+  dann setze $\sigma_A = \sigma_j$ und stoppe das Verfahren
+  \item Wähle $\sigma_{j+1}\in [\beta_1\sigma_j,\beta_2\sigma_j]$
+  \item Setze $j:=j+1$ und gehe zu 2.
+ \end{enumerate}
+\caption{Armijo Verfahren zur Schrittweitensteuerung}
+\end{figure}
 
 
+
+\subsection{Abstiegsverfahren}
 
 Für dieses Verfahren werden folgende Schritte ausgeführt
 \begin{figure}[H]
@@ -356,3 +432,6 @@ Für dieses Verfahren werden folgende Schritte ausgeführt
  \caption{Methode des steilsten Abstiegs}
 \end{figure}
 
+
+
+\section{Zusammenfassung}
