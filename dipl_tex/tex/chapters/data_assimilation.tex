@@ -304,21 +304,20 @@ Zur Charakerisierung von Lösungen von \eqref{eq:minProblem} ist folgender Satz 
 \end{theorem}
  Den Beweis findet man ebenfalls in \cite[vgl. Satz 3.1.1 ff]{alt2002nichtlineare}.$\proofend$
 
-Dieses Resultat wird zur Konstruktion von Optimierungsverfahren, insbesondere Abstiegsverfahren, verwendet. Das folgende Kriterium für Abstiegsrichtungen ist grundlegend für die Konstruktion von Abstiegsverfahren
+Dieses Resultat wird zur Konstruktion von Optimierungsverfahren, insbesondere Abstiegsverfahren, verwendet. 
+Grundlegend dafür ist die Erkenntnis, dass falls $J$ differenzierbar ist und eine Abstiegsrichtung $d\in \R^n$ mit 
+\[
+\nabla J(x)^\tr d<0 
+\]
+gegeben ist, es immer ein $\bar \sigma>0$ mit $J(x+\sigma d)< J(x)$ für alle $\sigma \in (0,\bar \sigma)$ existiert (\cite[vgl. Satz 4.1.1]{alt2002nichtlineare})
+
 
 %Bevor wir uns dieser annehmen, werden grundsätzliche Fragen zur Wahl der Suchrichtung und Schrittweite betrachtet. 
 
 % Unser Ziel besteht darin, motiviert durch das Resultat aus Theorem \ref{thm:optnotbed}, für  
 % (\cite[vgl. Satz 4.1.1]{alt2002nichtlineare}) 
-\begin{lemma}
-\label{lem:optstepsize}
- Die Funktion $J:\R^n\to \R^n$ sei differenzierbar in $x$. Weiter sei $d\in \R^n$ mit 
- \[
-  \nabla J(x)^\tr d<0
- \]
- Dann gibt es ein $\bar \sigma>0$ mit $J(x+\bar \sigma d)< J(x)$ für alle $\sigma \in (0,\bar \sigma)$
-\end{lemma}
-Den Beweis findet man u.a. in \cite[vgl. Satz 4.1.1]{alt2002nichtlineare}. Ein Vektor $d$ heißt Abstiegsrichtung von $J$ im Punkt $x$, wenn $\nabla J(x)^\tr d<0$. Beispielsweise wird im Verfahren des steilsten Abstiegs gerade $d=- \nabla J(x)$ als Abstiegsrichtung verwendet, da 
+
+ Ein Vektor $d$ heißt Abstiegsrichtung von $J$ im Punkt $x$, wenn $\nabla J(x)^\tr d<0$. Beispielsweise wird im Verfahren des steilsten Abstiegs gerade $d=- \nabla J(x)$ als Abstiegsrichtung verwendet, da 
 \[
 \nabla J(x)^\tr d = \nabla J(x)^\tr (-\nabla J(x)) = - \|\nabla J(x)\|^2 <0                                                                                                                                                                                                                                                                        \]
 Ein allgemeines Abstiegsverfahren mit Schrittweitensteuerung wird ebenfalls in \cite[S. 69, Verfahren 4.1.4]{alt2002nichtlineare} gegeben
@@ -390,18 +389,16 @@ Die Richtung $d$ heißt \textit{streng gradientenbezogen in $x$}, wenn zusätzli
 
 \end{definition}
 
-Daraus lassen sich Konvergenzsätze herleiten (\cite[Satz 4.4.9]{alt2002nichtlineare})
-\begin{theorem}[Konvergenz des allgemeinen Abstiegsverfahrens]
- Sei \eqref{eq:niveauset} erfüllt, die Suchrichtungen aus dem allgemeinen Abstiegsverfahren \ref{alg:genSteepestDescent} seien gradientenbezogen in $x^{(k)}$ und die Schrittweiten $\sigma_k$ seien effizient. Stoppt das Verfahren nicht nach endlich vielen Schritten, dann gilt $\nabla f(x^{(k)})\to 0$ für $k\to \infty$. Weiter hat die Folge $\{x^{(k)}\}$ mindestens einen Häufungspunkt und für jeden solchen Punkt $\tilde x$ gilt $\nabla f(\tilde x) = 0$
+ Falls Bedingung \eqref{eq:niveauset} erfüllt ist, die Suchrichtungen aus dem allgemeinen Abstiegsverfahren \ref{alg:genSteepestDescent} gradientenbezogen in $x^{(k)}$ und die Schrittweiten $\sigma_k$ effizient sind und stoppt das Verfahren nicht nach endlich vielen Schritten, dann gilt $\nabla f(x^{(k)})\to 0$ für $k\to \infty$. Weiter hat die Folge $\{x^{(k)}\}$ mindestens einen Häufungspunkt und für jeden solchen Punkt $\tilde x$ gilt $\nabla f(\tilde x) = 0$ (\cite[Satz 4.4.9]{alt2002nichtlineare}).
 % TODO eindige Nullstelle oder mehrere Nullstellen?
 
 Falls zusätzlich $d$ eine streng gradientenbezogene Suchrichtung in $x^{(k)}$, die Schrittweitenfolge $\sigma_k$ beschränkt, die Menge 
 $$M = \{\tilde x\in N(f,f(x^{(0)}))|\nabla f(\tilde x)=0\}$$ endlich ist und das Verfahren nicht nach endlich vielen Schritten stoppt, dann konvergiert die Folge $\{x^{(k)}\}$ gegen eine Nullstelle von $\nabla f$.
 
  Hat $f$ genau einen stationären Punkt $\tilde x \in N(f,f(x^{(0)}))$ und das allgemeine Abstiegsverfahren nicht nach endlich vielen Schritten stoppt, konvergiert die Folge $\{x^{(k)}\}$ gegen $\tilde x$.
- \end{theorem}
  
-Motiviert aus dem Prinzip des hinreichenden Abstiegs \ref{def:sufficientdescent} ergibt sich das Armijo Verfahren (vgl. \cite[Verfahren 4.5.4]{alt2002nichtlineare}), um eine effiziente Schrittweite $\sigma_A$ zu erhalten:
+ 
+Motiviert aus dem Prinzip des hinreichenden Abstiegs aus Definition \ref{def:sufficientdescent} ergibt sich das Armijo Verfahren (vgl. \cite[Verfahren 4.5.4]{alt2002nichtlineare}), um eine effiziente Schrittweite $\sigma_A$ zu erhalten:
 \begin{figure}[H]
 \begin{framed}
  Gegeben seien Konstante $0<c_1<1$, $0<c_2$ und $0<\beta_1\leq \beta_2 <1$ unabhängig von $x$ und $d$.
