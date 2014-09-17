@@ -236,13 +236,15 @@ Integration über $[t,t_1]$ liefert
 Mit $ \gatdiff 'x(t_1) = 0$ und mit \eqref{eq:gradCostFunctionalAdjoint} folgt, dass $\nabla_v J = \gatdiff'x(0)$. Das bedeutet, dass sich der Gradient des Zielfunktionals mithilfe einer Rückwärtsintegration des Adjungierten Modells berechnen lässt.
 Genauer werden folgende Schritte benötigt, um den Gradienten des Zielfunktionals \eqref{eq:costfunctional} zu berechnen
 \begin{figure}
+\begin{framed}
  \begin{enumerate}
  \item Setze $v$ als Anfangswert des Modells \eqref{eq:odemodel} und löse dieses über das Intervall $[0,T]$, speichere berechnete Werte $x(t_i)$ ab\\
  ($0= t_0<~ t_1<\ldots<t_l=T$, $l\in \N$)
  \item Setze $\gatdiff 'x(T) = 0$, integriere die Inhomogene Adjungierte Gleichung \eqref{eq:inhAdjEquation} rückwärts in der Zeit von $T$ bis $0$, berechne zu den Zeitpunkten $t_i$ den Gradienten $F'^*(t_i)$ und $\nabla_x H(t_i)$ aus den gespeicherten Werten $x(t)$ aus Schritt 1.
  \item $\nabla_v J = \gatdiff 'x(t_0)$
 \end{enumerate}
- \caption{Berechnung der Jacobimatrix des Kostenfunktionals $J$}
+\end{framed}
+\caption{Berechnung der Jacobimatrix des Kostenfunktionals $J$}
 \end{figure}
 
 % Übersetzt in Pseudocode lautet der Algorithmus
@@ -321,6 +323,7 @@ Den Beweis findet man u.a. in \cite[vgl. Satz 4.1.1]{alt2002nichtlineare}. Ein V
 \nabla J(x)^\tr d = \nabla J(x)^\tr (-\nabla J(x)) = - \|\nabla J(x)\|^2 <0                                                                                                                                                                                                                                                                        \]
 Ein allgemeines Abstiegsverfahren mit Schrittweitensteuerung wird ebenfalls in \cite[S. 69, Verfahren 4.1.4]{alt2002nichtlineare} gegeben
 \begin{figure}[H]
+\begin{framed}
  \begin{enumerate}
   \item Wähle einen Startpunkt $x^{(0)}\in \R^n$ und setze $k:=0$
   \item Ist $\nabla f(x^{(k)})=0_n$: Stopp
@@ -331,6 +334,7 @@ Ein allgemeines Abstiegsverfahren mit Schrittweitensteuerung wird ebenfalls in \
   ist und setze $x^{(k+1)} = x^{(k)}+\sigma_k d^{(k)}$
   \item Setze $k:=k+1$ und gehe zu 2.
  \end{enumerate}
+\end{framed}
 \caption{Allgemeines Abstiegsverfahren mit Schrittweitensteuerung}
 \label{alg:genSteepestDescent}
 \end{figure}
@@ -399,6 +403,7 @@ $$M = \{\tilde x\in N(f,f(x^{(0)}))|\nabla f(\tilde x)=0\}$$ endlich ist und das
  
 Motiviert aus dem Prinzip des hinreichenden Abstiegs \ref{def:sufficientdescent} ergibt sich das Armijo Verfahren (vgl. \cite[Verfahren 4.5.4]{alt2002nichtlineare}), um eine effiziente Schrittweite $\sigma_A$ zu erhalten:
 \begin{figure}[H]
+\begin{framed}
  Gegeben seien Konstante $0<c_1<1$, $0<c_2$ und $0<\beta_1\leq \beta_2 <1$ unabhängig von $x$ und $d$.
  \begin{enumerate}
   \item Wähle eine Start-Schrittweite 
@@ -414,21 +419,74 @@ Motiviert aus dem Prinzip des hinreichenden Abstiegs \ref{def:sufficientdescent}
   \item Wähle $\sigma_{j+1}\in [\beta_1\sigma_j,\beta_2\sigma_j]$
   \item Setze $j:=j+1$ und gehe zu 2.
  \end{enumerate}
+\end{framed}
 \caption{Armijo Verfahren zur Schrittweitensteuerung}
 \end{figure}
+Den Beweis der Konvergenz ist in  \cite[Satz 4.5.5]{alt2002nichtlineare} dargelegt.
 
+Ein weiteres Verfahren stellt das sogenannte \textit{Wolfe Powell Methode} dar, welche zusätzlich zu der Bedingung \eqref{eq:armijo1}
+\begin{equation}
+ f(x+\sigma d) \leq f(x) + c_1\sigma \nabla f(x)^\tr d
+\end{equation}
 
+welche den hinreichenden Abstieg liefert, die Schrittweite durch die Forderung
+\begin{equation}
+\label{eq:wolfe2}
+ \nabla f(x+\sigma d)^\tr d\geq \beta \nabla f(x)^\tr d
+\end{equation}
+mit $0<c_1<\beta<1$ nicht zu klein werden lässt. Wenn diese beiden Forderungen, $x\in N(f,f(x^{(0)}))$ und $d\in R^n$ mit $\nabla f(x)^\tr d<0$ erfüllt sind und $0<\delta<\beta<1$,$\delta =c_1$, gegeben, dann existiert mindestens eine Schrittweite $\sigma_p$, sodass sie den beiden Abstiegskriterien \eqref{eq:armijo1} und \eqref{eq:wolfe2} genügt und für alle $\sigma_p$
+\[
+ \sigma_p \geq \frac{1-\beta}{L}\frac{\nabla f(x)^\tr d}{\|d\|^2}
+\]
+gilt (\cite[Satz 4.5.8.]{alt2002nichtlineare}).
+
+Um diese beiden Bedingungen numerisch zu berechnen definiert man
+\begin{equation}
+\begin{aligned}
+ G_1(\sigma)&=
+ \begin{cases}
+ 1,& \sigma=0\\
+ \frac{f(x+\sigma d)-f(x)}{\sigma \nabla f(x)^\tr d}, & \text{sonst}
+ \end{cases} \\
+ G_2(\sigma) &= \frac{\nabla f(x+\sigma d)^\tr d}{\nabla f(x)^\tr d}
+ \end{aligned}
+\end{equation}
+und erhält das Wolfe - Powell Verfahren
+
+\begin{figure}[H]
+\begin{framed}
+Vorgegeben seien die Konstanten $0<\delta<beta<1$
+ \begin{enumerate}
+  \item Wähle eine Start-Schrittweite $\sigma_0$ und setze $j:=0$
+  \begin{enumerate}
+   \item Ist $G_1(\sigma_0)\geq \delta$ und $G_2(\sigma_0)\leq \beta$, dann setze $\sigma_p=\sigma_0$ und Stoppe das Verfahren
+   \item Ist $G_1(\sigma_0)\geq delta$ und $G_2(\sigma_0)> \beta$, dann setze $a_0=\sigma_0$ und $b_0=2^l\sigma_0$, mit minimalem $l\in \N_0$, sodass $G_1(b_0)<\delta$, gehe zu 2)
+   \item Ist $G_1(\sigma_0)\leq delta$, dann setze $b_0=\sigma_0$ und $a_0=2^{-l}\sigma_0$ mit minimalem $l\in \N$, sodass $G_1(a_0)\geq\delta$ und $G_2(a_0)>\beta$, gehe zu 2)
+  \end{enumerate}
+  \item Berechne den Intervallmittelpunkt $\sigma_j = 0.5\cdot (a_j+b_j)$
+  \begin{enumerate}
+    \item Ist $G_1(\sigma_j)\geq \delta$ und $G_2(\sigma_j)\leq \beta$, dann setze $\sigma_p=\sigma_j$ und Stoppe das Verfahren
+    \item Ist $G_1(\sigma_j)\geq delta$ und $G_2(\sigma_j)> \beta$, dann setze $a_{j+1}=\sigma_j$ und $b_{j+1}=b_j$, gehe zu 3)
+    \item Ist $G_1(\sigma_0)\leq delta$, dann setze $a_{j+1}=a_j$ und $b_{j+1}=\sigma_j$, gehe zu 3)
+  \end{enumerate}
+  \item Setze $j:=j+1$, gehe zu 2)
+ \end{enumerate}
+\end{framed}
+\caption{Wolfe Powell Verfahren zur Schrittweitensteuerung}
+\end{figure}
 
 \subsection{Abstiegsverfahren}
 
 Für dieses Verfahren werden folgende Schritte ausgeführt
 \begin{figure}[H]
+\begin{framed}
 \begin{enumerate}
  \item Wähle Anfangspunkt $x^{(0)}$ und setze $k:=0$
  \item Überprüfe $\nabla J(x^{(k)}) == 0$?: Stopp
  \item Setze als Suchrichtung $d = - \nabla J(x^{(k)})$, berechne effiziente Schrittweite $\alpha_k$ und setze $x^{(k+1)} = x^{(k)}+ \alpha_k d^{(k)}$
  \item Setze $k:= k+1$ und gehe zu 2.
 \end{enumerate} 
+\end{framed}
  \caption{Methode des steilsten Abstiegs}
 \end{figure}
 
