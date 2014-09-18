@@ -19,9 +19,14 @@ Als Kostenfunktional dient die $L^2$ - Norm der Differenz der Lösung $x$ von \e
 \end{equation}
 Die skalarwertige Funktion $J$ ist damit jene Funktion, die das Maß zwischen der Lösung $x$ und den Observierungsparametern $\xobs$ darstellt.
 Man beachte, dass das Zielfunktional nur abhängig vom Anfangswert $x_0$ ist. Das Ziel besteht darin, $x_0 = x_0^*$ zu finden, sodass
-\[
- J(x_0^*) = \inf_{x_0} J(x_0) 
-\]
+\begin{equation}
+\label{eq:bolzaProblem}
+\begin{aligned}
+ J(x_0^*) =& \min_{x_0} J(x_0) \\
+ &\text{s.d. } \dot x = F(x(t)) \text{ und } x(0) = x_0
+\end{aligned}
+\end{equation}
+
 minimiert wird. Die Grundlage zur Minimierung des Kostenfunktionals ist zunächst die Lösungstheorie zu gewöhnlichen Differentialgleichungen.
 
 \section{Gewöhnliche Differentialgleichungen}
@@ -37,11 +42,12 @@ mit $F$ differenzierbar, gegeben ist, ist wohlbekannt, dass sie sich durch Hinzu
 \]
 Durch die Einführung einer weiteren Variablen $x_0 = t$ und Gleichung $\dot x_0=1$ lässt sich die gegebene ODE autonom, also die rechte Seite $F$ unabhängig von der Zeit $t$, schreiben.
 \subsection{Grundlagen}
-Die Existenz und Eindeutigkeit von Lösungen wird durch den Satz von Picard-Lindelöf beschrieben, der die Grundlage zur Lösungstheorie Gewöhnlicher Differentialgleichungen bildet. Dieser wird beispielsweise in \cite{teschl2012ordinary} bewiesen und lautet wie folgt 
+Die Existenz und Eindeutigkeit von Lösungen wird durch den Satz von Picard-Lindelöf beschrieben, der die Grundlage zur Lösungstheorie Gewöhnlicher Differentialgleichungen bildet.
 \begin{theorem}[Picard-Lindelöf]
 \label{thm:picard-lindeloeff}
  Sei $F\in C(U,\R^n)$, wobei $U$ eine offene Teilmenge von $\R^{n+1}$ ist und $(t_0,x_0)\in U$. Falls $F$ im zweiten Argument lokal Lipschitzstetig und gleichmäßig stetig im ersten Argument ist, dann existiert eine eindeutige lokale Lösung $\bar x(t)\in C^1(I)$ des Anfangswertproblems \eqref{eq:odemodel}, wobei $I$ ein Intervall um $t_0$ ist.
 \end{theorem}
+ Dieser Satz wird beispielsweise in \cite{teschl2012ordinary} bewiesen. 
 % 
 % Ein Spezialfall des Modells \eqref{eq:odemodel}, welche wir im Folgenden benötigen werden, sind die Matrix Differentialgleichungen, welche die Form
 % \[
@@ -66,7 +72,17 @@ TODO: WO NUMERIK VON ODES?
 
 
 \subsection{Numerik gewöhnlicher Differentialgleichungen}
-Bei den Optimierungsmethoden, welche wir betrachten, benötigt man daher den Gradienten der zu minimierenden Funktion $J$.
+In vielen Fällen lässt sich die Lösung eines Anfangswertproblems nicht oder nur sehr schwierig analytisch berechnen. Es ist daher sinnvoll, die Lösung numerisch zu approximieren. Da sie sich nicht in geschlossener Form aufschreiben lässt, sondern man die Werte nur an vorgegebenen diskreten Stellen erhält wird das Zeitintervall $[0,T]$ in $N+1$ diskrete Punkte
+\[
+ 0\equiv t_0<t_1<\ldots < t_N \equiv T
+\]
+zerlegt. Diese Zeitpunkte bilden ein Gitter $G_h \equiv \lbrace t_0,t_1,\ldots, t_N\rbrace $
+
+
+
+
+
+% Bei den Optimierungsmethoden, welche wir betrachten, benötigt man daher den Gradienten der zu minimierenden Funktion $J$.
 
 \section{Der Gradient des Zielfunktionals}
 \subsection{Adjungierte Operatoren}
@@ -337,13 +353,15 @@ Ein allgemeines Abstiegsverfahren mit Schrittweitensteuerung wird ebenfalls in \
 \caption{Allgemeines Abstiegsverfahren mit Schrittweitensteuerung}
 \label{alg:genSteepestDescent}
 \end{figure}
+
 \subsection{Schrittweitensteuerung}
 Um unser Ziel, effiziente Schrittweiten zu bestimmen, näher zu kommen, müssen wir fordern, dass für die Folge $x^{(k)}$ mit jedem weiteren Schritt gegen einen stationären Punkt konvergiert, also dass  
 \begin{equation}
 \label{eq:optstepsizegradtozero}
  \nabla f(x^{(k)})\to 0 \quad \text{für }k\to \infty
 \end{equation}
-gilt. Um dies zu erreichen wird das Prinzip des hinreichenden Abstiegs formuliert (\cite[Def. 4.4.2]{alt2002nichtlineare}):
+gilt.
+Um dies zu erreichen wird das Prinzip des hinreichenden Abstiegs formuliert (\cite[Def. 4.4.2]{alt2002nichtlineare}):
 \begin{definition}[Prinzip des hinreichenden Abstiegs]
 \label{def:sufficientdescent}
  Seien $x\in N(J,J(x^{(0)}))$ und $d\in \R^n$ mit $\nabla_u J(x)^\tr d<0$ gegeben. Eine Schrittweite $\sigma$ erfüllt das \textit{Prinzip des hinreichenden Abstiegs}, falls
@@ -375,8 +393,8 @@ erfüllt. Andersherum ist für $\nabla f(x^{(k)})^\tr d^{(k)}<0$
  0 \leftarrow \frac{\nabla f(x)^{(k)} d^{(k)}}{\|d\|} = \frac{\nabla f(x)^{(k)} d^{(k)}}{\|\nabla f(x^{(k)})\|\|d\|}\cdot \|\nabla f(x^{(k)})\| = \beta_k \|\nabla f(x^{(k)})\|
 \]
 für $\beta_k<c<0$ für eine Konstante $c$ erfüllt; damit folgt \eqref{eq:optstepsizegradtozero}. Suchrichtungen, für die diese Bedingung gelten, heißen \textit{gradientenbezogen} (\cite[Def. 4.4.4]{alt2002nichtlineare}).
-\begin{definition}[Gradientenbezogene Suchrichtungen]
- Es seien $x\in N(f,f(x^{(0)}))$ und $d\in \R^n$. Die Richtung $d$ heißt \textit{gradientenbezogen in x}, wenn
+
+Das heißt, falls $x\in N(f,f(x^{(0)}))$ und $d\in \R^n$ heißt die Richtung $d$ \textit{gradientenbezogen in x}, wenn
  \[
   -\nabla f(x)^\tr d\geq c_3\|\nabla f(x)\| \|d\|
  \]
@@ -387,7 +405,6 @@ Die Richtung $d$ heißt \textit{streng gradientenbezogen in $x$}, wenn zusätzli
  c_4\|\nabla f(x)\| \geq \|d\| \geq \frac{1}{c_4}\|\nabla f(x)\| 
 \]
 
-\end{definition}
 
  Falls Bedingung \eqref{eq:niveauset} erfüllt ist, die Suchrichtungen aus dem allgemeinen Abstiegsverfahren \ref{alg:genSteepestDescent} gradientenbezogen in $x^{(k)}$ und die Schrittweiten $\sigma_k$ effizient sind und stoppt das Verfahren nicht nach endlich vielen Schritten, dann gilt $\nabla f(x^{(k)})\to 0$ für $k\to \infty$. Weiter hat die Folge $\{x^{(k)}\}$ mindestens einen Häufungspunkt und für jeden solchen Punkt $\tilde x$ gilt $\nabla f(\tilde x) = 0$ (\cite[Satz 4.4.9]{alt2002nichtlineare}).
 % TODO eindige Nullstelle oder mehrere Nullstellen?
@@ -395,8 +412,17 @@ Die Richtung $d$ heißt \textit{streng gradientenbezogen in $x$}, wenn zusätzli
 Falls zusätzlich $d$ eine streng gradientenbezogene Suchrichtung in $x^{(k)}$, die Schrittweitenfolge $\sigma_k$ beschränkt, die Menge 
 $$M = \{\tilde x\in N(f,f(x^{(0)}))|\nabla f(\tilde x)=0\}$$ endlich ist und das Verfahren nicht nach endlich vielen Schritten stoppt, dann konvergiert die Folge $\{x^{(k)}\}$ gegen eine Nullstelle von $\nabla f$.
 
- Hat $f$ genau einen stationären Punkt $\tilde x \in N(f,f(x^{(0)}))$ und das allgemeine Abstiegsverfahren nicht nach endlich vielen Schritten stoppt, konvergiert die Folge $\{x^{(k)}\}$ gegen $\tilde x$.
+Hat $f$ genau einen stationären Punkt $\tilde x \in N(f,f(x^{(0)}))$ und das allgemeine Abstiegsverfahren nicht nach endlich vielen Schritten stoppt, konvergiert die Folge $\{x^{(k)}\}$ gegen $\tilde x$.
  
+Eine Möglichkeit, die sich zur Schrittweitenbestimmung anbietet besteht darin, die Schrittweite durch Lösen eines eindimensionalen Optimierungsproblems
+\[
+ \min_{s\geq 0} J(x+sd)
+\]
+zu bestimmen. Ist $x\in N(J,J(x^{(0)}))$ und $d$ so gewählt, dass $\nabla J(x)^\tr d <0$, so hat die Funktion $\nabla J(x+sd)^\tr d$ eine kleinste, positive Nullstelle $\sigma_E>0$. Für die exakte Schrittweite gilt mit $H = J''(x)$ (\cite[Gleichung (4.5.5)]{alt2002nichtlineare})
+\[
+ \sigma_e = -\frac{\nabla J(x)^\tr d}{d^\tr H d}
+\]
+Diese Nullstelle ist eindeutig, falls die Zielfunktion $J$ konvex ist. Für ein quadratisches Optimierungsproblem wird die exakte Schrittweite benutzt, in unserem Fall jedoch muss man sich mit einer Näherung zufrieden geben. 
  
 Motiviert aus dem Prinzip des hinreichenden Abstiegs aus Definition \ref{def:sufficientdescent} ergibt sich das Armijo Verfahren (vgl. \cite[Verfahren 4.5.4]{alt2002nichtlineare}), um eine effiziente Schrittweite $\sigma_A$ zu erhalten:
 \begin{figure}[H]
@@ -457,14 +483,14 @@ Vorgegeben seien die Konstanten $0<\delta<beta<1$
   \item Wähle eine Start-Schrittweite $\sigma_0$ und setze $j:=0$
   \begin{enumerate}
    \item Ist $G_1(\sigma_0)\geq \delta$ und $G_2(\sigma_0)\leq \beta$, dann setze $\sigma_p=\sigma_0$ und Stoppe das Verfahren
-   \item Ist $G_1(\sigma_0)\geq delta$ und $G_2(\sigma_0)> \beta$, dann setze $a_0=\sigma_0$ und $b_0=2^l\sigma_0$, mit minimalem $l\in \N_0$, sodass $G_1(b_0)<\delta$, gehe zu 2)
-   \item Ist $G_1(\sigma_0)\leq delta$, dann setze $b_0=\sigma_0$ und $a_0=2^{-l}\sigma_0$ mit minimalem $l\in \N$, sodass $G_1(a_0)\geq\delta$ und $G_2(a_0)>\beta$, gehe zu 2)
+   \item Ist $G_1(\sigma_0)\geq \delta$ und $G_2(\sigma_0)> \beta$, dann setze $a_0=\sigma_0$ und $b_0=2^l\sigma_0$, mit minimalem $l\in \N_0$, sodass $G_1(b_0)<\delta$, gehe zu 2)
+   \item Ist $G_1(\sigma_0)\leq \delta$, dann setze $b_0=\sigma_0$ und $a_0=2^{-l}\sigma_0$ mit minimalem $l\in \N$, sodass $G_1(a_0)\geq\delta$ und $G_2(a_0)>\beta$, gehe zu 2)
   \end{enumerate}
   \item Berechne den Intervallmittelpunkt $\sigma_j = 0.5\cdot (a_j+b_j)$
   \begin{enumerate}
     \item Ist $G_1(\sigma_j)\geq \delta$ und $G_2(\sigma_j)\leq \beta$, dann setze $\sigma_p=\sigma_j$ und Stoppe das Verfahren
-    \item Ist $G_1(\sigma_j)\geq delta$ und $G_2(\sigma_j)> \beta$, dann setze $a_{j+1}=\sigma_j$ und $b_{j+1}=b_j$, gehe zu 3)
-    \item Ist $G_1(\sigma_0)\leq delta$, dann setze $a_{j+1}=a_j$ und $b_{j+1}=\sigma_j$, gehe zu 3)
+    \item Ist $G_1(\sigma_j)\geq \delta$ und $G_2(\sigma_j)> \beta$, dann setze $a_{j+1}=\sigma_j$ und $b_{j+1}=b_j$, gehe zu 3)
+    \item Ist $G_1(\sigma_0)\leq \delta$, dann setze $a_{j+1}=a_j$ und $b_{j+1}=\sigma_j$, gehe zu 3)
   \end{enumerate}
   \item Setze $j:=j+1$, gehe zu 2)
  \end{enumerate}
@@ -472,9 +498,10 @@ Vorgegeben seien die Konstanten $0<\delta<beta<1$
 \caption{Wolfe Powell Verfahren zur Schrittweitensteuerung}
 \end{figure}
 
+Für die endgültige Optimierung unseres Zielfunktionals $J$ haben wir eine notwendige Bedinung hergeleitet und daraus Verfahren zur Schrittweitensteuerung gewonnen. Als letzten Punkt müssen wir diese nur noch korrekt zusammen anwenden
 \subsection{Abstiegsverfahren}
-
-Für dieses Verfahren werden folgende Schritte ausgeführt
+Das allgemeiner Algorithmus zur Optimierung unrestringierter Optimierungsprobleme wurde durch das allgemeine Abstiegsverfahren  \ref{alg:genSteepestDescent} gegeben. Die Abstiegsmethoden unterscheiden sich nun durch die Wahl einer geeigneten Suchrichtung. 
+Wählt man als Suchrichtung $d = -\nabla J(x^{(k)})$ so ergibt sich das \textit{Gradientenverfahren} oder \textit{Methode des steilsten Abstiegs}
 \begin{figure}[H]
 \begin{framed}
 \begin{enumerate}
@@ -486,7 +513,43 @@ Für dieses Verfahren werden folgende Schritte ausgeführt
 \end{framed}
  \caption{Methode des steilsten Abstiegs}
 \end{figure}
-
+Die Methode des steilsten Abstiegs besitzt eine lineare Konvergenzordnung, da für eine exakte Schrittweite $\sigma_E$ gilt:
+\[
+ 0 = \frac{\partial }{\partial \sigma} J(x^{(k)} + \sigma d^{(k)}) \Big|_{\sigma = \sigma_k} = \nabla J(x^{(k+1)})^\tr d^{(k)} = - \left( d^{k+1}\right)^\tr d^{(k)}
+\]
+es gilt also
+\[
+ d^{(k+1)}~\bot ~d^{k} ~ \forall k \in \N
+\]
+Ein verbesserte Wahl der Suchrichtung $d$ bietet das BFGS-Verfahren (\cite[Verfahren 4.8.11]{alt2002nichtlineare})
+\begin{figure}[H]
+\begin{framed}
+\begin{enumerate}
+ \item Wähle Anfangspunkt $x^{(0)}$, eine symmetrisch positiv definite Matrix $A^{(0)}$ und setze $k:=0$
+ \item Überprüfe $\nabla J(x^{(k)}) == 0$?: Stopp
+ \item Berechne $d^{(k)} = -\left( A^{(k)} \right)^{-1} \nabla J(x^{(k)})$, wähle eine effiziente Schrittweite $\sigma_k$, berechne 
+ \[
+ \begin{aligned}
+  x^{(k+1)} &= x^{(k)} + \sigma_k d^{(k)}, \\ s^{(k)} &= x^{(k+1)} - x^{(k)},\\ y^{(k)} &= \nabla J(x^{(k+1)})- \nabla J(x^{(k)})
+ \end{aligned}
+ \]
+ \item Setze $k:= k+1$ und gehe zu 2.
+\end{enumerate} 
+\end{framed}
+ \caption{BFGS - Verfahren}
+\end{figure}
+Wobei die Matrix $A$ durch die BFGS-Updateformel 
+\[
+ A^{(k+1)} = A^{(k)} - \frac{A^{(k)}s^{(k)}(A^{(k)}s^{(k)})^\tr}{(s^{(k)})^\tr A^{(k)}s^{(k)}} + \frac{y^{(k)} (y^{(k)})^\tr}{(y^{(k)})^\tr s^{(k)}}
+\]
+errechnet wird.
 
 
 \section{Zusammenfassung}
+In den vorherigen Kapiteln wurde beschrieben, welche Schritte notwendig sind, um die variationelle Datenassimilation durchzuführen.
+Ziel ist es, das Minimierungsproblem \eqref{eq:bolzaProblem} zu lösen. Dazu wird auf das Kostenfunkional $J(x)$ ein Optimierungsverfahren angewandt, um ein Extremum zu finden. Um dies tun zu können benötigt man den Gradienten $\nabla J$, welcher durch die Rückwärtsintegration der  adjungierten Gleichung des Tangent Linear Models \eqref{eq:adjModel} berechnet wird. Die Integration der ODEs wird durch numerische Verfahren, in unserem Fall durch die implizite Mittelpunktsregel (TODO: REF AUF IMPL MIDPOINT) bewerkstelligt. Der große Vorteil dieses Verfahrens ist, dass die Berechnung des Gradienten $\nabla J$ nur ein weniges Vielfaches der Zeit einer Funktionsauswertung von $J$ in Anspruch nimmt. 
+
+Sämtliche Theorie, welche beschrieben wurde, gilt nur für den Fall, dass die rechte Seite der Evolutionsgleichung \ref{eq:odemodel} glatt ist, also dass mindestens $F\in C^1(\R^n)$ gilt. Für den Fall, dass dem nicht so ist, werden im Folgenden Methoden vorgestellt, die versuchen, diese Unglattheiten mit in die Berechnung einzubeziehen.
+% 
+% Wie gezeigt ist es zur Implementierung des Verfahrens notwendig, das System der gewöhnliche Differentialgleichungen zu lösen, die adjungierte Differentialgleichung des Tangent Linear Models rückwärts in der Zeit zu integrieren und mit d
+% 

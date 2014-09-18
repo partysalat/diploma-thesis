@@ -224,10 +224,10 @@ order=1
 
 [item:tex/chapters/data_assimilation.tex]
 archive=true
-column=18
+column=78
 encoding=UTF-8
 highlight=LaTeX
-line=54
+line=399
 mode=LaTeX
 open=true
 order=0
@@ -375,10 +375,10 @@ JumpList=
 ViMarks=.,4,25,[,4,25,],4,25
 
 [view-settings,view=0,item:tex/chapters/data_assimilation.tex]
-CursorColumn=18
-CursorLine=54
+CursorColumn=78
+CursorLine=399
 JumpList=
-ViMarks=.,474,57,[,474,17,],474,57
+ViMarks=.,399,78,[,399,78,],399,78
 
 [view-settings,view=0,item:tex/chapters/experiments.tex]
 CursorColumn=0
