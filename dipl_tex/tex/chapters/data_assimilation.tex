@@ -76,7 +76,28 @@ In vielen Fällen lässt sich die Lösung eines Anfangswertproblems nicht oder n
 \[
  0\equiv t_0<t_1<\ldots < t_N \equiv T
 \]
-zerlegt. Diese Zeitpunkte bilden ein Gitter $G_h \equiv \lbrace t_0,t_1,\ldots, t_N\rbrace $
+zerlegt. Diese Zeitpunkte bilden ein Gitter $G_h \equiv \lbrace t_0,t_1,\ldots, t_N\rbrace $ auf dem die Schrittweiten $h_j= t_{j+1}-t_j$, $j=0,\ldots, N-1$ definiert sind. Im Rahmen dieser Arbeit werden nur äquidistante Gitter verwendet, d.h. es gilt $h_0=h_1 = \ldots = h_{N-1}$. 
+
+Um nun numerische Approximationen der Lösung des Anfangswertproblemes zu erhalten, geht man von dessen Integraldarstellung 
+
+\[
+ x(t_{i+1}) = x(t_{i-k+1}) + \int_{t_i-k+1}^{t_i+1} F(\tau,x(\tau))d\tau
+\]
+aus, um eine Quadraturformel (\cite[(1.55)]{hermann2004numerik}) durch Interpolation zu erhalten
+\[
+ x_{i+1} = x_{i-k+1} + \sum_{j=0}^k w_{ij} f(t_{i-j+1},x_{i-j+1})
+\]
+wobei die $w_{ij}$ durch das Verfahren vorgegeben sind. Falls $w_{i0}\neq 0$ wird von einem $k$-schrittigen \textit{impliziten Verfahren}, ansonsten von einem $k$-schrittigen \textit{expliziten Verfahren} gesprochen.
+
+Für $k=1$ ergibt sich das sogenannte \textit{implizite} Einschrittverfahren, welches die Form
+\[
+ x_{i+1} = x_i + h_i \Phi (t_i,x_i,x_{i+1};h_i), ~ i=0,\ldots, N-1
+\]
+besitzt.
+Ein \textit{explizites} Verfahren liegt vor, falls $\Phi$ nicht von $x_{i+1}$ abhängt. $\Phi$ wird \textit{Inkrementfunktion} des Einschrittverfahren genannt.
+
+
+
 
 
 
