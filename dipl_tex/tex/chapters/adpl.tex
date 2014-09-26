@@ -1,5 +1,5 @@
 \chapter{Behandlung von Unglattheiten}
-Sämtliche Betrachtungen, welche wir bis jetzt geführt haben, setzen voraus, dass die rechte Seite $F$ unseres Modells \ref{eq:odemodel} hinreichend glatt definiert ist, damit wir sie anwenden können. In diesem Kapitel werden Lösungen geführt, welche es ermöglichen, vorherige Betrachtungen auf stückweise lineare
+Sämtliche Betrachtungen, welche wir bis jetzt geführt haben, setzen voraus, dass die rechte Seite $F$ unseres Modells \eqref{eq:odemodel} hinreichend glatt definiert ist, damit wir sie anwenden können. In diesem Kapitel werden Lösungen geführt, welche es ermöglichen, vorherige Betrachtungen auf stückweise lineare
 \footnote{In dieser Arbeit nutzen wir "linear" synonym zu "affin" oder "polyhedral", obwohl letztere eventuell präziser wären. Sie entsprechen den Begriffen bei Griewank \cite{monster} und Scholtes \cite{scholtes2012introduction}}
 Funktionen
 % , bzw. lokal Lipschitzstetige Funktionen $F$ 
@@ -14,7 +14,7 @@ anzuwenden.
 % Eine Funktion $F$ wird \textit{lokal Lipschitzstetig} genannt, falls eine Umgebung $V\subseteq U$ zu einem $x\in U$ existiert, sodass $F$ auf eingeschränkt auf diese Umgebung $V$ Lipschitzstetig ist.
 
 \subsection{Stückweise lineare Funktionen}
-Scholtes definiert in \cite[S.19]{scholtes2012introduction} eine stückweise affine Funktion $f:\R^n\to \R^m$ als eine stetige Funktion, zu der eine endliche Menge affiner Funktionen $f_i(x)=A^ix+b$, $i=1,\ldots,k$ existiert, sodass für jedes $x\in \R^n$ die Inklusion $f\in\lbrace f_1(x),\ldots, f_k(x)\rbrace $ gilt. Die affinen Funktionen $f_i$ werden \textit{Auswahlfunktionen} genannt. Um diese Art von Funktionen analytisch darstellen zu können bewies Scholtes in \cite[Prop.2.2.2.]{scholtes2012introduction}, dass sich jede stückweise affine Funktion als Verkettung der Funktionen max und min darstellen lässt
+Scholtes definiert in \cite[S.19]{scholtes2012introduction} eine stückweise affine Funktion $f:\R^n\to \R^m$ als eine stetige Funktion, zu der eine endliche Menge affiner Funktionen $f_i(x)=A^ix+b$, $i=1,\ldots,k$ existiert, sodass für jedes $x\in \R^n$ die Inklusion $f\in\lbrace f_1(x),\ldots, f_k(x)\rbrace $ gilt. Die affinen Funktionen $f_i$ werden \textit{Auswahlfunktionen} genannt. Scholtes bewies in \cite[Prop.2.2.2.]{scholtes2012introduction}, dass sich jede dieser stückweise affinen Funktionen als Verkettung der Funktionen max und min darstellen lässt
 \begin{theorem}[Max-Min Repräsentation]
  Falls $f:\R^n\to \R^m$ eine stückweise affine Funktion mit affinen Auswahlfunktionen $f_1=a_1^\tr x+ b_1,\ldots,f_k=a_k^\tr x+ b_k$ ist, dann existiert eine endliche Anzahl von Indexmengen $M_1,\ldots,M_k\subseteq \lbrace 1,\ldots,k\rbrace$ sodass
  \[
@@ -23,11 +23,33 @@ Scholtes definiert in \cite[S.19]{scholtes2012introduction} eine stückweise aff
 \end{theorem}
 In der Theorie hat diese Repräsentation viele Vorteile, in der Praxis stellt es sich jedoch als aufwändig heraus, eine Max-Min Repräsentation zu einer gegebenen stückweise affinen Funktion zu finden. Desweiteren ist sie offensichtlich nicht eindeutig. Falls eine Repräsentation gefunden wurde ist es numerisch sinnvoll, eine minimale Verschachtelungstiefe zu erreichen, d.h. möglichst wenig min/max Aufrufe miteinander zu verschachteln. Diese zu reduzieren gestaltet sich im Allgemeinen ebenfalls schwierig.
 
-Um die Komplexität der Darstellung zu vereinfachen definiert man eine endliche Menge von Teilmengen $\Sigma\subset \R^n$, auf denen unsere stückweise affine Funktion mit ihren Auswahlfunktionen übereinstimmt. Es lässt sich zeigen, dass sich diese Menge in konvexe Polyhedra zerlegen lässt, so dass ihre Auswahlfunktionen auf einem oder mehreren Polyhedra oder Schnittmengen mehrerer Polyeder aktiv sind.\cite{scholtes2012introduction}
+Um die Komplexität der Darstellung zu vereinfachen definiert man eine endliche Menge von Teilmengen $\Sigma\subset \R^n$, auf denen unsere stückweise affine Funktion mit ihren Auswahlfunktionen übereinstimmt. Es lässt sich zeigen, dass sich diese Menge in konvexe Polyeder zerlegen lässt, so dass ihre Auswahlfunktionen auf einem oder mehreren Polyeder oder Schnittmengen mehrerer Polyeder aktiv sind \cite[S.23 ff.]{scholtes2012introduction}
+Ein Polyeder ist eine Menge $P\subseteq \R^n$, falls eine $m\times n$ - Matrix $A$ und ein $m$-dimensionaler Vektor $b$ existiert, sodass $P = \lbrace x\in \R^n ~|~ Ax\leq b \rbrace$.
+Die Menge dieser konvexen Polyeder werden \textit{Polyhedrale Subdivision} von $\R^n$ zur Funktion $f$ genannt. Genauer ist $\Sigma$ eine Polyhedrale Subdivision von $P \subseteq \R^n$, falls
+\begin{enumerate}
+ \item Jedes Polyeder aus $\Sigma$ ist eine Teilmenge von $\R^n$
+ \item Die Dimension der Polyeder aus $\Sigma$ stimmt mit der Dimension von $\R^n$ überein
+ \item Die Vereinigung aller Polyeder von $\Sigma$ überdeckt $\R^n$
+ \item Jeweils zwei Polyeder von $\Sigma$ sind entweder disjunkt oder berühren sich nur an ihren Kanten.
+\end{enumerate}
+Die Berührungskanten aus Punkt 4, bzw. ihrere höherdimensionalen Äquivalente. werden als \textit{Kinks} bezeichnet. 
+TODO: BILD POLYNOMIAL SUBDIVISION EINFÜGEN
 
 
-es zu jeder stückweisen affinen Funktion $f:\R^n\to \R^m$ eine Menge konvexer Polhedra existiert, auf deren 
+
+
+% es zu jeder stückweisen affinen Funktion $f:\R^n\to \R^m$ eine Menge konvexer Polhedra existiert, auf deren 
 \subsection{Stückweise Linearisierung}
+Als Erweiterung der stückweisen affinen Funktionen betrachten wir nun die \textit{stückweise glatten Funktionen}. Diese Funktionsklasse besteht aus $C^{1,1}$ Auswahlfunktionen, welche durch die unglatten Operationen $max$, $min$ und $abs$ konkateniert sind. Da sich $max$ und $min$ als
+\[
+\max(a,b) = \frac{1}{2}(a+b + |a-b|)\quad \text{und} \quad \min(a,b) = \frac{1}{2}(a+b - |a-b|)
+\]
+darstellen lassen, folgen alle Aussagen, die $abs$ betreffen ebenfalls für $min$ und $max$.
+In der Numerischen Praxis kommen Beispiele vor, bei denen eine hohe Verschachtelungstiefe oder \textit{switching depth} auftreten können, beispielsweise bei Flux Limitern bei ortsdiskretisierten PDEs (siehe TODO:REFERENZ ZU MINMOD). Griewank erläutert in \cite{monster}, dass eine große switching depth zu numerischen Instabilitäten führen kann und man daher versuchen soll, diese möglichst gering zu halten.
+
+% Diese stückweise glatten Funktionen sollen nun durch stückweise lineare Funktionen approximiert werden.
+Ersetzt man nun diese stückweise glatten Funktionen durch stückweise lineare Funktionen, so erhält man eine Approximation der Funktion zweiter Ordnung im Abstand zum Ausgangspunkt.
+
 
 \subsection{Abs Normal Form}
 
