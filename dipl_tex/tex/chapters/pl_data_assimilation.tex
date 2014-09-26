@@ -3,7 +3,10 @@
 % \makeatletter\@ifundefined{fromRoot}{\newcommand{\fromRoot}[1]{../../#1}}{}\makeatother
 % \begin{document}
 \chapter{Datenassimilierung mittels stückweiser Linearisierung}
-\section{Einführung}
+\section{Probleme mit Unglattheiten}
+\subsection{Exclusion of Zenon}
+\subsection{Adjoint Inclusion}
+
 \section{Verallgemeinerter Gradient}
 Wenn wir die Stückweise Linearisierung unserer Funktion in Abs Normal Form haben, ist es ein Leichtes, den verallgemeinerten Gradienten zu bestimmen. Dazu betrachten wir die ausmultiplizierte Abs Normal Form
 \begin{align*}
@@ -71,7 +74,7 @@ Da die Jacobimatrix an Kinks nicht eindeutig sein muss, wird ein Vektor $d$ mit 
 \end{algorithm}
 
 %% GENERALIZED ADJOINT MIDPOINT RULE
-\section{Verallgemeinerte Mittelpunktsregel für das adjungierte Modell}
+\section{Adjungierte verallgemeinerte Mittelpunktsregel}
 
 Wie wir in (??) beobachtet haben, müssen wir das Adjungierte Modell rückwärts integrieren. Die Grundidee besteht darin, dass wir auf das Adjungierte Modell (??) der Datenassimilierung ebenfalls wieder die verallgemeinerte Mittelpunktsregel (??) anwenden. Daher, dass wir das Integral in Teilintervalle zerlegen können, berechnen wir die kritischen Multiplikatoren, springen von Kink zu Kink und berechnen auf diesen Teilintervalen den Gradienten unserer rechten Seite $F$.
 Sei $\tau$ der kritische Multiplikator zum nächsten Kink. $x_n$ und $x_a$ sind die jeweiligen iterierten Werte mit $\xo$ als deren Mittelpunkt und $\diff \xo$ als Differenz. Dann ergibt sich sofort 

@@ -1,5 +1,22 @@
-\chapter{AD und stückweise Linearisierung}
+\chapter{Behandlung von Unglattheiten}
+Sämtliche Betrachtungen, welche wir bis jetzt geführt haben, setzen voraus, dass die rechte Seite $F$ unseres Modells \ref{eq:odemodel} hinreichend glatt definiert ist, damit wir sie anwenden können. In diesem Kapitel werden Lösungen geführt, welche es ermöglichen, vorherige Betrachtungen auf stückweise lineare
+\footnote{In dieser Arbeit nutzen wir "linear" synonym zu "affin" oder "polyhedral", obwohl letztere eventuell präziser wären. Sie entsprechen den Begriffen bei Griewank \cite{monster} und Scholtes \cite{scholtes2012introduction}}
+Funktionen, bzw. lokal Lipschitzstetige Funktionen $F$ anzuwenden. 
 
-\section{Automatische Differentiation}
 \section{Stückweise Linearisierung}
-\section{Abs Normal Form}
+Wir betrachten nun die Klasse der lokal Lipschitzstetigen Funktionen. Eine Funktion $F:U\subseteq \R^n\to \R^m$ heißt Lipschitzstetig, wenn eine Konstante $L$ existiert, sodass für alle $x,y\in U$ gilt
+\[
+ \|F(y) - F(x)\| \leq \|y-x\|
+\]
+, wobei $L$ als \textit{Lipschitzkonstante} bezeichnet wird. 
+
+
+
+\subsection{Stückweise lineare Funktionen}
+
+\subsection{Abs Normal Form}
+
+
+\section{Alternative Methoden}
+\subsection{Event Handling}
+\subsection{Schrittweitensteuerung}
