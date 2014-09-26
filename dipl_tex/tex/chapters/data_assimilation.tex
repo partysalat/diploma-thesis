@@ -94,16 +94,73 @@ Für $k=1$ ergibt sich das sogenannte \textit{implizite} Einschrittverfahren, we
  x_{i+1} = x_i + h_i \Phi (t_i,x_i,x_{i+1};h_i), ~ i=0,\ldots, N-1
 \]
 besitzt.
-Ein \textit{explizites} Verfahren liegt vor, falls $\Phi$ nicht von $x_{i+1}$ abhängt. $\Phi$ wird \textit{Inkrementfunktion} des Einschrittverfahren genannt.
+Ein \textit{explizites} Verfahren liegt vor, falls $\Phi$ nicht von $x_{i+1}$ abhängt. $\Phi$ wird die \textit{Inkrementfunktion} eines Einschrittverfahren genannt.
+Ein Einschrittverfahren der Gestalt 
+\[
+ x_{i+1}^h = x_i^h + h\sum_{j=1}^m \beta_j k_j \quad \text{ mit } \quad k_j  = f(t_i+ \rho_ih, x_i^h + \sum_{l=1}^m \gamma_{jl} k_l ), \quad j=1,\ldots,m
+\]
+wird \textit{m- stufiges Runge Kutta Verfahren} genannt, mit $m\in \N$. Die Koeffizienten $\beta_j,\gamma_{jl}$ und $\rho_i$ sind geeignet gewählte, reele Zahlen, die durch das Verfahren eindeutig gegeben sind. Diese Koeffizienten lassen sich in \textit{Butcher Diagramme} angegeben, welche dann ein Verfahren eindeutig beschreiben. Beispiele sind in Tabelle \ref{tab:rungekutta} gegeben.
 
+\begin{table}[htdp]
+ \centering
+ \begin{tabular}{c c c c c}
+% \begin{tabular}{ c | ccc }
+%   $\rho_1$ & $\gamma_{11}$ &$\dots$ & $\gamma_{1m}$\\
+%   $\vdots$ & $\vdots$ & $\ddots$ & $\vdots$\\
+%   $\rho_m$ & $\gamma_{m1}$ & $\dots$& $\gamma_{mm}$ \\
+%   \hline
+%    &$\beta_1$& $\dots$ & $\beta_m$ \\
+% \end{tabular}
+% &
+\begin{tabular}{ c|  c }
+ \multicolumn{1}{c}{}\\
+ \multicolumn{1}{c}{}\\
+  $\rho$ & $\Gamma$\\
+  \hline
+   &$\beta$
+\end{tabular}
+&
+\begin{tabular}{ c|  c }
+ \multicolumn{1}{c}{}\\
+ \multicolumn{1}{c}{}\\
+  $0$ & $0$\\
+  \hline
+   &$1$
+\end{tabular}
+&
+\begin{tabular}{ c|  c c }
+ \multicolumn{1}{c}{}\\
+0 & \\
+ $\frac{1}{2}$& $\frac{1}{2}$ & $0$\\
+  \hline
+   &$0$&$1$
+\end{tabular}
+&
+\begin{tabular}{ c|  c }
+ \multicolumn{1}{c}{}\\
+ \multicolumn{1}{c}{}\\
+  $\frac{1}{2}$ & $\frac{1}{2}$\\
+  \hline
+   &$1$
+\end{tabular}
+&
+\begin{tabular}{ c| c c }
+ \multicolumn{1}{c}{}\\
+ 0&0&0\\
+  1 & $\frac{1}{2}$ & $\frac{1}{2}$\\
+  \hline
+   & $\frac{1}{2}$ &  $\frac{1}{2}$
+\end{tabular}
+\\
+ Allgemein & Exp. Euler & \specialcell{Expl.\\ Mittelpunkts-\\regel} & \specialcell{Impl.\\ Mittelpunkts-\\regel} & \specialcell{Trapez-\\regel}
+\end{tabular}
+\caption{Beispiele Runge Kutta Verfahren}
+\label{tab:rungekutta}
+\end{table}
+Bei der Lösung impliziter Verfahren müssen Gleichungssysteme gelöst werden, welche die Berechnungszeit erhöhen. Explizite Verfahren sind schneller zu berechnen, jedoch fehleranfälliger für steife Probleme und im allgemeinen nicht so genau wie implizite Methoden. Im folgenden werden wir für die Lösung von gewöhnlichen Differentialgleichungen die Implizite Mittelpunktsregel benutzen. 
 
-
-
-
-
-
-
-% Bei den Optimierungsmethoden, welche wir betrachten, benötigt man daher den Gradienten der zu minimierenden Funktion $J$.
+Durch das Lösen unseres Modells \eqref{eq:odemodel} mit einer der vorgestellten Methode lässt sich nun das Kostenfunktional $J(x_0)$ \eqref{eq:costfunctional} an einer Stelle $x_0$ berechnen. Das Ziel besteht nun darin, diese Funktion $J$ zu minimieren.
+Bei den Optimierungsmethoden, welche wir betrachten, benötigt man den Gradienten von $J$.
 
 \section{Der Gradient des Zielfunktionals}
 \subsection{Adjungierte Operatoren}
@@ -523,18 +580,19 @@ Für die endgültige Optimierung unseres Zielfunktionals $J$ haben wir eine notw
 \subsection{Abstiegsverfahren}
 Das allgemeiner Algorithmus zur Optimierung unrestringierter Optimierungsprobleme wurde durch das allgemeine Abstiegsverfahren  \ref{alg:genSteepestDescent} gegeben. Die Abstiegsmethoden unterscheiden sich nun durch die Wahl einer geeigneten Suchrichtung. 
 Wählt man als Suchrichtung $d = -\nabla J(x^{(k)})$ so ergibt sich das \textit{Gradientenverfahren} oder \textit{Methode des steilsten Abstiegs}
-\begin{figure}[H]
-\begin{framed}
-\begin{enumerate}
- \item Wähle Anfangspunkt $x^{(0)}$ und setze $k:=0$
- \item Überprüfe $\nabla J(x^{(k)}) == 0$?: Stopp
- \item Setze als Suchrichtung $d = - \nabla J(x^{(k)})$, berechne effiziente Schrittweite $\alpha_k$ und setze $x^{(k+1)} = x^{(k)}+ \alpha_k d^{(k)}$
- \item Setze $k:= k+1$ und gehe zu 2.
-\end{enumerate} 
-\end{framed}
- \caption{Methode des steilsten Abstiegs}
-\end{figure}
-Die Methode des steilsten Abstiegs besitzt eine lineare Konvergenzordnung, da für eine exakte Schrittweite $\sigma_E$ gilt:
+% \begin{figure}[H]
+% \begin{framed}
+% \begin{enumerate}
+%  \item Wähle Anfangspunkt $x^{(0)}$ und setze $k:=0$
+%  \item Überprüfe $\nabla J(x^{(k)}) == 0$?: Stopp
+%  \item Setze als Suchrichtung $d = - \nabla J(x^{(k)})$, berechne effiziente Schrittweite $\alpha_k$ und setze $x^{(k+1)} = x^{(k)}+ \alpha_k d^{(k)}$
+%  \item Setze $k:= k+1$ und gehe zu 2.
+% \end{enumerate} 
+% \end{framed}
+%  \caption{Methode des steilsten Abstiegs}
+% \end{figure}
+
+Sie besitzt eine lineare Konvergenzordnung, da für eine exakte Schrittweite $\sigma_E$ gilt:
 \[
  0 = \frac{\partial }{\partial \sigma} J(x^{(k)} + \sigma d^{(k)}) \Big|_{\sigma = \sigma_k} = \nabla J(x^{(k+1)})^\tr d^{(k)} = - \left( d^{k+1}\right)^\tr d^{(k)}
 \]
@@ -568,9 +626,6 @@ errechnet wird.
 
 \section{Zusammenfassung}
 In den vorherigen Kapiteln wurde beschrieben, welche Schritte notwendig sind, um die variationelle Datenassimilation durchzuführen.
-Ziel ist es, das Minimierungsproblem \eqref{eq:bolzaProblem} zu lösen. Dazu wird auf das Kostenfunkional $J(x)$ ein Optimierungsverfahren angewandt, um ein Extremum zu finden. Um dies tun zu können benötigt man den Gradienten $\nabla J$, welcher durch die Rückwärtsintegration der  adjungierten Gleichung des Tangent Linear Models \eqref{eq:adjModel} berechnet wird. Die Integration der ODEs wird durch numerische Verfahren, in unserem Fall durch die implizite Mittelpunktsregel (TODO: REF AUF IMPL MIDPOINT) bewerkstelligt. Der große Vorteil dieses Verfahrens ist, dass die Berechnung des Gradienten $\nabla J$ nur ein weniges Vielfaches der Zeit einer Funktionsauswertung von $J$ in Anspruch nimmt. 
+Ziel ist es, das Minimierungsproblem \eqref{eq:bolzaProblem} zu lösen. Dazu wird auf das Kostenfunkional $J(x)$ ein Optimierungsverfahren angewandt, um ein Extremum zu finden. Um dies tun zu können benötigt man den Gradienten $\nabla J$, welcher durch die Rückwärtsintegration der  adjungierten Gleichung des Tangent Linear Models \eqref{eq:adjModel} berechnet wird. Die Integration der ODEs wird durch numerische Verfahren, in unserem Fall durch die implizite Mittelpunktsregel, siehe Tabelle \ref{tab:rungekutta}, bewerkstelligt. Der große Vorteil dieses Verfahrens ist, dass die Berechnung des Gradienten $\nabla J$ nur ein weniges Vielfaches der Zeit einer Funktionsauswertung von $J$ in Anspruch nimmt. 
 
-Sämtliche Theorie, welche beschrieben wurde, gilt nur für den Fall, dass die rechte Seite der Evolutionsgleichung \ref{eq:odemodel} glatt ist, also dass mindestens $F\in C^1(\R^n)$ gilt. Für den Fall, dass dem nicht so ist, werden im Folgenden Methoden vorgestellt, die versuchen, diese Unglattheiten mit in die Berechnung einzubeziehen.
-% 
-% Wie gezeigt ist es zur Implementierung des Verfahrens notwendig, das System der gewöhnliche Differentialgleichungen zu lösen, die adjungierte Differentialgleichung des Tangent Linear Models rückwärts in der Zeit zu integrieren und mit d
-% 
+Sämtliche Theorie, welche beschrieben wurde, gilt nur für den Fall, dass die rechte Seite der Evolutionsgleichung \eqref{eq:odemodel} glatt ist, also dass mindestens $F\in C^1(\R^n)$ gilt. Für den Fall, dass dem nicht so ist, werden im Folgenden Methoden vorgestellt, die versuchen, diese Unglattheiten mit in die Berechnung einzubeziehen.
