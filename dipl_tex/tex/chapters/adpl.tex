@@ -1,18 +1,33 @@
 \chapter{Behandlung von Unglattheiten}
 Sämtliche Betrachtungen, welche wir bis jetzt geführt haben, setzen voraus, dass die rechte Seite $F$ unseres Modells \ref{eq:odemodel} hinreichend glatt definiert ist, damit wir sie anwenden können. In diesem Kapitel werden Lösungen geführt, welche es ermöglichen, vorherige Betrachtungen auf stückweise lineare
 \footnote{In dieser Arbeit nutzen wir "linear" synonym zu "affin" oder "polyhedral", obwohl letztere eventuell präziser wären. Sie entsprechen den Begriffen bei Griewank \cite{monster} und Scholtes \cite{scholtes2012introduction}}
-Funktionen, bzw. lokal Lipschitzstetige Funktionen $F$ anzuwenden. 
+Funktionen
+% , bzw. lokal Lipschitzstetige Funktionen $F$ 
+anzuwenden. 
 
 \section{Stückweise Linearisierung}
-Wir betrachten nun die Klasse der lokal Lipschitzstetigen Funktionen. Eine Funktion $F:U\subseteq \R^n\to \R^m$ heißt Lipschitzstetig, wenn eine Konstante $L$ existiert, sodass für alle $x,y\in U$ gilt
-\[
- \|F(y) - F(x)\| \leq \|y-x\|
-\]
-, wobei $L$ als \textit{Lipschitzkonstante} bezeichnet wird. 
-
-
+% Eine Funktion $F:U\subseteq \R^n\to \R^m$ heißt Lipschitzstetig, wenn eine Konstante $L$ existiert, sodass für alle $x,y\in U$ gilt
+% \[
+%  \|F(y) - F(x)\| \leq \|y-x\|
+% \]
+% , wobei $L$ als \textit{Lipschitzkonstante} bezeichnet wird. 
+% Eine Funktion $F$ wird \textit{lokal Lipschitzstetig} genannt, falls eine Umgebung $V\subseteq U$ zu einem $x\in U$ existiert, sodass $F$ auf eingeschränkt auf diese Umgebung $V$ Lipschitzstetig ist.
 
 \subsection{Stückweise lineare Funktionen}
+Scholtes definiert in \cite[S.19]{scholtes2012introduction} eine stückweise affine Funktion $f:\R^n\to \R^m$ als eine stetige Funktion, zu der eine endliche Menge affiner Funktionen $f_i(x)=A^ix+b$, $i=1,\ldots,k$ existiert, sodass für jedes $x\in \R^n$ die Inklusion $f\in\lbrace f_1(x),\ldots, f_k(x)\rbrace $ gilt. Die affinen Funktionen $f_i$ werden \textit{Auswahlfunktionen} genannt. Um diese Art von Funktionen analytisch darstellen zu können bewies Scholtes in \cite[Prop.2.2.2.]{scholtes2012introduction}, dass sich jede stückweise affine Funktion als Verkettung der Funktionen max und min darstellen lässt
+\begin{theorem}[Max-Min Repräsentation]
+ Falls $f:\R^n\to \R^m$ eine stückweise affine Funktion mit affinen Auswahlfunktionen $f_1=a_1^\tr x+ b_1,\ldots,f_k=a_k^\tr x+ b_k$ ist, dann existiert eine endliche Anzahl von Indexmengen $M_1,\ldots,M_k\subseteq \lbrace 1,\ldots,k\rbrace$ sodass
+ \[
+  f(x) = \max_{1\leq i\leq l} \min_{j\in M_i} a_i^\tr x + b_i
+ \]
+\end{theorem}
+In der Theorie hat diese Repräsentation viele Vorteile, in der Praxis stellt es sich jedoch als aufwändig heraus, eine Max-Min Repräsentation zu einer gegebenen stückweise affinen Funktion zu finden. Desweiteren ist sie offensichtlich nicht eindeutig. Falls eine Repräsentation gefunden wurde ist es numerisch sinnvoll, eine minimale Verschachtelungstiefe zu erreichen, d.h. möglichst wenig min/max Aufrufe miteinander zu verschachteln. Diese zu reduzieren gestaltet sich im Allgemeinen ebenfalls schwierig.
+
+Um die Komplexität der Darstellung zu vereinfachen definiert man eine endliche Menge von Teilmengen $\Sigma\subset \R^n$, auf denen unsere stückweise affine Funktion mit ihren Auswahlfunktionen übereinstimmt. Es lässt sich zeigen, dass sich diese Menge in konvexe Polyhedra zerlegen lässt, so dass ihre Auswahlfunktionen auf einem oder mehreren Polyhedra oder Schnittmengen mehrerer Polyeder aktiv sind.\cite{scholtes2012introduction}
+
+
+es zu jeder stückweisen affinen Funktion $f:\R^n\to \R^m$ eine Menge konvexer Polhedra existiert, auf deren 
+\subsection{Stückweise Linearisierung}
 
 \subsection{Abs Normal Form}
 
