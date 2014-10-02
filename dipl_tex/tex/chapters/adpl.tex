@@ -1,9 +1,9 @@
-\chapter{Behandlung von Unglattheiten}
+\chapter{AD und Behandlung von Unglattheiten}
 Sämtliche Betrachtungen, welche wir bis jetzt geführt haben, setzen voraus, dass die rechte Seite $F$ unseres Modells \eqref{eq:odemodel} hinreichend glatt definiert ist, damit wir sie anwenden können. In diesem Kapitel werden Lösungen geführt, welche es ermöglichen, vorherige Betrachtungen auf stückweise lineare
 \footnote{In dieser Arbeit nutzen wir "linear" synonym zu "affin" oder "polyhedral", obwohl letztere eventuell präziser wären. Sie entsprechen den Begriffen bei Griewank \cite{monster} und Scholtes \cite{scholtes2012introduction}}
 Funktionen
 % , bzw. lokal Lipschitzstetige Funktionen $F$ 
-anzuwenden. 
+anzuwenden. Desweiteren wird eine kurze Einführung in Automatischem Differenzieren gegeben, welches so erweitert wird, dass es unserem Modell entspricht.
 
 \section{Stückweise Linearisierung}
 % Eine Funktion $F:U\subseteq \R^n\to \R^m$ heißt Lipschitzstetig, wenn eine Konstante $L$ existiert, sodass für alle $x,y\in U$ gilt
@@ -17,14 +17,16 @@ anzuwenden.
 Scholtes definiert in \cite[S.19]{scholtes2012introduction} eine stückweise affine Funktion $f:\R^n\to \R^m$ als eine stetige Funktion, zu der eine endliche Menge affiner Funktionen $f_i(x)=A^ix+b$, $i=1,\ldots,k$ existiert, sodass für jedes $x\in \R^n$ die Inklusion $f\in\lbrace f_1(x),\ldots, f_k(x)\rbrace $ gilt. Die affinen Funktionen $f_i$ werden \textit{Auswahlfunktionen} genannt. Scholtes bewies in \cite[Prop.2.2.2.]{scholtes2012introduction}, dass sich jede dieser stückweise affinen Funktionen als Verkettung der Funktionen max und min darstellen lässt
 \begin{theorem}[Max-Min Repräsentation]
  Falls $f:\R^n\to \R^m$ eine stückweise affine Funktion mit affinen Auswahlfunktionen $f_1=a_1^\tr x+ b_1,\ldots,f_k=a_k^\tr x+ b_k$ ist, dann existiert eine endliche Anzahl von Indexmengen $M_1,\ldots,M_k\subseteq \lbrace 1,\ldots,k\rbrace$ sodass
- \[
+ \begin{equation}
+ \label{eq:maxMinRepresentiation}
   f(x) = \max_{1\leq i\leq l} \min_{j\in M_i} a_i^\tr x + b_i
- \]
+ \end{equation}
+ 
 \end{theorem}
 In der Theorie hat diese Repräsentation viele Vorteile, in der Praxis stellt es sich jedoch als aufwändig heraus, eine Max-Min Repräsentation zu einer gegebenen stückweise affinen Funktion zu finden. Desweiteren ist sie offensichtlich nicht eindeutig. Falls eine Repräsentation gefunden wurde ist es numerisch sinnvoll, eine minimale Verschachtelungstiefe zu erreichen, d.h. möglichst wenig min/max Aufrufe miteinander zu verschachteln. Diese zu reduzieren gestaltet sich im Allgemeinen ebenfalls schwierig.
 
-Um die Komplexität der Darstellung zu vereinfachen definiert man eine endliche Menge von Teilmengen $\Sigma\subset \R^n$, auf denen unsere stückweise affine Funktion mit ihren Auswahlfunktionen übereinstimmt. Es lässt sich zeigen, dass sich diese Menge in konvexe Polyeder zerlegen lässt, so dass ihre Auswahlfunktionen auf einem oder mehreren Polyeder oder Schnittmengen mehrerer Polyeder aktiv sind \cite[S.23 ff.]{scholtes2012introduction}
-Ein Polyeder ist eine Menge $P\subseteq \R^n$, falls eine $m\times n$ - Matrix $A$ und ein $m$-dimensionaler Vektor $b$ existiert, sodass $P = \lbrace x\in \R^n ~|~ Ax\leq b \rbrace$.
+Eine andere Art der Darstellung, welche in der polyhedralen Natur der stückweise lineare Funktionen liegt, wird durch eine endliche Menge von Teilmengen $\Sigma\subset \R^n$ definiert, auf denen die stückweise affine Funktion mit ihren Auswahlfunktionen übereinstimmt. Es lässt sich zeigen, dass sich diese Menge in konvexe Polyeder zerlegen lässt, so dass ihre Auswahlfunktionen auf einem oder mehreren Polyeder oder Schnittmengen mehrerer Polyeder aktiv sind \cite[S.23 ff.]{scholtes2012introduction}.
+Ein Polyeder ist eine Menge $P\subseteq \R^n$, falls eine $m\times n$ - Matrix $A$ und ein $m$-dimensionaler Vektor $b$ existiert, sodass $P = \lbrace x\in \R^n ~|~ Ax\leq b \rbrace$. 
 Die Menge dieser konvexen Polyeder werden \textit{Polyhedrale Subdivision} von $\R^n$ zur Funktion $f$ genannt. Genauer ist $\Sigma$ eine Polyhedrale Subdivision von $P \subseteq \R^n$, falls
 \begin{enumerate}
  \item Jedes Polyeder aus $\Sigma$ ist eine Teilmenge von $\R^n$
@@ -32,28 +34,67 @@ Die Menge dieser konvexen Polyeder werden \textit{Polyhedrale Subdivision} von $
  \item Die Vereinigung aller Polyeder von $\Sigma$ überdeckt $\R^n$
  \item Jeweils zwei Polyeder von $\Sigma$ sind entweder disjunkt oder berühren sich nur an ihren Kanten.
 \end{enumerate}
-Die Berührungskanten aus Punkt 4, bzw. ihrere höherdimensionalen Äquivalente. werden als \textit{Kinks} bezeichnet. 
+Die Berührungskanten aus Punkt 4, bzw. ihrere höherdimensionalen Äquivalente werden als \textit{Kinks} bezeichnet. 
 TODO: BILD POLYNOMIAL SUBDIVISION EINFÜGEN
 
-
-
-
-% es zu jeder stückweisen affinen Funktion $f:\R^n\to \R^m$ eine Menge konvexer Polhedra existiert, auf deren 
-\subsection{Stückweise Linearisierung}
-Als Erweiterung der stückweisen affinen Funktionen betrachten wir nun die \textit{stückweise glatten Funktionen}. Diese Funktionsklasse besteht aus $C^{1,1}$ Auswahlfunktionen, welche durch die unglatten Operationen $max$, $min$ und $abs$ konkateniert sind. Da sich $max$ und $min$ als
+\subsection{Abs-Normal-Form}
+Eine weitere Art der Darstellung ergibt sich aus der Max-Min Repräsentation \eqref{eq:maxMinRepresentiation} einer stückweisen linearen Funktion.
+Da sich $max$ und $min$ als
 \[
 \max(a,b) = \frac{1}{2}(a+b + |a-b|)\quad \text{und} \quad \min(a,b) = \frac{1}{2}(a+b - |a-b|)
 \]
-darstellen lassen, folgen alle Aussagen, die $abs$ betreffen ebenfalls für $min$ und $max$.
-In der Numerischen Praxis kommen Beispiele vor, bei denen eine hohe Verschachtelungstiefe oder \textit{switching depth} auftreten können, beispielsweise bei Flux Limitern bei ortsdiskretisierten PDEs (siehe TODO:REFERENZ ZU MINMOD). Griewank erläutert in \cite{monster}, dass eine große switching depth zu numerischen Instabilitäten führen kann und man daher versuchen soll, diese möglichst gering zu halten.
+darstellen lassen, können alle $max$ und $min$ - Funktionsaufrufe als $s\geq 0$ Aufrufe der $|z_i|$ Funktion behandelt werden. Die Argumente $z_i$ heißen hierbei \textit{switching-Variablen}. Jede switching Variable $z_i$ beschreibt für sich genommen bereits eine affine Funktion, welche wiederrum die Funktionen $|z_j|, ~j<i$ aufrufen. Desweiteren existieren Variablen $x_k, ~k\leq n$, welche unabhängig von $abs$ sind. Diese Abhängigkeiten lassen sich in der \textit{Abs Normal Form} beschreiben, welche von Griewank et. al. in \cite{plan} eingeführt wurde:
+\begin{definition}[Abs Normal Form]
+ Eine stückweise lineare Funktion $F:\R^n\to \R^m$ mit $F(x) = y$ ist in \textit{Abs Normal Form}, falls sie die folgende Form besitzt
+ \[
+  \begin{bmatrix}
+   z\\y
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+   c\\b
+  \end{bmatrix}
+  +
+  \begin{bmatrix}
+   Z & L\\
+   J & Y
+  \end{bmatrix}
+  \begin{bmatrix}
+   x\\|z|
+  \end{bmatrix}
+ \]
+wobei 
+\[
+c\in \R^s, ~ Z\in \R^{s\times n},~ L\in\R^{s\times s}, ~ b\in\R^m, ~ J\in\R^{m\times n}, ~ Y\in \R^{m\times s} 
+\]
+$L$ muss offensichtlich die Form eine streng unteren Dreiecksmatrix besitzen, da sonst im Auswertungsgraph der Funktion $F$ Zyklen entstehen könnten.
+\end{definition}
+Die kleinste ganze Zahl $\nu \leq s$ für die 
+\[
+ L^\nu =0
+\]
+gilt, wird Verschachtelungstiefe oder \textit{switching depth} genannt. 
+In der Numerischen Praxis kommen Beispiele vor, bei denen eine hohe \textit{switching depth} auftreten kann, beispielsweise bei Flux Limitern bei ortsdiskretisierten PDEs, welche wir im Beispiel (siehe TODO:REFERENZ ZU MINMOD) zur Shallow Water Equation benutzen. Griewank erläutert in \cite{monster}, dass eine große switching depth zu numerischen Instabilitäten führen kann und man daher versuchen soll, diese möglichst gering zu halten, eben um auch die kombinatorische Komplexität der Matrizen $Z$, $L$ und $Y$ zu minimieren.
 
-% Diese stückweise glatten Funktionen sollen nun durch stückweise lineare Funktionen approximiert werden.
-Ersetzt man nun diese stückweise glatten Funktionen durch stückweise lineare Funktionen, so erhält man eine Approximation der Funktion zweiter Ordnung im Abstand zum Ausgangspunkt.
+Unsere Funktion $F$ ist linear, falls $\nu=s = 0$, falls sie also keine $abs$ Terme besitzt. Für den Fall $\nu=1$ heißt $F$ \textit{simply switched}
 
+Ziel dieser Arbeit ist es, die Eigenschaften der Matrizen der Abs-Normal Formulierung für unsere Berechnungen zu nutzen.
+Dazu wollen wir später die Klasse der \textit{stückweise glatten Funktionen} durch stückweise lineare Funktionen approximieren.
+Die Klasse der stückweisen glatten Funktionen kann als Erweiterung der stückweisen affinen Funktionen betrachtet werden. Sie bestehen aus $C^{1,1}$ Auswahlfunktionen, welche durch die unglatten Operationen $max$, $min$ und $abs$ konkateniert sind.
+Die grundsätzliche Idee besteht darin, die Auswahlfunktionen durch Tangenten anzunähern und sie wieder durch Anwendung der $abs$ Funktion zu verbinden, sodass eine stückweise Linearisierung der Ursprungsfunktion entsteht. Auf diesen gelten besondere Eigenschaften, welche in den nachfolgenden Kapiteln sukzessive angewendet werden.
 
-\subsection{Abs Normal Form}
+Um die stückweise Linearisierung einer stückweise glatten Funktion $F$ automatisiert zu berechnen, wollen wir die Möglichkeiten des Automatischen Differenzierens nutzen und erweitern.
 
+\section{Automatisches Differenzieren}
+Automatisches oder Algorithmisches Differenzieren ist ein Verfahren, um exakte, im Rahmen der Rechengenauigkeit \cite[S.51]{griewank2008evaluating}, Gradienten von Funktionen zu berechnen. Dazu wird durch
 
-\section{Alternative Methoden}
-\subsection{Event Handling}
-\subsection{Schrittweitensteuerung}
+\section{Stückweise Linearisierung}
+
+Ersetzt man nun diese stückweise glatten Funktionen durch stückweise lineare Funktionen, so erhält man eine Approximation der Funktion zweiter Ordnung im Abstand zum Ausgangspunkt (\cite[Prop.1]{monster}). Man definiert dafür für einen Punkt $\xo$ und eine Richtung $\Delta x$ die \textit{Inkrementfunktion} $\Delta F(\xo,\Delta x):\mathcal D \times  \R^n \to \R^m$ für welche gilt:
+\[
+ F(\xo + \Delta x) = F(\xo) + \Delta F(\xo,\Delta x) + \mathcal O (\|\Delta x\|^2)
+\]
+
+\section{Alternative Methoden?}
+\subsection{Event Handling?}
+\subsection{Schrittweitensteuerung?}
