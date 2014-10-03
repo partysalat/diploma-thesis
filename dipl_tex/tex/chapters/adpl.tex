@@ -117,14 +117,15 @@ Für alle $\phi_i$ wird angenommen, dass sie differenzierbar in einer hinreichen
 \Delta v_i &= \vo_j* \Delta v_k +\Delta v_j*\vo_k& \text{für } v_i = v_j * v_k\\
 \Delta v_i &= \mathring c_{ij} * \Delta v_j  & \text{für } v_i = \phi_i(v_j) \not \equiv \abs(v_j)
 \end{align}
-wobei $\mathring c_{ij} = \phi'_i(\vo_j)$ und als \textit{tangent functions} bezeichnet werden und es ergibt sich durch die Kettenregel
+wobei $\mathring c_{ij} = \phi'_i(\vo_j)$
+% und als \textit{tangent functions} bezeichnet werden 
+und es ergibt sich durch die Kettenregel
 \[
  \Delta y = \Delta F(\xo,\Delta x) \equiv \nabla F(\xo)\Delta x
 \]
 wobei $ \nabla F(\xo)\in \R^{m\times m}$ die Jacobimatrix bezeichnet.
 
-
-
+Diese Methode wird "Vorwärtsmodus" genannt, bei welchem jedoch insbesondere für Ableitungen höherer Dimensionen $d$ der Aufwand linear mit $d$ wächst. AD-Programme wie ADOL-C nutzen den sogenannten "Rückwärtsmodus", welcher die Zielfunktion auswertet, Parameter abspeichert und die Ableitung mit weniger Aufwand berechnen kann. Diese Möglichkeit wird an dieser Stelle nur erwähnt, da ihre Erläuterung den Rahmen der Arbeit sprengen würde.
 
 
 
