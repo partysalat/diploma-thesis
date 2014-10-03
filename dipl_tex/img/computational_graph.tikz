@@ -18,38 +18,31 @@
 	every edge/.style={thick,draw},
 % 	>=triangle 90,
 ]
-\node[state,double] (x1) {$v_{-1} = x_1$};
-\node[state,double] (x2) [below= of x1]{$v_0 = x_2$};
+\node[state,double] (x1) {$v_{-2} = x_1$};
+\node[state,double] (x2) [below= of x1]{$v_{-1} = x_2$};
 
-\node (z1) [right= of x1] {$z_1$};
-\node (z2) [below= of z1] {$z_2$};
-\node (v1) [below= of z2] {$v_1$};
+\node (v0) [right= of x1] {$v_0$};
+\node (v1) [right= of v0] {$v_1$};
 
+\node (v2) [below right= of v1] {$v_2$};
 
-\node (v2) [below= of v1] {$v_2$};
-\node (v3) [right= of v2] {$v_3$};
-\node (v4) [right= of z1] {$v_4$};
-\node (v5) [below= of v4] {$v_5$};
-
-\node (v6) [right=of v5] {$v_6$};
-\node (v7) [below right=of v6] {$v_7$};
-\node [state,double] (y1) [below right= of v7] {$y_1$};
+\node [state,double] (y1) [below right= of v2] {$v_3$};
 
 \path[->] 
-		(x2) edge (v2)
-		(v2) edge (v3) 
-		(v3) edge (y1);
+		(x1) edge (v0)
+		(x2) edge (v0) 
+		(v0) edge (v1);
 		
 \path[->]
-		(x1) edge (z1) 
-		(x1) edge (z2) 
-		(x1) edge (v1)
-		(v1) edge (v3)
-		(z1) edge node[pl] {$\abs(z_1)$} (v4)
-		(z2) edge node[pl] {$\abs(z_2)$} (v5)
-		(v4) edge (v6)
-		(v5) edge (v6)
-		(v6) edge (v7)
-		(v7) edge (y1);
+		(v1) edge (v2) 
+		(x2) edge (v2) 
+		(v2) edge (y1);
+% 		(v1) edge (v3)
+% 		(z1) edge node[pl] {$\abs(z_1)$} (v4)
+% 		(z2) edge node[pl] {$\abs(z_2)$} (v5)
+% 		(v4) edge (v6)
+% 		(v5) edge (v6)
+% 		(v6) edge (v7)
+% 		(v7) edge (y1);
 \end{tikzpicture} 
 \end{document}

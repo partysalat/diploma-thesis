@@ -5,7 +5,7 @@ Funktionen
 % , bzw. lokal Lipschitzstetige Funktionen $F$ 
 anzuwenden. Desweiteren wird eine kurze Einführung in Automatischem Differenzieren gegeben, welches so erweitert wird, dass es unserem Modell entspricht.
 
-\section{Stückweise Linearisierung}
+
 % Eine Funktion $F:U\subseteq \R^n\to \R^m$ heißt Lipschitzstetig, wenn eine Konstante $L$ existiert, sodass für alle $x,y\in U$ gilt
 % \[
 %  \|F(y) - F(x)\| \leq \|y-x\|
@@ -13,7 +13,8 @@ anzuwenden. Desweiteren wird eine kurze Einführung in Automatischem Differenzie
 % , wobei $L$ als \textit{Lipschitzkonstante} bezeichnet wird. 
 % Eine Funktion $F$ wird \textit{lokal Lipschitzstetig} genannt, falls eine Umgebung $V\subseteq U$ zu einem $x\in U$ existiert, sodass $F$ auf eingeschränkt auf diese Umgebung $V$ Lipschitzstetig ist.
 
-\subsection{Stückweise lineare Funktionen}
+\section{Stückweise lineare Funktionen}
+\subsection{Max Min Repräsentation}
 Scholtes definiert in \cite[S.19]{scholtes2012introduction} eine stückweise affine Funktion $f:\R^n\to \R^m$ als eine stetige Funktion, zu der eine endliche Menge affiner Funktionen $f_i(x)=A^ix+b$, $i=1,\ldots,k$ existiert, sodass für jedes $x\in \R^n$ die Inklusion $f\in\lbrace f_1(x),\ldots, f_k(x)\rbrace $ gilt. Die affinen Funktionen $f_i$ werden \textit{Auswahlfunktionen} genannt. Scholtes bewies in \cite[Prop.2.2.2.]{scholtes2012introduction}, dass sich jede dieser stückweise affinen Funktionen als Verkettung der Funktionen max und min darstellen lässt
 \begin{theorem}[Max-Min Repräsentation]
  Falls $f:\R^n\to \R^m$ eine stückweise affine Funktion mit affinen Auswahlfunktionen $f_1=a_1^\tr x+ b_1,\ldots,f_k=a_k^\tr x+ b_k$ ist, dann existiert eine endliche Anzahl von Indexmengen $M_1,\ldots,M_k\subseteq \lbrace 1,\ldots,k\rbrace$ sodass
@@ -98,15 +99,56 @@ Um die stückweise Linearisierung einer stückweise glatten Funktion $F$ automat
 \section{Automatisches Differenzieren}
 Automatisches oder Algorithmisches Differenzieren ist ein Verfahren, um exakte, im Rahmen der Rechengenauigkeit \cite[S.51]{griewank2008evaluating}, Gradienten von Funktionen zu berechnen. Um dies zu erreichen wird weder numerisch noch algebraisch die Ableitung berechnet, sondern durch wiederholte Anwendung der Kettenregel. Dadurch wird eine verschachtelte Funktion auf einzelne Funktionen heruntergebrochen, von denen die Ableitung bekannt ist. Das bedeutet, dass wir durch einen Aufwand, der durch ein vielfaches einer Funktionsauswertung beschränkt ist, den Gradienten einer Funktion an einer Stelle berechnen können (\cite[S. 43, S.83]{griewank2008evaluating}). 
 
-Um eine vektorwertige Funktion $F:\mathcal D \subset \R^n\to \R^m$ mittels Automatischem Differenzieren abzuleiten, muss sie bereits in einer algebraischen Form vorliegen, sie soll also aus Verknüpfung der Relationen $+, -, \cdot, /$ oder polynomiale arithmetische Operationen sin, cos, sqrt, exp, log usw. bestehen.
-Wenn ein Computerprogramm eine Funktion ausführt, werden diese Verknüfungen stückweise nacheinander ausgewertet.
-Der Compiler führt eine sogenannte \textit{Three-Part Evaluation Procedure} durch, d.h. er speichert die unabhängigen Eingangsvariablen $x\in \R^n$ in internen Variablen $(v_{1-n},\ldots,v_{-1})$ ab, führt die Berechnungsschritte $v_1,\ldots, v_{l-m}$ aus und gibt die 
+Um eine vektorwertige Funktion $F:\mathcal D \subset \R^n\to \R^m$ mittels Automatischem Differenzieren abzuleiten, muss sie bereits in einer algebraischen Form vorliegen, sie soll also aus Verknüpfung der Relationen $+, -, \cdot, /$ oder polynomiellen arithmetischen Operationen sin, cos, sqrt, exp, log usw. bestehen, also jenen, von denen eine Ableitung bekannt ist.  
 
-\begin{figure}
-  \centering
+Zum Auswerten einer programmierten Funktion führt der Compiler eine sogenannte \textit{Three-Part Evaluation Procedure} durch, d.h. er speichert die unabhängigen Eingangsvariablen $x\in \R^n$ in internen Variablen $(v_{1-n},\ldots,v_{-1})$ ab, führt $l-m$ Berechnungsschritte $(v_1,\ldots, v_{l-m})$ aus und gibt die abhängigen Variablen $(v_{l-m+1},\ldots,v_l)$ zurück. Diese Berechnungen lassen sich durch einen \textit{Computational Graph} visualisieren, wie dies in Tabelle \ref{fig:computationalGraphTable} für das Beispiel $F(x) = \sin(|x_1\cdot x_2|+x_1)$ durchgeführt wurde. 
+Für das Ausführen werden diese \textit{Elementarfunktionen} $\lbrace \phi_i \rbrace_{i\in I}$ nacheinander in der richtigen Reihenfolge ausgeführt, welche durch die Halbordnung $\prec$ definiert ist, sodass wir für jedes $v_i$ mit $i>0$ und Argumenten $v_j$, $j<i$ schreiben können
+\[
+ v_i = \phi_i(v_j)_{j\prec i}
+\]
 
- \input{img/computational_graph.tikz}
-\end{figure}
+Um jetzt die erste Ableitung einer Funktion zu bestimmen, müssen wir jede ihrer Elementarfunktion ableiten und sie mit der Kettenregel wieder zusammenfügen. Falls am Punkt $\xo$ die Ableitung ausgewertet werden soll in Richtung des Inkrements $\Delta x = x- \xo $, dann erhalten eine tangentiale Approximation der Ableitung unter Nutzung des Funktionswertes $\vo_i = v_i(\xo)$ mittels 
+\[
+ v_i(\xo - \Delta x) -\vo \approx \Delta v_i \equiv \Delta v_i(\Delta x) 
+\]
+Für alle $\phi_i$ wird angenommen, dass sie differenzierbar in einer hinreichenden Umgebung sind. Dann nutzen wir die Tangentiale Linearisierung
+\begin{align}
+\Delta v_i &= \Delta v_j \pm \Delta v_k & \text{für } v_i = v_j \pm v_k\\
+\Delta v_i &= \vo_j* \Delta v_k +\Delta v_j*\vo_k& \text{für } v_i = v_j * v_k\\
+\Delta v_i &= \mathring c_{ij} * \Delta v_j  & \text{für } v_i = \phi_i(v_j) \not \equiv \abs(v_j)
+\end{align}
+wobei $\mathring c_{ij} = \phi'_i(\vo_j)$ und als \textit{tangent functions} bezeichnet werden und es ergibt sich durch die Kettenregel
+\[
+ \Delta y = \Delta F(\xo,\Delta x) \equiv \nabla F(\xo)\Delta x
+\]
+wobei $ \nabla F(\xo)\in \R^{m\times m}$ die Jacobimatrix bezeichnet.
+
+
+
+
+
+
+% \begin{figure}[H]
+%  \centering
+%  \input{img/computational_graph.tikz}
+%  \caption{Computational Graph für $F(x) = \sin(|x_1\cdot x_2|+x_1)$}
+%  
+%  \begin{tabular}{|c|c|}
+%  \hline
+%  $v_{-2} =  x_1$ 	\\
+%  $v_{-1} =  x_2$ 	\\
+%  \hline
+%  $v_{0} = v_{-2}\cdot v_{-1}$ 	\\
+%  $v_{1} =  \abs(v_{0})$ 	\\
+%  $v_{2} =  v_1+v_{-1}$ 	\\
+%  $v_{3} =  \sin(v_{2})$ 	\\
+%  \hline
+%  $y =  v_{3}$ 	\\
+%  \hline
+% \end{tabular}
+% \caption{Three Part Evaluation Procedure für $F(x) = \sin(|x_1\cdot x_2|+x_1)$}
+% \label{fig:computationalGraphTable}
+% \end{figure}
 
 
 \section{Stückweise Linearisierung}
