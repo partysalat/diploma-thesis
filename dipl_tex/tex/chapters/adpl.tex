@@ -80,8 +80,8 @@ Unsere Funktion $F$ ist linear, falls $\nu=s = 0$, falls sie also keine $abs$ Te
 
 Ziel dieser Arbeit ist es, die Eigenschaften der Matrizen der Abs-Normal Formulierung für unsere Berechnungen zu nutzen.
 Dazu wollen wir später die Klasse der \textit{stückweise glatten Funktionen} durch stückweise lineare Funktionen approximieren.
-Die Klasse der stückweisen glatten Funktionen kann als Erweiterung der stückweisen affinen Funktionen betrachtet werden. Sie bestehen aus $C^{1,1}$ Auswahlfunktionen, welche durch die unglatten Operationen $max$, $min$ und $abs$ konkateniert sind.
-Die grundsätzliche Idee besteht darin, die Auswahlfunktionen durch Tangenten anzunähern und sie wieder durch Anwendung der $abs$ Funktion zu verbinden, sodass eine stückweise Linearisierung der Ursprungsfunktion entsteht. Auf diesen gelten besondere Eigenschaften, welche in den nachfolgenden Kapiteln sukzessive angewendet werden.
+Die Klasse der stückweisen glatten Funktionen kann als Erweiterung der stückweisen affinen Funktionen betrachtet werden. Sie bestehen aus $C^{1,1}$ Auswahlfunktionen, welche durch die unglatten Operationen $max$, $min$ und $abs$ verknüpft sind.
+Die grundsätzliche Idee besteht darin, die Auswahlfunktionen durch Tangenten anzunähern und sie wieder durch Anwendung der $abs$ Funktion zu verbinden, sodass eine stückweise Linearisierung der Ursprungsfunktion entsteht. Auf dieser gelten besondere Eigenschaften, welche in den nachfolgenden Kapiteln sukzessive angewendet werden.
 
 Um die stückweise Linearisierung einer stückweise glatten Funktion $F$ automatisiert zu berechnen, wollen wir die Möglichkeiten des Automatischen Differenzierens nutzen und erweitern.
 
@@ -89,6 +89,8 @@ Um die stückweise Linearisierung einer stückweise glatten Funktion $F$ automat
 Automatisches oder Algorithmisches Differenzieren ist ein Verfahren, um exakte, im Rahmen der Rechengenauigkeit \cite[S.51]{griewank2008evaluating}, Gradienten von Funktionen zu berechnen. Um dies zu erreichen wird weder numerisch noch algebraisch die Ableitung berechnet, sondern durch wiederholte Anwendung der Kettenregel. Dadurch wird eine verschachtelte Funktion auf einzelne Funktionen heruntergebrochen, von denen die Ableitung bekannt ist. Das bedeutet, dass wir durch einen Aufwand, der durch ein vielfaches einer Funktionsauswertung beschränkt ist, den Gradienten einer Funktion an einer Stelle berechnen können (\cite[S. 43, S.83]{griewank2008evaluating}). 
 
 Um eine vektorwertige Funktion $F:\mathcal D \subset \R^n\to \R^m$ mittels Automatischem Differenzieren abzuleiten, muss sie bereits in einer algebraischen Form vorliegen, sie soll also aus Verknüpfung der Relationen $+, -, \cdot, /$ oder polynomiale arithmetische Operationen sin, cos, sqrt, exp, log usw. bestehen.
+Wenn ein Computerprogramm eine Funktion ausführt, werden diese Verknüfungen stückweise nacheinander ausgewertet.
+Der Compiler führt eine sogenannte \textit{Three-Part Evaluation Procedure} durch, d.h. er speichert die unabhängigen Eingangsvariablen $x\in \R^n$ in internen Variablen $(v_{1-n},\ldots,\v_{-1})$ ab, führt die Berechnungsschritte $v_1,\ldots, v_{l-m}$ aus und gibt die 
 
 \section{Stückweise Linearisierung}
 
@@ -96,7 +98,9 @@ Ersetzt man nun diese stückweise glatten Funktionen durch stückweise lineare F
 \[
  F(\xo + \Delta x) = F(\xo) + \Delta F(\xo,\Delta x) + \mathcal O (\|\Delta x\|^2)
 \]
-
+\begin{figure}
+\input{img.tex}
+\end{figure}
 \section{Alternative Methoden?}
 \subsection{Event Handling?}
 \subsection{Schrittweitensteuerung?}
