@@ -127,7 +127,7 @@
   linkcolor=black,
   urlcolor=black,
   citecolor=black,
-  pdftitle=Data Assimilation via PL,
+  pdftitle=Integration und Adjungierung Lipschitzstetiger ODEs mit Anwendung in der Datenassimilierung,
   pdfauthor=Ben Lenser,
 }
 %END
@@ -137,12 +137,13 @@
 %compat
 \pgfplotsset{compat=1.9}
 
-% make externalized images subject to draft option
-\pgfkeys{/pgf/images/include external/.code=\includegraphics{#1}}
 
 % output folder
 \tikzsetexternalprefix{img/tikz/}
 \tikzexternalize
+
+% make externalized images subject to draft option
+\pgfkeys{/pgf/images/include external/.code=\includegraphics{#1}}
 
 % define table read from image folder
 % \let\OLDpgfplotstableread\pgfplotstableread

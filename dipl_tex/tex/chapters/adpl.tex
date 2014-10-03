@@ -29,13 +29,19 @@ Eine andere Art der Darstellung, welche in der polyhedralen Natur der stückweis
 Ein Polyeder ist eine Menge $P\subseteq \R^n$, falls eine $m\times n$ - Matrix $A$ und ein $m$-dimensionaler Vektor $b$ existiert, sodass $P = \lbrace x\in \R^n ~|~ Ax\leq b \rbrace$. 
 Die Menge dieser konvexen Polyeder werden \textit{Polyhedrale Subdivision} von $\R^n$ zur Funktion $f$ genannt. Genauer ist $\Sigma$ eine Polyhedrale Subdivision von $P \subseteq \R^n$, falls
 \begin{enumerate}
- \item Jedes Polyeder aus $\Sigma$ ist eine Teilmenge von $\R^n$
- \item Die Dimension der Polyeder aus $\Sigma$ stimmt mit der Dimension von $\R^n$ überein
- \item Die Vereinigung aller Polyeder von $\Sigma$ überdeckt $\R^n$
+ \item Jedes Polyeder $\sigma \in \Sigma$ eine Teilmenge von $\R^n$ ist
+ \item Die Dimension der Polyeder aus $\Sigma$ mit der Dimension von $\R^n$ übereinstimmt
+ \item Die Vereinigung aller Polyeder von $\Sigma$ den Raum $\R^n$ überdeckt
  \item Jeweils zwei Polyeder von $\Sigma$ sind entweder disjunkt oder berühren sich nur an ihren Kanten.
 \end{enumerate}
+\begin{figure}[H]
+\centering
+\input{img/polyhedral_subdevision.tikz}
+\caption{Polyhedrale Subdivision}
+\label{fig:polyhedralSubdivision}
+\end{figure}
 Die Berührungskanten aus Punkt 4, bzw. ihrere höherdimensionalen Äquivalente werden als \textit{Kinks} bezeichnet. 
-TODO: BILD POLYNOMIAL SUBDIVISION EINFÜGEN
+
 
 \subsection{Abs-Normal-Form}
 Eine weitere Art der Darstellung ergibt sich aus der Max-Min Repräsentation \eqref{eq:maxMinRepresentiation} einer stückweisen linearen Funktion.
@@ -74,7 +80,11 @@ Die kleinste ganze Zahl $\nu \leq s$ für die
  L^\nu =0
 \]
 gilt, wird Verschachtelungstiefe oder \textit{switching depth} genannt. 
-In der Numerischen Praxis kommen Beispiele vor, bei denen eine hohe \textit{switching depth} auftreten kann, beispielsweise bei Flux Limitern bei ortsdiskretisierten PDEs, welche wir im Beispiel (siehe TODO:REFERENZ ZU MINMOD) zur Shallow Water Equation benutzen. Griewank erläutert in \cite{monster}, dass eine große switching depth zu numerischen Instabilitäten führen kann und man daher versuchen soll, diese möglichst gering zu halten, eben um auch die kombinatorische Komplexität der Matrizen $Z$, $L$ und $Y$ zu minimieren.
+In der Numerischen Praxis kommen Beispiele vor, bei denen eine hohe \textit{switching depth} auftreten kann, beispielsweise bei Flux Limitern bei ortsdiskretisierten PDEs, welche wir im Beispiel (siehe TODO:REFERENZ ZU MINMOD) zur Shallow Water Equation benutzen. Griewank erläutert in \cite{monster}, dass eine große switching depth zu numerischen Instabilitäten führen kann und man daher versuchen soll, diese möglichst gering zu halten, eben um auch die kombinatorische Komplexität der Matrizen $Z$, $L$ und $Y$ zu minimieren. Tatsächlich lässt sich die switching depth $\nu$ der Abs-Normal Repräsentation für eine stückweise lineare Abbildung $F:\R^n\to\R^m$ durch 
+\[
+\nu \leq \bar \nu(n) = 2n-1                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            \]
+beschränken (\cite[S.3]{plan})
+
 
 Unsere Funktion $F$ ist linear, falls $\nu=s = 0$, falls sie also keine $abs$ Terme besitzt. Für den Fall $\nu=1$ heißt $F$ \textit{simply switched}
 
@@ -90,7 +100,14 @@ Automatisches oder Algorithmisches Differenzieren ist ein Verfahren, um exakte, 
 
 Um eine vektorwertige Funktion $F:\mathcal D \subset \R^n\to \R^m$ mittels Automatischem Differenzieren abzuleiten, muss sie bereits in einer algebraischen Form vorliegen, sie soll also aus Verknüpfung der Relationen $+, -, \cdot, /$ oder polynomiale arithmetische Operationen sin, cos, sqrt, exp, log usw. bestehen.
 Wenn ein Computerprogramm eine Funktion ausführt, werden diese Verknüfungen stückweise nacheinander ausgewertet.
-Der Compiler führt eine sogenannte \textit{Three-Part Evaluation Procedure} durch, d.h. er speichert die unabhängigen Eingangsvariablen $x\in \R^n$ in internen Variablen $(v_{1-n},\ldots,\v_{-1})$ ab, führt die Berechnungsschritte $v_1,\ldots, v_{l-m}$ aus und gibt die 
+Der Compiler führt eine sogenannte \textit{Three-Part Evaluation Procedure} durch, d.h. er speichert die unabhängigen Eingangsvariablen $x\in \R^n$ in internen Variablen $(v_{1-n},\ldots,v_{-1})$ ab, führt die Berechnungsschritte $v_1,\ldots, v_{l-m}$ aus und gibt die 
+
+\begin{figure}
+  \centering
+
+ \input{img/computational_graph.tikz}
+\end{figure}
+
 
 \section{Stückweise Linearisierung}
 
@@ -98,9 +115,9 @@ Ersetzt man nun diese stückweise glatten Funktionen durch stückweise lineare F
 \[
  F(\xo + \Delta x) = F(\xo) + \Delta F(\xo,\Delta x) + \mathcal O (\|\Delta x\|^2)
 \]
-\begin{figure}
-\input{img.tex}
-\end{figure}
+% \begin{figure}
+%   \input{computational_graph _gen.tikz}
+% \end{figure}
 \section{Alternative Methoden?}
 \subsection{Event Handling?}
 \subsection{Schrittweitensteuerung?}
