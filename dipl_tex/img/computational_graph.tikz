@@ -18,25 +18,23 @@
 	every edge/.style={thick,draw},
 % 	>=triangle 90,
 ]
-\node[state,double] (x1) {$v_{-2} = x_1$};
-\node[state,double] (x2) [below= of x1]{$v_{-1} = x_2$};
+\node[state,double] (x1) {$v_{-1} = x_1$};
+\node[state,double] (x2) [below= of x1]{$v_{0} = x_2$};
 
-\node (v0) [right= of x1] {$v_0$};
-\node (v1) [right= of v0] {$v_1$};
-
-\node (v2) [below right= of v1] {$v_2$};
-
-\node [state,double] (y1) [below right= of v2] {$v_3$};
+\node (v1) [right= of x1] {$v_1$};
+\node (v2) [right= of v1] {$v_2$};
+\node (v3) [below right= of v2] {$v_3$};
+\node [state,double] (y1) [below right= of v3] {$v_4$};
 
 \path[->] 
-		(x1) edge (v0)
-		(x2) edge (v0) 
-		(v0) edge (v1);
+		(x1) edge (v1)
+		(x2) edge (v1)
+		(x2) edge (v3);
 		
 \path[->]
 		(v1) edge (v2) 
-		(x2) edge (v2) 
-		(v2) edge (y1);
+		(v2) edge (v3) 
+		(v3) edge (y1);
 % 		(v1) edge (v3)
 % 		(z1) edge node[pl] {$\abs(z_1)$} (v4)
 % 		(z2) edge node[pl] {$\abs(z_2)$} (v5)

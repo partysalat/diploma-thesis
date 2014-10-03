@@ -107,17 +107,17 @@ Für das Ausführen werden diese \textit{Elementarfunktionen} $\lbrace \phi_i \r
  v_i = \phi_i(v_j)_{j\prec i}
 \]
 
-Um jetzt die erste Ableitung einer Funktion zu bestimmen, müssen wir jede ihrer Elementarfunktion ableiten und sie mit der Kettenregel wieder zusammenfügen. Falls am Punkt $\xo$ die Ableitung ausgewertet werden soll in Richtung des Inkrements $\Delta x = x- \xo $, dann erhalten eine tangentiale Approximation der Ableitung unter Nutzung des Funktionswertes $\vo_i = v_i(\xo)$ mittels 
+Um jetzt die erste Ableitung einer Funktion zu bestimmen, müssen wir jede ihrer Elementarfunktion ableiten und sie mit der Kettenregel wieder zusammenfügen. Falls am Punkt $\xo$ die Ableitung ausgewertet werden soll in Richtung eines Inkrements $\Delta x = x- \xo $, dann erhalten wir eine tangentiale Approximation der Ableitung unter Nutzung des Funktionswertes $\vo_i = v_i(\xo)$ mittels 
 \[
  v_i(\xo - \Delta x) -\vo \approx \Delta v_i \equiv \Delta v_i(\Delta x) 
 \]
-Für alle $\phi_i$ wird angenommen, dass sie differenzierbar in einer hinreichenden Umgebung sind. Dann nutzen wir die Tangentiale Linearisierung
+Für alle $\phi_i$ wird angenommen, dass sie differenzierbar in einer für uns hinreichenden Umgebung sind. Dann nutzen wir die Tangentiale Linearisierung
 \begin{align}
 \Delta v_i &= \Delta v_j \pm \Delta v_k & \text{für } v_i = v_j \pm v_k\\
 \Delta v_i &= \vo_j* \Delta v_k +\Delta v_j*\vo_k& \text{für } v_i = v_j * v_k\\
 \Delta v_i &= \mathring c_{ij} * \Delta v_j  & \text{für } v_i = \phi_i(v_j) \not \equiv \abs(v_j)
 \end{align}
-wobei $\mathring c_{ij} = \phi'_i(\vo_j)$
+benutzt, wobei $\mathring c_{ij} = \phi'_i(\vo_j)$
 % und als \textit{tangent functions} bezeichnet werden 
 und es ergibt sich durch die Kettenregel
 \[
@@ -125,31 +125,9 @@ und es ergibt sich durch die Kettenregel
 \]
 wobei $ \nabla F(\xo)\in \R^{m\times m}$ die Jacobimatrix bezeichnet.
 
-Diese Methode wird "Vorwärtsmodus" genannt, bei welchem jedoch insbesondere für Ableitungen höherer Dimensionen $d$ der Aufwand linear mit $d$ wächst. AD-Programme wie ADOL-C nutzen den sogenannten "Rückwärtsmodus", welcher die Zielfunktion auswertet, Parameter abspeichert und die Ableitung mit weniger Aufwand berechnen kann. Diese Möglichkeit wird an dieser Stelle nur erwähnt, da ihre Erläuterung den Rahmen der Arbeit sprengen würde.
+Diese Methode wird "Vorwärtsmodus" genannt, bei welchem jedoch insbesondere für Ableitungen höherer Dimensionen $d$ der Aufwand linear mit $d$ wächst. AD-Programme wie ADOL-C nutzen den sogenannten "Rückwärtsmodus", welcher die Zielfunktion auswertet, Parameter abspeichert und die Ableitung mit weniger Aufwand "rückwärts" berechnen kann. Diese Möglichkeit wird an dieser Stelle nur erwähnt, da ihre Erläuterung den Rahmen der Arbeit sprengen würde.
 
-
-
-% \begin{figure}[H]
-%  \centering
-%  \input{img/computational_graph.tikz}
-%  \caption{Computational Graph für $F(x) = \sin(|x_1\cdot x_2|+x_1)$}
-%  
-%  \begin{tabular}{|c|c|}
-%  \hline
-%  $v_{-2} =  x_1$ 	\\
-%  $v_{-1} =  x_2$ 	\\
-%  \hline
-%  $v_{0} = v_{-2}\cdot v_{-1}$ 	\\
-%  $v_{1} =  \abs(v_{0})$ 	\\
-%  $v_{2} =  v_1+v_{-1}$ 	\\
-%  $v_{3} =  \sin(v_{2})$ 	\\
-%  \hline
-%  $y =  v_{3}$ 	\\
-%  \hline
-% \end{tabular}
-% \caption{Three Part Evaluation Procedure für $F(x) = \sin(|x_1\cdot x_2|+x_1)$}
-% \label{fig:computationalGraphTable}
-% \end{figure}
+Automatisches Differenzieren wurde bisher nur für Elementarfunktionen benutzt, die eine Ableitung besitzen. Im nächsten Kapitel werden wir dies auf $\abs(x)$ erweitern.
 
 
 \section{Stückweise Linearisierung}
@@ -158,6 +136,28 @@ Ersetzt man nun diese stückweise glatten Funktionen durch stückweise lineare F
 \[
  F(\xo + \Delta x) = F(\xo) + \Delta F(\xo,\Delta x) + \mathcal O (\|\Delta x\|^2)
 \]
+\begin{figure}[H]
+ \centering
+ \input{img/computational_graph.tikz}
+ \caption{Computational Graph für $F(x) = \sin(|x_1\cdot x_2|+x_1)$}
+ 
+ \begin{tabular}{|l|l|}
+ \hline
+ $v_{-1} =  x_1$ 		&$\Delta v_{-1} = \Delta x_1$\\
+ $v_{0} =  x_2$ 		&$\Delta v_{0} = \Delta x_2$	\\
+ \hline
+ $v_{1} = v_{-1}\cdot v_{0}$ 	&$\Delta v_{1} = \Delta v_{0}v_1 + v_0 \Delta v_{1}$\\
+ $v_{2} =  \abs(v_{1})$		&$\Delta v_{2} = |v_1 + \Delta v_1| - |v_1|$\\
+ $v_{3} =  v_2+v_{-1}$ 		&$\Delta v_{3} = \Delta v_2 + \Delta v_0$\\
+ $v_{4} =  \sin(v_{3})$ 	&$\Delta v_{4} = \cos(v_3) \Delta v_3$\\
+ \hline
+ $y =  v_{4}$ & $\Delta y = \Delta v_4$	\\
+ \hline
+\end{tabular}
+\caption{Three Part Evaluation Procedure für $F(x) = \sin(|x_1\cdot x_2|+x_1)$}
+\label{fig:computationalGraphTable}
+\end{figure}
+
 % \begin{figure}
 %   \input{computational_graph _gen.tikz}
 % \end{figure}
