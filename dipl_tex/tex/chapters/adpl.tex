@@ -3,7 +3,7 @@ Sämtliche Betrachtungen, welche wir bis jetzt geführt haben, setzen voraus, da
 \footnote{In dieser Arbeit nutzen wir "linear" synonym zu "affin" oder "polyhedral", obwohl letztere eventuell präziser wären. Sie entsprechen den Begriffen bei Griewank \cite{monster} und Scholtes \cite{scholtes2012introduction}}
 Funktionen
 % , bzw. lokal Lipschitzstetige Funktionen $F$ 
-anzuwenden. Desweiteren wird eine kurze Einführung in Automatischem Differenzieren gegeben, welches so erweitert wird, dass es unserem Modell entspricht.
+anzuwenden. Desweiteren wird eine kurze Einführung in Automatischem Differenzieren gegeben, welches so erweitert wird, dass es auf verkettet stückweise lineare Funktionen angewandt werden kann.
 
 
 % Eine Funktion $F:U\subseteq \R^n\to \R^m$ heißt Lipschitzstetig, wenn eine Konstante $L$ existiert, sodass für alle $x,y\in U$ gilt
@@ -14,6 +14,7 @@ anzuwenden. Desweiteren wird eine kurze Einführung in Automatischem Differenzie
 % Eine Funktion $F$ wird \textit{lokal Lipschitzstetig} genannt, falls eine Umgebung $V\subseteq U$ zu einem $x\in U$ existiert, sodass $F$ auf eingeschränkt auf diese Umgebung $V$ Lipschitzstetig ist.
 
 \section{Stückweise lineare Funktionen}
+TODO: RADEMACHER EINFÜGEN -> Grundvoraussetzung zur diffbarkeit von pl functions
 \subsection{Max Min Repräsentation}
 \label{sec:maxMinRepresentiation}
 Scholtes definiert in \cite[S.19]{scholtes2012introduction} eine stückweise affine Funktion $f:\R^n\to \R^m$ als eine stetige Funktion, zu der eine endliche Menge affiner Funktionen $f_i(x)=A^ix+b$, $i=1,\ldots,k$ existiert, sodass für jedes $x\in \R^n$ die Inklusion $f\in\lbrace f_1(x),\ldots, f_k(x)\rbrace $ gilt. Die affinen Funktionen $f_i$ werden \textit{Auswahlfunktionen} genannt. Scholtes bewies in \cite[Prop.2.2.2.]{scholtes2012introduction}, dass sich jede dieser stückweise affinen Funktionen als Verkettung der Funktionen max und min darstellen lässt
@@ -191,8 +192,16 @@ Betrachtet man nun die Funktion $F(\xo)+\Delta F(\xo, x-\xo)$ so ergibt sich sog
  \[
   \frac{\|\Delta F(\tilde x;\Delta x) - \Delta F(\xo;\Delta x)\|}{1+\|\Delta x\|}\leq \tilde \gamma \|\tilde x - \xo\|
  \]
+\end{theorem}
 
-
+\cite[Prop. 2]{monster}
+\begin{theorem}[Stückweise Lineares Modell]
+ \begin{enumerate}
+  \item An jedem $\xo\in \mathcal D$ ist die Funktion $\Delta F(\xo;\Delta x)$ definiert für alle $\Delta x\in \R^n$.
+  \item $\R^n$ ist die disjunkte Vereinigung relativ offener Mengen konvexer Polyeder $S_\sigma$ für $\sigma \in \lbrace -1,0,1\rbrace$
+  \item Auf dem Abschluss $\bar S_\sigma$ ist die Funktion $\Delta F(\xo;\Delta x)$ linear mit Jacobimatrizen $J_\sigma\in \R^{m\times n}$
+  \item Wenn eine gemeinsame Seite $\bar S_\sigma \cap S_{\tilde \sigma}$ die maximale Dimension $n-1$ besitzt, dann gilt $J_\sigma - J_{\tilde \sigma} = 2ba^\tr$, wobei $a$ eine Normale auf der Seite ist, welche nicht null ist und $b\in \R^n$
+ \end{enumerate}
 \end{theorem}
 
 
