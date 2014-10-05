@@ -15,6 +15,7 @@ anzuwenden. Desweiteren wird eine kurze Einführung in Automatischem Differenzie
 
 \section{Stückweise lineare Funktionen}
 \subsection{Max Min Repräsentation}
+\label{sec:maxMinRepresentiation}
 Scholtes definiert in \cite[S.19]{scholtes2012introduction} eine stückweise affine Funktion $f:\R^n\to \R^m$ als eine stetige Funktion, zu der eine endliche Menge affiner Funktionen $f_i(x)=A^ix+b$, $i=1,\ldots,k$ existiert, sodass für jedes $x\in \R^n$ die Inklusion $f\in\lbrace f_1(x),\ldots, f_k(x)\rbrace $ gilt. Die affinen Funktionen $f_i$ werden \textit{Auswahlfunktionen} genannt. Scholtes bewies in \cite[Prop.2.2.2.]{scholtes2012introduction}, dass sich jede dieser stückweise affinen Funktionen als Verkettung der Funktionen max und min darstellen lässt
 \begin{theorem}[Max-Min Repräsentation]
  Falls $f:\R^n\to \R^m$ eine stückweise affine Funktion mit affinen Auswahlfunktionen $f_1=a_1^\tr x+ b_1,\ldots,f_k=a_k^\tr x+ b_k$ ist, dann existiert eine endliche Anzahl von Indexmengen $M_1,\ldots,M_k\subseteq \lbrace 1,\ldots,k\rbrace$ sodass
@@ -45,6 +46,7 @@ Die Berührungskanten aus Punkt 4, bzw. ihrere höherdimensionalen Äquivalente 
 
 
 \subsection{Abs-Normal-Form}
+\label{sec:absNormalForm}
 Eine weitere Art der Darstellung ergibt sich aus der Max-Min Repräsentation \eqref{eq:maxMinRepresentiation} einer stückweisen linearen Funktion.
 Da sich $max$ und $min$ als
 \[
@@ -74,7 +76,7 @@ wobei
 \[
 c\in \R^s, ~ Z\in \R^{s\times n},~ L\in\R^{s\times s}, ~ b\in\R^m, ~ J\in\R^{m\times n}, ~ Y\in \R^{m\times s} 
 \]
-$L$ muss offensichtlich die Form eine streng unteren Dreiecksmatrix besitzen, da sonst im Auswertungsgraph der Funktion $F$ Zyklen entstehen könnten.
+$L$ muss offensichtlich die Form eine streng unteren Dreiecksmatrix besitzen, da sonst im Auswertungsgraph der Funktion $F$ Zyklen entstehen könnten. Die Zahl $s\in \N$ ist hierbei die Gesamtanzahl der $abs$ Aufrufe.
 \end{definition}
 Die kleinste ganze Zahl $\nu \leq s$ für die 
 \[
@@ -90,8 +92,8 @@ beschränken (\cite[S.3]{plan})
 Unsere Funktion $F$ ist linear, falls $\nu=s = 0$, falls sie also keine $abs$ Terme besitzt. Für den Fall $\nu=1$ heißt $F$ \textit{simply switched}
 
 Ziel dieser Arbeit ist es, die Eigenschaften der Matrizen der Abs-Normal Formulierung für unsere Berechnungen zu nutzen.
-Dazu wollen wir später die Klasse der \textit{stückweise glatten Funktionen} durch stückweise lineare Funktionen approximieren.
-Die Klasse der stückweisen glatten Funktionen kann als Erweiterung der stückweisen affinen Funktionen betrachtet werden. Sie bestehen aus $C^{1,1}$ Auswahlfunktionen, welche durch die unglatten Operationen $max$, $min$ und $abs$ verknüpft sind.
+Dazu wollen wir später die Klasse der \textit{composite piecewise smooth functions} (also verkettete stückweise glatte Funktionen) durch stückweise lineare Funktionen approximieren.
+Die Klasse der verketteten glatten Funktionen kann als Erweiterung der stückweisen affinen Funktionen betrachtet werden. Sie bestehen aus $C^{1,1}$ Auswahlfunktionen, welche durch die unglatten Operationen $max$, $min$ und $abs$ verknüpft sind.
 Die grundsätzliche Idee besteht darin, die Auswahlfunktionen durch Tangenten anzunähern und sie wieder durch Anwendung der $abs$ Funktion zu verbinden, sodass eine stückweise Linearisierung der Ursprungsfunktion entsteht. Auf dieser gelten besondere Eigenschaften, welche in den nachfolgenden Kapiteln sukzessive angewendet werden.
 
 Um die stückweise Linearisierung einer stückweise glatten Funktion $F$ automatisiert zu berechnen, wollen wir die Möglichkeiten des Automatischen Differenzierens nutzen und erweitern.
@@ -101,62 +103,104 @@ Automatisches oder Algorithmisches Differenzieren ist ein Verfahren, um exakte, 
 
 Um eine vektorwertige Funktion $F:\mathcal D \subset \R^n\to \R^m$ mittels Automatischem Differenzieren abzuleiten, muss sie bereits in einer algebraischen Form vorliegen, sie soll also aus Verknüpfung der Relationen $+, -, \cdot, /$ oder polynomiellen arithmetischen Operationen sin, cos, sqrt, exp, log usw. bestehen, also jenen, von denen eine Ableitung bekannt ist.  
 
-Zum Auswerten einer programmierten Funktion führt der Compiler eine sogenannte \textit{Three-Part Evaluation Procedure} durch, d.h. er speichert die unabhängigen Eingangsvariablen $x\in \R^n$ in internen Variablen $(v_{1-n},\ldots,v_{-1})$ ab, führt $l-m$ Berechnungsschritte $(v_1,\ldots, v_{l-m})$ aus und gibt die abhängigen Variablen $(v_{l-m+1},\ldots,v_l)$ zurück. Diese Berechnungen lassen sich durch einen \textit{Computational Graph} visualisieren, wie dies in Tabelle \ref{fig:computationalGraphTable} für das Beispiel $F(x) = \sin(|x_1\cdot x_2|+x_1)$ durchgeführt wurde. 
+Zum Auswerten einer programmierten Funktion führt der Compiler eine sogenannte \textit{Three-Part Evaluation Procedure} durch, d.h. er speichert die unabhängigen Eingangsvariablen $x\in \R^n$ in internen Variablen $(v_{1-n},\ldots,v_{-1})$ ab, führt $l-m$ Berechnungsschritte $(v_1,\ldots, v_{l-m})$ aus und gibt die abhängigen Variablen $(v_{l-m+1},\ldots,v_l)$ zurück. Diese Berechnungen lassen sich durch einen \textit{Computational Graph} visualisieren, wie dies in Figur \ref{fig:computationalGraph} für das Beispiel $F(x) = \sin(|x_1\cdot x_2|+x_1)$ durchgeführt wurde. 
 Für das Ausführen werden diese \textit{Elementarfunktionen} $\lbrace \phi_i \rbrace_{i\in I}$ nacheinander in der richtigen Reihenfolge ausgeführt, welche durch die Halbordnung $\prec$ definiert ist, sodass wir für jedes $v_i$ mit $i>0$ und Argumenten $v_j$, $j<i$ schreiben können
 \[
  v_i = \phi_i(v_j)_{j\prec i}
 \]
 
 Um jetzt die erste Ableitung einer Funktion zu bestimmen, müssen wir jede ihrer Elementarfunktion ableiten und sie mit der Kettenregel wieder zusammenfügen. Falls am Punkt $\xo$ die Ableitung ausgewertet werden soll in Richtung eines Inkrements $\Delta x = x- \xo $, dann erhalten wir eine tangentiale Approximation der Ableitung unter Nutzung des Funktionswertes $\vo_i = v_i(\xo)$ mittels 
-\[
- v_i(\xo - \Delta x) -\vo \approx \Delta v_i \equiv \Delta v_i(\Delta x) 
-\]
-Für alle $\phi_i$ wird angenommen, dass sie differenzierbar in einer für uns hinreichenden Umgebung sind. Dann nutzen wir die Tangentiale Linearisierung
-\begin{align}
+\begin{equation}
+\label{eq:plApproximation}
+v_i(\xo - \Delta x) -\vo \approx \Delta v_i \equiv \Delta v_i(\Delta x) 
+\end{equation}
+Für alle $\phi_i$ wird angenommen, dass sie differenzierbar in einer für uns hinreichenden Umgebung sind. Dann werden die tangentialen Linearisierungen
+\begin{equation}
+\begin{aligned}
 \Delta v_i &= \Delta v_j \pm \Delta v_k & \text{für } v_i = v_j \pm v_k\\
 \Delta v_i &= \vo_j* \Delta v_k +\Delta v_j*\vo_k& \text{für } v_i = v_j * v_k\\
 \Delta v_i &= \mathring c_{ij} * \Delta v_j  & \text{für } v_i = \phi_i(v_j) \not \equiv \abs(v_j)
-\end{align}
+\end{aligned}
+\label{eq:stdAdRules}
+\end{equation}
+
 benutzt, wobei $\mathring c_{ij} = \phi'_i(\vo_j)$
 % und als \textit{tangent functions} bezeichnet werden 
 und es ergibt sich durch die Kettenregel
 \[
  \Delta y = \Delta F(\xo,\Delta x) \equiv \nabla F(\xo)\Delta x
 \]
-wobei $ \nabla F(\xo)\in \R^{m\times m}$ die Jacobimatrix bezeichnet.
+bei der $\nabla F(\xo)\in \R^{m\times m}$ die Jacobimatrix bezeichnet.
 
-Diese Methode wird "Vorwärtsmodus" genannt, bei welchem jedoch insbesondere für Ableitungen höherer Dimensionen $d$ der Aufwand linear mit $d$ wächst. AD-Programme wie ADOL-C nutzen den sogenannten "Rückwärtsmodus", welcher die Zielfunktion auswertet, Parameter abspeichert und die Ableitung mit weniger Aufwand "rückwärts" berechnen kann. Diese Möglichkeit wird an dieser Stelle nur erwähnt, da ihre Erläuterung den Rahmen der Arbeit sprengen würde.
+Diese Methode wird "Vorwärtsmodus" genannt, bei welchem jedoch insbesondere für Ableitungen höherer Dimensionen $d$ der Aufwand linear mit $d$ wächst. Um diesen Aufwand zu verkleinern existiert in Analogie zum "Vorwärtsmodus" der sogenannte "Rückwärtsmodus", welcher die Zielfunktion auswertet, Parameter abspeichert und die Ableitung mit weniger Aufwand aus den gespeicherten Werten "rückwärts" berechnen kann. Diese Möglichkeit wird an dieser Stelle nur erwähnt, da ihre Erläuterung den Rahmen der Arbeit sprengen würde.
 
 Automatisches Differenzieren wurde bisher nur für Elementarfunktionen benutzt, die eine Ableitung besitzen. Im nächsten Kapitel werden wir dies auf $\abs(x)$ erweitern.
 
 
 \section{Stückweise Linearisierung}
+Wie zuvor bereits erwähnt liegt unser Ziel nun darin, verkettete stückweise glatte Funktionen zu approximieren. Eine verkettete stückweise glatte Funktion ist eine Funktion, welche nur aus $C^{1,1}$ Elementarfunktionen $\phi_i$ und $abs$ Aufrufen bestehen. Diese Klasse von Funktionen sind häufig in klassischen Problemfeldern zu finden.
 
-Ersetzt man nun diese stückweise glatten Funktionen durch stückweise lineare Funktionen, so erhält man eine Approximation der Funktion zweiter Ordnung im Abstand zum Ausgangspunkt (\cite[Prop.1]{monster}). Man definiert dafür für einen Punkt $\xo$ und eine Richtung $\Delta x$ die \textit{Inkrementfunktion} $\Delta F(\xo,\Delta x):\mathcal D \times  \R^n \to \R^m$ für welche gilt:
-\[
- F(\xo + \Delta x) = F(\xo) + \Delta F(\xo,\Delta x) + \mathcal O (\|\Delta x\|^2)
-\]
-\begin{figure}[H]
- \centering
+In den AD-Regeln der bisherigen Tangentenlinearisierungen \eqref{eq:stdAdRules} werden $abs$-Terme nicht betrachtet. Um diese zu erweitern wird
+die stückweise lineare Richtungsfunktion $F(\xo + \Delta x) - F(\xo) = \abs(\xo+\Delta x) - abs(x)$ benutzt und damit \eqref{eq:stdAdRules} um die Regel
+\begin{equation}
+\label{eq:absAdRule}
+\begin{aligned}
+ \Delta v_i &= \abs(\vo_i+ \Delta v_i) - \vo_i &\text{für } v_i = \abs(v_j)
+ \end{aligned}
+\end{equation}
+
+erweitert. Exemplarisch wird die Auswertungs mit der erweiterten Regel anhand der Beispielfunktion $\sin(|x_1\cdot x_2|+x_1)$ in Tabelle \ref{fig:computationalGraphTable} durchgeführt.
+\begin{figure}
+\centering
  \input{img/computational_graph.tikz}
  \caption{Computational Graph für $F(x) = \sin(|x_1\cdot x_2|+x_1)$}
- 
- \begin{tabular}{|l|l|}
+\label{fig:computationalGraph} 
+ \begin{tabular}{|l|l||c|c|}
  \hline
- $v_{-1} =  x_1$ 		&$\Delta v_{-1} = \Delta x_1$\\
- $v_{0} =  x_2$ 		&$\Delta v_{0} = \Delta x_2$	\\
+ $v_{-1} =  x_1$ 		&$\Delta v_{-1} = \Delta x_1$ & -2 & 1	\\
+ $v_{0} =  x_2$ 		&$\Delta v_{0} = \Delta x_2$&1 &-1	\\
  \hline
- $v_{1} = v_{-1}\cdot v_{0}$ 	&$\Delta v_{1} = \Delta v_{0}v_1 + v_0 \Delta v_{1}$\\
- $v_{2} =  \abs(v_{1})$		&$\Delta v_{2} = |v_1 + \Delta v_1| - |v_1|$\\
- $v_{3} =  v_2+v_{-1}$ 		&$\Delta v_{3} = \Delta v_2 + \Delta v_0$\\
- $v_{4} =  \sin(v_{3})$ 	&$\Delta v_{4} = \cos(v_3) \Delta v_3$\\
+ $v_{1} = v_{-1}\cdot v_{0}$ 	&$\Delta v_{1} = \Delta v_{0}v_1 + v_0 \Delta v_{1}$&-2&4\\
+ $v_{2} =  \abs(v_{1})$		&$\Delta v_{2} = |v_1 + \Delta v_1| - |v_1|$&2&0\\
+ $v_{3} =  v_2+v_{-1}$ 		&$\Delta v_{3} = \Delta v_2 + \Delta v_0$&2&-1\\
+ $v_{4} =  \sin(v_{3})$ 	&$\Delta v_{4} = \cos(v_3) \Delta v_3$&$\approx 0.90929$& $\approx 0.416146$ \\
  \hline
- $y =  v_{4}$ & $\Delta y = \Delta v_4$	\\
+ $y =  v_{4}$ & $\Delta y = \Delta v_4$&$\approx 0.90929$& $\approx 0.416146$ \\
  \hline
 \end{tabular}
-\caption{Three Part Evaluation Procedure für $F(x) = \sin(|x_1\cdot x_2|+x_1)$}
+\caption{Three Part Evaluation Procedure für $F(x) = \sin(|x_1\cdot x_2|+x_1)$ an der Stelle $\xo = (-2,1)$ in Richtung $\Delta x = (1,-1)$}
 \label{fig:computationalGraphTable}
 \end{figure}
+Für eine Auswertungsprozedur unter Berücksichtigung der erweiterten Regel \eqref{eq:absAdRule} ergibt sich für $\Delta y$ \cite[S.9]{monster} die
+\begin{definition}[Inkrementfunktion]
+\label{def:incrementFunction}
+Gegeben sei eine verkettete stückweise glatte Funktion $F:\R^n\to\R^m$ mit $s>0$ Abs- Aufrufen. Für eine offene Umgebung $\mathcal D$ einer abgeschlossenen konvexen Definitionsmenge $\mathcal K \subset \R^n$, einem fixen $x\in \mathcal D$, einem Entwicklungspunkt $\xo$ und einer Richtung $\Delta x = x-\xo$ heißt 
+\[
+\Delta y = \Delta y (\Delta x) = \Delta F(\xo,\Delta x):\R^n \to \R^m
+\]
+die stückweise lineare und stetige \textit{Inkrementfunktion}.
+\end{definition}
+
+Betrachtet man nun die Funktion $F(\xo)+\Delta F(\xo, x-\xo)$ so ergibt sich sogar eine Approximation der Ursprungsfunktion zweiter Ordnung im Abstand zum Ausgangspunkt, wie Griewank in \cite[Prop.1]{monster} zeigen konnte:
+\begin{theorem}[Quadratische Approx. und Lipschitzstetigkeit]
+ Sei $F$ eine verkettete Lipschitzstetige stückweise glatte, differenzierbare Funktion auf einer offenen Umgebung $\mathcal D$ einer abgeschlossenen konvexen Definitionsmenge $\mathcal K \subset \R^n$. Dann existiert eine Konstante $\gamma$, sodass für alle Paare $\xo,x\in \mathcal K$
+ \[
+  \|F(x) - F(\xo) - \Delta F(\xo;x-\xo)\| \leq \gamma \|x-\xo\|^2
+ \]
+ Desweiteren gilt für jedes Paar $\tilde x,\xo\in \mathcal K$ und $\Delta x\in \R^n$ und einer Konstanten $\tilde\gamma$
+ \[
+  \frac{\|\Delta F(\tilde x;\Delta x) - \Delta F(\xo;\Delta x)\|}{1+\|\Delta x\|}\leq \tilde \gamma \|\tilde x - \xo\|
+ \]
+
+
+\end{theorem}
+
+
+% Ersetzt man nun diese verkettete stückweise glatten Funktionen durch stückweise lineare Funktionen, so erhält man eine Approximation der Funktion zweiter Ordnung im Abstand zum Ausgangspunkt (\cite[Prop.1]{monster}). Man definiert dafür für einen Punkt $\xo$ und eine Richtung $\Delta x$ die \textit{Inkrementfunktion} $\Delta F(\xo,\Delta x):\mathcal D \times  \R^n \to \R^m$ für welche gilt:
+% \[
+%  F(\xo + \Delta x) = F(\xo) + \Delta F(\xo,\Delta x) + \mathcal O (\|\Delta x\|^2)
+% \]
+
 
 % \begin{figure}
 %   \input{computational_graph _gen.tikz}

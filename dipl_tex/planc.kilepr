@@ -149,18 +149,18 @@ encoding=UTF-8
 highlight=BibTeX
 line=0
 mode=BibTeX
-open=true
+open=false
 order=6
 
 [item:main.tex]
 archive=true
-column=0
+column=7
 encoding=UTF-8
 highlight=LaTeX
-line=34
+line=11
 mode=LaTeX
 open=true
-order=1
+order=0
 
 [item:planc.kilepr]
 archive=true
@@ -214,23 +214,23 @@ order=2
 
 [item:tex/chapters/adpl.tex]
 archive=true
-column=316
+column=38
 encoding=UTF-8
 highlight=LaTeX
-line=90
+line=151
 mode=LaTeX
 open=true
-order=2
+order=1
 
 [item:tex/chapters/data_assimilation.tex]
 archive=true
-column=0
+column=17
 encoding=UTF-8
 highlight=LaTeX
-line=628
+line=221
 mode=LaTeX
 open=true
-order=0
+order=3
 
 [item:tex/chapters/experiments.tex]
 archive=true
@@ -239,7 +239,7 @@ encoding=UTF-8
 highlight=LaTeX
 line=1
 mode=LaTeX
-open=true
+open=false
 order=7
 
 [item:tex/chapters/implementation.tex]
@@ -249,7 +249,7 @@ encoding=UTF-8
 highlight=LaTeX
 line=0
 mode=LaTeX
-open=true
+open=false
 order=4
 
 [item:tex/chapters/introduction.tex]
@@ -279,7 +279,7 @@ encoding=UTF-8
 highlight=LaTeX
 line=5
 mode=LaTeX
-open=true
+open=false
 order=5
 
 [item:tex/chapters/pl_solve_ode.tex]
@@ -290,7 +290,7 @@ highlight=LaTeX
 line=3
 mode=LaTeX
 open=true
-order=3
+order=2
 
 [item:tex/chapters/titlepage.tex]
 archive=true
@@ -304,30 +304,30 @@ order=7
 
 [item:tex/meta/macros.tex]
 archive=true
-column=46
+column=0
 encoding=UTF-8
 highlight=LaTeX
-line=84
+line=57
 mode=LaTeX
 open=false
 order=4
 
 [item:tex/meta/settings.tex]
 archive=true
-column=4
+column=102
 encoding=UTF-8
 highlight=LaTeX
-line=156
+line=129
 mode=LaTeX
 open=false
 order=1
 
 [item:thesis_lenser.sty]
 archive=true
-column=0
+column=16
 encoding=UTF-8
 highlight=LaTeX
-line=0
+line=101
 mode=LaTeX
 open=false
 order=3
@@ -339,10 +339,10 @@ JumpList=
 ViMarks=.,0,0,[,0,0,],0,0
 
 [view-settings,view=0,item:main.tex]
-CursorColumn=0
-CursorLine=34
+CursorColumn=7
+CursorLine=11
 JumpList=
-ViMarks=.,33,0,[,33,0,],33,1
+ViMarks=.,11,0,[,11,0,],11,0
 
 [view-settings,view=0,item:tex/appendix/selbststaendig.tex]
 CursorColumn=0
@@ -369,16 +369,16 @@ JumpList=
 ViMarks=
 
 [view-settings,view=0,item:tex/chapters/adpl.tex]
-CursorColumn=316
-CursorLine=90
+CursorColumn=38
+CursorLine=151
 JumpList=
-ViMarks=.,88,343,[,88,343,],88,343
+ViMarks=.,151,37,[,151,37,],151,37
 
 [view-settings,view=0,item:tex/chapters/data_assimilation.tex]
-CursorColumn=0
-CursorLine=628
+CursorColumn=17
+CursorLine=221
 JumpList=
-ViMarks=.,631,0,[,631,0,],631,0
+ViMarks=.,154,16,[,154,16,],154,16
 
 [view-settings,view=0,item:tex/chapters/experiments.tex]
 CursorColumn=0
@@ -414,7 +414,7 @@ ViMarks=.,5,22,[,5,18,],5,22
 CursorColumn=0
 CursorLine=3
 JumpList=
-ViMarks=.,6,17,[,6,12,],6,17
+ViMarks=.,4,0,[,4,0,],4,0
 
 [view-settings,view=0,item:tex/chapters/titlepage.tex]
 CursorColumn=14
@@ -423,19 +423,19 @@ JumpList=
 ViMarks=.,22,13,[,22,0,],22,13
 
 [view-settings,view=0,item:tex/meta/macros.tex]
-CursorColumn=46
-CursorLine=84
+CursorColumn=0
+CursorLine=57
 JumpList=
-ViMarks=.,84,0,[,83,0,],84,45
+ViMarks=.,56,27,[,56,27,],56,27
 
 [view-settings,view=0,item:tex/meta/settings.tex]
-CursorColumn=4
-CursorLine=156
+CursorColumn=102
+CursorLine=129
 JumpList=
-ViMarks=
+ViMarks=.,129,11,[,129,11,],129,101
 
 [view-settings,view=0,item:thesis_lenser.sty]
-CursorColumn=0
-CursorLine=0
+CursorColumn=16
+CursorLine=101
 JumpList=
 ViMarks=.,49,11,[,49,11,],49,11
