@@ -60,7 +60,7 @@
 \addplot3[mesh,draw=black,thick,mesh/rows=3] table {\datatable};
 
 % \node at (axis cs:2.3,1.8,.6) [above] {$P_\sigma$};
-\node at (axis cs:2.5,1,0) [above] {$\sigma$};
+\node at (axis cs:2.5,1,0) [above] {$S_\sigma$};
 \end{axis}
 \end{tikzpicture}
 
