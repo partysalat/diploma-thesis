@@ -34,6 +34,10 @@ Für die Bouligandableitung gelten alle Differentiationsregeln wie für die Fré
   (F\circ G)'(x_0;d) = F'(G(x_0);G'(x_0;d))
 \]
 
+Ein weiterer allgemeiner gefasster Ableitungsbegriff ist die Clarke Ableitung \cite[]{clarke1975generalized}
+\begin{definition}[Clarke Ableitung]
+ 
+\end{definition}
 
 
 - Clarke/Bouligand Ableutng
@@ -49,7 +53,9 @@ Für die Bouligandableitung gelten alle Differentiationsregeln wie für die Fré
 \section{Stückweise lineare Funktionen}
 \subsection{Max Min Repräsentation}
 \label{sec:maxMinRepresentiation}
-Scholtes definiert in \cite[S.19]{scholtes2012introduction} eine stückweise affine Funktion $f:\R^n\to \R^m$ als eine stetige Funktion, zu der eine endliche Menge affiner Funktionen $f_i(x)=A_ix+b_i$, $i=1,\ldots,k$ existiert, sodass für jedes $x\in \R^n$ die Inklusion $f\in\lbrace f_1(x),\ldots, f_k(x)\rbrace $ gilt und $f$ global stetig ist. Die affinen Funktionen $f_i$ werden \textit{Auswahlfunktionen} genannt. Scholtes bewies in \cite[Prop.2.2.2.]{scholtes2012introduction}, dass sich jede dieser stückweise affinen Funktionen als Verkettung der Funktionen max und min darstellen lässt
+Scholtes definiert in \cite[S.19]{scholtes2012introduction} eine stückweise affine Funktion $f:\R^n\to \R^m$ als eine stetige Funktion, zu der eine endliche Menge affiner Funktionen $f_i(x)=A_ix+b_i$, $i=1,\ldots,k$ existiert, sodass für jedes $x\in \R^n$ die Inklusion $f\in\lbrace f_1(x),\ldots, f_k(x)\rbrace $ gilt und $f$ global stetig ist. Die affinen Funktionen $f_i$ werden \textit{Auswahlfunktionen} genannt. 
+Auswahlfunktionen für die $F(x) = F_i(x)$ an einem Punkt $x\in R^n$ gilt werden \textit{aktiv} genannt. Ist dies nicht der Fall, so wird sie als \textit{passiv} bezeichnet.
+Scholtes bewies in \cite[Prop.2.2.2.]{scholtes2012introduction}, dass sich jede dieser stückweise affinen Funktionen als Verkettung der Funktionen max und min darstellen lässt
 \begin{theorem}[Max-Min Repräsentation]
  Falls $f:\R^n\to \R^m$ eine stückweise affine Funktion mit affinen Auswahlfunktionen $f_1=A_1^\tr x+ A_1,\ldots,f_k=A_k^\tr x+ b_k$ ist, dann existiert eine endliche Anzahl von Indexmengen $M_1,\ldots,M_k\subseteq \lbrace 1,\ldots,k\rbrace$ sodass
  \begin{equation}
@@ -77,7 +83,7 @@ Die Menge dieser konvexen Polyeder werden \textit{Polyhedrale Subdivision} von $
 \label{fig:polyhedralSubdivision}
 \end{figure}
 Die Berührungskanten aus Punkt 4, bzw. ihrere höherdimensionalen Äquivalente werden als \textit{Kinks} bezeichnet. 
-
+Scholtes zeigt in \cite[Prop. 2.2.3.]{scholtes2012introduction}, dass jede stückweise affine Funktion eine zugehörige Polyhedrale Subdivision besitzt.
 
 \subsection{Abs-Normal-Form}
 \label{sec:absNormalForm}
