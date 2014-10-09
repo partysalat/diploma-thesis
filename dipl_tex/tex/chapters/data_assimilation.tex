@@ -460,8 +460,9 @@ mit von $x$ und $d$ unabhängigen Konstanten $c_1>0$, $c_2>0$ gilt. Eine Schritt
 \]
 mit einer von $x$ und $d$ unabhängigen Konstanten $c>0$ gilt.
 \end{definition}
-Die erste Bedingung stellt sicher, dass der neue Funktionswert $f(x+\sigma d)$ unterhalb der von $x$ in Abstiegsrichtung $d$ aufgespannten Geraden befindet. Die zweite Bedingung sichert, dass die Schrittweite $\sigma$ in Bezug zu $\nabla J(x)^\tr d$ nicht zu schnell gegen $0$ geht.
-TODO: BILD EINFÜGEN
+Die erste Bedingung stellt sicher, dass der neue Funktionswert $f(x+\sigma d)$ unterhalb der von $x$ in Abstiegsrichtung $d$ aufgespannten Geraden befindet. 
+Die zweite Bedingung sichert, dass die Schrittweite $\sigma$ in Bezug zu $\nabla J(x)^\tr d$ nicht zu schnell gegen $0$ geht.
+
 Falls die Voraussetzung \eqref{eq:niveauset} erfüllt ist und wir effiziente Schrittweiten benutzen ist 
 \[
  \frac{\nabla f(x^{(k)})^\tr d^{(k)}}{\|d^{(k)}\|} \to 0 \quad \text{für }k\to \infty
@@ -502,27 +503,27 @@ zu bestimmen. Ist $x\in N(J,J(x^{(0)}))$ und $d$ so gewählt, dass $\nabla J(x)^
 \]
 Diese Nullstelle ist eindeutig, falls die Zielfunktion $J$ konvex ist. Für ein quadratisches Optimierungsproblem wird die exakte Schrittweite benutzt, in unserem Fall jedoch muss man sich mit einer Näherung zufrieden geben. 
  
-Motiviert aus dem Prinzip des hinreichenden Abstiegs aus Definition \ref{def:sufficientdescent} ergibt sich das Armijo Verfahren (vgl. \cite[Verfahren 4.5.4]{alt2002nichtlineare}), um eine effiziente Schrittweite $\sigma_A$ zu erhalten:
-\begin{figure}[H]
-\begin{framed}
- Gegeben seien Konstante $0<c_1<1$, $0<c_2$ und $0<\beta_1\leq \beta_2 <1$ unabhängig von $x$ und $d$.
- \begin{enumerate}
-  \item Wähle eine Start-Schrittweite 
-  \[
-   \sigma_0 \geq -c_2 \frac{\nabla f(x)^\tr d}{\|d\|^2}
-  \]
-  und setze $j:=0$
-  \item Ist die Bedingung \eqref{eq:armijo1} erfüllt, d.h. gilt
-  \[
-   f(x+\sigma_j d)\leq f(x)+ c_1\sigma_j \nabla f(x)^\tr d
-  \]
-  dann setze $\sigma_A = \sigma_j$ und stoppe das Verfahren
-  \item Wähle $\sigma_{j+1}\in [\beta_1\sigma_j,\beta_2\sigma_j]$
-  \item Setze $j:=j+1$ und gehe zu 2.
- \end{enumerate}
-\end{framed}
-\caption{Armijo Verfahren zur Schrittweitensteuerung}
-\end{figure}
+Motiviert aus dem Prinzip des hinreichenden Abstiegs aus Definition \ref{def:sufficientdescent} ergibt sich das Armijo Verfahren (\cite[Verfahren 4.5.4]{alt2002nichtlineare}), um eine effiziente Schrittweite $\sigma_A$ zu erhalten.   
+% \begin{figure}[H]
+% \begin{framed}
+%  Gegeben seien Konstante $0<c_1<1$, $0<c_2$ und $0<\beta_1\leq \beta_2 <1$ unabhängig von $x$ und $d$.
+%  \begin{enumerate}
+%   \item Wähle eine Start-Schrittweite 
+%   \[
+%    \sigma_0 \geq -c_2 \frac{\nabla f(x)^\tr d}{\|d\|^2}
+%   \]
+%   und setze $j:=0$
+%   \item Ist die Bedingung \eqref{eq:armijo1} erfüllt, d.h. gilt
+%   \[
+%    f(x+\sigma_j d)\leq f(x)+ c_1\sigma_j \nabla f(x)^\tr d
+%   \]
+%   dann setze $\sigma_A = \sigma_j$ und stoppe das Verfahren
+%   \item Wähle $\sigma_{j+1}\in [\beta_1\sigma_j,\beta_2\sigma_j]$
+%   \item Setze $j:=j+1$ und gehe zu 2.
+%  \end{enumerate}
+% \end{framed}
+% \caption{Armijo Verfahren zur Schrittweitensteuerung}
+% \end{figure}
 Den Beweis der Konvergenz ist in  \cite[Satz 4.5.5]{alt2002nichtlineare} dargelegt.
 
 Ein weiteres Verfahren stellt das sogenannte \textit{Wolfe Powell Methode} dar, welche zusätzlich zu der Bedingung \eqref{eq:armijo1}
@@ -535,7 +536,15 @@ welche den hinreichenden Abstieg liefert, die Schrittweite durch die Forderung
 \label{eq:wolfe2}
  \nabla f(x+\sigma d)^\tr d\geq \beta \nabla f(x)^\tr d
 \end{equation}
-mit $0<c_1<\beta<1$ nicht zu klein werden lässt. Wenn diese beiden Forderungen, $x\in N(f,f(x^{(0)}))$ und $d\in R^n$ mit $\nabla f(x)^\tr d<0$ erfüllt sind und $0<\delta<\beta<1$,$\delta =c_1$, gegeben, dann existiert mindestens eine Schrittweite $\sigma_p$, sodass sie den beiden Abstiegskriterien \eqref{eq:armijo1} und \eqref{eq:wolfe2} genügt und für alle $\sigma_p$
+mit $0<c_1<\beta<1$ nicht zu klein werden lässt. Das bedeutet, dass die Steigung an der potentiellen Stelle $x+\sigma d$ abnimmt, damit sichergestellt wird, dass wir uns einem Minimum nähern. 
+
+\begin{figure}[H]
+\centering
+\input{img/powell.tikz}
+\caption{Powell Schrittweitensteuerung}
+\label{fig:powell}
+\end{figure}
+Wenn diese beiden Forderungen, $x\in N(f,f(x^{(0)}))$ und $d\in R^n$ mit $\nabla f(x)^\tr d<0$ erfüllt sind und $0<\delta<\beta<1$,$\delta =c_1$, gegeben, dann existiert mindestens eine Schrittweite $\sigma_p$, sodass sie den beiden Abstiegskriterien \eqref{eq:armijo1} und \eqref{eq:wolfe2} genügt und für alle $\sigma_p$
 \[
  \sigma_p \geq \frac{1-\beta}{L}\frac{\nabla f(x)^\tr d}{\|d\|^2}
 \]
@@ -556,7 +565,7 @@ und erhält das Wolfe - Powell Verfahren
 
 \begin{figure}[H]
 \begin{framed}
-Vorgegeben seien die Konstanten $0<\delta<beta<1$
+Vorgegeben seien die Konstanten $0<\delta<\beta<1$
  \begin{enumerate}
   \item Wähle eine Start-Schrittweite $\sigma_0$ und setze $j:=0$
   \begin{enumerate}

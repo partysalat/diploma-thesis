@@ -1,0 +1,47 @@
+%convert -delay 40 -loop 0 -alpha remove plot_water_equation.pdf animation.gif
+\documentclass[tikz]{standalone}
+\usepackage{tikz}
+\usepackage{pgfplots}
+%\pgfplotsset{compat=1.7}
+\usetikzlibrary{external}
+\begin{document}
+\tikzsetnextfilename{powell}
+\begin{tikzpicture}
+	\begin{axis}[
+		xlabel=$x$,
+% 		ylabel={$f(x) = x^2 - x +4$},
+		samples=150,
+		xmax=2.2,
+		xmin=-2,
+ 		yticklabels={,,},
+ 		xticklabels={,,},
+		extra x ticks={-1.75,-0.661,0.71,1.95},
+		extra x tick labels={$\sigma_1$,$\sigma_2$,$\sigma_3$,$\sigma_4$},
+		extra x tick style={%
+		  text height=\heightof{0},% Align labels at baseline
+		  color=red}
+	]
+	% use TeX as calculator:
+ 	\addplot[mark=none, color=blue] {100*(2.2-x^2)^2+ (1-x)^2};
+ 	\addplot[mark=none, color=black] {300-20*x};
+ 	\node at (axis cs:1,275) [pin={90:$f(x)+\delta \sigma \nabla f(x)^T d$},inner sep=0pt] {}; % This is what I want, but without calculating the coordinates by hand
+	%dashed lines
+	\draw[dashed, color=black] (axis cs:-1.75,-50) -- (axis cs:-1.75,75); 
+	\draw[dashed, color=black] (axis cs:-0.665,-50) -- (axis cs:-0.665,310); 
+ 	\draw[dashed, color=black] (axis cs:0.71,-50) -- (axis cs:0.715,290); 
+ 	\draw[dashed, color=black] (axis cs:1.95,-50) -- (axis cs:1.95,270); 
+ 	%Tangent lines
+ 	\draw[color=red] (axis cs:-1.9,160) -- (axis cs:-1.6,-3); 
+ 	\draw[color=red] (axis cs:-0.815,245) -- (axis cs:-0.515,385); 
+ 	\draw[color=red] (axis cs:0.565,362) -- (axis cs:0.865,222);
+	\draw[color=red] (axis cs:1.9,177) -- (axis cs:2.05,377);
+	%dots
+	\addplot[mark size=1,color=red,only marks,mark=*] coordinates 
+	{
+	(-1.75,80)
+	(-0.665,310) 
+	(0.715,290)
+	(1.95,260) };
+	\end{axis}
+\end{tikzpicture}
+  \end{document}
