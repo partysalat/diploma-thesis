@@ -2,7 +2,71 @@
 
 \section{Verallgemeinerte Mittelpunktsregel}
 
+Unser Ziel ist es nun, ausgehend von der wohlbekannten Impliziten Mittelpunktsregel
+\[
+ \xhat  = \xcheck + hF\left( \frac{\xhat + \xcheck}{2}\right)
+\]
+die im vorherigen Kapitel hergeleitete stückweise Linearisierung zur Lösung von ODEs mit verketteter stückweise glatter rechter Seiten anzuwenden.
+Hierbei ist $\xhat = x(h)$ und $\xcheck = x(0)$.
 
+Gegeben sei eine gewöhnliche Differentialgleichung
+\[
+ \dot x = F(x(t))
+\]
+mit verkettetem stückweise glattem und global Lipschitzstetigem $F$. Mit dem Hauptsatz der Differential- und Integralrechnung folgt
+\[
+ \xhat - \xcheck = \int_0^h F(x(t)) \text{d}t
+\]
+und mit $t = \frac{h}{2} + \tau h$ als Substitution ergibt sich
+\[
+ \xhat - \xcheck = h\int_{-\sfrac{1}{2}}^{\sfrac{1}{2}} F\left(x \left(\sfrac{h}{2} + \tau h\right)\right) \text{d}\tau
+\]
+Da das Integral in den Grenzen $-\sfrac{1}{2}$ und $\sfrac{1}{2}$ liegt, stellt $\sfrac{h}{2}$ den Mittelpunkt des Integrationsgebietes dar. Durch Approximation von $x(t)$ durch die Sekante $(\frac{1}{2} - \tau) \xcheck + (\frac{1}{2} + \tau) \xhat$ folgt:
+\[
+ \begin{aligned}
+ \xhat - \xcheck & = h\int_{-\sfrac{1}{2}}^{\sfrac{1}{2}} F\left(\frac{\xcheck + \xhat}{2} + \tau (\xhat - \xcheck)\right) \text{d}\tau + \mathcal O(h^3)
+ \end{aligned}
+\]
+Nun schätzen wir die rechte Seite $F(\ldots)$ durch seine stückweise Linearisierung ab und erhalten schließlich
+\[
+ \xhat -  \xcheck = h\int_{-\sfrac{1}{2}}^{\sfrac{1}{2}} F(\xo) + \Delta F(\xo;\tau (\xhat - \xcheck))  \text{d}\tau + \mathcal O(h^3)
+\]
+die von Griewank in \cite[S.21 (14)]{monster} eingeführte verallgemeinerte Implizite Mittelpunktsregel
+\begin{equation}
+ \xhat -  \xcheck = h\int_{-\sfrac{1}{2}}^{\sfrac{1}{2}} F(\xo) + \Delta F(\xo;\tau (\xhat - \xcheck))  \text{d}\tau
+\end{equation}
+
+Da sowohl die Approximation durch Sekanten als auch der stückweisen Linearisierung einen Fehler von $\mathcal O(h^2)$ bzgl. der exakten Lösung $x(t)$ besitzen und das Integral $h$ als Multiplikator besitzt ergibt sich letztendlich ein Fehler dritter Ordnung.
+
+Der Vorteil der Formel besteht darin, dass sie konsistent zur Impliziten Mittelpunktsregel ist. Falls $F$ nämlich glatt ist, so kommt die Auswertungsprozedur für $\Delta F(\xo;\tau (\xhat - \xcheck))$ ohne die Regel \eqref{eq:absAdRule} aus und es gilt 
+\[
+ \Delta F(\xo;\tau (\xhat - \xcheck)) = F'(\xo) \tau (\xhat - \xcheck)
+\]
+Das bedeutet, dass
+\[
+\begin{aligned}
+   \xhat -  \xcheck &= h\int_{-\sfrac{1}{2}}^{\sfrac{1}{2}} F(\xo) + \Delta F(\xo;\tau (\xhat - \xcheck))  \text{d}\tau\\
+		    &= h\int_{-\sfrac{1}{2}}^{\sfrac{1}{2}} F(\xo) + F'(\xo)\tau (\xhat - \xcheck))  \text{d}\tau\\
+		    &= h F(\xo)
+\end{aligned}
+\]
+Damit ist die verallgemeinerte Implizite Mittelpunktsregel eine echte Verallgemeinerung der bekannten Impliziten Mittelpunktsregel. 
+Griewank bewies in \cite[Prop.4]{monster} die Konvergenzeigenschaften der verallgemeinerten Impliziten Mittelpunktsregel
+\begin{theorem}[Konvergenz verallg. Impl. Mittelpunktsregel]
+ Angenommen, $F$ sei eine verkettete stückweise glatte Funktion und Lipschitzstetig in einer offenen Umgebung $\mathcal D$ des Ursprungs $\xcheck =0$. Dann existiert eine obere Schranke $\bar h>0$, sodass für alle $h<\bar h$ die Funktion 
+ \[
+    hG(x) = h\int_{-\sfrac{1}{2}}^{\sfrac{1}{2}} F(\xo) + \Delta F(\xo;\tau (\xhat - \xcheck))  \text{d}\tau
+ \] 
+ eine abgeschlossene Kugel $B_\rho(0)\subset \mathcal D$, $\rho>0$ in sich selbst abbildet und kontraktiv ist.
+ Desweiteren genügt der eindeutige Fixpunkt $x_h\in B_\rho(0)$
+ \[
+  x_h - x(h) = \mathcal O(h^3)
+ \]
+  wobei $x(t)$ die Gleichung $\dot x(t) = F(x(t))$ mit  $x(0)= 0$ löst.
+\end{theorem}
+
+
+\section{Quadratur}
 \section{Verallgemeinerte Newton}
 
 \section{Kinkberechnung}
