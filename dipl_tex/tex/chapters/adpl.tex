@@ -1,5 +1,7 @@
 \chapter{AD und Behandlung von Unglattheiten}
-Sämtliche Betrachtungen, welche wir bis jetzt geführt haben, setzen voraus, dass die rechte Seite $F$ unseres Modells \eqref{eq:odemodel} hinreichend glatt definiert ist, damit wir sie anwenden können. In diesem Kapitel werden Lösungen geführt, welche es ermöglichen, vorherige Betrachtungen auf stückweise lineare
+ Sämtliche Betrachtungen, welche wir bis jetzt geführt haben, setzen voraus, dass die rechte Seite $F$ unseres Modells \eqref{eq:odemodel} hinreichend glatt definiert ist, damit wir sie anwenden können. 
+
+In diesem Kapitel werden Lösungen geführt, welche es ermöglichen, vorherige Betrachtungen auf stückweise lineare
 \footnote{In dieser Arbeit nutzen wir "linear" synonym zu "affin" oder "polyhedral", obwohl letztere eventuell präziser wären. Sie entsprechen den Begriffen bei Griewank \cite{monster} und Scholtes \cite{scholtes2012introduction}}
 Funktionen
 % , bzw. lokal Lipschitzstetige Funktionen $F$ 
@@ -9,7 +11,6 @@ Da wir im späteren Verlauf der Arbeit spezielle unglatte Funktionen betrachten 
 
 Deshalb betrachten wir zuallererst die Klasse der lokal lipschitzstetigen Funktionen. Eine Funktion $F$ ist \textit{lokal Lipschitzstetig}, falls eine Umgebung $V\subseteq U$ zu einem $x\in U$ existiert, sodass $F$ auf eingeschränkt auf diese Umgebung $V$ Lipschitzstetig ist.
 Es stellt sich heraus, dass diese Funktionenklasse fast überall differenzierbar ist \cite[S.216 ff]{federer1969geometric}
-TODO: NNOCHMA ANSCHAUEN
 \begin{theorem}[Rademacher]
  Sei $F:\R^n\to \R^m$ lokal Lipschitzstetig auf einer Menge $\mathcal D\subseteq \R^n$. Dann existiert die Fréchet Ableitung 
  \[
@@ -21,13 +22,13 @@ TODO: NNOCHMA ANSCHAUEN
 für alle $x\in \mathcal D\backslash S$, wobei $S$ eine Nullmenge ist und $Lip_F(x)$ die lokale Lipschitzkonstante von $F$ um $x$ bezeichnet.
 \end{theorem}
 
-Für die Elemente aus der Nullmenge $S$ existiert jedoch nun keine Frechet Ableitung. Schaut man sich jedoch Richtungsableitungen an, so kann man das klassiche Konzept der Ableitungen erweitern. Eine Funktion, die aus einer offenen Umgebung $U\subseteq \R^n$ nach $\R^m$ abbildet wird \textit{richtungsdifferenzierbar} genannt, falls für jedes $d\in \R^n$ der Grenzwert
+Für die Elemente aus der Nullmenge $S$ existiert jedoch nun keine Fréchet Ableitung. Schaut man sich jedoch Richtungsableitungen an, so kann man das klassiche Konzept der Ableitungen erweitern. Eine Funktion, die aus einer offenen Umgebung $U\subseteq \R^n$ nach $\R^m$ abbildet wird \textit{richtungsdifferenzierbar} genannt, falls für jedes $d\in \R^n$ der Grenzwert
 \[
  F'(x_0;d) = \lim_{\substack{s\to 0 \\ s>0}} \frac{F(x_0+sd)-f(x_0)}{s} 
 \]
 existiert. $F'(x_0;d)$ heißt hierbei die Richtungsableitung von $F$ in $x_0$ in Richtung $d$.
 
-Eine Funktion, welche sowohl lokal Lipschitzstetig als auch richtungsdifferenzierbar ist wird Bouligand differenzierbar oder B-differenzierbar genannt \cite[Def.4.11]{geiger2002theorie}. Anders ausgedrückt bedeutet dies, dass die Funktion lokal Lipschitzstetig und die Funktion $G(x) = F(x)+F'(x_0;x-x_0)$ eine Approximation erster Ordnung der Funktion $F$ sein muss. $F'(x_0;\cdot)$ heißt hierbei \textit{B-Derivative} oder Bouligandableitung.
+Eine Funktion, welche sowohl lokal Lipschitzstetig als auch richtungsdifferenzierbar ist wird Bouligand differenzierbar oder B-differenzierbar genannt \cite[Def.3.1.2]{scholtes2012introduction}. Anders ausgedrückt bedeutet dies, dass die Funktion lokal Lipschitzstetig und die Funktion $G(x) = F(x)+F'(x_0;x-x_0)$ eine Approximation erster Ordnung der Funktion $F$ sein muss. $F'(x_0;\cdot)$ heißt hierbei \textit{B-Derivative} oder Bouligandableitung.
 
 Für die Bouligandableitung gelten alle Differentiationsregeln wie für die Fréchetableitung \cite[Cor.3.1.1.]{scholtes2012introduction}, insbesondere der Kettenregel \cite[Thm. 3.1.1.]{scholtes2012introduction}
 \[
@@ -35,12 +36,10 @@ Für die Bouligandableitung gelten alle Differentiationsregeln wie für die Fré
 \]
 
 Ein weiterer allgemeiner gefasster Ableitungsbegriff ist die Clarke Ableitung \cite[]{clarke1975generalized}
+TODO:CLARKE DERIVATIVE
 \begin{definition}[Clarke Ableitung]
  
 \end{definition}
-
-
-- Clarke/Bouligand Ableutng
 
 
 % Eine Funktion $F:U\subseteq \R^n\to \R^m$ heißt Lipschitzstetig, wenn eine Konstante $L$ existiert, sodass für alle $x,y\in U$ gilt
@@ -130,11 +129,13 @@ beschränken (\cite[S.3]{plan})
 
 
 Unsere Funktion $F$ ist linear, falls $\nu=s = 0$, falls sie also keine $abs$ Terme besitzt. Für den Fall $\nu=1$ heißt $F$ \textit{simply switched}
-
+\subsection{Verkettet stückweise glatte Funktionen}
 Ziel dieser Arbeit ist es, die Eigenschaften der Matrizen der Abs-Normal Formulierung für unsere Berechnungen zu nutzen.
-Dazu wollen wir später die Klasse der \textit{composite piecewise smooth functions} (also verkettete stückweise glatte Funktionen) durch stückweise lineare Funktionen approximieren.
-Die Klasse der verketteten glatten Funktionen kann als Erweiterung der stückweisen affinen Funktionen betrachtet werden. Sie bestehen aus $C^{1,1}$ Auswahlfunktionen, welche durch wenige unglatten Operationen $max$, $min$ und $abs$ stetig verknüpft sind.
-Die grundsätzliche Idee besteht darin, die Auswahlfunktionen durch Tangenten anzunähern und sie wieder durch Anwendung der $abs$ Funktion zu verbinden, sodass eine stückweise Linearisierung der Ursprungsfunktion entsteht. Auf dieser gelten besondere Eigenschaften, welche in den nachfolgenden Kapiteln sukzessive angewendet werden.
+Dazu wollen wir die Klasse der \textit{composite piecewise smooth functions} (also verkettete stückweise glatte Funktionen) durch stückweise lineare Funktionen approximieren.
+Die Klasse der verketteten glatten Funktionen kann als Erweiterung der stückweisen affinen Funktionen betrachtet werden. Sie bestehen aus $C^{1,1}$ Auswahlfunktionen, welche durch wenige unglatte Operationen $max$, $min$ und $abs$ stetig verknüpft sind.
+Scholtes nennt solche Funktionen stückweise differenzierbar, falls  zusätzlich die unglatten Operationen höchstens abzählbar oft auf dem $\R^n$, auf beschränkten Gebiet $U$ jedoch nur endlich oft auftreteten. Damit ist jede verkettete stückweise glatte Funktionen stückweise differenzierbar und damit lokal Lipschitzstetig \cite[Cor. 4.1.1.]{scholtes2012introduction}. Dies wiederrum impliziert, dass solche Funktionen ebenfalls Bouligand differenzierbar sind.
+
+Die grundsätzliche Idee besteht nun darin, die Auswahlfunktionen durch Tangenten anzunähern und sie wieder durch Anwendung der $abs$ Funktion zu verbinden, sodass eine stückweise Linearisierung der Ursprungsfunktion entsteht. Auf dieser gelten besondere Eigenschaften, welche in den nachfolgenden Kapiteln sukzessive angewendet werden.
 
 Um die stückweise Linearisierung einer stückweise glatten Funktion $F$ automatisiert zu berechnen, wollen wir die Möglichkeiten des Automatischen Differenzierens nutzen und erweitern.
 
@@ -201,7 +202,7 @@ erweitert. Exemplarisch wird die Auswertungs mit der erweiterten Regel anhand de
  $v_{0} =  x_2$ 		&$\Delta v_{0} = \Delta x_2$&1 &-1	\\
  \hline
  $v_{1} = v_{-1}\cdot v_{0}$ 	&$\Delta v_{1} = \Delta v_{0}v_1 + v_0 \Delta v_{1}$&-2&4\\
- $v_{2} =  \abs(v_{1})$		&$\Delta v_{2} = |v_1 + \Delta v_1| - |v_1|$&2&0\\
+ $v_{2} =  \abs(v_{1})$		&$\Delta v_{2} =  |v_1 + \Delta v_1| - v_2$&2&0\\
  $v_{3} =  v_2+v_{-1}$ 		&$\Delta v_{3} = \Delta v_2 + \Delta v_0$&2&-1\\
  $v_{4} =  \sin(v_{3})$ 	&$\Delta v_{4} = \cos(v_3) \Delta v_3$&$\approx 0.90929$& $\approx 0.416146$ \\
  \hline
@@ -221,6 +222,21 @@ Gegeben sei eine verkettete stückweise glatte Funktion $F:\R^n\to\R^m$ mit $s>0
 die stückweise lineare und stetige \textit{Inkrementfunktion}.
 \end{definition}
 
+Für stückweise differenzierbare Funktionen ist die Bouligandableitung $F'(\xo;\Delta x)$ stückweise linear und positiv homogen, was die Inkrementfunktion jedoch nicht ist.
+Tauscht man \ref{eq:absAdRule} durch die Vorschrift
+\begin{equation}
+ \label{eq:improvedAbsAdRule}
+ \begin{aligned}
+  \Delta v_i &= (\vo_j \neq 0)?\sign(\vo_j)\Delta v_j:\abs(\Delta v_j) &\text{für } v_i = \abs(v_j)
+ \end{aligned}
+\end{equation}
+
+aus und falls das Inkrement $\Delta x$ hinreichend klein ist, existiert eine Grenze $\rho(\xo)$ sodass für die Inkrementfunktion 
+ \[
+  \Delta F(\xo;\Delta x) = F'(\xo;\Delta x)\text{ falls }\|\Delta x\|\leq \rho(\xo)
+ \]
+gilt  (\cite[S.10 ff]{monster}).
+
 Betrachtet man nun die Funktion $F(\xo)+\Delta F(\xo, x-\xo)$ so ergibt sich sogar eine Approximation der Ursprungsfunktion zweiter Ordnung im Abstand zum Ausgangspunkt, wie Griewank in \cite[Prop.1]{monster} zeigen konnte:
 
 \begin{theorem}[Quadratische Approx. und Lipschitzstetigkeit]
@@ -233,9 +249,11 @@ Betrachtet man nun die Funktion $F(\xo)+\Delta F(\xo, x-\xo)$ so ergibt sich sog
   \frac{\|\Delta F(\tilde x;\Delta x) - \Delta F(\xo;\Delta x)\|}{1+\|\Delta x\|}\leq \tilde \gamma \|\tilde x - \xo\|
  \]
 \end{theorem}
-Da sich das Inkrement, also die Ableitung an der Stelle $\xo$ genau berechnen lässt, ist $F(\xo)+\Delta F(\xo, x-\xo)$ also eine Tangente. Die stückweise Linearisierung, welche diese Tangente benutzt wird von Griewank auch als \textit{tangent mode} bezeichnet. Wie im Bild \ref{fig:piecewiseLinearization} zu sehen stimmen die Kinks der stückweisen Linearisierung mit Ursprungsfunktion nicht genau überein. 
+Da sich das Inkrement, also die Ableitung an der Stelle $\xo$ genau berechnen lässt, ist $F(\xo)+\Delta F(\xo, x-\xo)$ also eine Tangente. Die stückweise Linearisierung, welche diese Tangente benutzt wird von Griewank auch als \textit{tangent mode} bezeichnet. 
 
-\begin{figure}[H]
+Wie im Bild \ref{fig:piecewiseLinearization} zu sehen, wird von der  Ursprungsfunktion $F = \max(F_1,F_2)$ die Tangenten der Auswahlfunktionen gebildet und diese wieder durch $\max$ konkateniert. Es entsteht die stückweise Linearisierung. Offensichtlich stimmen die Kinks der stückweisen Linearisierung mit Ursprungsfunktion nicht genau überein, bieten jedoch wie bereits erwähnt eine Approximation zweiter Ordnung. 
+
+\begin{figure}
 \centering
  \input{img/piecewise_linearization.tikz}
  \caption{Stückweise Linearisierung im Tangentmodus}
@@ -243,6 +261,15 @@ Da sich das Inkrement, also die Ableitung an der Stelle $\xo$ genau berechnen l�
 \end{figure}
 
 
+Der Signaturvektor, welcher als 
+\[
+ \sigma = \sigma(\Delta x) \in \lbrace -1,0,1\rbrace^s
+\]
+definiert ist, beschreibt den Weg des computational graphs bei der Auswertung der Inkrementfunktion, d.h. durch jeden $abs$ Aufruf wird beispielsweise durch Vorzeichenwechsel definiert, dass ein Kink überquert wurde. Jedes Element 
+\[
+ S_\sigma = \lbrace \Delta x \in \R^n:\sigma(\Delta x) = \sigma \rbrace
+\]
+der polyhedralen Dekomposition ist dabei eindeutig durch diesen Signaturvektor definiert. Unser stückweise Lineares Modell besitzt die Eigenschaften
 \cite[Prop. 2]{monster}
 \begin{theorem}[Stückweise Lineares Modell]
  \begin{enumerate}
@@ -260,7 +287,7 @@ Da sich das Inkrement, also die Ableitung an der Stelle $\xo$ genau berechnen l�
 %  F(\xo + \Delta x) = F(\xo) + \Delta F(\xo,\Delta x) + \mathcal O (\|\Delta x\|^2)
 % \]
 
-
+Diese Ergebnisse auf die Datenassimilierung anzuwenden wird der Schwerpunkt der nächsten Kapitel sein.
 % \begin{figure}
 %   \input{computational_graph _gen.tikz}
 % \end{figure}
