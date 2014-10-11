@@ -51,7 +51,7 @@ y = b+Y\Sigma(I-L\Sigma)^{-1}c + J_\sigma x  \quad \text{mit} \quad J_\sigma = J
 Hier ist $J_\sigma$ die Jacobimatrix von F eingeschränkt auf $P_\sigma$. Sie reduziert sich zu $J_\sigma=J+Y\Sigma Z$ für einfache Verschachtelungstiefe und zu $J$ für glatte Probleme.
 \end{theorem}
 Da die Jacobimatrix an Kinks nicht eindeutig sein muss, wird ein Vektor $d$ mit angegeben, welcher uns die Richtung der Ableitung vorgibt. Diese ist dann wiederum eindeutig bestimmt. Um dies mit unseren eben geführten Betrachtungen zu vereinen berechnen wir also den Gradienten $J_\sigma$ nicht an der gegebenen Stelle $x_0$, sondern gehen ein Stück in das durch $d$ und $\Sigma$ vorgegebene Polyeder und berechnen dort die Ableitung an Stelle $\xo_0 = x_0+\frac{1}{2}\tau\cdot d$. Aufgrund der Linearität der Polyeder stimmen die Ableitung an der Stelle $x_0$ und jene an Stelle $\xo_0$ überein. Der Algorithmus ergibt sich sofort zu
-[Bild auf Linker Seite]
+[TODOBild auf Linker Seite]
 \begin{algorithm}[H]
 \caption{Berechnung des verallgemeinerten Gradienten an Stelle $x_0$}
 \label{alg:genjac}

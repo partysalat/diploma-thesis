@@ -2,7 +2,7 @@
  Sämtliche Betrachtungen, welche wir bis jetzt geführt haben, setzen voraus, dass die rechte Seite $F$ unseres Modells \eqref{eq:odemodel} hinreichend glatt definiert ist, damit wir sie anwenden können. 
 
 In diesem Kapitel werden Lösungen geführt, welche es ermöglichen, vorherige Betrachtungen auf stückweise lineare
-\footnote{In dieser Arbeit nutzen wir "linear" synonym zu "affin" oder "polyhedral", obwohl letztere eventuell präziser wären. Sie entsprechen den Begriffen bei Griewank \cite{monster} und Scholtes \cite{scholtes2012introduction}}
+\footnote{In dieser Arbeit nutzen wir "linear" synonym zu "affin" (oder "polyhedral"), da sich jede affine Funktion in eine lineare Funktion  transformieren lässt. Sie entsprechen den Begriffen bei Griewank \cite{monster} und Scholtes \cite{scholtes2012introduction}}
 Funktionen
 % , bzw. lokal Lipschitzstetige Funktionen $F$ 
 anzuwenden. Desweiteren wird eine kurze Einführung in Automatischem Differenzieren gegeben, welches so erweitert wird, dass es auf verkettet stückweise lineare Funktionen angewandt werden kann.
@@ -96,7 +96,7 @@ Da sich $max$ und $min$ als
 \[
 \max(a,b) = \frac{1}{2}(a+b + |a-b|)\quad \text{und} \quad \min(a,b) = \frac{1}{2}(a+b - |a-b|)
 \]
-darstellen lassen, können alle $max$ und $min$ - Funktionsaufrufe als $s\geq 0$ Aufrufe der $|z_i|$ Funktion behandelt werden. Die Argumente $z_i$ heißen hierbei \textit{switching-Variablen}. Jede switching Variable $z_i$ beschreibt für sich genommen bereits eine affine Funktion, welche wiederrum die Funktionen $|z_j|, ~j<i$ aufrufen. Desweiteren existieren Variablen $x_k, ~k\leq n$, welche unabhängig von $abs$ sind. Diese Abhängigkeiten lassen sich in der \textit{Abs Normal Form} beschreiben, welche von Griewank et. al. in \cite{plan} eingeführt wurde:
+darstellen lassen, können alle $max$ und $min$ - Funktionsaufrufe als $s\geq 0$ Aufrufe der $|z_i|$ Funktion behandelt werden. Die Argumente $z_i$ heißen hierbei \textit{switching-Variablen}. Jede switching Variable $z_i$ beschreibt für sich genommen bereits eine stückweise lineare Funktion, welche wiederrum die Funktionen $|z_j|, ~j<i$ aufrufen. Desweiteren existieren Variablen $x_k, ~k\leq n$, welche unabhängig von $abs$ sind. Diese Abhängigkeiten lassen sich in der \textit{Abs Normal Form} beschreiben, welche von Griewank et. al. in \cite{plan} eingeführt wurde:
 \begin{definition}[Abs Normal Form]
  Eine stückweise lineare Funktion $F:\R^n\to \R^m$ mit $F(x) = y$ ist in \textit{Abs Normal Form}, falls sie die folgende Form besitzt
  \begin{equation}
@@ -300,6 +300,6 @@ Diese Ergebnisse auf die Datenassimilierung anzuwenden wird der Schwerpunkt der 
 % \begin{figure}
 %   \input{computational_graph _gen.tikz}
 % \end{figure}
-\section{Alternative Methoden?}
-\subsection{Event Handling?}
-\subsection{Schrittweitensteuerung?}
+% \section{Alternative Methoden?}
+% \subsection{Event Handling?}
+% \subsection{Schrittweitensteuerung?}

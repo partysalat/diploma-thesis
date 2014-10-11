@@ -80,7 +80,36 @@ Nehmen wir an, das in dem Integrationsgebietes des Integrals
 \end{equation}
 $k$ Kinks des Integranten vorhanden sind. 
 %Kink Berechnung
-Um diese Kinks aus der Abs-Normal Form zu berechnenAus der Abs-Normal Form 
+Um diese Kinks aus der Abs-Normal Form zu berechnen, werden die switching Variablen $z_j$, $j=1,\dots,s$ aus der Abs-Normal Form betrachtet. Wie bereits in \ref{sec:absNormalForm} erwähnt sind diese Werte für sich genommen stückweise affine Funktionen, an deren Nullstellen ein Kink auftritt,
+d.h. an ihren Nullstellen findet ein Vorzeichenwechsel statt. Um zu wissen, wie weit wir von einem Punkt $\xo$ in Richtung $\Delta x$ gehen können bis wir solch eine Nullstelle erreichen, wollen wir diese \textit{kritischen Multiplikatoren} $\tau_j$, $j=1,\ldots, s$ berechnen. 
+Dafür nehmen wir die erste Zeile der Abs-Normal-Form \eqref{eq:absNormalForm}
+\begin{equation}
+\label{eq:absNormalZ}
+ z = c+Zx + L|z|
+\end{equation}
+und deren Richtungsableitung an $z$
+\begin{equation}
+\label{eq:absNormalZDerivative}
+ \dot z = Z\Delta x + L\Sigma \dot z, \quad
+ \Sigma  = \diag(\sigma(z)) ~ \text{mit } \sigma_j =  \begin{cases}
+            \sign(z_j) & \text{falls } z_j\neq 0\\
+            \sign(\dot z_j) &  \text{sonst}
+           \end{cases}
+\end{equation}
+
+und bilden für jedes $z_j$ seine Tangente
+\[
+ z_j + \tau \dot z_k = 0 \quad \Leftrightarrow \quad \tau =- \frac{z_k}{\dot z_k}
+\]
+deren Nullstelle wir berechnen. Da sich das Vorzeichen des Abs Aufrufs in \eqref{eq:absNormalZ} bis zur Nullstelle nicht ändert, wir uns also im selben Polyeder befinden, haben wir lokal eine affine Funktion, deren Richtungsableitung \eqref{eq:absNormalZDerivative} lokal wohldefiniert ist.
+Falls $z_j\dot z_j <0$ gilt, kreuzt die Tangente in Richtung$\Delta x$ einen Kink.
+Der kritische Multiplikator $\tau_*$ ergibt sich als das Minimum der errechneten Werte oder im Falle, dass kein Kink vorhanden ist als obere Integrationsgrenze
+\[
+ \tau_* = \min \begin{cases}
+		\frac{1}{2}\\
+		\inf_j\lbrace -\frac{z_j}{\dot z_j}~ \vert ~ \dot z_j \cdot z_j <0 \rbrace
+	       \end{cases}
+\]
 
 
 %Quadraturbeschreibung blub
@@ -90,7 +119,7 @@ Um diese Kinks aus der Abs-Normal Form zu berechnenAus der Abs-Normal Form
  \caption{Quadratur zwischen mehreren Kinks}
 \label{fig:quadrature} 
 \end{figure}
-Das bedeuted, dass wir das Intervall $[0,\frac{1}{2}]$ in $k$-Abschnitte zerlegen können mit reellen Zahlen $0=\tau_0<\tau_1<\ldots<\tau_k = \sfrac{1}{2}$,  sodass
+Nun, da wir die Stellen der $k$ Kinks ausrechnen könnne, teilen wir das Intervall $[0,\frac{1}{2}]$ in $k$-Abschnitte mit reellen Zahlen $0=\tau_0<\tau_1<\ldots<\tau_k = \sfrac{1}{2}$,  sodass
 \[
  [0,\sfrac{1}{2}] = \bigcup_{i=0}^{k-1} [\tau_i,\tau_{i+1}]
 \]
@@ -98,8 +127,66 @@ damit wir das Integral zerlegen können in
 \[
  \int_0^{\sfrac{1}{2}} \Delta F(\xo,t\Delta x) \text{d}t = \sum_{i=0}^{k-1} \int_\tau^{\sfrac{1}{2}} \Delta F(\xo,t\Delta x) \text{d}t
 \]
-Nun 
-
+Mit $y_i = \Delta F(\xo;\tau_i \Delta x)$ und $F$ stückweise linear folgt, dass sich die Quadratur \ref{eq:quadInitialProblem} zu
+\begin{equation}
+\begin{aligned}
+ \int_{\tau_{i-1}}^{\tau_i} \Delta F(\xo;t\Delta x) \text{d}t &= \int_{\tau_{i-1}}^{\tau_i}\left[ y_i+ \frac{y_{i+1}-y_i}{\tau_{i+1}-\tau_i}(t-\tau_i) \right] \text{d}t \\
+ &=\frac{1}{2}(\tau_{i+1} -\tau_i)(y_{i+1}-y_i)
+ \end{aligned}
+\end{equation}
+vereinfacht, also zur Trapezregel. Für stückweise lineare Funktionen ist die eben beschriebene Integrationsmethode exakt, da die Trapezregel für lineare Funktionen exakt ist.
+Als Algorithmus entsteht Prozedur \ref{alg:quad}.
+\begin{algorithm}[H]
+% \caption{Quadraturformel für stückweise lineare Funktionen}
+% \label{alg:quad}
+\algrenewcommand{\algorithmiccomment}[1]{\hfill{\scriptsize #1}}
+\begin{algorithmic}
+\Function{integrate}{$\Delta x$} 
+  \State {$x \gets 0$}
+  \State {$z \gets$ calculate\_z($x$)}
+  \State {$dy_{old} \gets$ eval($z,x$)}
+  \State {quadResult $\gets 0$}
+  \State {$\tau$ $\gets 0$}
+  \Repeat 
+    \State {$\tau_{new} \gets \frac{1}{2}$}
+    \For{$i\gets 0,\ldots,s-1$}
+      \State{ $\dot z = \sum_{i=0}^{n} Z_{ij}\cdot \Delta x_j + \sum_{i=0}^s L_{ij}\Sigma \dot z_j$}
+      \If{$-\frac{z_i}{\dot z_i} \in [0,\tau_{\text{new}}]$}
+	\State{$\taunew \gets -\frac{z_i}{\dot z_i}$}
+% 	\State{$\tau_{\text{new}} = 0.5 - \tau$}
+% 	\State{\tau =0.5}
+% 	\State{$\tau \gets \tau + \tau_{\text{new}}$}
+      \EndIf
+    \EndFor 
+    \If{$\tau + \taunew < 0.5$}
+      \State{$\tau_{\text{new}} = 0.5 - \tau$}
+      \State{$\tau =0.5$}
+    \Else
+      	\State{$\tau \gets \tau + \tau_{\text{new}}$}
+    \EndIf
+    \State{$x\gets\tau \Delta x$}
+    \State{$z \gets$ calculate\_z($x$)}
+    \State{$dy \gets$ eval($z,x$)}
+    \State{quadResult $\gets$ quadResult + $\sfrac{\taunew}{2}(dy_{\text{old}}+ dy)$}
+    \State{$dy_{\text{old}} \gets dy$}
+  \Until{$\tau > \sfrac{1}{2}$}
+%   
+%   \State $\tau \gets$ crit\_mult($x,d$) \Comment{$0<\tau<1$, berechne $\tau$ an Stelle $x$ in $d$}
+%   \State $z \gets$ calculate\_z($x+0.5\cdot\tau\cdot d$) \Comment{Berechne Gradient an Mittelpunkt}
+%   \State $\Sigma \gets$ calc\_sigma(z) \Comment{Berechne Vorzeichenmatrix $\Sigma$}
+%   \State $L_\sigma \gets L\cdot\Sigma$
+%   \State $L_{\sigma+} \gets 0$, $L_{\sigma*}\gets I$
+%   \Repeat \Comment{Berechne Neumann Reihe bis Konvergenz}
+% 	  \State $L_{\sigma+} \gets L_{\sigma+}+ L_{\sigma*}$
+% 	  \State $L_{\sigma*} \gets L_{\sigma*}\cdot L_\sigma$
+%   \Until($L_{\sigma*} \equiv 0$)\Comment{Überprüfe auf Konvergenz}
+%   \State $J_\sigma \gets J+Y\cdot \Sigma\cdot L_{\sigma+} \cdot Z$ \Comment{Berechne Gradienten}
+%   \State \Return $J_\sigma$
+\EndFunction
+\end{algorithmic}
+\caption{Quadratur stückweise linearer Funktionen}
+\label{alg:quad}
+\end{algorithm}
 
 \subsection{Unfolded Newton}
 
