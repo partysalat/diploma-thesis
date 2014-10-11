@@ -28,12 +28,17 @@ Für die Elemente aus der Nullmenge $S$ existiert jedoch nun keine Fréchet Able
 \]
 existiert. $F'(x_0;d)$ heißt hierbei die Richtungsableitung von $F$ in $x_0$ in Richtung $d$.
 
-Eine Funktion, welche sowohl lokal Lipschitzstetig als auch richtungsdifferenzierbar ist wird Bouligand differenzierbar oder B-differenzierbar genannt \cite[Def.3.1.2]{scholtes2012introduction}. Anders ausgedrückt bedeutet dies, dass die Funktion lokal Lipschitzstetig und die Funktion $G(x) = F(x)+F'(x_0;x-x_0)$ eine Approximation erster Ordnung der Funktion $F$ sein muss. $F'(x_0;\cdot)$ heißt hierbei \textit{B-Derivative} oder Bouligandableitung.
+\begin{definition}[B-Differenzierbarkeit]
+Eine Funktion, welche sowohl lokal Lipschitzstetig als auch richtungsdifferenzierbar ist wird Bouligand differenzierbar oder B-differenzierbar genannt (\cite[Def.3.1.2]{scholtes2012introduction}). 
+\end{definition}
+
+ Anders ausgedrückt bedeutet dies, dass die Funktion lokal Lipschitzstetig und die Funktion $G(x) = F(x)+F'(x_0;x-x_0)$ eine Approximation erster Ordnung der Funktion $F$ sein muss. $F'(x_0;\cdot)$ heißt hierbei \textit{B-Derivative} oder Bouligandableitung.
 
 Für die Bouligandableitung gelten alle Differentiationsregeln wie für die Fréchetableitung \cite[Cor.3.1.1.]{scholtes2012introduction}, insbesondere der Kettenregel \cite[Thm. 3.1.1.]{scholtes2012introduction}
-\[
-  (F\circ G)'(x_0;d) = F'(G(x_0);G'(x_0;d))
-\]
+\begin{equation}
+ \label{eq:bouligandChainRule}
+ (F\circ G)'(x_0;d) = F'(G(x_0);G'(x_0;d)) 
+\end{equation}
 
 Ein weiterer allgemeiner gefasster Ableitungsbegriff ist die Clarke Ableitung \cite[]{clarke1975generalized}
 TODO:CLARKE DERIVATIVE
@@ -142,7 +147,7 @@ Um die stückweise Linearisierung einer stückweise glatten Funktion $F$ automat
 \section{Automatisches Differenzieren}
 Automatisches oder Algorithmisches Differenzieren ist ein Verfahren, um exakte, im Rahmen der Rechengenauigkeit \cite[S.51]{griewank2008evaluating}, Gradienten von Funktionen zu berechnen. Um dies zu erreichen wird weder numerisch noch algebraisch die Ableitung berechnet, sondern durch wiederholte Anwendung der Kettenregel. Dadurch wird eine verschachtelte Funktion auf einzelne Funktionen heruntergebrochen, von denen die Ableitung bekannt ist. Das bedeutet, dass wir durch einen Aufwand, der durch ein vielfaches einer Funktionsauswertung beschränkt ist, den Gradienten einer Funktion an einer Stelle berechnen können (\cite[S. 43, S.83]{griewank2008evaluating}). 
 
-Um eine vektorwertige Funktion $F:\mathcal D \subset \R^n\to \R^m$ mittels Automatischem Differenzieren abzuleiten, muss sie bereits in einer algebraischen Form vorliegen, sie soll also aus Verknüpfung der Relationen $+, -, \cdot, /$ oder polynomiellen arithmetischen Operationen sin, cos, sqrt, exp, log usw. bestehen, also jenen, von denen eine Ableitung bekannt ist.  
+Um eine vektorwertige Funktion $F:\mathcal D \subset \R^n\to \R^m$ mittels Automatischem Differenzieren abzuleiten, muss sie bereits in einer algebraischen Form vorliegen, sie soll also aus Verknüpfung der Relationen $+, -, \cdot, /$ oder polynomiellen arithmetischen Operationen sin, cos, sqrt, exp, log usw. bestehen, also jenen, von denen eine elementare Ableitung bekannt ist.  
 
 Zum Auswerten einer programmierten Funktion führt der Compiler eine sogenannte \textit{Three-Part Evaluation Procedure} durch, d.h. er speichert die unabhängigen Eingangsvariablen $x\in \R^n$ in internen Variablen $(v_{1-n},\ldots,v_{-1})$ ab, führt $l-m$ Berechnungsschritte $(v_1,\ldots, v_{l-m})$ aus und gibt die abhängigen Variablen $(v_{l-m+1},\ldots,v_l)$ zurück. Diese Berechnungen lassen sich durch einen \textit{Computational Graph} visualisieren, wie dies in Figur \ref{fig:computationalGraph} für das Beispiel $F(x) = \sin(|x_1\cdot x_2|+x_1)$ durchgeführt wurde. 
 Für das Ausführen werden diese \textit{Elementarfunktionen} $\lbrace \phi_i \rbrace_{i\in I}$ nacheinander in der richtigen Reihenfolge ausgeführt, welche durch die Halbordnung $\prec$ definiert ist, sodass wir für jedes $v_i$ mit $i>0$ und Argumenten $v_j$, $j<i$ schreiben können
@@ -223,7 +228,7 @@ die stückweise lineare und stetige \textit{Inkrementfunktion}.
 \end{definition}
 
 Für stückweise differenzierbare Funktionen ist die Bouligandableitung $F'(\xo;\Delta x)$ stückweise linear und positiv homogen, was die Inkrementfunktion jedoch nicht ist.
-Tauscht man \ref{eq:absAdRule} durch die Vorschrift
+Tauscht man \eqref{eq:absAdRule} durch die Vorschrift
 \begin{equation}
  \label{eq:improvedAbsAdRule}
  \begin{aligned}
@@ -235,7 +240,7 @@ aus und falls das Inkrement $\Delta x$ hinreichend klein ist, existiert eine Gre
  \[
   \Delta F(\xo;\Delta x) = F'(\xo;\Delta x)\text{ falls }\|\Delta x\|\leq \rho(\xo)
  \]
-gilt  (\cite[S.10 ff]{monster}). Das bedeutet, dass die Inkrementfunktion und die Bouligandableitung in einer Umgebung des Entwicklungspunkts $\xo$ übereinstimmen.
+gilt  (\cite[S.10 ff]{monster}). Das bedeutet, dass die Inkrementfunktion und die Bouligandableitung in einer Umgebung des Entwicklungspunkts $\xo$ übereinstimmen. Demnach gilt für die Inkrementfunktion $\Delta F$ ebenfalls die Kettenregel \eqref{eq:bouligandChainRule} in einer kleinen Umgebung von $\xo$. Desweiteren ist zu beachten, dass die Bouligandableitung durch \eqref{eq:improvedAbsAdRule} unstetig wird in Bezug zu $\xo$ mit fixem $\Delta x$.
 
 Betrachtet man nun die Funktion $F(\xo)+\Delta F(\xo, x-\xo)$ so ergibt sich sogar eine Approximation der Ursprungsfunktion zweiter Ordnung im Abstand zum Ausgangspunkt, wie Griewank in \cite[Prop.1]{monster} zeigen konnte:
 
@@ -265,11 +270,14 @@ Der Signaturvektor, welcher als
 \[
  \sigma = \sigma(\Delta x) \in \lbrace -1,0,1\rbrace^s
 \]
-definiert ist, beschreibt den Weg des computational graphs bei der Auswertung der Inkrementfunktion, d.h. durch jeden $abs$ Aufruf wird beispielsweise durch Vorzeichenwechsel definiert, dass ein Kink überquert wurde. Jedes Element 
+definiert ist, beschreibt den Weg des computational graphs bei der Auswertung der Inkrementfunktion, d.h. durch jeden $abs$ Aufruf wird beispielsweise durch Vorzeichenwechsel definiert, dass ein Kink überquert wurde. Die Mengen 
 \[
  S_\sigma = \lbrace \Delta x \in \R^n:\sigma(\Delta x) = \sigma \rbrace
 \]
-der polyhedralen Dekomposition ist dabei eindeutig durch diesen Signaturvektor definiert. Unser stückweise Lineares Modell besitzt die Eigenschaften
+sind relativ offen und konvexe Polyeder in $\R^n$, welche paarweise disjunkt sind und den kompletten $\R^n$ aufspannen.
+Die polyhedrale Dekomposition der Auswertungsprozedur ist dabei eindeutig durch diesen Signaturvektor definiert.
+
+Unser stückweise Lineares Modell besitzt die Eigenschaften
 \cite[Prop. 2]{monster}
 \begin{theorem}[Stückweise Lineares Modell]
  \begin{enumerate}

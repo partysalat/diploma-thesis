@@ -51,7 +51,7 @@ Das bedeutet, dass
 \end{aligned}
 \]
 Damit ist die verallgemeinerte Implizite Mittelpunktsregel eine echte Verallgemeinerung der bekannten Impliziten Mittelpunktsregel. 
-Griewank bewies in \cite[Prop.4]{monster} die Konvergenzeigenschaften der verallgemeinerten Impliziten Mittelpunktsregel
+Griewank bewies in \cite[Prop.4]{monster} ihre Konvergenzeigenschaft
 \begin{theorem}[Konvergenz verallg. Impl. Mittelpunktsregel]
  Angenommen, $F$ sei eine verkettete stückweise glatte Funktion und Lipschitzstetig in einer offenen Umgebung $\mathcal D$ des Ursprungs $\xcheck =0$. Dann existiert eine obere Schranke $\bar h>0$, sodass für alle $h<\bar h$ die Funktion 
  \[
@@ -65,8 +65,22 @@ Griewank bewies in \cite[Prop.4]{monster} die Konvergenzeigenschaften der verall
   wobei $x(t)$ die Gleichung $\dot x(t) = F(x(t))$ mit  $x(0)= 0$ löst.
 \end{theorem}
 
+Für den von Boeck \cite{boeck14} hergeleiteten Algorithmus benötigen wir zum einen die Möglichkeit eine stückweise lineare Funktion möglichst genau in einem Intervall zu integrieren als auch ein Löser für Lineare Gleichungssysteme. Dies wird im nächsten Abschnitt behandelt.
 
-\section{Quadratur}
-\section{Verallgemeinerte Newton}
+\section{Quadratur und Unfoldeded Newton}
+\subsection{Quadraturverfahren}
+\begin{figure}[H]
+\centering
+ \input{img/multiple_kinks.tikz}
+ \caption{Quadratur zwischen mehreren Kinks}
+\label{fig:quadrature} 
+\end{figure}
 
-\section{Kinkberechnung}
+
+\subsection{Unfolded Newton}
+
+% \section{Verallgemeinerte Newton}
+\section{Algorithmus}
+
+
+\cite{boeck14}
