@@ -541,7 +541,7 @@ welche den hinreichenden Abstieg liefert, die Schrittweite durch die Forderung
 \end{equation}
 mit $0<c_1<\beta<1$ nicht zu klein werden lässt. Das bedeutet, dass die Steigung an der potentiellen Stelle $x+\sigma d$ abnimmt, damit sichergestellt wird, dass wir uns einem Minimum nähern. 
 
-\begin{figure}[H]
+\begin{figure}
 \centering
 \input{img/powell.tikz}
 \caption{Powell Schrittweitensteuerung}
@@ -564,9 +564,10 @@ Um diese beiden Bedingungen numerisch zu berechnen definiert man
  G_2(\sigma) &= \frac{\nabla f(x+\sigma d)^\tr d}{\nabla f(x)^\tr d}
  \end{aligned}
 \end{equation}
-und erhält das Wolfe - Powell Verfahren
+und erhält das Wolfe - Powell Verfahren \ref{alg:wolfePowell}.
 
-\begin{figure}[H]
+\begin{figure}
+\label{alg:wolfePowell}
 \begin{framed}
 Vorgegeben seien die Konstanten $0<\delta<\beta<1$
  \begin{enumerate}

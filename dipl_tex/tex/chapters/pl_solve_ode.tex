@@ -65,16 +65,40 @@ Griewank bewies in \cite[Prop.4]{monster} ihre Konvergenzeigenschaft
   wobei $x(t)$ die Gleichung $\dot x(t) = F(x(t))$ mit  $x(0)= 0$ löst.
 \end{theorem}
 
-Für den von Boeck \cite{boeck14} hergeleiteten Algorithmus benötigen wir zum einen die Möglichkeit eine stückweise lineare Funktion möglichst genau in einem Intervall zu integrieren als auch ein Löser für Lineare Gleichungssysteme. Dies wird im nächsten Abschnitt behandelt.
+Für den von Boeck \cite{boeck14} hergeleiteten Algorithmus benötigen wir zum einen die Möglichkeit eine stückweise lineare Funktion möglichst genau in einem Intervall zu integrieren als auch ein Löser für Lineare Gleichungssysteme.
+% Dies wird im nächsten Abschnitt behandelt.
 
 \section{Quadratur und Unfoldeded Newton}
 \subsection{Quadraturverfahren}
+
+Die Aufgabe besteht nun darin, eine stückweise lineare Funktion $F:\R^n \to \R^m$ genau zu integrieren. Dazu sei die stückweise Linearisierung $F(\xo) + \Delta F(\xo,\Delta x)$ mit einer Richtung $\Delta x$ als Abs-Normal Form gegeben, wie sie in Abschnitt \ref{sec:absNormalForm} eingeführt wurde. 
+Für unser Problem ist es ausreichend, nur $\Delta F(\xo,\Delta x)$ zu betrachten, da $F(\xo)$ konstant ist.
+Nehmen wir an, das in dem Integrationsgebietes des Integrals
+\begin{equation}
+\label{eq:quadInitialProblem}
+ \int_0^{\sfrac{1}{2}} \Delta F(\xo,t\Delta x) \text{d}t
+\end{equation}
+$k$ Kinks des Integranten vorhanden sind. 
+%Kink Berechnung
+Um diese Kinks aus der Abs-Normal Form zu berechnenAus der Abs-Normal Form 
+
+
+%Quadraturbeschreibung blub
 \begin{figure}[H]
 \centering
  \input{img/multiple_kinks.tikz}
  \caption{Quadratur zwischen mehreren Kinks}
 \label{fig:quadrature} 
 \end{figure}
+Das bedeuted, dass wir das Intervall $[0,\frac{1}{2}]$ in $k$-Abschnitte zerlegen können mit reellen Zahlen $0=\tau_0<\tau_1<\ldots<\tau_k = \sfrac{1}{2}$,  sodass
+\[
+ [0,\sfrac{1}{2}] = \bigcup_{i=0}^{k-1} [\tau_i,\tau_{i+1}]
+\]
+damit wir das Integral zerlegen können in
+\[
+ \int_0^{\sfrac{1}{2}} \Delta F(\xo,t\Delta x) \text{d}t = \sum_{i=0}^{k-1} \int_\tau^{\sfrac{1}{2}} \Delta F(\xo,t\Delta x) \text{d}t
+\]
+Nun 
 
 
 \subsection{Unfolded Newton}

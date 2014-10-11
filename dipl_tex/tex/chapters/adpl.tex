@@ -99,7 +99,8 @@ Da sich $max$ und $min$ als
 darstellen lassen, können alle $max$ und $min$ - Funktionsaufrufe als $s\geq 0$ Aufrufe der $|z_i|$ Funktion behandelt werden. Die Argumente $z_i$ heißen hierbei \textit{switching-Variablen}. Jede switching Variable $z_i$ beschreibt für sich genommen bereits eine affine Funktion, welche wiederrum die Funktionen $|z_j|, ~j<i$ aufrufen. Desweiteren existieren Variablen $x_k, ~k\leq n$, welche unabhängig von $abs$ sind. Diese Abhängigkeiten lassen sich in der \textit{Abs Normal Form} beschreiben, welche von Griewank et. al. in \cite{plan} eingeführt wurde:
 \begin{definition}[Abs Normal Form]
  Eine stückweise lineare Funktion $F:\R^n\to \R^m$ mit $F(x) = y$ ist in \textit{Abs Normal Form}, falls sie die folgende Form besitzt
- \[
+ \begin{equation}
+\label{eq:absNormalForm}
   \begin{bmatrix}
    z\\y
   \end{bmatrix}
@@ -115,7 +116,7 @@ darstellen lassen, können alle $max$ und $min$ - Funktionsaufrufe als $s\geq 0$
   \begin{bmatrix}
    x\\|z|
   \end{bmatrix}
- \]
+ \end{equation}
 wobei 
 \[
 c\in \R^s, ~ Z\in \R^{s\times n},~ L\in\R^{s\times s}, ~ b\in\R^m, ~ J\in\R^{m\times n}, ~ Y\in \R^{m\times s} 
@@ -191,7 +192,7 @@ die stückweise lineare Richtungsfunktion $F(\xo + \Delta x) - F(\xo) = \abs(\xo
 \begin{equation}
 \label{eq:absAdRule}
 \begin{aligned}
- \Delta v_i &= \abs(\vo_i+ \Delta v_i) - \vo_i &\text{für } v_i = \abs(v_j)
+ \Delta v_i &= \abs(\vo_j+ \Delta v_j) - \vo_i &\text{für } v_i = \abs(v_j)
  \end{aligned}
 \end{equation}
 
