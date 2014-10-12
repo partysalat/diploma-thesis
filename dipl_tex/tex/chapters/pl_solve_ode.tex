@@ -185,17 +185,62 @@ Mit dem Algorithmus in Prozedur \ref{alg:quad} kann nun die Quadratur für stüc
 
 
 \subsection{Verallgemeinerte Gradienten}
+
+Zum Lösen eines Gleichungssystems mit einem Newtonverfahren benötigt man den Gradienten der betrachteten verkettet stückweise linearen Funktion. 
+% Aus der Abs-Normal Form können wir diese Richtungsableitung bestimmen.
 Die Menge der limiting Jacobians reduziert sich für unser stückweise lineares Modell zu 
 \[
  \partial^L F(x) = \lbrace J_\sigma: x\in \bar S_\sigma \text{ mit }\sigma \text{ offen} \rbrace
 \]
+Das heißt, dass wir die Jacobimatrizen $J_\sigma$ eingeschränkt auf die Polyeder $S_\sigma$ der betrachten müssen.
+Für die explizite Darstellung dieser betrachten wir dazu die erste Zeile der Abs Normal Form
+\begin{align*}
+	z &= c+ Zx + L|z|
+\end{align*}
+Wenn wir uns auf einem Polyeder befinden, sind die Vorzeichen von $z$ eindeutig bestimmt, es ergibt sich also  
+\begin{align*}
+|z| = \Sigma z~ \text{ für }~\Sigma_{ii} =\case{
+\text{sign}(z_i) & z_i\neq 0\\
+0 & \text{sonst}
+},\quad i=1\ldots s
+\end{align*}
+Umgestellt folgt, dass 
+\begin{align*}
+&&z &= c+ Zx + L\Sigma z\\
+&\iff & (I-L\Sigma)z &= c+ Zx \\
+&\iff & z &= (I-L\Sigma)^{-1}(c+ Zx)\\
+\end{align*}
+Das Inverse von $(I-L\Sigma)$ ist wohldefiniert, da $\Sigma$ eine Diagonalmatrix, $L$ eine strikt untere Dreiecksmatrix und damit $(I-L\Sigma)$ invertierbar ist. 
+Aufgrund der strikt unteren Dreiecksstruktur von L ist die Matrix nilpotent vom Grade $\nu<s$, das bedeutet, dass die Neumannreihe konvergiert und insbesondere endlich ist
+\[
+(I-L\Sigma)^{-1} = I+L\Sigma + (L\Sigma)^2 + \ldots + (L\Sigma)^{\nu -1}
+\] 
 
+Offensichtlich ergibt sich im einfachen Fall mit \textit{switching depth} $\nu = 1$, dass $L=0$ und damit $(I-L\Sigma)^{-1} = I^{-1} = I$. Im \textit{simply switched}- Fall, $\nu=2$, ergibt sich immer noch, dass $(I-L\Sigma)^{-1} =I+L\Sigma$.
+Eingesetzt in die zweite Gleichung der Abs-Normal-Form ergibt
+\begin{align*}
+y &= b+Jx + Y|z|\\
+y &= b+Jx + Y\Sigma z\\
+y &= b+ Jx + Y\Sigma ((I-L\Sigma)^{-1}(c+ Zx))z\\
+y &= b + Y\Sigma(I-L\Sigma)^{-1}c+\underbrace{(J+Y\Sigma(I-L\Sigma)^{-1}Z)}_{J_\sigma}x \\
+\end{align*}
+
+wobei gerade $J_\sigma$ der gesuchten Jacobimatrix von $F$ im Polyeder $S_\sigma$ entspricht. 
+Griewank et al. haben dieses Ergebnis in \cite[Proposition 2.2]{plan} zusammengefasst zu  
+\begin{theorem}[Explizite Jacobimatrix Darstellung]
+Auf allen offenen $P_\sigma$ kann $y$ direkt in Abhängigkeit von $x$ ausgedrückt werden als
+\begin{equation}
+y = b+Y\Sigma(I-L\Sigma)^{-1}c + J_\sigma x  \quad \text{mit} \quad J_\sigma = J+Y\Sigma(I-L\Sigma)^{-1} Z
+\label{eq:explJacRepresentation}
+\end{equation}
+Hier ist $J_\sigma$ die Jacobimatrix von $F$ eingeschränkt auf $S_\sigma$. Sie reduziert sich zu $J_\sigma=J+Y\Sigma Z$ für einfache switching depth und zu $J$ für glatte Probleme.
+\end{theorem}
 \subsection{Unfolded Newton}
 Als nächstes gilt es, ein lineares Gleichungssystem zu lösen, also 
 \[
  F(x) = 0
 \]
-zu berechnen.
+zu berechnen. 
 
 
 % \section{Verallgemeinerte Newton}
