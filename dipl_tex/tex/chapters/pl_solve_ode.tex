@@ -80,8 +80,15 @@ Nehmen wir an, das in dem Integrationsgebietes des Integrals
 \end{equation}
 $k$ Kinks des Integranten vorhanden sind. 
 %Kink Berechnung
-Um diese Kinks aus der Abs-Normal Form zu berechnen, werden die switching Variablen $z_j$, $j=1,\dots,s$ aus der Abs-Normal Form betrachtet. Wie bereits in \ref{sec:absNormalForm} erwähnt sind diese Werte für sich genommen stückweise affine Funktionen, an deren Nullstellen ein Kink auftritt,
+Um diese Kinks aus der Abs-Normal Form zu berechnen, werden die switching Variablen $z_j$, $j=1,\dots,s$ aus der Abs-Normal Form betrachtet. Wie bereits in Kapitel \ref{sec:absNormalForm} erwähnt sind diese Werte für sich genommen stückweise affine Funktionen, an deren Nullstellen ein Kink auftritt,
 d.h. an ihren Nullstellen findet ein Vorzeichenwechsel statt. Um zu wissen, wie weit wir von einem Punkt $\xo$ in Richtung $\Delta x$ gehen können bis wir solch eine Nullstelle erreichen, wollen wir diese \textit{kritischen Multiplikatoren} $\tau_j$, $j=1,\ldots, s$ berechnen. 
+%Quadraturbeschreibung blub
+\begin{figure}[H]
+\centering
+ \input{img/multiple_kinks.tikz}
+ \caption{Quadratur zwischen mehreren Kinks}
+\label{fig:quadrature} 
+\end{figure}
 Dafür nehmen wir die erste Zeile der Abs-Normal-Form \eqref{eq:absNormalForm}
 \begin{equation}
 \label{eq:absNormalZ}
@@ -102,8 +109,8 @@ und bilden für jedes $z_j$ seine Tangente
  z_j + \tau \dot z_k = 0 \quad \Leftrightarrow \quad \tau =- \frac{z_k}{\dot z_k}
 \]
 deren Nullstelle wir berechnen. Da sich das Vorzeichen des Abs Aufrufs in \eqref{eq:absNormalZ} bis zur Nullstelle nicht ändert, wir uns also im selben Polyeder befinden, haben wir lokal eine affine Funktion, deren Richtungsableitung \eqref{eq:absNormalZDerivative} lokal wohldefiniert ist.
-Falls $z_j\dot z_j <0$ gilt, kreuzt die Tangente in Richtung$\Delta x$ einen Kink.
-Der kritische Multiplikator $\tau_*$ ergibt sich als das Minimum der errechneten Werte oder im Falle, dass kein Kink vorhanden ist als obere Integrationsgrenze
+Falls $z_j\dot z_j <0$ gilt, kreuzt die Tangente in Richtung $\Delta x$ einen Kink.
+Der kritische Multiplikator $\tau_*$ ergibt sich dann als das Minimum der errechneten Werte oder im Falle, dass kein Kink vorhanden ist als obere Integrationsgrenze
 \[
  \tau_* = \min \begin{cases}
 		\frac{1}{2}\\
@@ -111,14 +118,14 @@ Der kritische Multiplikator $\tau_*$ ergibt sich als das Minimum der errechneten
 	       \end{cases}
 \]
 
-
 %Quadraturbeschreibung blub
-\begin{figure}[H]
+\begin{figure}
 \centering
- \input{img/multiple_kinks.tikz}
- \caption{Quadratur zwischen mehreren Kinks}
-\label{fig:quadrature} 
+ \input{img/finding_kinks.tikz}
+ \caption{Kink- Berechnung}
+\label{fig:findingKinks} 
 \end{figure}
+
 Nun, da wir die Stellen der $k$ Kinks ausrechnen könnne, teilen wir das Intervall $[0,\frac{1}{2}]$ in $k$-Abschnitte mit reellen Zahlen $0=\tau_0<\tau_1<\ldots<\tau_k = \sfrac{1}{2}$,  sodass
 \[
  [0,\sfrac{1}{2}] = \bigcup_{i=0}^{k-1} [\tau_i,\tau_{i+1}]
@@ -135,7 +142,7 @@ Mit $y_i = \Delta F(\xo;\tau_i \Delta x)$ und $F$ stückweise linear folgt, dass
  \end{aligned}
 \end{equation}
 vereinfacht, also zur Trapezregel. Für stückweise lineare Funktionen ist die eben beschriebene Integrationsmethode exakt, da die Trapezregel für lineare Funktionen exakt ist.
-Als Algorithmus entsteht Prozedur \ref{alg:quad}.
+Mit dem Algorithmus in Prozedur \ref{alg:quad} kann nun die Quadratur für stückweise lineare Funktionen berechnet werden. 
 \begin{algorithm}[H]
 % \caption{Quadraturformel für stückweise lineare Funktionen}
 % \label{alg:quad}
@@ -170,28 +177,29 @@ Als Algorithmus entsteht Prozedur \ref{alg:quad}.
     \State{quadResult $\gets$ quadResult + $\sfrac{\taunew}{2}(dy_{\text{old}}+ dy)$}
     \State{$dy_{\text{old}} \gets dy$}
   \Until{$\tau > \sfrac{1}{2}$}
-%   
-%   \State $\tau \gets$ crit\_mult($x,d$) \Comment{$0<\tau<1$, berechne $\tau$ an Stelle $x$ in $d$}
-%   \State $z \gets$ calculate\_z($x+0.5\cdot\tau\cdot d$) \Comment{Berechne Gradient an Mittelpunkt}
-%   \State $\Sigma \gets$ calc\_sigma(z) \Comment{Berechne Vorzeichenmatrix $\Sigma$}
-%   \State $L_\sigma \gets L\cdot\Sigma$
-%   \State $L_{\sigma+} \gets 0$, $L_{\sigma*}\gets I$
-%   \Repeat \Comment{Berechne Neumann Reihe bis Konvergenz}
-% 	  \State $L_{\sigma+} \gets L_{\sigma+}+ L_{\sigma*}$
-% 	  \State $L_{\sigma*} \gets L_{\sigma*}\cdot L_\sigma$
-%   \Until($L_{\sigma*} \equiv 0$)\Comment{Überprüfe auf Konvergenz}
-%   \State $J_\sigma \gets J+Y\cdot \Sigma\cdot L_{\sigma+} \cdot Z$ \Comment{Berechne Gradienten}
-%   \State \Return $J_\sigma$
 \EndFunction
 \end{algorithmic}
 \caption{Quadratur stückweise linearer Funktionen}
 \label{alg:quad}
 \end{algorithm}
 
+
+\subsection{Verallgemeinerte Gradienten}
+Die Menge der limiting Jacobians reduziert sich für unser stückweise lineares Modell zu 
+\[
+ \partial^L F(x) = \lbrace J_\sigma: x\in \bar S_\sigma \text{ mit }\sigma \text{ offen} \rbrace
+\]
+
 \subsection{Unfolded Newton}
+Als nächstes gilt es, ein lineares Gleichungssystem zu lösen, also 
+\[
+ F(x) = 0
+\]
+zu berechnen.
+
 
 % \section{Verallgemeinerte Newton}
 \section{Algorithmus}
 
-
+\section{Romberg Interpolation}
 \cite{boeck14}

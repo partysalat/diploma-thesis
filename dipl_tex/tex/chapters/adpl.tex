@@ -12,6 +12,7 @@ Da wir im späteren Verlauf der Arbeit spezielle unglatte Funktionen betrachten 
 Deshalb betrachten wir zuallererst die Klasse der lokal lipschitzstetigen Funktionen. Eine Funktion $F$ ist \textit{lokal Lipschitzstetig}, falls eine Umgebung $V\subseteq U$ zu einem $x\in U$ existiert, sodass $F$ auf eingeschränkt auf diese Umgebung $V$ Lipschitzstetig ist.
 Es stellt sich heraus, dass diese Funktionenklasse fast überall differenzierbar ist \cite[S.216 ff]{federer1969geometric}
 \begin{theorem}[Rademacher]
+\label{thm:rademacher}
  Sei $F:\R^n\to \R^m$ lokal Lipschitzstetig auf einer Menge $\mathcal D\subseteq \R^n$. Dann existiert die Fréchet Ableitung 
  \[
  \begin{aligned}
@@ -40,12 +41,17 @@ Für die Bouligandableitung gelten alle Differentiationsregeln wie für die Fré
  (F\circ G)'(x_0;d) = F'(G(x_0);G'(x_0;d)) 
 \end{equation}
 
-Ein weiterer allgemeiner gefasster Ableitungsbegriff ist die Clarke Ableitung \cite[]{clarke1975generalized}
-TODO:CLARKE DERIVATIVE
-\begin{definition}[Clarke Ableitung]
- 
+Ein weiterer allgemeiner gefasster Ableitungsbegriff, welcher im Verlaufe der Arbeit des öfteren benutzt wird ist die Clarke Ableitung \cite[Def. 2.6.1.]{clarke1990optimization}
+% TODO:CLARKE DERIVATIVE
+\begin{definition}[Limiting Jacobian und Clarke Ableitung]
+ Sei die Funktion $F$ und die Mengen $\mathcal D$ und $S$ wie im Theorem von Rademacher \ref{thm:rademacher} definiert.$\nabla F(y)$ sei die Jacobimatrix an einer Stelle $y\in \mathcal D\backslash S$. Dann ist die Menge der \textit{limiting Jacobians} und die \textit{verallgemeinerte Ableitung nach Clarke} definiert als
+ \begin{align}
+  \partial^L F(x) &= \lbrace \lim_{i\to \infty} \nabla F(x_i)~ \vert~ x_i \to x, x_i \not \in S \rbrace\\
+  \partial F(x) &= \text{conv} \lbrace \partial^L F(x)  \rbrace
+ \end{align}
+%  mit "conv als konvexe Hülle.
 \end{definition}
-
+Die Menge der limiting Jacobians beschreibt also die Menge der geeigneten Fréchetableitungen in der Umgebung von Auswertungspunkt. Die Clarke Ableitung ist die konvexe Hülle darüber.
 
 % Eine Funktion $F:U\subseteq \R^n\to \R^m$ heißt Lipschitzstetig, wenn eine Konstante $L$ existiert, sodass für alle $x,y\in U$ gilt
 % \[
@@ -241,7 +247,7 @@ aus und falls das Inkrement $\Delta x$ hinreichend klein ist, existiert eine Gre
  \[
   \Delta F(\xo;\Delta x) = F'(\xo;\Delta x)\text{ falls }\|\Delta x\|\leq \rho(\xo)
  \]
-gilt  (\cite[S.10 ff]{monster}). Das bedeutet, dass die Inkrementfunktion und die Bouligandableitung in einer Umgebung des Entwicklungspunkts $\xo$ übereinstimmen. Demnach gilt für die Inkrementfunktion $\Delta F$ ebenfalls die Kettenregel \eqref{eq:bouligandChainRule} in einer kleinen Umgebung von $\xo$. Desweiteren ist zu beachten, dass die Bouligandableitung durch \eqref{eq:improvedAbsAdRule} unstetig wird in Bezug zu $\xo$ mit fixem $\Delta x$.
+gilt  (\cite[S.10 ff]{monster}). Das bedeutet, dass die Inkrementfunktion und die Bouligandableitung in einer Umgebung des Entwicklungspunkts $\xo$ übereinstimmen. Demnach gilt für die Inkrementfunktion $\Delta F$ ebenfalls die Kettenregel \eqref{eq:bouligandChainRule} in einer kleinen Umgebung von $\xo$. Desweiteren ist zu beachten, dass die Bouligandableitung durch \eqref{eq:improvedAbsAdRule} unstetig wird in Bezug zu $\xo$ mit fixem $\Delta x$. 
 
 Betrachtet man nun die Funktion $F(\xo)+\Delta F(\xo, x-\xo)$ so ergibt sich sogar eine Approximation der Ursprungsfunktion zweiter Ordnung im Abstand zum Ausgangspunkt, wie Griewank in \cite[Prop.1]{monster} zeigen konnte:
 

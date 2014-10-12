@@ -58,11 +58,11 @@ Da die Jacobimatrix an Kinks nicht eindeutig sein muss, wird ein Vektor $d$ mit 
 \algrenewcommand{\algorithmiccomment}[1]{\hfill{\scriptsize #1}}
 \begin{algorithmic}
 \Function{genJac}{$x$, $d$} 
-		\State $\tau \gets$ crit\_mult($x,d$) \Comment{$0<\tau<1$, berechne $\tau$ an Stelle $x$ in $d$}
-		\State $z \gets$ calculate\_z($x+0.5\cdot\tau\cdot d$) \Comment{Berechne Gradient an Mittelpunkt}
-		\State $\Sigma \gets$ calc\_sigma(z) \Comment{Berechne Vorzeichenmatrix $\Sigma$}
-		\State $L_\sigma \gets L\cdot\Sigma$
-		\State $L_{\sigma+} \gets 0$, $L_{\sigma*}\gets I$
+		\State{$\tau \gets$ crit\_mult($x,d$)} \Comment{$0<\tau<1$, berechne $\tau$ an Stelle $x$ in $d$}
+		\State{$z \gets$ calculate\_z($x+0.5\cdot\tau\cdot d$)} \Comment{Berechne Gradient an Mittelpunkt}
+		\State{$\Sigma \gets$ calc\_sigma(z)} \Comment{Berechne Vorzeichenmatrix $\Sigma$}
+		\State{$L_\sigma \gets L\cdot\Sigma$}
+		\State{$L_{\sigma+} \gets 0$, $L_{\sigma*}\gets I$}
 		\Repeat \Comment{Berechne Neumann Reihe bis Konvergenz}
 			\State $L_{\sigma+} \gets L_{\sigma+}+ L_{\sigma*}$
 			\State $L_{\sigma*} \gets L_{\sigma*}\cdot L_\sigma$
@@ -193,4 +193,6 @@ Bemerkt sei, dass sich die Formel für $l=1$, wenn sich also kein Kink zwischen 
 vgl. [Satz wo normale implizite midpointrule aufgeführt wird]
  
 
+ 
+ \section{Optimierung}
 % \end{document}
