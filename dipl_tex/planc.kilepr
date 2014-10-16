@@ -4,7 +4,7 @@ img_extIsRegExp=false
 img_extensions=.eps .jpg .jpeg .png .pdf .ps .fig .gif .tikz
 kileprversion=2
 kileversion=2.1.3
-lastDocument=tex/chapters/pl_solve_ode.tex
+lastDocument=tex/chapters/adpl.tex
 masterDocument=
 name=planc
 pkg_extIsRegExp=false
@@ -144,23 +144,23 @@ Mode=LaTeX
 
 [item:main.bib]
 archive=true
-column=12
+column=28
 encoding=UTF-8
 highlight=BibTeX
-line=246
+line=229
 mode=BibTeX
 open=true
-order=3
+order=2
 
 [item:main.tex]
 archive=true
 column=0
 encoding=UTF-8
 highlight=LaTeX
-line=0
+line=54
 mode=LaTeX
-open=false
-order=0
+open=true
+order=4
 
 [item:planc.kilepr]
 archive=true
@@ -199,7 +199,7 @@ encoding=UTF-8
 highlight=LaTeX
 line=110
 mode=LaTeX
-open=true
+open=false
 order=5
 
 [item:tex/appendix/theses.tex]
@@ -214,10 +214,10 @@ order=2
 
 [item:tex/chapters/adpl.tex]
 archive=true
-column=38
+column=20
 encoding=UTF-8
 highlight=LaTeX
-line=304
+line=270
 mode=LaTeX
 open=true
 order=0
@@ -229,7 +229,7 @@ encoding=UTF-8
 highlight=LaTeX
 line=644
 mode=LaTeX
-open=true
+open=false
 order=2
 
 [item:tex/chapters/experiments.tex]
@@ -239,7 +239,7 @@ encoding=UTF-8
 highlight=LaTeX
 line=3
 mode=LaTeX
-open=true
+open=false
 order=4
 
 [item:tex/chapters/implementation.tex]
@@ -269,38 +269,38 @@ encoding=UTF-8
 highlight=LaTeX
 line=6
 mode=LaTeX
-open=false
-order=2
+open=true
+order=7
 
 [item:tex/chapters/pl_data_assimilation.tex]
 archive=true
-column=0
+column=12
 encoding=UTF-8
 highlight=LaTeX
-line=54
+line=138
 mode=LaTeX
-open=false
-order=5
+open=true
+order=3
 
 [item:tex/chapters/pl_solve_ode.tex]
 archive=true
-column=33
+column=8
 encoding=UTF-8
 highlight=LaTeX
-line=137
+line=264
 mode=LaTeX
 open=true
 order=1
 
 [item:tex/chapters/titlepage.tex]
 archive=true
-column=14
+column=13
 encoding=UTF-8
 highlight=LaTeX
-line=22
+line=34
 mode=LaTeX
-open=false
-order=7
+open=true
+order=5
 
 [item:tex/meta/macros.tex]
 archive=true
@@ -314,13 +314,13 @@ order=6
 
 [item:tex/meta/settings.tex]
 archive=true
-column=102
+column=0
 encoding=UTF-8
 highlight=LaTeX
-line=129
+line=158
 mode=LaTeX
-open=false
-order=1
+open=true
+order=6
 
 [item:thesis_lenser.sty]
 archive=true
@@ -333,14 +333,14 @@ open=false
 order=3
 
 [view-settings,view=0,item:main.bib]
-CursorColumn=12
-CursorLine=246
+CursorColumn=28
+CursorLine=229
 JumpList=
 ViMarks=.,245,11,[,245,11,],245,11
 
 [view-settings,view=0,item:main.tex]
 CursorColumn=0
-CursorLine=0
+CursorLine=54
 JumpList=
 ViMarks=.,11,0,[,11,0,],11,0
 
@@ -369,10 +369,10 @@ JumpList=
 ViMarks=
 
 [view-settings,view=0,item:tex/chapters/adpl.tex]
-CursorColumn=38
-CursorLine=304
+CursorColumn=20
+CursorLine=270
 JumpList=
-ViMarks=.,98,281,[,98,282,],98,281
+ViMarks=.,305,0,[,305,0,],305,0
 
 [view-settings,view=0,item:tex/chapters/data_assimilation.tex]
 CursorColumn=0
@@ -405,22 +405,22 @@ JumpList=
 ViMarks=.,6,0,[,6,0,],6,0
 
 [view-settings,view=0,item:tex/chapters/pl_data_assimilation.tex]
-CursorColumn=0
-CursorLine=54
+CursorColumn=12
+CursorLine=138
 JumpList=
-ViMarks=.,53,4,[,53,1,],53,4
+ViMarks=.,138,11,[,138,5,],138,11
 
 [view-settings,view=0,item:tex/chapters/pl_solve_ode.tex]
-CursorColumn=33
-CursorLine=137
+CursorColumn=8
+CursorLine=264
 JumpList=
-ViMarks=.,137,32,[,137,24,],137,32
+ViMarks=.,240,0,[,240,0,],240,0
 
 [view-settings,view=0,item:tex/chapters/titlepage.tex]
-CursorColumn=14
-CursorLine=22
+CursorColumn=13
+CursorLine=34
 JumpList=
-ViMarks=.,22,13,[,22,0,],22,13
+ViMarks=.,31,31,[,31,31,],31,53
 
 [view-settings,view=0,item:tex/meta/macros.tex]
 CursorColumn=0
@@ -429,10 +429,10 @@ JumpList=
 ViMarks=.,78,21,[,78,21,],78,37
 
 [view-settings,view=0,item:tex/meta/settings.tex]
-CursorColumn=102
-CursorLine=129
+CursorColumn=0
+CursorLine=158
 JumpList=
-ViMarks=.,129,11,[,129,11,],129,101
+ViMarks=.,158,0,[,158,0,],158,0
 
 [view-settings,view=0,item:thesis_lenser.sty]
 CursorColumn=16

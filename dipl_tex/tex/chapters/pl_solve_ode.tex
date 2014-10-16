@@ -211,12 +211,12 @@ Umgestellt folgt, dass
 &\iff & z &= (I-L\Sigma)^{-1}(c+ Zx)\\
 \end{align*}
 Das Inverse von $(I-L\Sigma)$ ist wohldefiniert, da $\Sigma$ eine Diagonalmatrix, $L$ eine strikt untere Dreiecksmatrix und damit $(I-L\Sigma)$ invertierbar ist. 
-Aufgrund der strikt unteren Dreiecksstruktur von L ist die Matrix nilpotent vom Grade $\nu<s$, das bedeutet, dass die Neumannreihe konvergiert und insbesondere endlich ist
+Aufgrund der strikt unteren Dreiecksstruktur von L ist die Matrix nilpotent vom Grade $\nu\leq s$, das bedeutet, dass die Neumannreihe konvergiert und insbesondere endlich ist
 \[
-(I-L\Sigma)^{-1} = I+L\Sigma + (L\Sigma)^2 + \ldots + (L\Sigma)^{\nu -1}
+(I-L\Sigma)^{-1} = I+L\Sigma + (L\Sigma)^2 + \ldots + (L\Sigma)^{\nu}
 \] 
 
-Offensichtlich ergibt sich im einfachen Fall mit \textit{switching depth} $\nu = 1$, dass $L=0$ und damit $(I-L\Sigma)^{-1} = I^{-1} = I$. Im \textit{simply switched}- Fall, $\nu=2$, ergibt sich immer noch, dass $(I-L\Sigma)^{-1} =I+L\Sigma$.
+Offensichtlich ergibt sich im Fall mit \textit{switching depth} $\nu = 0$, dass $L=0$ und damit $(I-L\Sigma)^{-1} = I^{-1} = I$. Im \textit{simply switched}- Fall, $\nu=1$, ergibt sich immer noch, dass $(I-L\Sigma)^{-1} =I+L\Sigma$.
 Eingesetzt in die zweite Gleichung der Abs-Normal-Form ergibt
 \begin{align*}
 y &= b+Jx + Y|z|\\
@@ -228,20 +228,104 @@ y &= b + Y\Sigma(I-L\Sigma)^{-1}c+\underbrace{(J+Y\Sigma(I-L\Sigma)^{-1}Z)}_{J_\
 wobei gerade $J_\sigma$ der gesuchten Jacobimatrix von $F$ im Polyeder $S_\sigma$ entspricht. 
 Griewank et al. haben dieses Ergebnis in \cite[Proposition 2.2]{plan} zusammengefasst zu  
 \begin{theorem}[Explizite Jacobimatrix Darstellung]
-Auf allen offenen $P_\sigma$ kann $y$ direkt in Abhängigkeit von $x$ ausgedrückt werden als
+Auf allen offenen Polyedern $S_\sigma$ kann $y$ direkt in Abhängigkeit von $x$ ausgedrückt werden als
 \begin{equation}
 y = b+Y\Sigma(I-L\Sigma)^{-1}c + J_\sigma x  \quad \text{mit} \quad J_\sigma = J+Y\Sigma(I-L\Sigma)^{-1} Z
 \label{eq:explJacRepresentation}
 \end{equation}
 Hier ist $J_\sigma$ die Jacobimatrix von $F$ eingeschränkt auf $S_\sigma$. Sie reduziert sich zu $J_\sigma=J+Y\Sigma Z$ für einfache switching depth und zu $J$ für glatte Probleme.
 \end{theorem}
+
+Der Algorithmus zum Auswerten der lokale Jacobimatrix $J_\sigma$ dient der Algorithmus \ref{alg:genjac}.
+
+\begin{algorithm}[H]
+\caption{Berechnung des verallgemeinerten Gradienten an Stelle $x_0$}
+\label{alg:genjac}
+\algrenewcommand{\algorithmiccomment}[1]{\hfill{\scriptsize #1}}
+\begin{algorithmic}
+\Function{genJac}{$x,\Sigma$} 
+		\State{$\tau \gets$ crit\_mult($x,d$)} \Comment{$0<\tau<1$, berechne $\tau$ an Stelle $x$ in $d$}
+		\State{$arc \gets$ calculate\_arc($\tau$,$d$)} \Comment{Berechne Polynomial Escape Arc}
+		\State{$z \gets$ calculate\_z($x+0.5\cdot\tau\cdot d$)} \Comment{Berechne $z$ mit polynomial escape}
+% 		\State{$z \gets$ calculate\_z($x$)} \Comment{Berechne $z$ aus der Abs-Normal Form}
+		\State{$\Sigma \gets$ calc\_sigma(z)} \Comment{Berechne sign Matrix $\Sigma$}
+		\State{$L_\sigma \gets L\cdot\Sigma$}
+		\State{$L_{\sigma+} \gets 0$, $L_{\sigma*}\gets I$}
+		\Repeat \Comment{Berechne Neumann Reihe bis Konvergenz}
+			\State $L_{\sigma+} \gets L_{\sigma+}+ L_{\sigma*}$
+			\State $L_{\sigma*} \gets L_{\sigma*}\cdot L_\sigma$
+		\Until($L_{\sigma*} \equiv 0$)\Comment{Überprüfe auf Konvergenz}
+		\State $J_\sigma \gets J+Y\cdot \Sigma\cdot L_{\sigma+} \cdot Z$ \Comment{Berechne Gradienten}
+		\State \Return $J_\sigma$
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
+
+\subsection{Polynomial Escape}
+Obwohl es in der Praxis unwahrscheinlich ist, kann es passieren, dass der Gradient auf auf einem Kink berechnet werden muss. In diesem Fall haben wir keine Bouligandableitung mehr, da das errechnete $\Sigma(z)$ und damit $J_\sigma$ für ein $z_i=0$ Nulleinträge aufweist. Griewank schlägt deshalb in \cite[S.29]{monster} vor, die reduzierte Repräsentation des computational graphs 
+\[
+ \begin{aligned}
+  \Delta v_{i-n} &= \Delta x_i \quad \text{für } i=1,\ldots,n, \\
+  \Delta u_i &= \sum_{j\prec i} \mathring c_{ij}\Delta v_j,\\
+  \sigma_i& = \sign(\mathring u_i + \Delta u_i) \quad \text{für } i=1,\ldots,s,\\
+  \Delta v_i &= \sigma_i \cdot (\mathring u_i+\Delta u_i) - \vo_i\\
+  \Delta y_{i-s}& = \sum_{j\prec i} \mathring c_{ij} \Delta v_j \quad \text{für } i=s+1, ldots, s+m
+ \end{aligned}
+\]
+zu nutzen, wobei $\mathring c_{ij}$ die glatten Ableitungen zum Entwicklungspunkt $\xo$ bezeichnen, und damit das sogenannte \textit{polynomial escape} anzuwenden. In Abs Normal Form ist die obere Prozedur nichts weiter, als ihre erste Zeile 
+\[
+  z = c+ Zx + L|z|
+\]
+zu berechnen. Falls nun also 
+
+% TODO: Überlegen, was passiert falls genJac auf Kink -> Polynomial Escape für Nulleinträge? IN Richtung d?
+% Falls nun die Jacobimatrix auf einem Kink berechnet werden soll, ist sie nicht mehr eindeutig. 
+\begin{theorem}[Polynomial Escape]
+ 
+\end{theorem}
+
+
+
+
+
 \subsection{Unfolded Newton}
-Als nächstes gilt es, ein lineares Gleichungssystem zu lösen, also 
+Als nächstes gilt es, ein lineares Gleichungssystem 
 \[
  F(x) = 0
 \]
-zu berechnen. 
+mit einer Funktion  $F:\R^n \to \R^n$ in Abs-Normal Form zu lösen.
+Ein wohlbekanntes Resultat von Qi und Sun in \cite{qi1993nonsmooth} stellt sicher, dass die Newtoniteration
+\begin{equation}
+\label{eq:genNewtonIteration}
+ x_+ = x- A^{-1}F(x)\quad \text{mit } A \in \partial^LF(x)
+\end{equation}
+konvergiert für Startwerte $x_0$, welche hinreichend nah an der Lösung $x_*$ liegen und falls alle Elemente aus $\partial^L F(x_*)$ an der Stelle $x_*$ nichtsingulär sind. 
+Für unser gegebenes $F$ in Abs-Normal Form könnten wir den Startwert $x_0$ aus $\lbrace S_\sigma:x_*\in \bar S_\sigma \rbrace$, also aus der Menge der Polyeder, welche im Abschluss  $x_*$ enthalten, wählen. Damit würde die Newtoniteration \eqref{eq:genNewtonIteration} nach einem Schritt konvergieren. 
 
+Diese Polyeder jedoch zu finden gestaltet sich schwierig, da dieses Problem hohen kombinatorischen Aufwand bedeutet. 
+Da wir $J_\sigma^{-1}$ für unsere Betrachtungen benötigen, wird angenomen, dass $J$, der glatte Teil der Ableitung unser Funktion $F$ nichtsingulär ist. Falls dem nicht so ist, nutzen wir die Identität
+\[
+ v = \|\|v\| + v\| - \|v\| \quad \text{für } v\in\R
+\]
+um die singulären Einträge von $J$ auf die unglatten Teil der Abs-Normal Form zu verschieben.
+Griewank et al. beschreiben in \cite[Prop.5.2]{plan} die Bedingungen für globale Konvergenz:
+
+\begin{theorem}[Hinreichende Bedingungen für Konvergenz]
+ Angenommen die Abs-Normal Form von $F$ besitzt einen invertierbaren glatten Teilmatrix $J$, $p\geq 1$ und dass
+ \[
+  \hat \rho \equiv \| J^{-1}Y \|_p \|Z\|_p < 1 - \|L\|_p
+ \]
+ Dann konvergiert die verallgemeinerte Newtoniteration in endlich vielen Schritten von jedem $x_0$ zur einer eindeutigen Lösung $x_*$ falls
+ \[
+  \frac{\hat \rho}{(1-\hat \rho - \|L\|_p)(1-\|L\|_p)} < \frac{1}{2}
+ \]
+Desweiteren sind beide, der Fehler der Lösung und die Residuen monoton reduziert bzgl. der $p$-Norm.
+\end{theorem}
+
+\subsubsection{Unfolded System}
+tesfsdf
+
+ 
 
 % \section{Verallgemeinerte Newton}
 \section{Algorithmus}

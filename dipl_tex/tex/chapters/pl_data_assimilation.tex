@@ -7,30 +7,12 @@
 \subsection{Exclusion of Zenon}
 \subsection{Adjoint Inclusion}
 
-\section{Verallgemeinerter Gradient}
+% \section{Verallgemeinerter Gradient}
 
-Da die Jacobimatrix an Kinks nicht eindeutig sein muss, wird ein Vektor $d$ mit angegeben, welcher uns die Richtung der Ableitung vorgibt. Diese ist dann wiederum eindeutig bestimmt. Um dies mit unseren eben geführten Betrachtungen zu vereinen berechnen wir also den Gradienten $J_\sigma$ nicht an der gegebenen Stelle $x_0$, sondern gehen ein Stück in das durch $d$ und $\Sigma$ vorgegebene Polyeder und berechnen dort die Ableitung an Stelle $\xo_0 = x_0+\frac{1}{2}\tau\cdot d$. Aufgrund der Linearität der Polyeder stimmen die Ableitung an der Stelle $x_0$ und jene an Stelle $\xo_0$ überein. Der Algorithmus ergibt sich sofort zu
-[TODOBild auf Linker Seite]
-\begin{algorithm}[H]
-\caption{Berechnung des verallgemeinerten Gradienten an Stelle $x_0$}
-\label{alg:genjac}
-\algrenewcommand{\algorithmiccomment}[1]{\hfill{\scriptsize #1}}
-\begin{algorithmic}
-\Function{genJac}{$x$, $d$} 
-		\State{$\tau \gets$ crit\_mult($x,d$)} \Comment{$0<\tau<1$, berechne $\tau$ an Stelle $x$ in $d$}
-		\State{$z \gets$ calculate\_z($x+0.5\cdot\tau\cdot d$)} \Comment{Berechne Gradient an Mittelpunkt}
-		\State{$\Sigma \gets$ calc\_sigma(z)} \Comment{Berechne Vorzeichenmatrix $\Sigma$}
-		\State{$L_\sigma \gets L\cdot\Sigma$}
-		\State{$L_{\sigma+} \gets 0$, $L_{\sigma*}\gets I$}
-		\Repeat \Comment{Berechne Neumann Reihe bis Konvergenz}
-			\State $L_{\sigma+} \gets L_{\sigma+}+ L_{\sigma*}$
-			\State $L_{\sigma*} \gets L_{\sigma*}\cdot L_\sigma$
-		\Until($L_{\sigma*} \equiv 0$)\Comment{Überprüfe auf Konvergenz}
-		\State $J_\sigma \gets J+Y\cdot \Sigma\cdot L_{\sigma+} \cdot Z$ \Comment{Berechne Gradienten}
-		\State \Return $J_\sigma$
-\EndFunction
-\end{algorithmic}
-\end{algorithm}
+% Da die Jacobimatrix an Kinks nicht eindeutig sein muss, wird ein Vektor $d$ mit angegeben, welcher uns die Richtung der Ableitung vorgibt. Diese ist dann wiederum eindeutig bestimmt.
+% Um dies mit unseren eben geführten Betrachtungen zu vereinen berechnen wir also den Gradienten $J_\sigma$ nicht an der gegebenen Stelle $x_0$, sondern gehen ein Stück in das durch $d$ und $\Sigma$ vorgegebene Polyeder und berechnen dort die Ableitung an Stelle $\xo_0 = x_0+\frac{1}{2}\tau\cdot d$. Aufgrund der Linearität der Polyeder stimmen die Ableitung an der Stelle $x_0$ und jene an Stelle $\xo_0$ überein. Der Algorithmus ergibt sich sofort zu
+% [TODOBild auf Linker Seite]
+
 
 %% GENERALIZED ADJOINT MIDPOINT RULE
 \section{Adjungierte verallgemeinerte Mittelpunktsregel}
@@ -153,5 +135,7 @@ vgl. [Satz wo normale implizite midpointrule aufgeführt wird]
  
 
  
- \section{Optimierung}
+\section{Optimierung}
+*  Stepsize 
+ 
 % \end{document}
