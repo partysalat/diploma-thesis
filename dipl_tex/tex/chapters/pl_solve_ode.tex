@@ -91,6 +91,7 @@ d.h. an ihren Nullstellen findet ein Vorzeichenwechsel statt. Um zu wissen, wie 
  \caption{Quadratur zwischen mehreren Kinks}
 \label{fig:quadrature} 
 \end{figure}
+\subsubsection{Kritische Multiplikatoren}
 Dafür nehmen wir die erste Zeile der Abs-Normal-Form \eqref{eq:absNormalForm}
 \begin{equation}
 \label{eq:absNormalZ}
@@ -199,7 +200,7 @@ Für die explizite Darstellung dieser betrachten wir dazu die erste Zeile der Ab
 \begin{align*}
 	z &= c+ Zx + L|z|
 \end{align*}
-Wenn wir uns auf einem Polyeder befinden, sind die Vorzeichen von $z$ eindeutig bestimmt, es ergibt sich also  
+Wenn wir uns innerhalb eines Polyeders befinden, sind die Vorzeichen von $z$ eindeutig bestimmt, es ergibt sich also  
 \begin{align*}
 |z| = \Sigma z~ \text{ für }~\Sigma_{ii} =\case{
 \text{sign}(z_i) & z_i\neq 0\\
@@ -264,8 +265,10 @@ Der Algorithmus zum Auswerten der lokale Jacobimatrix $J_\sigma$ dient der Algor
 \end{algorithm}
 
 \subsection{Polynomial Escape}
-Obwohl es in der Praxis unwahrscheinlich ist, kann es passieren, dass der Gradient auf auf einem Kink berechnet werden muss. In diesem Fall haben wir keine Bouligandableitung mehr, da das errechnete $\Sigma(z)$ und damit $J_\sigma$ für ein $z_i=0$ Nulleinträge aufweist. Griewank schlägt deshalb in \cite[S.29]{monster} vor, die reduzierte Repräsentation des computational graphs 
-\[
+Obwohl es in der Praxis unwahrscheinlich ist, kann es passieren, dass der Gradient auf auf einem Kink berechnet werden muss.
+%Bei pl data assimilation  brauchen wir polynomial escape
+In diesem Fall haben wir keine Bouligandableitung mehr, da das errechnete $\Sigma(z)$ und damit $J_\sigma$ für ein $z_i=0$ Nulleinträge aufweist. Griewank schlägt deshalb in \cite[S.29]{monster} vor, die reduzierte Repräsentation des computational graphs 
+\begin{equation}
  \begin{aligned}
   \Delta v_{i-n} &= \Delta x_i \quad \text{für } i=1,\ldots,n, \\
   \Delta u_i &= \sum_{j\prec i} \mathring c_{ij}\Delta v_j,\\
@@ -273,17 +276,32 @@ Obwohl es in der Praxis unwahrscheinlich ist, kann es passieren, dass der Gradie
   \Delta v_i &= \sigma_i \cdot (\mathring u_i+\Delta u_i) - \vo_i\\
   \Delta y_{i-s}& = \sum_{j\prec i} \mathring c_{ij} \Delta v_j \quad \text{für } i=s+1, ldots, s+m
  \end{aligned}
-\]
-zu nutzen, wobei $\mathring c_{ij}$ die glatten Ableitungen zum Entwicklungspunkt $\xo$ bezeichnen, und damit das sogenannte \textit{polynomial escape} anzuwenden. In Abs Normal Form ist die obere Prozedur nichts weiter, als ihre erste Zeile 
+ \label{eq:minComputationalGraphRepr}
+\end{equation}
+zu nutzen, wobei $\mathring c_{ij}$ die glatten Ableitungen zum Entwicklungspunkt $\xo$ bezeichnen, und damit den sogenannten \textit{polynomial escape} anzuwenden. In Abs Normal Form ist die obere Prozedur äquivalent dazu, ihre zweite Zeile
+\begin{equation}
+ y = b+ Jx + Y|z| =  b+ Jx + \Sigma z  
+ \label{eq:sndLineAbsNormalForm}
+\end{equation}
+zu berechnen. Die Idee besteht nun darin, die Richtung in der der Gradient berechnet werden soll so zu stören, dass wir uns innerhalb eines Polyeders befinden. Da das Komplement $\mathcal C$ aller offenen Polyeder $S_\sigma$ aus eine endliche Anzahl an Hyperflächen  besteht kann kein Pfad der Form
+\begin{equation}
+ z(t) = \sum_{j=1}^n e_j t^j \quad ,0<t<\bar t;~e_j\in \R^n ~,\det(e_1,\ldots,e_n)\neq 0
+\end{equation}
+für eine Schranke $\bar t$ auf diesen Hyperflächen liegen (\cite[Proposition 6]{monster},\cite[S.11]{plan}). 
+Die Auswertungsprozedur \eqref{eq:sndLineAbsNormalForm} soll nun angewendet werden mit den Signaturen
 \[
-  z = c+ Zx + L|z|
+ \sigma_i = \text{firstsign}(z_i,\nabla z_i^\tr\Delta x) = \sign(z_i+\Delta z_i)
 \]
-zu berechnen. Falls nun also 
+
 
 % TODO: Überlegen, was passiert falls genJac auf Kink -> Polynomial Escape für Nulleinträge? IN Richtung d?
 % Falls nun die Jacobimatrix auf einem Kink berechnet werden soll, ist sie nicht mehr eindeutig. 
 \begin{theorem}[Polynomial Escape]
- 
+Angenommen, wir initialisieren $(\nabla x_i^\tr)_{i=1,\ldots,n} = E$ mit $\det(E)\neq 0$ und sei $\sigma$ lexikographisch bestimmt. Dann ergibt die Auswertung von Gleichung \eqref{eq:sndLineAbsNormalForm} eine Matrix $J_\sigma^E = (\nabla y_{i-s}^\tr)_{i=1,\ldots,m}$ dessen Rücktransformation
+\[
+ J_\sigma \equiv J_\sigma^E E^{-1} \in \nabla^L \Delta F(\xo;0) 
+\]
+ein limiting Jacobian von $F'(\xo;\Delta x))$ und $\Delta F(\xo;\Delta x)$ am Punkt $\xo$ ist.
 \end{theorem}
 
 
