@@ -1,9 +1,18 @@
 \chapter{Implementierung}
+\subsection{Armadillo und OPENBlas}
+Die Implementierung der theoretischen Ergebnisse der letzten Kapitel wurde in C++ programmiert mittels \textit{Armadillo}. 
+Armadillo ist eine Template basierte C++ -Matrix-Vektor Bibliothek, welche ähnliche Syntax wie Matlab zulässt. Neben Matrix-Matrix oder Matrix-Vektor Multiplikationen liefert es eigene LGS-Löser mit, bietet einfache Möglichkeiten Teilmatrizen zu extrahieren und unterstützt teilweise Sparse Matrizen. Armadillo ist unter der Webseite \url{http://arma.sourceforge.net} erreichbar und steht unter der \textit{Mozilla Public License 2.0} (\url{https://www.mozilla.org/MPL/2.0/}) als Open Source Projekt zur Verfügung.
+
+Desweiteren unterstützt Armadillo Multi Threaded Operationen durch die Abstrahierung des OpenBlas (\url{http://www.openblas.net/}) Interfaces, wodurch nahtlos Armadillos eigene Routinen durch die von OpenBlas ersetzt werden und trotzdem der Vorteil der einfachen Nutzbarkeit beibehalten wird. OpenBlas ist eine auf Parallelität optimierte Version der bekannten Linearen Algebra Bibliothek BLAS (Basic Linear Algebra Subprograms, \url{http://www.netlib.org/blas}). Es steht unter der BSD Lizenz (\url{http://www.linfo.org/bsdlicense.html}) zur Nutzung bereit.
+
 \section{ADOL-C}
+ADOL-C ist ebenfalls ein Open Source Paket zur exakten automatischen Differentiation von C/C++ Programmen im Rahmen der Rechengenauigkeit. Im Mittelpunkt stehen dabei die \textit{aktiven Variablen}, welche die Initialisierungsvariablen darstellen. Diese werden mit einem eigenen Typ \texttt{adouble} initialisiert, welche eine Erweiterung der \texttt{double} Klasse darstellt. Mit diesen Werten wird die gewünschte Funktion, wie im Falle von \texttt{double}, zwischen den Aufrufen \texttt{trace\_on(tag)} und \texttt{trace\_off(tag)} ausgeführt und durch \textit{operator overloading} im gleichen Zuge die Ableitung bestimmt. Intern erzeugt ADOL-C ein Tape, welches den computational graph der Funktionsauswertung erstellt und auf das durch \texttt{tag} referenziert wird. Nach dieser Auswertung bietet ADOL-C verschiedene Methoden dieses Tape auszuwerten.
+
+ADOL-C wurde von Andreas Griewank erdacht und wird zurzeit in der Forschungsgruppe um Andrea Walther weiterentwickelt. Weitere Informationen zur Verwendung lassen sich in der Dokumentation \cite{walther2012getting} nachvollziehen. ADOL-C ist unter der \textit{Eclipse Public License 1.0} oder der \textit{GNU General Public License 2.0} in Projekten einsetzbar.
 
 \section{Plan-C}
-\subsection{Armadillo}
-Fork von Pauls PlanC mit Einsatz von SparseMatrizen
+Sämtliche Versuche wurden mit Plan-C erstellt, einer C++ Bibliothek, welche im Rahmen der Diplomarbeit von Paul Boeck in \cite{boeck14} erarbeitet und dokumentiert wurde. Da im Rahmen der vorliegenden Arbeit rechenintensivere Beispiele betrachtet werden, wurde diese Bibliothek geforkt und Armadillo als Matrix - Vektor Bibliothek eingesetzt, um die allgemeine Performance zu steigern; dies bedeutet, die in Boecks Arbeit als Verbesserungsvorschlag gegebene Benutzung von Sparse Matrizen einzubauen und mehrerer Prozessorkerne durch Parallelisierung zu unterstützen.  Desweiteren wurde sie durch diverse Funktionen erweitert, damit sie die Datenassimilierung mittels stückweiser Linearisierung untersützt. Eine kurze Dokumentation darüber soll im folgenden dargelegt werden.
+
 \subsection{Abs-Normal Form}
 
 \subsection{Verallgemeinerte Mittelpunktsregel}

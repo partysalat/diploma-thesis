@@ -369,7 +369,7 @@ Für unser gegebenes $F$ in Abs-Normal Form könnten wir den Startwert $x_0$ aus
 Diese Polyeder jedoch zu finden gestaltet sich schwierig, da dieses Problem hohen kombinatorischen Aufwand bedeutet. 
 Da wir $J_\sigma^{-1}$ für unsere Betrachtungen benötigen, wird angenomen, dass $J$, der glatte Teil der Ableitung unser Funktion $F$ nichtsingulär ist. Falls dem nicht so ist, nutzen wir die Identität
 \[
- v = \|\|v\| + v\| - \|v\| \quad \text{für } v\in\R
+ v = | |v| + v| - |v | \quad \text{für } v\in\R
 \]
 um die singulären Einträge von $J$ auf die unglatten Teil der Abs-Normal Form zu verschieben.
 Griewank et al. beschreiben in \cite[Prop.5.2]{plan} die Bedingungen für globale Konvergenz:
@@ -448,6 +448,8 @@ aufgeht und dessen Konvergenz für $\rho = \|S\|_p <\frac{1}{3}$ von Griewank in
 Desweiteren kann gezeigt werden, dass $(I-\Sigma(z))$ ein verallgemeinerter Gradient von $H(z)$ ist, jedoch nicht zwangsweise eine limiting Jacobian.
  
 TODO: VIELLICHT ALGORITHMUS ANGEBEN?
+TODO: UPL = CPL, CPL mit einbauen und erklären
+
 % \section{Verallgemeinerte Newton}
 \section{Algorithmus}
 Nun können wir einen implementierbaren Algorithmus für die verallgemeinerte implizite Mittelpunktsregel angeben, da wir alle benötigten Verfahren eingeführt haben. Im folgenden, wie auch bisher, sei $\check x$ ein schon berechneter Punkt und $\hat x$ ein zu berechnender Punkt. $\xo$ sei der Entwicklungspunkt der stückweisen Linearisierung. Da $F(\xo)$ nicht von $t$ abhängt, kann die bereits hergeleiteten Regel umgestellt werden zu 
@@ -472,7 +474,7 @@ Es entsteht mit $\xo = \sfrac{1}{2} (\hat x + \check x) \Leftrightarrow \hat x =
  \Leftrightarrow && 2\xonew -  h (F(\xoold) +\Delta F(\xoold,\xonew - \xoold) &= r(\hat x_{\text{old}},\check x) + 2\check x
  \end{aligned}
 \end{equation}
-Die letzte Gleichung von \eqref{eq:reorderedGenMidpointAlg} ist stückweise linear und kann mit dem Unfolded Newton \eqref{eq:unfoldedNewton} gelöst werden. Der entstehende Algorithmus gestaltet sich damit übersichtlich zu Prozedur 
+Die letzte Gleichung von \eqref{eq:reorderedGenMidpointAlg} ist stückweise linear und kann mit dem Unfolded Newton \eqref{eq:unfoldedNewton} gelöst werden. Der entstehende Algorithmus gestaltet sich damit zu Algorithmus \ref{alg:genMidpointRule}
 \begin{algorithm}[H]
 \caption{Berechnung der Verallgemeinerten Impliten Mittelpunktsregel}
 \label{alg:genMidpointRule}
@@ -501,6 +503,28 @@ Die letzte Gleichung von \eqref{eq:reorderedGenMidpointAlg} ist stückweise line
 \end{algorithm}
 
 
-
+Dieser Abschnnitt lieferte einen Überblick, wie gewöhnliche Differentialgleichungen mit Lipschitzstetiger rechten Seite mittels stückweiser Linearisierung behandelt werden können. Im folgenden wird die Methode der Romberg Extrapolation näher gebracht, welche für unsere Methoden gute Ergebnisse liefert.
 \section{Romberg Extrapolation}
-\cite{boeck14}
+Der Grundgedanke der Romberg Extrapolation besteht darin, aus einem groben und einer feineren Diskretisierung eine Extrapolation zu berechnen, die bessere Näherungswerte für die eigentliche Lösung zulässt und schnellere Konvergenzgeschwindigkeiten unter gewissen Vorraussetzungen verspricht.
+
+Dazu sei in einem Intervall $[a,b]$ eine Folge von Schrittweiten 
+\[
+ h_0 = \frac{b-a}{n_0},~ h_1 = \frac{h_0}{n_1},\ldots, h_m = \frac{h_0}{n_m}
+\]
+gegeben die zu einer Folge ganzer Zahlen $0<n_0<n_1\ldots,<n_m$ gehört. Zu diesen Schrittweiten bestimmt man die zugehörigen Trapezsummen
+\[
+ T_{i0} := T(h_i), \quad i=0,1,\ldots,m
+\]
+und ein damit ein Interpolationspolynom 
+\[
+ \tilde T_{mm}(h):= a_0 + a_1h^2 +\ldots + a_m h^{2m}
+\]
+höchstens $m$-ten Grades in $h^2$ für das gilt
+\[
+ \tilde T_{mm}(h_i) = T(h_i), \quad i=0,1,\ldots,m
+\]
+
+
+
+
+\cite{stoer1989numerische}
