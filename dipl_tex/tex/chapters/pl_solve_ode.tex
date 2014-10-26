@@ -295,7 +295,7 @@ Ein naheliegender Ansatz ist die Auswertungsprozedur \eqref{eq:jacAbsNormalForm}
 \[
  \sigma_i = \text{firstsign}(z_i,\nabla z_i^\tr\Delta x) = \sign(z_i+\Delta z_i)
 \]
-anzuwenden, wobei firstsign$(z)$ eines Vektors $z$ ist definiert als das Vorzeichen der ersten nicht negativen Komponente des Vektors, ansonsten wird sie zu $0$ gesetzt. Falls nun alle Werte $\sigma_i \neq 0$ sind, ist $J_\sigma$ eine Bouligandableitung der Funktion $F$ und ihrer stückweisen Linearisierung im Polyeder $S_\sigma$ auf dessen Abschluss der Auswertungspunkt $\xo$ liegt.
+anzuwenden, wobei firstsign$(z,\Delta z)$ eines Vektors $z$ definiert ist als das Vorzeichen der ersten nicht verschwindenden Komponente des Vektors $z$, ansonsten wird sie zu $\Delta z$ gesetzt. Falls nun alle Werte $\sigma_i \neq 0$ sind, ist $J_\sigma$ eine Bouligandableitung der Funktion $F$ und ihrer stückweisen Linearisierung im Polyeder $S_\sigma$ auf dessen Abschluss der Auswertungspunkt $\xo$ liegt.
 
 Der Ansatz um diesen Pfad zu konstruieren besteht darin, den Richtungsvektor $e_1 = \Delta x$ mit $n-1$ linear unabhängigen Vektoren $e_2,\ldots, e_n$ zu komplementieren, sodass sie eine nichtsinguläre Basismatrix $E\in \R^{n\times n}$ bilden.
 Das bedeutet, wir stellen das System linear unabhängiger Vektoren $\tilde E$, welche wir definieren als
@@ -448,7 +448,7 @@ aufgeht und dessen Konvergenz für $\rho = \|S\|_p <\frac{1}{3}$ von Griewank in
 Desweiteren kann gezeigt werden, dass $(I-\Sigma(z))$ ein verallgemeinerter Gradient von $H(z)$ ist, jedoch nicht zwangsweise eine limiting Jacobian.
  
 TODO: VIELLICHT ALGORITHMUS ANGEBEN?
-TODO: UPL = CPL, CPL mit einbauen und erklären
+TODO: UPL = CPL, CPL mit einbauen und erklären, OPL,UPL,CPL
 
 % \section{Verallgemeinerte Newton}
 \section{Algorithmus}
