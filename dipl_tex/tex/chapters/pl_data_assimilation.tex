@@ -12,7 +12,91 @@
 % Da die Jacobimatrix an Kinks nicht eindeutig sein muss, wird ein Vektor $d$ mit angegeben, welcher uns die Richtung der Ableitung vorgibt. Diese ist dann wiederum eindeutig bestimmt.
 % Um dies mit unseren eben geführten Betrachtungen zu vereinen berechnen wir also den Gradienten $J_\sigma$ nicht an der gegebenen Stelle $x_0$, sondern gehen ein Stück in das durch $d$ und $\Sigma$ vorgegebene Polyeder und berechnen dort die Ableitung an Stelle $\xo_0 = x_0+\frac{1}{2}\tau\cdot d$. Aufgrund der Linearität der Polyeder stimmen die Ableitung an der Stelle $x_0$ und jene an Stelle $\xo_0$ überein. Der Algorithmus ergibt sich sofort zu
 % [TODOBild auf Linker Seite]
+\section{Polynomial Escape}
 
+\subsection{Polynomial Escape}
+Obwohl es in der Praxis unwahrscheinlich ist, kann es passieren, dass der Gradient auf einem Kink an einer Stelle $\xo$ in Richtung $\Delta x$ berechnet werden muss. Die Richtung könnte dabei ebenfalls entlang eines Kinks verlaufen.
+%Bei pl data assimilation  brauchen wir polynomial escape
+In diesem Fall haben wir keine Bouligandableitung mehr, da das errechnete $\Sigma(z)$ und damit $J_\sigma$ für ein $z_i=0$ Nulleinträge aufweist. Griewank schlägt deshalb in \cite[S.29]{monster} vor, die reduzierte Repräsentation des computational graphs 
+\begin{equation}
+ \begin{aligned}
+  \Delta v_{i-n} &= \Delta x_i \quad \text{für } i=1,\ldots,n, \\
+  \Delta u_i &= \sum_{j\prec i} \mathring c_{ij}\Delta v_j,\\
+  \sigma_i& = \sign(\mathring u_i + \Delta u_i) \quad \text{für } i=1,\ldots,s,\\
+  \Delta v_i &= \sigma_i \cdot (\mathring u_i+\Delta u_i) - \vo_i\\
+  \Delta y_{i-s}& = \sum_{j\prec i} \mathring c_{ij} \Delta v_j \quad \text{für } i=s+1, \ldots, s+m
+ \end{aligned}
+ \label{eq:minComputationalGraphRepr}
+\end{equation}
+zu nutzen, wobei $\mathring c_{ij}$ die glatten Ableitungen zum Entwicklungspunkt $\xo$ bezeichnen, und damit den sogenannten \textit{polynomial escape} anzuwenden. In Abs Normal Form ist die obere Prozedur äquivalent dazu, die Ableitung der Abs-Normal Form 
+\begin{equation}
+\begin{aligned}
+  \Delta z = Z\Delta x + L\Sigma \Delta z \\
+ \Delta y = J\Delta x + Y\Sigma \Delta z  
+\end{aligned}
+\label{eq:jacAbsNormalForm}
+\end{equation}
+für $\Sigma = \diag(\sigma) \in \R^{s\times s}$ zu berechnen. Die Idee besteht nun darin, die Richtung $\Delta x$, in der der Gradient berechnet werden soll, in den Nulleinträgen so zu stören, dass wir uns innerhalb eines Polyeders befinden, der Rest jedoch unangetastet bleibt. Da das Komplement $\mathcal C$ aller offenen Polyeder $S_\sigma$ aus eine endliche Anzahl an Hyperflächen  besteht kann kein Pfad der Form
+\begin{equation}
+ \Delta x(t) = \sum_{j=1}^n e_j t^j \quad ,0<t<\bar t;~e_j\in \R^n ~,\det(e_1,\ldots,e_n)\neq 0
+\end{equation}
+für eine Schranke $\bar t$ auf diesen Hyperflächen liegen (\cite[Proposition 6]{monster},\cite[S.11]{plan}). 
+Ein naheliegender Ansatz ist die Auswertungsprozedur \eqref{eq:jacAbsNormalForm} mit den Signaturen
+\[
+ \sigma_i = \text{firstsign}(z_i,\nabla z_i^\tr\Delta x) = \sign(z_i+\Delta z_i)
+\]
+anzuwenden, wobei firstsign$(z,\Delta z)$ eines Vektors $z$ definiert ist als das Vorzeichen der ersten nicht verschwindenden Komponente des Vektors $z$, ansonsten wird sie zu $\Delta z$ gesetzt. Falls nun alle Werte $\sigma_i \neq 0$ sind, ist $J_\sigma$ eine Bouligandableitung der Funktion $F$ und ihrer stückweisen Linearisierung im Polyeder $S_\sigma$ auf dessen Abschluss der Auswertungspunkt $\xo$ liegt.
+
+Der Ansatz um diesen Pfad zu konstruieren besteht darin, den Richtungsvektor $e_1 = \Delta x$ mit $n-1$ linear unabhängigen Vektoren $e_2,\ldots, e_n$ zu komplementieren, sodass sie eine nichtsinguläre Basismatrix $E\in \R^{n\times n}$ bilden.
+Das bedeutet, wir stellen das System linear unabhängiger Vektoren $\tilde E$, welche wir definieren als
+\[
+\tilde E = 
+ \begin{pmatrix}
+  \vdots   & I_{n-k} & 0 \\
+  \Delta x_k & 0&0\\
+  \vdots   & 0&I_{k-1}
+ \end{pmatrix}
+\]
+wobei $\Delta x_k$ der Eintrag mit dem betragsmäßig größten, nicht verschwindenden Element ist. Nun verschieben wir durch eine Permutationsmatrix $P$ den Vektor $\Delta x$ an die $k$-te Stelle der Matrix $\tilde E$
+\[
+E = \tilde E \cdot P=
+\begin{pmatrix}
+  \nabla x_1^\tr\\
+  \vdots\\
+  \nabla x_n^\tr\\
+ \end{pmatrix}
+ =
+  \begin{pmatrix}
+   I_{n-k} & \vdots &0\\
+  0 & \Delta x_k & 0\\
+    0 & \vdots&I_{k-1}
+ \end{pmatrix}
+\]
+Diese Permutation ist numerisch von großer von Bedeutung. $E$ kann geschrieben werden als
+\[
+  E = I + (v-e_k)\cdot e_k^\tr 
+\] 
+deren Inverse sich nach der \textit{Sherman-Morrison-Woodbury} Formel ergibt zu
+\[
+ E^{-1} = I + \frac{(v-e_k)\cdot e_k^\tr}{v_k}
+\]
+Da wir $\tilde E$ permutierten zu $E$, ist sichergestellt, dass das Inverse $E^{-1}$ die bestmögliche numerische Genauigkeit der Division behält.
+Die $\sigma_i$ erhalten wir nun lexikographisch, indem wir Prozedur \eqref{eq:jacAbsNormalForm} auf jeden Vektor aus $E$ anwenden mit 
+\[
+  \sigma_i = \text{firstsign}(z_i,\nabla z_i^\tr\Delta x)
+\]
+
+Griewank konnte in \cite[Prop.8]{monster} zeigen, dass solch eine permutierte lexikographische Definition von $\sigma_i$ ebenfalls zu einer limiting Jacobian führt
+% Dies tun wir, damit die \textit{Sherman Morrison Woodbury Formel} keine Probleme durch den Nenner bereitet, wie wir gleich sehen werden.
+% TODO: Überlegen, was passiert falls genJac auf Kink -> Polynomial Escape für Nulleinträge? IN Richtung d?
+% Falls nun die Jacobimatrix auf einem Kink berechnet werden soll, ist sie nicht mehr eindeutig. 
+\begin{theorem}[Polynomial Escape]
+Angenommen, wir initialisieren $(\nabla x_i^\tr)_{i=1,\ldots,n} = E$ mit $\det(E)\neq 0$ und sei $\sigma$ lexikographisch bestimmt. Dann ergibt die Auswertung von Gleichung \eqref{eq:jacAbsNormalForm} eine Matrix $J_\sigma^E = (\nabla y_{i-s}^\tr)_{i=1,\ldots,m}$ dessen Rücktransformation
+\[
+ J_\sigma \equiv J_\sigma^E E^{-1} \in \nabla^L \Delta F(\xo;0) 
+\]
+eine limiting Jacobian von $F'(\xo;\Delta x))$ und $\Delta F(\xo;\Delta x)$ am Punkt $\xo$ ist.
+\end{theorem}
 
 %% GENERALIZED ADJOINT MIDPOINT RULE
 \section{Adjungierte verallgemeinerte Mittelpunktsregel}
