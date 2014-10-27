@@ -14,9 +14,105 @@ ADOL-C wurde von Andreas Griewank erdacht und wird zurzeit in der Forschungsgrup
 Sämtliche Versuche wurden mit Plan-C erstellt, einer C++ Bibliothek, welche im Rahmen der Diplomarbeit von Paul Boeck in \cite{boeck14} erarbeitet und dokumentiert wurde. Da im Rahmen der vorliegenden Arbeit rechenintensivere Beispiele betrachtet werden, wurde diese Bibliothek geforkt und Armadillo als Matrix - Vektor Bibliothek eingesetzt, um die allgemeine Performance zu steigern; dies bedeutet, die in Boecks Arbeit als Verbesserungsvorschlag gegebene Benutzung von Sparse Matrizen einzubauen und mehrerer Prozessorkerne durch Parallelisierung zu unterstützen.  Desweiteren wurde sie durch diverse Funktionen erweitert, damit sie die Datenassimilierung mittels stückweiser Linearisierung unterstützt. Eine kurze Dokumentation darüber soll im Folgenden dargelegt werden.
 
 \subsection{Abs-Normal Form}
+Plan-C ist eine C++ Klasse, die ein Objekt zur Verfügung stellt welches eine Abstraktion einer Funktion darstellt. Intern wird der Reverse Mode von \texttt{ADOL-C} benutzt, um zu einer gegebene Funktion seine Abs-Normal Form an einem gegebenen Entwicklungspunkt aufzustellen und mit ihr zu rechnen.
+
+Um ein Plan-C Objekt zu erstellen kann man entweder direkt die Abs-Normal Form mit den Matrizen aus Gleichung  \eqref{eq:absNormalForm} 
+\begin{lstlisting}
+ PlanC(vec c,vec b,mat Z, mat L, mat J, mat Y, vec xo);
+\end{lstlisting}
+oder eine Funktion \texttt{func} übergeben
+\begin{lstlisting}
+ PlanC(size_t n,size_t m,vec xo, simple_function func, short tag);
+\end{lstlisting}
+\texttt{vec} und \texttt{mat} sind die Armadillo internen Klassen für Vektoren bzw. Matrizen, \texttt{n} und \texttt{m} sind die Dimensionen des Definitions-/Werteberech von \texttt{func} und \texttt{xo} der Entwicklungspunkt. \texttt{tag} gibt an, welches Tape von \texttt{ADOL-C} benutzt werden soll. 
+Die Funktion \texttt{func} muss in der Form 
+\begin{lstlisting}
+ void (simple_function*) (short tag, double* px, double* py);
+\end{lstlisting}
+initialisiert werden, damit \texttt{Plan-C} diese verarbeiten kann. \texttt{tag} ist wieder die Nummer des benutzten Tapes,  \texttt{px} ist ein Pointer auf die Eingabeparameter und \texttt{py} beschreibt die Rückgabewerte. 
+Beispielsweise ist eine Funktion gegeben als
+\begin{lstlisting}[caption=Beispiel einer simple\_function,label=lst:simpleFunc]
+ void func(short tag, double* px, double* py){
+ //aktiviere Abs Normal Form Berechnung
+  enableMinMaxUsingAbs();
+  //beginne Taping auf tag
+  trace_on(tag);
+  size_t n = 2;
+  size_t m = 2;
+  x = new adouble[n];
+  y = new adouble[m];
+  for(size_t i=0;i<n;i++){
+    //markiere x[i] als aktive Variable
+    x[i] = <<= px[i]		
+  }
+  
+  //Fuehre Berechnungen durch
+  y[0] = fabs(x[0]+x[1]);
+  y[1] = x[0] + fabs(x[0]-x[1]);
+  
+  for(size_t i=0;i<m;i++){
+    //markiere y[i] als Resultat
+    y[i] = <<= px[i]		
+  }
+  delete[] x, delete[] y;
+  // stoppe taping
+  trace_off(tag); 
+ }
+\end{lstlisting}
+
+Die Methoden \texttt{enableMinMaxUsingAbs}, \texttt{trace\_on} und \texttt{trace\_off} sind \texttt{ADOL-C} interne Funktionen, wobei \texttt{enableMinMaxUsingAbs} erst im Rahmen der Entwicklung von \texttt{Plan-C} zu \texttt{ADOL-C} hinzugefügt wurde. Alle arithmetischen Operatoren der \texttt{std::cmath} Klasse wurden von \texttt{ADOL-C} überladen.
+
+In \texttt{Plan-C} werden im Konstruktor folgende Methoden benutzt
+\begin{description}
+ \item[\texttt{get\_num\_switches}] gibt die Menge der switching Variablen zurück
+ \item[\texttt{zos\_an\_forward}] Analysiert das Tape und behält Ableitungen erster Ordnung, berechnet \texttt{z}
+ \item[\texttt{fos\_an\_reverse}] Die Matrizen \texttt{Z,L,Y} und \texttt{J} werden aus dem Tape errechnet und zeilenweise zurückgegeben
+\end{description}
+Mithilfe dieser drei Funktionen wird die Abs-Normal Form als Matrix-Repräsentation aufgestellt.
+Desweiteren stellt das \texttt{Plan-C} Objekt weitere Funktionen zur Verfügung:
+\begin{description}
+ \item[\texttt{update\_linearization(vec xo)}] Berechnet die Abs-Normal Form an der Stelle \texttt{xo}
+ \item[\texttt{eval(vec x)}] Wertet die Abs-Normal Form an Stelle \texttt{x} aus
+ \item[\texttt{eval\_F(vec x)}] Wertet die Ausgangsfunktion an Stelle \texttt{x} aus 
+\end{description}
 
 \subsection{Verallgemeinerte Mittelpunktsregel}
+Die Implementierung der verallgemeinerten Mittelpunktregel in C++ wird analog dem Pseudocode aus \ref{alg:genMidpointRule} programmiert. 
+\begin{lstlisting}[caption=Verallgemeinerte Mittelpunktsregel,label=lst:genMidpointRule]
+ mat PlanC::solve_ode(const vec &t, const vec &x0, bool verbose, double TOL) {
+  size_t N = t.n_elem;
+  double h = fabs(t(1)-t(0));
+  //setze Anfangswert
+  x.row(idx) = x0.t();
+  ...
+  //Initialisierung der Vektoren
+  ...	
+  while (idx < N - 1) {
+    ++idx;
+    //Initialschritt mit halben Euler
+    xo = xc + h * 0.5 * eval_F(xc);		
+    do {
+      ... 
+      ++cnt_inner_it;
+      //erstellt ein Update der Abs-Normal Form an Punkt xo
+      updateLinearization(xo);
+      v = 2.0 * (xo - xc);
+      r = h * (integrate(v) + integrate(-v) - fxo);
+      PlanC tmp = linear_combination(2.0, -h);
+      xo = tmp.solve(r + 2.0 * xc, false, 1E-14);
+      res = 2.0 * xo - 2.0 * xc - r - h * eval_F(xo);
+      resError = arma::norm(res);
+      ...
+    } while (resError > TOL && cnt_inner_it < MAX_IT);
+    if (cnt_inner_it == MAX_IT) {...}//error
+    xc = 2 * xo - xc;    
+    x.row(idx) = xc.t();
+  }
+  return x;
+}
 
+\end{lstlisting}
+Die Methode \texttt{integrate} ist die Implementierung der Prozedur \ref{alg:quad}. 
 \subsection{Berechnung des Kostenfunktionals}
 \subsection{Projektionsoperator}
 

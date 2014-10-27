@@ -102,14 +102,17 @@
 \def\finish@off@lstinlineitem{\item[\usebox0]} % output the \item
 \makeatother
 
-
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
 \lstloadlanguages{C++}
 \lstset{
+	language=C++,
 	numbers=left, 
 	numberstyle=\tiny, 
 	basicstyle=\ttfamily,
 	morecomment=[l][commentstyle]{//},
-	commentstyle={\tiny\itshape},
+	commentstyle={\itshape},
 	% highlight between @..@
 	moredelim=**[is][\color{Dgray}]{@}{@},	% highlight between @..@
 	aboveskip=\smallskipamount,
@@ -117,6 +120,11 @@
 	mathescape=true,
 	breaklines,
 	captionpos=b,
+	keywordstyle=\color{blue},   
+	commentstyle=\color{mygreen},  
+	numberstyle=\tiny\color{mygray},
+	rulecolor=\color{black},
+	stringstyle=\color{mymauve}, 
 }
 \usepackage{scrhack}									% ignores warning from listings
 %END

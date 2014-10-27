@@ -248,7 +248,7 @@ Der Algorithmus zum Auswerten der lokale Jacobimatrix $J_\sigma$ dient der Algor
 \begin{algorithmic}
 \Function{genJac}{$x,\Sigma$} 
 		\State{$\tau \gets$ crit\_mult($x,d$)} \Comment{$0<\tau<1$, berechne $\tau$ an Stelle $x$ in $d$}
-		\State{$arc \gets$ calculate\_arc($\tau$,$d$)} \Comment{Berechne Polynomial Escape Arc}
+% 		\State{$arc \gets$ calculate\_arc($\tau$,$d$)} \Comment{Berechne Polynomial Escape Arc}
 		\State{$z \gets$ calculate\_z($x+0.5\cdot\tau\cdot d$)} \Comment{Berechne $z$ mit polynomial escape}
 % 		\State{$z \gets$ calculate\_z($x$)} \Comment{Berechne $z$ aus der Abs-Normal Form}
 		\State{$\Sigma \gets$ calc\_sigma(z)} \Comment{Berechne sign Matrix $\Sigma$}
@@ -492,7 +492,7 @@ Die letzte Gleichung von \eqref{eq:reorderedGenMidpointAlg} ist stückweise line
       \State{\begin{varwidth}[t]{\linewidth}
       $\xo\gets $Solve(\par
         \hskip\algorithmicindent  $2\xonew - h (F(\xonew)+\Delta F(\xonew;\xonew - \xoold)) = $ \par
-        \hskip\algorithmicindent $r(\check x_{\text{old}},\check x)+2\check x$\par
+        \hskip\algorithmicindent $r(\check x_{\text{old}},\check x)+2\check x)$\par
       \end{varwidth}}
       \State{$\hat x = 2\xo - \check x$}
     \Until $\|\hat x - \check x-r -h F(\xo)\| < TOL$
