@@ -299,7 +299,7 @@ Griewank et al. beschreiben in \cite[Prop.5.2]{plan} die Bedingungen für global
 Desweiteren sind beide, der Fehler der Lösung und die Residuen monoton reduziert bzgl. der $p$-Norm.
 \end{theorem}
 
-\subsubsection{Unfolded System}
+\subsubsection{Komplementäres System}
 
 Falls $\det(J) \neq 0$ gilt, können wir das Schur Komplement definieren als 
  \[
@@ -312,7 +312,7 @@ Damit lässt sich die zweite Gleichung der Abs-Normal Form nach $x$ auflösen, m
  \Leftrightarrow && x = x(z) &=-J^{-1}(b+Y|z|)
  \end{aligned}
 \]
-in die erste Gleichung einsetzen und das Schurkomplement darauf anwenden. Es entsteht die \textit{unfolded} Vektorfunktion $H(z)$
+in die erste Gleichung einsetzen und das Schurkomplement darauf anwenden. Es entsteht die Vektorfunktion $H(z)$
 \[
  H(z) = z - L|z| + ZJ^{-1}Y|z| = (I-S\Sigma)z = \hat c \equiv c-ZJ^{-1}b
  \]
@@ -324,13 +324,13 @@ Für gegebenes $z$ können wir die obere Gleichung ebenfalls nach $z$ auflösen:
  \Rightarrow && z = z(x) &= G^{-1}(c+Zx)\quad \text{mit }G(z)\equiv z-L|z|
 \end{aligned} 
 \]
-Den Zusammenhang zwischen dem unfolded Problem (UPL) $H(z) = \hat c$ und dem Ausgangsproblem $F(x) = 0$ stellt Griewank ebenfalls in \cite[Lemma 6.5.]{plan} dar
+Den Zusammenhang zwischen dem komplementären Problem (CPL) $H(z) = \hat c$ und dem Ausgangsproblem $F(x) = 0$ stellt Griewank ebenfalls in \cite[Lemma 6.5.]{plan} dar
 
 \begin{theorem}
- Sei wie bisher $\det(J)\neq 0$. Ein Punkt $x_*\in \R^n$ ist eine Lösung des OPL $F(x)=0$ genau dann wenn er ein Fixpunkt von $x(z(x))$ ist, was in wiederrum äquivalent dazu ist, dass $z_*=z(x_*)$ ein Fixpunkt von $z(x(z))$ ist und damit eine Lösung des UPL $H(z)=\hat c$.
+ Sei wie bisher $\det(J)\neq 0$. Ein Punkt $x_*\in \R^n$ ist eine Lösung des OPL $F(x)=0$ genau dann wenn er ein Fixpunkt von $x(z(x))$ ist, was wiederrum äquivalent dazu ist, dass $z_*=z(x_*)$ ein Fixpunkt von $z(x(z))$ ist und damit eine Lösung des CPL $H(z)=\hat c$.
 \end{theorem}
 
-Das UPL System lässt sich als stückweise lineares, simply switched Problem auffassen mit der Abs-Normal Form
+Das CPL System lässt sich als stückweise lineares, simply switched Problem auffassen mit der Abs-Normal Form
 \[
  \begin{bmatrix}
   z\\
@@ -360,9 +360,32 @@ welches in der Newton Iteration (\cite[S.20]{plan})
 aufgeht und dessen Konvergenz für $\rho = \|S\|_p <\frac{1}{3}$ von Griewank in \cite[Prop. 7.3]{plan} bewiesen wurde. 
 Desweiteren kann gezeigt werden, dass $(I-\Sigma(z))$ ein verallgemeinerter Gradient von $H(z)$ ist, jedoch nicht zwangsweise eine limiting Jacobian.
  
+Eine allgemeinere Form der Systeme lässt sich durch Umstellen des Ursprungssystems erreichen. Stellen wir \eqref{eq:absNormalForm} nach $0$ um entsteht
+ \begin{equation}
+\label{eq:UPL}
+  \begin{bmatrix}
+   0\\0
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+   c\\b -y
+  \end{bmatrix}
+  +
+  \begin{bmatrix}
+   Z & L\Sigma - I \\
+   J & Y
+  \end{bmatrix}
+  \begin{bmatrix}
+   x\\ \tilde z
+  \end{bmatrix}
+ \end{equation}
+welches wir Unfolded System (UPL) nennen. Dieses reduziert sich für die Werte $(x,z(x))$ zum OPL System und für die Werte $(z(x),x)$ zum CPL System.
+
+
 TODO: VIELLICHT ALGORITHMUS ANGEBEN?
 TODO: UPL = CPL, CPL mit einbauen und erklären, OPL,UPL,CPL
-
+\subsubsection{Piecewise Linear Newton}
+Der stückweise lineare Newton ist eine besondere Form des Newton Algorithmus. Die Grundidee besteht darin, dass 
 % \section{Verallgemeinerte Newton}
 \section{Algorithmus}
 Nun können wir einen implementierbaren Algorithmus für die verallgemeinerte implizite Mittelpunktsregel angeben, da wir alle benötigten Verfahren eingeführt haben. Im folgenden, wie auch bisher, sei $\check x$ ein schon berechneter Punkt und $\hat x$ ein zu berechnender Punkt. $\xo$ sei der Entwicklungspunkt der stückweisen Linearisierung. Da $F(\xo)$ nicht von $t$ abhängt, kann die bereits hergeleiteten Regel umgestellt werden zu 

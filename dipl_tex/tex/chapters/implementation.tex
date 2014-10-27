@@ -98,7 +98,7 @@ Die Implementierung der verallgemeinerten Mittelpunktregel in C++ wird analog de
       updateLinearization(xo);
       v = 2.0 * (xo - xc);
       r = h * (integrate(v) + integrate(-v) - fxo);
-      PlanC tmp = linear_combination(2.0, -h);
+      PlanC tmp = scale_shift(2.0, -h);
       xo = tmp.solve(r + 2.0 * xc, false, 1E-14);
       res = 2.0 * xo - 2.0 * xc - r - h * eval_F(xo);
       resError = arma::norm(res);
@@ -112,7 +112,7 @@ Die Implementierung der verallgemeinerten Mittelpunktregel in C++ wird analog de
 }
 
 \end{lstlisting}
-Die Methode \texttt{integrate} ist die Implementierung der Prozedur \ref{alg:quad}. 
+Die Methode \texttt{integrate} ist die Implementierung der Prozedur \ref{alg:quad} und \texttt{scale\_shift} erstellt eine verschobenes \texttt{Plan-C} Objekt, welches für die stückweise lineare Newton Prozedur \ref{eq:unfoldedNewton} verwendet wird.
 \subsection{Berechnung des Kostenfunktionals}
 \subsection{Projektionsoperator}
 
