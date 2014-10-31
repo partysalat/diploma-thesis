@@ -11,7 +11,7 @@ ADOL-C ist ebenfalls ein Open Source Paket zur exakten automatischen Differentia
 ADOL-C wurde von Andreas Griewank erdacht und wird zurzeit in der Forschungsgruppe um Andrea Walther an der Universität Paderborn weiterentwickelt. Weitere Informationen zur Verwendung lassen sich in der Dokumentation \cite{walther2012getting} nachvollziehen. ADOL-C ist unter der \textit{Eclipse Public License 1.0} oder der \textit{GNU General Public License 2.0} in Projekten einsetzbar.
 
 \section{Plan-C}
-Sämtliche Versuche wurden mit Plan-C erstellt, einer C++ Bibliothek, welche im Rahmen der Diplomarbeit von Paul Boeck in \cite{boeck14} erarbeitet und dokumentiert wurde. Da im Rahmen der vorliegenden Arbeit rechenintensivere Beispiele betrachtet werden, wurde diese Bibliothek geforkt und Armadillo als Matrix - Vektor Bibliothek eingesetzt, um die allgemeine Performance zu steigern; dies bedeutet, die in Boecks Arbeit als Verbesserungsvorschlag gegebene Benutzung von Sparse Matrizen einzubauen und mehrerer Prozessorkerne durch Parallelisierung zu unterstützen.  Desweiteren wurde sie durch diverse Funktionen erweitert, damit sie die Datenassimilierung mittels stückweiser Linearisierung unterstützt. Eine kurze Dokumentation darüber soll im Folgenden dargelegt werden.
+Sämtliche Versuche wurden mit Plan-C erstellt, einer C++ Bibliothek, welche im Rahmen der Diplomarbeit von Paul Boeck in \cite{boeck14} erarbeitet und dokumentiert wurde. Da im Rahmen der vorliegenden Arbeit rechenintensivere Beispiele betrachtet werden, wurde ein Fork dieser Bibliothek erstellt und Armadillo als Matrix - Vektor Bibliothek eingesetzt, um die allgemeine Performance zu steigern; dies bedeutet, die in Boecks Arbeit als Verbesserungsvorschlag gegebene Benutzung von Sparse Matrizen einzubauen und mehrerer Prozessorkerne durch Parallelisierung zu unterstützen.  Desweiteren wurde sie durch diverse Funktionen erweitert, damit sie die Datenassimilierung mittels stückweiser Linearisierung unterstützt. Eine kurze Dokumentation darüber soll im Folgenden dargelegt werden.
 
 \subsection{Abs-Normal Form}
 Plan-C ist eine C++ Klasse, die ein Objekt zur Verfügung stellt welches eine Abstraktion einer Funktion darstellt. Intern wird der Reverse Mode von \texttt{ADOL-C} benutzt, um zu einer gegebene Funktion seine Abs-Normal Form an einem gegebenen Entwicklungspunkt aufzustellen und mit ihr zu rechnen.
@@ -24,7 +24,7 @@ oder eine Funktion \texttt{func} übergeben
 \begin{lstlisting}
  PlanC(size_t n,size_t m,vec xo, simple_function func, short tag);
 \end{lstlisting}
-\texttt{vec} und \texttt{mat} sind die Armadillo internen Klassen für Vektoren bzw. Matrizen, \texttt{n} und \texttt{m} sind die Dimensionen des Definitions-/Werteberech von \texttt{func} und \texttt{xo} der Entwicklungspunkt. \texttt{tag} gibt an, welches Tape von \texttt{ADOL-C} benutzt werden soll. 
+\texttt{vec} und \texttt{mat} sind die Armadillo internen Klassen für Vektoren bzw. Matrizen, \texttt{n} und \texttt{m} sind die Dimensionen des Definitions-/Werteberech der Funktion \texttt{func} und \texttt{xo} ist der Entwicklungspunkt. \texttt{tag} gibt an, welches Tape von \texttt{ADOL-C} benutzt werden soll. 
 Die Funktion \texttt{func} muss in der Form 
 \begin{lstlisting}
  void (simple_function*) (short tag, double* px, double* py);
@@ -42,7 +42,7 @@ Beispielsweise ist eine Funktion gegeben als
   x = new adouble[n];
   y = new adouble[m];
   for(size_t i=0;i<n;i++){
-    //markiere x[i] als aktive Variable
+    //markiere für alle i x[i] als aktive Variable
     x[i] = <<= px[i]		
   }
   
@@ -77,11 +77,10 @@ Desweiteren stellt das \texttt{Plan-C} Objekt weitere Funktionen zur Verfügung:
 \end{description}
 
 \subsection{Verallgemeinerte Mittelpunktsregel}
-Die Implementierung der verallgemeinerten Mittelpunktregel in C++ wird analog dem Pseudocode aus \ref{alg:genMidpointRule} programmiert. 
+Die Implementierung der verallgemeinerten Mittelpunktregel in C++ wird analog dem Pseudocode aus \ref{alg:genMidpointRule} programmiert. Eingangsparameter ist ein Vektor der zeitdiskretisierten Zeitachse \texttt{t} und der Anfangswert \texttt{x0}. Zusätzlich kann man eine \texttt{verbose} Flag übergeben, welche mehr Log-Ausgaben zur Konsequenz hat, sowie den Toleranz Parameter \texttt{TOL}. Zurückgegeben wird die Lösung in Form einer Matrix \texttt{x}, wobei die Zeile \texttt{x.row(i)} zur Stützstelle \texttt{t(i)} gehört.
 \begin{lstlisting}[caption=Verallgemeinerte Mittelpunktsregel,label=lst:genMidpointRule]
  mat PlanC::solve_ode(const vec &t, const vec &x0, bool verbose, double TOL) {
   size_t N = t.n_elem;
-  double h = fabs(t(1)-t(0));
   //setze Anfangswert
   x.row(idx) = x0.t();
   ...
@@ -89,6 +88,8 @@ Die Implementierung der verallgemeinerten Mittelpunktregel in C++ wird analog de
   ...	
   while (idx < N - 1) {
     ++idx;
+    //berechne Schrittweite
+    h= fabs(t(idx)-t(idx-1));
     //Initialschritt mit halben Euler
     xo = xc + h * 0.5 * eval_F(xc);		
     do {
@@ -97,10 +98,13 @@ Die Implementierung der verallgemeinerten Mittelpunktregel in C++ wird analog de
       //erstellt ein Update der Abs-Normal Form an Punkt xo
       updateLinearization(xo);
       v = 2.0 * (xo - xc);
+      //Berechne Residuum
       r = h * (integrate(v) + integrate(-v) - fxo);
       PlanC tmp = scale_shift(2.0, -h);
+      //Loese LGS mittels PL-Newton
       xo = tmp.solve(r + 2.0 * xc, false, 1E-14);
       res = 2.0 * xo - 2.0 * xc - r - h * eval_F(xo);
+      //Berechne Euklidische Norm des Fehlers
       resError = arma::norm(res);
       ...
     } while (resError > TOL && cnt_inner_it < MAX_IT);
@@ -110,13 +114,132 @@ Die Implementierung der verallgemeinerten Mittelpunktregel in C++ wird analog de
   }
   return x;
 }
-
 \end{lstlisting}
 Die Methode \texttt{integrate} ist die Implementierung der Prozedur \ref{alg:quad} und \texttt{scale\_shift} erstellt eine verschobenes \texttt{Plan-C} Objekt, welches für die stückweise lineare Newton Prozedur \ref{eq:unfoldedNewton} verwendet wird.
 \subsection{Berechnung des Kostenfunktionals}
-\subsection{Projektionsoperator}
+% \subsection{Projektionsoperator}
+Die Berechnung des Kostenfunktionals \eqref{eq:costfunctional} ist prinzipiell die Berechnung der $L^2$- Norm der Differenz der Observierungsparameter mit den errechneten Werten. Zur Implementierung wird zuerst die Lösung des Systems an der Stelle \texttt{x0} errechnet und danach mittels der Trapezregel die $L^2$-Norm berechnet. Die Trapezregel 
+\[
+ T_i(f) = h_i \frac{f(x_{i+1})+f(x_i)}{2}
+\]
+mit $h_i = t_{i}-t_{i-1}$ und $i=1,\ldots,n-1$ lässt sich für mehrere Stützstellen zusammenfassen zu
+\[
+ T(f) =\frac{1}{2} \left(h_1 f(x_0) + h_{n-1} f(x_{n-1}) + \sum_{i=1}^{n-2} f(x_i)(h_i+h_{i+1})\right)
+\]
+Daraus ergibt sich analog der Algorithmus \ref{lst:costFunctionalAlg}. Die Eingabeparameter wird zum einen der Vektor \texttt{tState} übergeben, welcher die Stützstellen des ODE Lösers beschreibt, \texttt{xo} ist der auszuwertende Punkt, \texttt{tObs} die Stützstellen der Observierung, \texttt{xObs} die Observierungsparameter und die \texttt{verbose} Flag.
+\begin{lstlisting}[caption=Berechnung des Kostenfunktionals,label=lst:costFunctionalAlg]
+double PlanC::cost_functional_data_assimilation(const vec &tState, const vec &x0, const vec &tObs, const mat &xObs, bool verbose) {
+  size_t N = tState.n_elem;
+  double t_a = tState(0);
+  ...
+  //Projektion der Loesung in den Raum der Observierungsparameter
+  xState = solve_ode(tState, x0, verbose, TOL);
+  xCalc = projState2ObsSpline(tState, tObs,xState);
+  
+  size_t NObs = tObs.n_elem;
+  double Jac = 0.0;
+  Jac += fabs((tObs(1) - tObs(0))) * pow(arma::norm(xCalc.row(0) - xObs.row(0)),2);
+  Jac += fabs((tObs(NObs-1) - tObs(NObs-2))) * pow(arma::norm(xCalc(NObs-1) - xObs(NObs-1)),2);
+
+  for (size_t i = 1; i < NObs - 1; i++) {
+    hi = fabs((tState(i) - tState(i-1)));
+    //Trapezregel
+    Jac += hi*pow(fabs(xCalc(i)- xObs(i)),2);
+  }
+  return 0.5 * 0.5*Jac;
+}
+\end{lstlisting}
+Die Methode \texttt{projState2ObsSpline} erstellt eine Spline Interpolation der Lösung \texttt{xState} und projeziert die interpolierten Werte auf die Stützstellen \texttt{tObs} des Observierungsraumes. In Gleichung \eqref{eq:costfunctional} ist dies identisch mit dem Projektionsoperator $C$. Falls \texttt{tObs} eine Teilmenge von \texttt{tState} ist, so ist $C$ tatsächlich eine Matrix. In dieser Arbeit ist die Anzahl der Stützstellen von \texttt{tState} immer größer oder gleich der Anzahl der Stellen der Observierungsparameter \texttt{tObs}. Denkbar wären auch der umgedrehte Fall.
 
 \subsection{Adjungierte Mittelpunktsregel}
+Die Implementierung der adjungierten Mittelpunktsregel wird analog zu Algorithmus \ref{alg:jacDataAssimilation} durchgeführt. Eingabeparameter sind der Stützstellenvektor \texttt{tState}, der Entwicklungspunkt \texttt{x0}, die Observierungsparameterstützstellen \texttt{tObs}, die Observierungsparameter \texttt{xObs}, die Toleranz zur Lösung der ODE \texttt{TOL} und die \texttt{verbose} Flag.
+\begin{lstlisting}[caption=Berechnung der adjungierten Mittelpunktsregel, label=lst:adjMidpointRule]
+vec PlanC::jac_data_assimilation_pl(const vec &tState, const vec &x0, const vec &tObs, const mat &xObs,double TOL, bool verbose) {
+  size_t N = tState.n_elem;
+  double h = fabs(tState(1)-tState(0));
+  double t_end = tState(tState.n_elem - 1) + h;
+
+  //1. Schritt: Loese ODE
+  mat xCalc = solve_ode(tState, x0, verbose, TOL,xoForward);
+  
+  //2. Schritt: Hin und Rueckprojektion
+  mat xCalcProjInObs = projState2ObsSpline(tState, tObs, xCalc) - xObs;
+  mat xCalcProj = projObs2StateSpline(tState, tObs, xCalcProjInObs);
+  
+  //3. Schritt: Loese Adj TLM Rueckwaerts in der Zeit
+  int idx = N - 1;
+  
+  vec xc(n,fill::zeros); //Nullvektor als Anfangsbedingung
+  vec xCalcO(n);	 //Mittelpunkt
+  vec xCalcMinusXObsProj(n); //Differenz xObs zu xCalc 
+  mat A(n, n);
+  vec b(n);
+  sp_mat I = speye<sp_mat>(n,n);//Identitaetsmatrix
+  while (idx > 0) {
+    mat ABar(n, n,fill::zeros);
+    mat AHat(n, n,fill::zeros);
+    //Berechne Richtung
+    d = (xCalc.row(idx - 1) - xCalc.row(idx)).t();
+    //Berechne Mittelpunkt
+    xCalcO = 0.5 * 
+	(xCalc.row(idx) + xCalc.row(idx - 1)).t();
+    xCalcMinusXObsProj = 0.5 * 
+	  (xCalcProj.row(idx) + xCalcProj.row(idx - 1)).t();
+    //Erstelle neue AbsNormal Form am Mittelpunkt xCalcO
+    updateLinearization(xCalcO);
+    
+    //Berechne gewichtete Ableitung
+    calc_kink_partial(
+	  xCalc.row(idx).t(), 
+	  xCalc.row(idx - 1).t(),
+	  d,
+	  ABar,
+	  AHat
+    );
+    A = I - 0.5 * h * ABar + h * AHat;
+    b = (I + 0.5 * h * ABar + h * AHat) * xc - h * (xCalcMinusXObsProj);
+    xc = arma::solve(A, b);
+    idx = idx - 1;
+  }
+  return (-1) * xc;
+}
+\end{lstlisting}
+wobei die Funktion \texttt{calc\_kink\_partial} genau den Algorithmus \ref{alg:kinkPartials} widerspiegelt.
+\begin{lstlisting}[caption=Berechnung der gewichteten Ableitung, label=lst:kinkPartials]
+void PlanC::calc_kink_partial(vec xCheck, vec xHat,const vec &d, mat &A, mat &B) {
+  vec xKink = xCheck;
+  double tau(0), tau_old(0),deltaTau, rTau;
+  do {
+    //Kritischer Multiplikator
+    tau =  crit_mult(xKink,d);
+    tau = tau+tau_old;
+    //Inkrement zum naechsten Kink
+    dx = tau * d;
+    deltaTau = tau - tau_old;
+    //Shifte Interval von [0,1] nach [-0.5,0.5]
+    rTau = 0.5 * (tau + tau_old)-0.5;
+    //Ableitung an der Stelle xKink
+    df = gen_jac(xKink, d).t();
+    //Gehe zum nächsten Kink
+    xKink = xKink + dx;
+
+    A += df * deltaTau;
+    B += df * deltaTau * rTau;
+    tau_old = tau;
+  } while (tau < 1);
+}
+\end{lstlisting}
+
+Die Methode \texttt{gen\_jac(vec x,vec d)} berechnet den zum jeweiligen Polyeder zugehörige limiting Jacobian an Stelle \texttt{x} in Richtung \texttt{d} mittels des Polynomial Escape Algorithmus \ref{alg:genjac}. 
 
 
 \subsection{Optimierung}
+Die Optimierungsmethode ist ebenfalls im \texttt{PlanC} Objekt untergebracht. Sie berechnet nun mittels BFGS Verfahren \ref{alg:bfgs} mit Wolfe-Powell Linesearchmethode \ref{alg:wolfePowell} das Minimum. 
+Als zu minimierende Funktion wird die Methode \texttt{cost\_functional\_data\_assimilation} verwendet, als erste Ableitung die Prozedur \texttt{jac\_data\_assimilation\_pl}. 
+
+% \begin{lstlisting}
+% solve_data_assimilation_bfgs
+% (vec &tState, vec &x0,vec &tObs, mat &xObs, mat &weights, double TOL,
+% 		mat &iterationSteps, bool verbose, int type) 
+% \end{lstlisting}
+% 

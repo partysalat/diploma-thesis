@@ -502,7 +502,7 @@ Eine Möglichkeit, die sich zur Schrittweitenbestimmung anbietet besteht darin, 
 \]
 zu bestimmen. Ist $x\in N(J,J(x^{(0)}))$ und $d$ so gewählt, dass $\nabla J(x)^\tr d <0$, so hat die Funktion $\nabla J(x+sd)^\tr d$ eine kleinste, positive Nullstelle $\sigma_E>0$. Für die exakte Schrittweite gilt mit $H = J''(x)$ (\cite[Gleichung (4.5.5)]{alt2002nichtlineare})
 \[
- \sigma_e = -\frac{\nabla J(x)^\tr d}{d^\tr H d}
+ \sigma_E = -\frac{\nabla J(x)^\tr d}{d^\tr H d}
 \]
 Diese Nullstelle ist eindeutig, falls die Zielfunktion $J$ konvex ist. Für ein quadratisches Optimierungsproblem wird die exakte Schrittweite benutzt, in unserem Fall jedoch muss man sich mit einer Näherung zufrieden geben. 
  
@@ -529,7 +529,7 @@ Motiviert aus dem Prinzip des hinreichenden Abstiegs aus Definition \ref{def:suf
 % \end{figure}
 Den Beweis der Konvergenz ist in  \cite[Satz 4.5.5]{alt2002nichtlineare} dargelegt.
 
-Ein weiteres Verfahren stellt das sogenannte \textit{Wolfe Powell Methode} dar, welche zusätzlich zu der Bedingung \eqref{eq:armijo1}
+Ein weiteres Verfahren stellt die sogenannte \textit{Wolfe Powell Methode} dar, welche zusätzlich zu der Bedingung \eqref{eq:armijo1}
 \begin{equation}
  f(x+\sigma d) \leq f(x) + c_1\sigma \nabla f(x)^\tr d
 \end{equation}
@@ -629,6 +629,7 @@ Ein verbesserte Wahl der Suchrichtung $d$ bietet das BFGS-Verfahren (\cite[Verfa
 \end{enumerate} 
 \end{framed}
  \caption{BFGS - Verfahren}
+ \label{alg:bfgs}
 \end{figure}
 Wobei die Matrix $A$ durch die BFGS-Updateformel 
 \[
