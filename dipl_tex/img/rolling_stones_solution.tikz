@@ -1,0 +1,24 @@
+\documentclass{standalone}
+\IfStandalone{
+	\usepackage{pgfplots,pgfplotstable}
+	\usetikzlibrary{external}
+	
+	}{%
+}
+\begin{document}
+\tikzsetnextfilename{rolling-stones-solution}
+\begin{tikzpicture}[x=3em,y=3em]
+\begin{axis}[
+            xmin=0,xmax=15,
+            ymin=-2.2,ymax=2.2,
+            xlabel=$t$,
+            legend entries={$x(t)$}
+        ]
+        \addplot[domain=0:3.14]{1+sin(deg(x))};
+        \addplot[domain=pi:pi+2,gray]{1-x+pi};
+        \addplot[domain=pi+2:2*pi+2]{-1-sin(deg(2-x))};
+        \addplot[domain=2*pi+2:2*pi+4,gray]{x-3-2*pi};
+        \addplot[domain=2*pi+4:3*pi+4]{1+sin(deg(x-2*pi-4))};
+\end{axis}
+\end{tikzpicture} 
+\end{document}

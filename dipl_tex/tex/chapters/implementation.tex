@@ -42,7 +42,7 @@ Beispielsweise ist eine Funktion gegeben als
   x = new adouble[n];
   y = new adouble[m];
   for(size_t i=0;i<n;i++){
-    //markiere für alle i x[i] als aktive Variable
+    //markiere fuer alle i x[i] als aktive Variable
     x[i] = <<= px[i]		
   }
   
@@ -220,7 +220,7 @@ void PlanC::calc_kink_partial(vec xCheck, vec xHat,const vec &d, mat &A, mat &B)
     rTau = 0.5 * (tau + tau_old)-0.5;
     //Ableitung an der Stelle xKink
     df = gen_jac(xKink, d).t();
-    //Gehe zum nächsten Kink
+    //Gehe zum naechsten Kink
     xKink = xKink + dx;
 
     A += df * deltaTau;

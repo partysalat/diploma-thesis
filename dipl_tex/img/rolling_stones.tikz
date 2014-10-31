@@ -1,0 +1,23 @@
+\documentclass{standalone}
+\usepackage{pgfplots,pgfplotstable}
+\usetikzlibrary{external}
+	
+
+\begin{document}
+\tikzsetnextfilename{rolling-stones}
+\begin{tikzpicture}[x=3em,y=3em]
+\begin{axis}[
+            xmin=-2.5,xmax=2.5,
+            ymin=-1.5,ymax=1.5,
+            xlabel=$z$,
+            legend entries={$V(z)$,$V'(z)$}
+        ]
+        \addplot[domain=-2.5:-1]{(1+x)^2/2};
+        \addplot[-,domain=-1:1]{0};
+        \addplot[domain=1:2.5]{(1-x)^2/2};
+        \addplot[domain=-2.5:2.5,samples=100,blue]{-min(max(-1-x,0),1-x)};
+\end{axis}
+\end{tikzpicture}
+
+ 
+\end{document}
