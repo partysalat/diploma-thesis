@@ -1,0 +1,26 @@
+\documentclass{standalone}
+\IfStandalone{
+	\usepackage{pgfplots,pgfplotstable}
+	\usetikzlibrary{external}
+	\newcommand{\fromRoot}[1]{../#1}
+}{%
+}
+\begin{document}
+\tikzsetnextfilename{rolling_error_over_time}
+\begin{tikzpicture}
+\begin{axis}[
+	width=10cm,
+	xlabel=Time $t$,
+	ylabel=Current error at time $t$,
+	legend entries ={Expl. MP,
+	IMP,
+	GIMP, 
+	}
+]
+\addplot[mark=none,red,very thin] table[x index=0,y index=3] {img/data/rolling_error_over_time.dat};
+\addplot[mark=none,green,very thin] table[x index=0,y index=2] {img/data/rolling_error_over_time.dat};
+\addplot[mark=none,blue,very thin] table[x index=0,y index=1] {img/data/rolling_error_over_time.dat};
+
+\end{axis}
+\end{tikzpicture}
+\end{document}

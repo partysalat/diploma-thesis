@@ -12,7 +12,8 @@
             xmin=0,xmax=15,
             ymin=-2.2,ymax=2.2,
             xlabel=$t$,
-            legend entries={$x(t)$}
+            legend entries={$x(t)$},
+            width=\linewidth
         ]
         \addplot[domain=0:3.14]{1+sin(deg(x))};
         \addplot[domain=pi:pi+2,gray]{1-x+pi};

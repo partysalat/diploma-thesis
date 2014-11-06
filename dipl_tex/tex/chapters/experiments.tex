@@ -1,22 +1,103 @@
 \chapter{Experimente}
 In diesem Kapitel werden wir drei verschiedenen Beispielen mit sämtliche eingeführten Methoden duchrechnen. Dabei wird zunächst auf die Lösung der Differentialgleichung eingegangen und Konvergenzbetrachtungen durchgeführt. Danach wird der Gradienten des Kostenfunktionals behandelt und die Optimierung für diverse Anfangswerte durchgeführt. %Stay Tuned!
 \section{Rolling Stone}
+\subsection{Problemstellung}
 Zum Anfang wollen wir uns dem sogenannten Rolling Stones Beispiel widmen, welches beispielsweise in \cite{boeck2014experiments} behandelt wurde. 
 Es behandelt eine sich reibungslos bewegende Kugel auf einer konvexen Parabel, in dessen Mitte eine flache Ebene auf dem Intervall $[-1,1]$ eingefügt wurde. 
-% [width=0.49\textwidth]
-\begin{figure}[H]
-% \subfigure[Bildunterschrift]{\input{img/rolling_stones.tikz}}\hfill
-% \subfigure[Bildunterschrift]{\input{img/rolling_stones_solution.tikz}}
+\begin{figure}[ht]
+\centering
+\begin{minipage}[b]{0.49\linewidth}
+% \begin{minipage}[t][3cm][t]{5cm}
 \input{img/rolling_stones.tikz}
+\caption{Rolling Stones}
+\label{fig:rollingStones}
+\end{minipage}
+% \quad
+\begin{minipage}[b]{0.49\linewidth}
+% \begin{minipage}[t][3cm][t]{5cm}
 \input{img/rolling_stones_solution.tikz}
-\caption{Gesamtbild-Unterschrift}
+\caption{Rolling Stones Lösung}
+\label{fig:rollingStonesSolution}
+\end{minipage}
 \end{figure}
+Figur \ref{fig:rollingStones} zeigt die Rampe
+\[
+ V(z) = \left(\frac{(1+z)^2}{2}\right)\chi_{(-\infty,-1]} + \left(\frac{(1-z)^2}{2}\right)\chi_{[1,\infty)} ,
+ ~ \chi_{[a,b)}(z) = 
+ \begin{cases}
+  1 & z \in [a,b)\\
+  0 & \text{sonst}
+ \end{cases}
+\]
+
+und deren Ableitung, welche wir als gewöhnliche Differentialgleichung mit der Lösung in Figur \ref{fig:rollingStonesSolution} auffassen
+ \begin{equation}
+  \begin{pmatrix}
+   \dot x_1 \\
+   \dot x_2 \\
+  \end{pmatrix}
+ = 
+ \begin{pmatrix}
+  x_2 \\
+  -x_1 - \frac{|x_1-1|}{2} + \frac{|x_1+1|}{2}
+ \end{pmatrix}
+=F(x)
+\label{eq:rolling_stones}
+ \end{equation}
+wobei $x_1$ die Abszissenposition des Steines und $x_2$ dessen Geschwindigkeit bezeichnet.
+Die Funktion \eqref{eq:rolling_stones} ist stückweise linear, sodass wir seine Abs Normal Form \eqref{eq:absNormalForm} angeben können mit
+\[
+c = \begin{pmatrix}
+     -1\\
+     1
+    \end{pmatrix}
+\quad
+ Z = \begin{pmatrix}
+      1 & 0 \\
+      1 & 0
+     \end{pmatrix}\quad
+J = \begin{pmatrix}
+      0&1\\
+      -1 & 0
+     \end{pmatrix}\quad
+ Y = \begin{pmatrix}
+      0 & 0\\
+      -0.5  & 0.5
+     \end{pmatrix}
+\]
+der Rest wird zu $0$ gesetzt. 
 
 
 \cite{hasenfelder13}
-\subsection{Problemstellung}
+
 \subsection{Lösen der ODE}
+Die Konvergenz der verallgemeinerten impliziten Mittelpunktsregel 
+\begin{figure}
+\centering
+\input{img/convergence_rolling_plot.tikz}
+\caption{Konvergenz Rolling Stones im Intervall $[0,50]$ mit $x_0=(1,1)$}
+\label{fig:rollingStonesConvergence}
+\end{figure}
+
+\begin{figure}
+\centering
+\input{img/convergence_rolling_romberg_plot.tikz}
+\caption{Romberg Konvergenz im Intervall $[0,50]$ mit $x_0=(1,1)$}
+\label{fig:rollingStonesConvergenceRomberg}
+\end{figure}
+
 Ode Lösung/Romberg
+Die in Theorem \ref{thm:convergenceGenMidpoint} vorhergesagte Konvergenzordnung von $\mathcal O(h^2)$. Dass die implizite Mittelpunktsregel eine ebenso hohe Konvergenzrate besitzt liegt daran, dass sie im gegebenen Intervall nur $4$ mal pro $2\pi+4$ Periode Unglattheiten überquert, sonst jedoch normal konvergiert. Aufgrund dieser Unglattheiten entsteht für die implizite Mittelpunktsregel (IMP) kein glatter Konvergenzgraph, sondern sie springt. Demgegenüber konvergiert die verallgemeinerter implizite Mittelpunktsregel (GIMP) sehr stabil, da sie die Knicke der Funktion mit in ihre Berechnung einbezieht.
+Insbesondere wird der Fehler der GIMP mit zunehmender Zeit (siehe Fig. \ref{fig:rollingStonesEOT}) nur in den nicht affinen Abschnitten größer während in den affinen Abschnitten exakt gelöst wird, der lokale Fehler der IMP erhöht sich jedoch ständig, bedingt durch die Kinks.
+\begin{figure}[ht]
+\centering
+\input{img/rolling_error_over_time.tikz}
+\caption{Rolling Stones Fehler über Zeit}
+\label{fig:rollingStonesEOT}
+\end{figure}
+
+
+
 \subsection{Adjoints}
 Plot adjoints IMP vs GIMP
 \subsection{Optimierung}
