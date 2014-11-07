@@ -103,26 +103,22 @@ Die in Figur \ref{fig:rollingStonesConvergenceRomberg} durchgeführte Romberg Ex
 \begin{minipage}[b]{0.49\linewidth}
 % \begin{minipage}[t][3cm][t]{5cm}
 \input{img/rolling_error_over_time.tikz}
-\caption{Rolling Stones Fehler über Zeit}
+\caption{Rolling Stones Fehler über Zeit, \\$h=0.1,x_0=(1,1)$}
 \label{fig:rollingStonesEOT}
 \end{minipage}
 % \quad
 \begin{minipage}[b]{0.49\linewidth}
 % \begin{minipage}[t][3cm][t]{5cm}
 \input{img/rolling_error_over_time_all.tikz}
-\caption{Rolling Stones Fehler über alle Komponenten}
+\caption{Rolling Stones Fehler über alle Komponenten, $h=0.1,x_0=(1,1)$}
 \label{fig:rollingStonesEOTAll}
 \end{minipage}
 \end{figure}
 
 \subsection{Gradient des Kostenfunktionals}
-Ähnliche Ergebnisse wie beim Lösen der ODE erwarten wir für die Integration des adjungierten Tangent Linear Models \eqref{eq:adjointtlm}. Falls nicht anders beschrieben werden im Folgenden immer die exakte Lösung des Rolling Stones Beispiel \eqref{eq:analyticSolRolling} als Obervierungsparameter $x_{Obs}$ mit der selben Diskretisierung wie die des ODE Lösers verwendet.
+Ähnliche Ergebnisse wie beim Lösen der ODE erwarten wir für die Integration des inhomogenen adjungierten Tangent Linear Models \eqref{eq:inhAdjEquation}. Falls nicht anders beschrieben werden im Folgenden immer die exakte Lösung des Rolling Stones Beispiel \eqref{eq:analyticSolRolling} als Obervierungsparameter $x_{\text{Obs}}$ mit der selben Diskretisierung wie die des ODE Lösers verwendet.
 
 Beim Plot des Gradienten nach Anfangswerten wie in Figur \ref{fig:rollingGrad} ist zu erkennen, dass der Gradient berechnet mit der GIMP ebenfalls stabiler wirkt (Fig. \ref{fig:rollingGrad} links) als der Gradient berechnet mit der normalen Impliziten Mittelpunktsregel (Fig. \ref{fig:rollingGrad} rechts). Desweiteren existieren im Letzteren vereinzelt hohe Sprünge, welche durch nicht einbezogene Kinks erklärt werden können. 
-
-
-Plot adjoints IMP vs GIMP
-
 \begin{figure}[H]
 \centering
 \begin{minipage}[b]{0.49\linewidth}
@@ -151,9 +147,17 @@ Plot adjoints IMP vs GIMP
 % \caption{Ableitung des Kostenfunktional in erster Komponente von Rolling Stones}
 % \label{fig:rollingGrad2Imp}
 \end{minipage}
-\caption{Ableitung des Kostenfunktionals beim Rolling Stones Beispiel (links: GIMP, rechts: IMP)}
+\caption{Ableitung des Kostenfunktionals beim Rolling Stones Beispiel (links: GIMP, rechts: IMP), $I = [0,30],h=0.5$}
 \label{fig:rollingGrad}
 \end{figure}
+
+
+Die Konvergenzplots \ref{fig:rollingStonesAdjointSmooth} und \ref{fig:rollingStonesAdjointDiscrete} ergeben ähnliche Robustheitsresultate wie bei der Vorwärtsintegration. Figur \ref{fig:rollingStonesAdjointSmooth} stellt dabei die Konvergenz mit einer Funktion als Observierungsparameter dar. Das bedeutet, dass in jeder Verfeinerung ebenfalls die Observierungsparameter verfeinert wurden also $t_{\text{state}} = t_{\text{Obs}}$. Diskrete Observierungsparameter wurden bei Figur \ref{fig:rollingStonesAdjointDiscrete} benutzt, sie blieben also bei jeder Verfeinerung des Gitters konstant. Die aus der GIMP berechneten Werte wurden mit einem Projektionsoperator vom Zustandsraum $X_{\text{State}}$ in den Raum der Observierungen $X_{\text{Obs}}$ projeziert, danach deren Differenz gebildet und wieder zurück nach $X_{\text{State}}$ projeziert. Die lineare Konvergenz der beiden Plots liefert 
+
+
+
+Dabei fällt die lineare Konvergenz aller Methoden auf. Selbst für einfachere Beispiele ohne Kinks ist die Konvergenz nicht schneller als linear.
+TODO: HERAUSFINDEN WARUM DAS SO IST
 
 
 \begin{figure}[H]
@@ -161,29 +165,47 @@ Plot adjoints IMP vs GIMP
 \begin{minipage}[b]{0.49\linewidth}
 % \begin{minipage}[t][3cm][t]{5cm}
 \input{img/rolling_convergence_adjoint_smooth.tikz}
-\caption{Rolling Stones Konvergenz glatt}
+\caption{Rolling Stones Konvergenz glatt, $I=[0,40]$}
 \label{fig:rollingStonesAdjointSmooth}
 \end{minipage}
 % \quad
 \begin{minipage}[b]{0.49\linewidth}
 % \begin{minipage}[t][3cm][t]{5cm}
 \input{img/rolling_convergence_adjoint_discrete.tikz}
-\caption{Rolling Stones Konvergenz diskret}
+\caption{Rolling Stones Konvergenz diskret, $I=[0,40]$}
 \label{fig:rollingStonesAdjointDiscrete}
 \end{minipage}
 \end{figure}
 
 \subsection{Optimierung}
-Convergence
-Pfad der Iterationen
+Die zu minimierende Funktion, das Kostenfunktional $J$, ist in Figur \ref{fig:rolling_costfunctional} gegeben. $J$ ist hierbei offensichtlich nicht konvex; es entsteht um den Punkt $(0,0)$ eine Art Spirale. Sein Minimum befindet sich am Punkt $(1,1)$, trivialerweise an der Stelle der Observierungsparameter. 
+% Pfad der Iterationen
 \begin{figure}[H]
 \centering
 \input{img/rolling_costfunctional.tikz}
-\caption{Rolling Stones Kostenfunktional im Intervall $[0,30]$}
+\caption{Rolling Stones Kostenfunktional im Intervall $[0,30],h=0.5$}
 \label{fig:rolling_costfunctional}
 \end{figure}
 
+Die Optimierung in diesem Beispiel wurden mit dem BFGS - Verfahren (siehe Algorithmus \ref{alg:bfgs}) durchgeführt. Dabei war in den Versuchen zu erkennen, dass die verallgemeinerte Methode ein besseres Konvergenzverhalten durch den glatteren Gradienten besitzt (Figur \ref{fig:rollingStonesOpt2}).
 
+Für bestimmte Anfangswerte divergiert die klassische Methode wie in Figur \ref{fig:rollingStonesOpt1} wohingegen die Optimierung über GIMP konvergiert. 
+
+Zusammenfassend ergibt sich für das Rolling Stones Beispiel ein insgesamt besseres Verhalten der verallgemeinerten Methoden im Gegensatz zu der klassischen impliziten Mittelpunktsregel.
+\begin{figure}[H]
+\centering
+\begin{minipage}[b]{0.49\linewidth}
+% \begin{minipage}[t][3cm][t]{5cm}
+\input{img/rolling_opt2_cost.tikz}
+\end{minipage}
+% \quad
+\begin{minipage}[b]{0.49\linewidth}
+% \begin{minipage}[t][3cm][t]{5cm}
+\input{img/rolling_opt2_convergence.tikz}
+\end{minipage}
+\caption{Rolling Stones Data Assimilation Optimierung mit $x_0=(0,-1.45)$ auf dem Intervall $I = [0,20], h=0.2$}
+\label{fig:rollingStonesOpt2}
+\end{figure}
 
 \begin{figure}[H]
 \centering
@@ -196,26 +218,9 @@ Pfad der Iterationen
 % \begin{minipage}[t][3cm][t]{5cm}
 \input{img/rolling_opt1_convergence.tikz}
 \end{minipage}
-\caption{Rolling Stones Data Assimilation Optimierung mit $x_0=(1.5,1.5)$}
+\caption{Rolling Stones Data Assimilation Optimierung mit $x_0=(1.5,1.5)$ auf dem Intervall $I = [0,20], h=0.2$}
 \label{fig:rollingStonesOpt1}
 \end{figure}
-
-
-\begin{figure}[H]
-\centering
-\begin{minipage}[b]{0.49\linewidth}
-% \begin{minipage}[t][3cm][t]{5cm}
-\input{img/rolling_opt2_cost.tikz}
-\end{minipage}
-% \quad
-\begin{minipage}[b]{0.49\linewidth}
-% \begin{minipage}[t][3cm][t]{5cm}
-\input{img/rolling_opt2_convergence.tikz}
-\end{minipage}
-\caption{Rolling Stones Data Assimilation Optimierung mit $x_0=(0,-1.45)$}
-\label{fig:rollingStonesOpt1}
-\end{figure}
-
 
 
 \section{LC-Diode}

@@ -18,9 +18,9 @@
     ylabel={$x_0^{(1)}$},
     zlabel={$\sfrac{\partial J}{\partial x_0^{(1)}}$}]
 %     \addplot3[surf] file {img/data/rolling_costfunctional.dat};
-     \addplot3[contour gnuplot] file {img/data/rolling_costfunctional.dat};
-    \addplot3[mark=o, red] table {img/data/rolling_opt1_iterationSteps.dat};
-    \addplot3[mark=o, yellow] table {img/data/rolling_opt1_iterationSteps_impl.dat};
+     \addplot3[contour gnuplot={number=5}] file {img/data/rolling_costfunctional.dat};
+    \addplot3[mark=o, green] table {img/data/rolling_opt1_iterationSteps_impl.dat};
+    \addplot3[mark=o, blue] table {img/data/rolling_opt1_iterationSteps.dat};
     \end{axis}
 \end{tikzpicture}
 \end{document}

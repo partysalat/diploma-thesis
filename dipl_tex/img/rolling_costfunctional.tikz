@@ -13,7 +13,7 @@
 %      title={$\sfrac{\partial J}{\partial x_0^{(1)}}$},
     xlabel={$x_0^{(0)}$},
     ylabel={$x_0^{(1)}$},
-    zlabel={$\sfrac{\partial J}{\partial x_0^{(1)}}$}]
+    zlabel={$J(x_0)$}]
       \addplot3[surf] file {img/data/rolling_costfunctional.dat};
     \end{axis}
 \end{tikzpicture}
