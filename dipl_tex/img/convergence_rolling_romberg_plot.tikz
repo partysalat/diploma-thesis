@@ -10,8 +10,8 @@
 \begin{tikzpicture}
 \begin{loglogaxis}[
 	width=10cm,
-	xlabel=degrees of freedom $N$,
-	ylabel=error at time $T$,
+	xlabel=Anzahl der Freiheitsgrade $N$,
+	ylabel=Fehler in $x$,
 % 	title=Convergence of SWE,
 	legend entries ={
 % 	Expl. MP,

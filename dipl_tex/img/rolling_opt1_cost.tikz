@@ -1,0 +1,26 @@
+\documentclass{standalone}
+\usepackage{pgfplots,pgfplotstable}
+\IfStandalone{
+	\usepackage{pgfplots,pgfplotstable}
+	\usetikzlibrary{external}
+	\newcommand{\fromRoot}[1]{../#1}
+}{%
+}
+\begin{document}
+\tikzsetnextfilename{rolling_opt1_cost}
+\begin{tikzpicture}
+    \begin{axis}[view={0}{90},
+    width=\linewidth,
+    legend entries ={Kostenfunktional,IMP, GIMP},
+    legend style={at={(0.97,1.40)}},
+%     legend style={at={(1.00,0.15)},anchor=east}
+    xlabel={$x_0^{(0)}$},
+    ylabel={$x_0^{(1)}$},
+    zlabel={$\sfrac{\partial J}{\partial x_0^{(1)}}$}]
+%     \addplot3[surf] file {img/data/rolling_costfunctional.dat};
+     \addplot3[contour gnuplot] file {img/data/rolling_costfunctional.dat};
+    \addplot3[mark=o, red] table {img/data/rolling_opt1_iterationSteps.dat};
+    \addplot3[mark=o, yellow] table {img/data/rolling_opt1_iterationSteps_impl.dat};
+    \end{axis}
+\end{tikzpicture}
+\end{document}

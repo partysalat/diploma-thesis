@@ -399,7 +399,7 @@ Nun können wir einen implementierbaren Algorithmus für die verallgemeinerte im
  \Leftrightarrow && \hat x - \check x - hF(\xo) & =r(\hat x,\check x)
 \end{aligned}
 \end{equation}
-Um $r$ zu berechnen, wird die Quadratur \ref{alg:quad} für $\Delta x = \hat x - \check x$ und $-\Delta x$ ausgeführt. Im Falle, dass $r=0$ ist, ist $F$ glatt im Integrationsintervall aufgrund von \eqref{eq:equivalenceGenImplMidpoint}.
+Um $r$ zu berechnen, wird die Quadratur aus Prozedur \ref{alg:quad} auf $\Delta x = \hat x - \check x$ und $-\Delta x$ angewandt. Im Falle, dass $r=0$ ist, ist $F$ glatt im Integrationsintervall aufgrund von \eqref{eq:equivalenceGenImplMidpoint}.
 
 Dazu wird $F(\xo)$ durch die stückweise Linearisierung $F(\xo)\approx F(\xoold)+\Delta F(\xoold;\xonew -\xoold )$ am neuen Basispunkt $\xo_{\text{new}}$ersetzt. 
 Wir wollen nun einen neuen Entwicklungspunkt $\xonew$ durch Fixpunktiteration finden, der die Gleichung \eqref{eq:genMidpointAlg} löst. 

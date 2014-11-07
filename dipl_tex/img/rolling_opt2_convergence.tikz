@@ -1,0 +1,25 @@
+\documentclass{standalone}
+\usepackage{pgfplots,pgfplotstable}
+\IfStandalone{
+	\usepackage{pgfplots,pgfplotstable}
+	\usetikzlibrary{external}
+	\newcommand{\fromRoot}[1]{../#1}
+}{%
+}
+\begin{document}
+\tikzsetnextfilename{rolling_opt2_convergence}
+\begin{tikzpicture}
+\begin{loglogaxis}[
+	width=\linewidth,
+	xlabel=Optimierungsschritte,
+	ylabel=Fehler,
+% 	title=Convergence of Optimization for Rolling Stones,
+	legend entries ={GIMP,IMP},
+	legend style={at={(0.87,1.28)}}
+]
+  	\addplot[mark=none,red,very thin] table[x index=0,y index=1] {img/data/rolling_opt2_convergence.dat};%gen midpoint
+ 	\addplot[mark=none,yellow,very thin] table[x index=0,y index=2] {img/data/rolling_opt2_convergence.dat};%impl midpoint
+\end{loglogaxis}
+\end{tikzpicture}
+
+\end{document}

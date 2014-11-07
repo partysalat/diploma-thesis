@@ -2,7 +2,7 @@
 In diesem Kapitel werden wir drei verschiedenen Beispielen mit sämtliche eingeführten Methoden duchrechnen. Dabei wird zunächst auf die Lösung der Differentialgleichung eingegangen und Konvergenzbetrachtungen durchgeführt. Danach wird der Gradienten des Kostenfunktionals behandelt und die Optimierung für diverse Anfangswerte durchgeführt. %Stay Tuned!
 \section{Rolling Stone}
 \subsection{Problemstellung}
-Zum Anfang wollen wir uns dem sogenannten Rolling Stones Beispiel widmen, welches beispielsweise in \cite{boeck2014experiments} behandelt wurde. 
+Zum Anfang wollen wir uns dem sogenannten Rolling Stones Beispiel widmen, welches beispielsweise in \cite{boeck2014experiments} oder \cite{hasenfelder13} behandelt wurde. 
 Es behandelt eine sich reibungslos bewegende Kugel auf einer konvexen Parabel, in dessen Mitte eine flache Ebene auf dem Intervall $[-1,1]$ eingefügt wurde. 
 \begin{figure}[ht]
 \centering
@@ -30,7 +30,7 @@ Figur \ref{fig:rollingStones} zeigt die Rampe
  \end{cases}
 \]
 
-und deren Ableitung, welche wir als gewöhnliche Differentialgleichung mit der Lösung in Figur \ref{fig:rollingStonesSolution} auffassen
+und deren Ableitung, welche wir als gewöhnliche Differentialgleichung
  \begin{equation}
   \begin{pmatrix}
    \dot x_1 \\
@@ -44,7 +44,7 @@ und deren Ableitung, welche wir als gewöhnliche Differentialgleichung mit der L
 =F(x)
 \label{eq:rolling_stones}
  \end{equation}
-wobei $x_1$ die Abszissenposition des Steines und $x_2$ dessen Geschwindigkeit bezeichnet.
+auffassen, wobei $x_1$ die Abszissenposition des Steines und $x_2$ dessen Geschwindigkeit bezeichnet.
 Die Funktion \eqref{eq:rolling_stones} ist stückweise linear, sodass wir seine Abs Normal Form \eqref{eq:absNormalForm} angeben können mit
 \[
 c = \begin{pmatrix}
@@ -65,10 +65,17 @@ J = \begin{pmatrix}
       -0.5  & 0.5
      \end{pmatrix}
 \]
-der Rest wird zu $0$ gesetzt. 
-
-
-\cite{hasenfelder13}
+der Rest wird passend zur Dimension zu $0$ gesetzt. Für das Rolling Stones Beispiel lässt sich eine analytische Lösung zur ODE \eqref{eq:rolling_stones} für den Anfangswert $x_0=(1,1)$ angeben. Sie ist $2\pi+4$ periodisch, hat die Form
+\begin{equation}
+ x(t) = \begin{cases}
+         1+\sin(t) 	& 0\leq t \leq \pi	\\
+         1-(t-\pi) 	& \pi \leq t < \pi+2	\\ 
+         -1 - \sin(2-t) 	& \pi+2\leq t<2\pi+2	\\
+         t-3-2\pi	& 2\pi+2 \leq t<2\pi +4
+        \end{cases}
+\label{eq:analyticSolRolling}
+\end{equation}
+und wird in Figur \ref{fig:rollingStonesSolution} angegeben. Dabei sind die grau eingezeichneten Bereiche linear.
 
 \subsection{Lösen der ODE}
 Die Konvergenz der verallgemeinerten impliziten Mittelpunktsregel 
@@ -82,27 +89,134 @@ Die Konvergenz der verallgemeinerten impliziten Mittelpunktsregel
 \begin{figure}
 \centering
 \input{img/convergence_rolling_romberg_plot.tikz}
-\caption{Romberg Konvergenz im Intervall $[0,50]$ mit $x_0=(1,1)$}
+\caption{Konvergenz der Romberg Extrapolation im Intervall $[0,50]$ mit $x_0=(1,1)$}
 \label{fig:rollingStonesConvergenceRomberg}
 \end{figure}
 
-Ode Lösung/Romberg
-Die in Theorem \ref{thm:convergenceGenMidpoint} vorhergesagte Konvergenzordnung von $\mathcal O(h^2)$. Dass die implizite Mittelpunktsregel eine ebenso hohe Konvergenzrate besitzt liegt daran, dass sie im gegebenen Intervall nur $4$ mal pro $2\pi+4$ Periode Unglattheiten überquert, sonst jedoch normal konvergiert. Aufgrund dieser Unglattheiten entsteht für die implizite Mittelpunktsregel (IMP) kein glatter Konvergenzgraph, sondern sie springt. Demgegenüber konvergiert die verallgemeinerter implizite Mittelpunktsregel (GIMP) sehr stabil, da sie die Knicke der Funktion mit in ihre Berechnung einbezieht.
-Insbesondere wird der Fehler der GIMP mit zunehmender Zeit (siehe Fig. \ref{fig:rollingStonesEOT}) nur in den nicht affinen Abschnitten größer während in den affinen Abschnitten exakt gelöst wird, der lokale Fehler der IMP erhöht sich jedoch ständig, bedingt durch die Kinks.
-\begin{figure}[ht]
+Die in Theorem \ref{thm:convergenceGenMidpoint} vorhergesagte Konvergenzordnung von $\mathcal O(h^2)$ erfüllt die verallgemeinerte implizite Mittelpunktsregel wie in Figur \ref{fig:rollingStonesConvergence} ersichtlich.
+Dass die gewöhnliche implizite Mittelpunktsregel eine ebenso hohe Konvergenzrate besitzt liegt daran, dass sie im gegebenen Intervall nur $4$ mal pro $2\pi+4$ Periode Unglattheiten überquert, sonst jedoch normal konvergiert. Aufgrund dieser Unglattheiten entsteht für die implizite Mittelpunktsregel (IMP) kein glatter Konvergenzgraph, sondern sie springt. Demgegenüber konvergiert die verallgemeinerter implizite Mittelpunktsregel (GIMP) sehr stabil, da sie die Knicke der Funktion mit in ihre Berechnung einbezieht.
+Insbesondere wird der Fehler der GIMP mit zunehmender Zeit (siehe Fig. \ref{fig:rollingStonesEOT}) nur in den nicht affinen Abschnitten größer während in den affinen Abschnitten exakt gelöst wird, der lokale Fehler der IMP erhöht sich jedoch ständig, bedingt durch die Kinks und der zu großen Schrittweite. Der allgemeine Fehler ist dadurch für die IMP höher über die Zeit gesehen als der Fehler der GIMP (\ref{fig:rollingStonesEOTAll}).
+
+Die in Figur \ref{fig:rollingStonesConvergenceRomberg} durchgeführte Romberg Extrapolation führt zu sehr guten Ergebnissen. Da der Konvergenzgraph der GIMP stabil ist, lässt sich eine gute Extrapolation erreichen von Ordnung 3 bis 4. Demgegebenüber besitzt die Extrapolation der IMP keine höhere Konvergenzordnung als die IMP selbst.
+\begin{figure}[H]
 \centering
+\begin{minipage}[b]{0.49\linewidth}
+% \begin{minipage}[t][3cm][t]{5cm}
 \input{img/rolling_error_over_time.tikz}
 \caption{Rolling Stones Fehler über Zeit}
 \label{fig:rollingStonesEOT}
+\end{minipage}
+% \quad
+\begin{minipage}[b]{0.49\linewidth}
+% \begin{minipage}[t][3cm][t]{5cm}
+\input{img/rolling_error_over_time_all.tikz}
+\caption{Rolling Stones Fehler über alle Komponenten}
+\label{fig:rollingStonesEOTAll}
+\end{minipage}
+\end{figure}
+
+\subsection{Gradient des Kostenfunktionals}
+Ähnliche Ergebnisse wie beim Lösen der ODE erwarten wir für die Integration des adjungierten Tangent Linear Models \eqref{eq:adjointtlm}. Falls nicht anders beschrieben werden im Folgenden immer die exakte Lösung des Rolling Stones Beispiel \eqref{eq:analyticSolRolling} als Obervierungsparameter $x_{Obs}$ mit der selben Diskretisierung wie die des ODE Lösers verwendet.
+
+Beim Plot des Gradienten nach Anfangswerten wie in Figur \ref{fig:rollingGrad} ist zu erkennen, dass der Gradient berechnet mit der GIMP ebenfalls stabiler wirkt (Fig. \ref{fig:rollingGrad} links) als der Gradient berechnet mit der normalen Impliziten Mittelpunktsregel (Fig. \ref{fig:rollingGrad} rechts). Desweiteren existieren im Letzteren vereinzelt hohe Sprünge, welche durch nicht einbezogene Kinks erklärt werden können. 
+
+
+Plot adjoints IMP vs GIMP
+
+\begin{figure}[H]
+\centering
+\begin{minipage}[b]{0.49\linewidth}
+% \begin{minipage}[t][3cm][t]{5cm}
+\input{img/rolling_jac_da_gradient1.tikz}
+% \caption{Rolling Stones Fehler über Zeit}
+% \label{fig:rollingGrad1Gimp}
+\end{minipage}
+% \quad
+\begin{minipage}[b]{0.49\linewidth}
+% \begin{minipage}[t][3cm][t]{5cm}
+\input{img/rolling_jac_da_gradient1_imp.tikz}
+% \caption{Rolling Stones Fehler über alle Komponenten}
+% \label{fig:rollingGrad1Imp}
+\end{minipage}
+\begin{minipage}[b]{0.49\linewidth}
+% \begin{minipage}[t][3cm][t]{5cm}
+\input{img/rolling_jac_da_gradient2.tikz}
+% \caption{Ableitung des Kostenfunktional in erster Komponente von Rolling Stones }
+% \label{fig:rollingGrad2Gimp}
+\end{minipage}
+% \quad
+\begin{minipage}[b]{0.49\linewidth}
+% \begin{minipage}[t][3cm][t]{5cm}
+\input{img/rolling_jac_da_gradient2_imp.tikz}
+% \caption{Ableitung des Kostenfunktional in erster Komponente von Rolling Stones}
+% \label{fig:rollingGrad2Imp}
+\end{minipage}
+\caption{Ableitung des Kostenfunktionals beim Rolling Stones Beispiel (links: GIMP, rechts: IMP)}
+\label{fig:rollingGrad}
+\end{figure}
+
+
+\begin{figure}[H]
+\centering
+\begin{minipage}[b]{0.49\linewidth}
+% \begin{minipage}[t][3cm][t]{5cm}
+\input{img/rolling_convergence_adjoint_smooth.tikz}
+\caption{Rolling Stones Konvergenz glatt}
+\label{fig:rollingStonesAdjointSmooth}
+\end{minipage}
+% \quad
+\begin{minipage}[b]{0.49\linewidth}
+% \begin{minipage}[t][3cm][t]{5cm}
+\input{img/rolling_convergence_adjoint_discrete.tikz}
+\caption{Rolling Stones Konvergenz diskret}
+\label{fig:rollingStonesAdjointDiscrete}
+\end{minipage}
+\end{figure}
+
+\subsection{Optimierung}
+Convergence
+Pfad der Iterationen
+\begin{figure}[H]
+\centering
+\input{img/rolling_costfunctional.tikz}
+\caption{Rolling Stones Kostenfunktional im Intervall $[0,30]$}
+\label{fig:rolling_costfunctional}
 \end{figure}
 
 
 
-\subsection{Adjoints}
-Plot adjoints IMP vs GIMP
-\subsection{Optimierung}
-Convergence
-Pfad der Iterationen
+\begin{figure}[H]
+\centering
+\begin{minipage}[b]{0.49\linewidth}
+% \begin{minipage}[t][3cm][t]{5cm}
+\input{img/rolling_opt1_cost.tikz}
+\end{minipage}
+% \quad
+\begin{minipage}[b]{0.49\linewidth}
+% \begin{minipage}[t][3cm][t]{5cm}
+\input{img/rolling_opt1_convergence.tikz}
+\end{minipage}
+\caption{Rolling Stones Data Assimilation Optimierung mit $x_0=(1.5,1.5)$}
+\label{fig:rollingStonesOpt1}
+\end{figure}
+
+
+\begin{figure}[H]
+\centering
+\begin{minipage}[b]{0.49\linewidth}
+% \begin{minipage}[t][3cm][t]{5cm}
+\input{img/rolling_opt2_cost.tikz}
+\end{minipage}
+% \quad
+\begin{minipage}[b]{0.49\linewidth}
+% \begin{minipage}[t][3cm][t]{5cm}
+\input{img/rolling_opt2_convergence.tikz}
+\end{minipage}
+\caption{Rolling Stones Data Assimilation Optimierung mit $x_0=(0,-1.45)$}
+\label{fig:rollingStonesOpt1}
+\end{figure}
+
+
 
 \section{LC-Diode}
 \cite{boeck2014experiments}

@@ -15,3 +15,5 @@
 *.dpth
 *.lof
 *.dep
+*.dat~
+*_contourtmp*

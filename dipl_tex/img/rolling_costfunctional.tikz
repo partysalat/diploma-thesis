@@ -1,0 +1,20 @@
+\documentclass{standalone}
+\usepackage{pgfplots,pgfplotstable}
+\IfStandalone{
+	\usepackage{pgfplots,pgfplotstable}
+	\usetikzlibrary{external}
+	\newcommand{\fromRoot}[1]{../#1}
+}{%
+}
+\begin{document}
+\tikzsetnextfilename{rolling_costfunctional}
+\begin{tikzpicture}
+    \begin{axis}[view={-20}{60}, grid=both,width=12cm,
+%      title={$\sfrac{\partial J}{\partial x_0^{(1)}}$},
+    xlabel={$x_0^{(0)}$},
+    ylabel={$x_0^{(1)}$},
+    zlabel={$\sfrac{\partial J}{\partial x_0^{(1)}}$}]
+      \addplot3[surf] file {img/data/rolling_costfunctional.dat};
+    \end{axis}
+\end{tikzpicture}
+\end{document}
