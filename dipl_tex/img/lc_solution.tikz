@@ -1,0 +1,28 @@
+\documentclass{standalone}
+\usepackage{pgfplots,pgfplotstable}
+\IfStandalone{
+	\usepackage{pgfplots,pgfplotstable}
+	\usetikzlibrary{external}
+	\newcommand{\fromRoot}[1]{../#1}
+}{%
+}
+\begin{document}
+\tikzsetnextfilename{lc_solution}
+\begin{tikzpicture}
+\begin{axis}[
+	width=\linewidth,
+	legend entries ={$Q(t)$},
+	xmin=-1E-12,
+	xmax=1.5E-8,
+	ymin=-1E-16,
+ 	ymax=2E-13,
+ 	xlabel=$x_1$,
+ 	ylabel=$x_2$
+]
+	%\addplot[mark=none,blue,dashed] table[x=t,y=x]{grad.dat};
+% 	\addplot[mark=none,red,very thin] table[x=t,y=x]{j.dat};
+% 	 \addplot[blue,very thin] table[x index=0,y index=2] {dat/sol.dat};
+ \addplot[blue] table[x index=0,y index=2] {\fromRoot img/data/lc_solution.dat};
+\end{axis}
+\end{tikzpicture}
+\end{document}
