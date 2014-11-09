@@ -249,16 +249,62 @@ Zusammenfassend ergibt sich für das Rolling Stones Beispiel ein insgesamt besse
 
 
 \section{LC-Diode}
+Das nächste Beispiel hat mehr Nähe zu praktischen Bezügen. In \cite{boeck2014experiments} eingeführt, betrachten wir einen LC-Schaltkreis in welchen wir den Widerstand durch eine Diode ausgewechselt haben, welches Unglätten in unsere Systemgleichungen bringen. Im Bild \ref{fig:lcDiode} ist eine schematische Darstellung des Problems dargestellt. 
 \begin{figure}[H]
 \centering
 \input{img/lc_circuit.tikz}
 \caption{LC Schaltkreis Diagramm}
 \label{fig:lcDiode}
 \end{figure}
+Das beschreibende System von ODEs hat die Form
+\[
+ \begin{pmatrix}
+  \dot x_1\\
+  \dot x_2\\
+  \dot x_3\\
+ \end{pmatrix}
+ = 
+ \begin{pmatrix}
+  1\\
+  x_3\\
+  -\left(x_2-CV(x_1) + g(Cx_3)\right)\frac{1}{LC}
+ \end{pmatrix}
+\]
+wobei $x_1$ die Zeit, $x_2$ die Ladung des Kondensators $C$ und $x_3$ die elektrische Stromstärke bezeichnet. Die Spannungsquelle wird mittels $V(t)=\sin(\omega t)$ simuliert und $g(z)$ modelliert mittels der stückweisen linearen Funktion 
+\begin{equation}
+ g(z) = \frac{z+|z|}{2\alpha} + \frac{z-|z|}{2\beta}  = \begin{cases}
+                                                         \frac{z}{\alpha} & z\geq 0\\
+                                                         \frac{z}{\beta}  & z<0
+                                                        \end{cases}
+\label{eq:lcOde}                                                       
+\end{equation}
+die Diode. Als Konstanten werden ähnliche Werte wie in echten Schaltkreisen verwendet
+\[
+ L= 10^{-6},~ C=10^{-13},~ \omega = 3\cdot 10^{9},~\alpha = 2,~\beta = 10^{-5}
+\]
+Als Anfangswert liegt kein Strom an, d.h. $x_1(0)  = x_2(0) = x_3(0) = 0$.
+
+Im Gegensatz zu dem Rolling Stones Beispiel,lässt sich dieses Problem nicht in einer Abs-Normal Form darstellen lässt, da es kein stückweise lineares Problem ist. Die in Theorem \ref{thm:quadrApproxPL} besagte Konvergenz zweiter Ordnung ist nun hier zu beachten, sich das Modell nicht exakt Linearisieren lässt.
 
 
-
-\cite{boeck2014experiments}
+\begin{figure}[H]
+\footnotesize 
+\centering
+\begin{minipage}[b]{0.49\linewidth}
+% \begin{minipage}[t][3cm][t]{5cm}
+\input{img/lc_solution.tikz}
+\caption*{(a) Ladung des Kondensators}
+\end{minipage}
+% \quad
+\begin{minipage}[b]{0.49\linewidth}
+% \begin{minipage}[t][3cm][t]{5cm}
+\input{img/lc_solution2.tikz}
+\caption*{(b) Stromstärke}
+\end{minipage}
+\caption{LC-Diode Lösung der ODE}
+\label{fig:lc_solution}
+\end{figure}
+Die Lösung der ODEs \eqref{eq:lcOde} wird in Bild \ref{fig:lc_solution} gezeigt. Zu sehen ist, dass der Kondensator sich initial in einem Zyklus auflädt und sich über die Zeit nach und nach entlädt und schließlich in einem periodischen Verhalten mündet. Die Trajektorie der Stromstärke ändert ihr Verhalten mit ihrem Vorzeichen.
 \section{Shallow Water Equation}
 \subsection{Problemstellung}
 \subsection{Unglattheiten}
