@@ -1,0 +1,39 @@
+\documentclass{standalone}
+\usepackage{pgfplots,pgfplotstable,circuitikz}
+
+\usetikzlibrary{external}
+
+\begin{document}
+
+\tikzsetnextfilename{lc-circuit}
+\begin{tikzpicture}[x=1.5cm]
+% \draw[help lines] (0,0) grid (5,3);
+% \draw (0,0) 
+%     to[L] (0,3) 
+%     to (2,3) 
+%     to[C=$C$] (3,3)
+%     to (5,3)
+%     to[diode] (5,0) 
+%     to (0,0);
+%     to[V,v=$U_q$] (0,2) % The voltage source
+\draw (0,0) 
+    to (3,0)
+    to[V,v=$V(t)$] (3,1.5) % The voltage source
+    to[diode] (3,3) 
+    to (3,3)
+    to[C=$C$] (0,3)
+%     to (0,3)
+    to[L=$L$](0,0) 
+    to (0,0);
+    % \draw (2,0) to[C] (2,3);
+% \draw (3,0) to[C] (3,3);
+% \draw (2.5,0) node[ground] {};
+\draw (2.7,2.7) node[anchor=north east,align=right] {$g(x)$};
+\draw (2.1,0) node[anchor=north east,align=right] {$I(t)=z(t)$};
+% \draw (1.8,1.5) node[anchor=north east] {$C_1$};
+% \draw (2.8,1.5) node[anchor=north east] {$C_2$};
+% \draw (-0.2,1.5) node[anchor=north east] {$L$};
+\end{tikzpicture}
+
+ 
+\end{document}

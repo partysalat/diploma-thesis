@@ -14,15 +14,17 @@
 	ylabel=Fehler in $x$,
 	legend entries ={Expl. MP,
 	IMP,
-	GIMP, 
-	}
+	GIMP 
+	},
+	legend style={at={(0.5,1.0)},anchor=south},
+	legend columns=2,
 ]
-  	\addplot[mark=none,red,very thin] table[x index=0,y index=3] {img/data/rolling_convergence_adjoint_smooth.dat};%expl midpoint
- 	\addplot[mark=none,green,very thin] table[x index=0,y index=2] {img/data/rolling_convergence_adjoint_smooth.dat};%impl midpoint
-	\addplot[mark=none,blue,very thin] table[x index=0,y index=1] {img/data/rolling_convergence_adjoint_smooth.dat};%gen midpoint
+  	\addplot[mark=none,red,very thin] table[x index=0,y index=3] {\fromRoot img/data/rolling_convergence_adjoint_smooth.dat};%expl midpoint
+ 	\addplot[mark=none,green,very thin] table[x index=0,y index=2] {\fromRoot img/data/rolling_convergence_adjoint_smooth.dat};%impl midpoint
+	\addplot[mark=none,blue,very thin] table[x index=0,y index=1] {\fromRoot img/data/rolling_convergence_adjoint_smooth.dat};%gen midpoint
 
 	\addplot[mark=none,very thin,gray, yshift=-20pt] 
-		table[y={create col/linear regression={x=0,y=1}}] {img/data/rolling_convergence_adjoint_smooth.dat}
+		table[y={create col/linear regression={x=0,y=1}}] {\fromRoot img/data/rolling_convergence_adjoint_smooth.dat}
 		  coordinate [pos=0.2] (A)
 		  coordinate [pos=0.3] (B)
 		;

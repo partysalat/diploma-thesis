@@ -11,16 +11,17 @@
 \begin{tikzpicture}
     \begin{axis}[view={0}{90},
     width=\linewidth,
-    legend entries ={Kostenfunktional,IMP, GIMP},
-    legend style={at={(0.97,1.40)}},
+    legend entries ={J,IMP, GIMP},
+    legend style={at={(0.5,1.0)},anchor=south},
+    legend columns=3,
 %     legend style={at={(1.00,0.15)},anchor=east}
     xlabel={$x_0^{(0)}$},
     ylabel={$x_0^{(1)}$},
     zlabel={$\sfrac{\partial J}{\partial x_0^{(1)}}$}]
 %     \addplot3[surf] file {img/data/rolling_costfunctional.dat};
-     \addplot3[contour gnuplot={number=5}] file {img/data/rolling_costfunctional.dat};
-    \addplot3[mark=o, green] table {img/data/rolling_opt1_iterationSteps_impl.dat};
-    \addplot3[mark=o, blue] table {img/data/rolling_opt1_iterationSteps.dat};
-    \end{axis}
+     \addplot3[contour gnuplot={number=5}] file {\fromRoot img/data/rolling_costfunctional.dat};
+    \addplot3[mark=o, green] table {\fromRoot img/data/rolling_opt1_iterationSteps_impl.dat};
+    \addplot3[mark=o, blue] table {\fromRoot img/data/rolling_opt1_iterationSteps.dat};
+    \end{axis} 
 \end{tikzpicture}
 \end{document}

@@ -15,7 +15,8 @@
 	ylabel=Fehler,
 % 	title=Convergence of Optimization for Rolling Stones,
 	legend entries ={IMP,GIMP},
-	legend style={at={(0.87,1.28)}}
+	legend style={at={(0.5,1.0)},anchor=south},
+	legend columns=2
 ]
  	\addplot[mark=none,green,very thin] table[x index=0,y index=2] {img/data/rolling_opt2_convergence.dat};%impl midpoint
 	\addplot[mark=none,blue,very thin] table[x index=0,y index=1] {img/data/rolling_opt2_convergence.dat};%gen midpoint

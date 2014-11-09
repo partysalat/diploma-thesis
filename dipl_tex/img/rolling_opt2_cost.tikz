@@ -11,8 +11,9 @@
 \begin{tikzpicture}
     \begin{axis}[view={0}{90},
     width=\linewidth,
-    legend entries ={Kostenfunktional,IMP, GIMP},
-    legend style={at={(0.97,1.40)}},
+    legend entries ={J,IMP, GIMP},
+    legend style={at={(0.5,1.0)},anchor=south},
+    legend columns=3,
 %     legend style={at={(1.00,0.15)},anchor=east}
     xlabel={$x_0^{(0)}$},
     ylabel={$x_0^{(1)}$},

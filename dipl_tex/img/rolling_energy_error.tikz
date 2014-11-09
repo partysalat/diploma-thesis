@@ -1,0 +1,28 @@
+\documentclass{standalone}
+\IfStandalone{
+	\usepackage{pgfplots,pgfplotstable}
+	\usetikzlibrary{external}
+	\newcommand{\fromRoot}[1]{../#1}
+}{%
+}
+
+\begin{document}
+\tikzsetnextfilename{rolling_energy_error}
+\begin{tikzpicture}
+\begin{loglogaxis}[
+	width=\linewidth,
+	xlabel=Anzahl der Freiheitsgrade $N$,
+	ylabel=Mittelwert des Energieverlustes,
+	legend entries ={Expl. MP,
+	IMP,
+	GIMP 
+	},
+	legend style={at={(0.5,1.0)},anchor=south},
+	legend columns=2
+]
+  	\addplot[mark=none,red,very thin] table[x index=0,y index=2] {\fromRoot img/data/rolling_energy_error.dat};%expl midpoint
+ 	\addplot[mark=none,green,very thin] table[x index=0,y index=3] {\fromRoot img/data/rolling_energy_error.dat};%impl midpoint
+	\addplot[mark=none,blue,very thin] table[x index=0,y index=1] {\fromRoot img/data/rolling_energy_error.dat};%gen midpoint
+\end{loglogaxis}
+\end{tikzpicture}
+\end{document}

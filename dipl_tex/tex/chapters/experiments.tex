@@ -86,19 +86,40 @@ Die Konvergenz der verallgemeinerten impliziten Mittelpunktsregel
 \label{fig:rollingStonesConvergence}
 \end{figure}
 
-\begin{figure}
+
+\begin{figure}[H]
+\footnotesize 
 \centering
+% \quad
+\begin{minipage}[b]{0.45\linewidth}
+% \begin{minipage}[t][3cm][t]{5cm}
+\input{img/rolling_energy_error.tikz}
+\caption{Rolling Stones Energieverlust im Intervall $[0,2\pi+4]$ mit $x_0=(1,1)$}
+\label{fig:rollingStonesEnergyError}
+\end{minipage}
+\quad
+\begin{minipage}[b]{0.45\linewidth}
+% \begin{minipage}[t][3cm][t]{5cm}
 \input{img/convergence_rolling_romberg_plot.tikz}
 \caption{Konvergenz der Romberg Extrapolation im Intervall $[0,50]$ mit $x_0=(1,1)$}
 \label{fig:rollingStonesConvergenceRomberg}
+\end{minipage}
+
 \end{figure}
 
+
 Die in Theorem \ref{thm:convergenceGenMidpoint} vorhergesagte Konvergenzordnung von $\mathcal O(h^2)$ erfüllt die verallgemeinerte implizite Mittelpunktsregel wie in Figur \ref{fig:rollingStonesConvergence} ersichtlich.
-Dass die gewöhnliche implizite Mittelpunktsregel eine ebenso hohe Konvergenzrate besitzt liegt daran, dass sie im gegebenen Intervall nur $4$ mal pro $2\pi+4$ Periode Unglattheiten überquert, sonst jedoch normal konvergiert. Aufgrund dieser Unglattheiten entsteht für die implizite Mittelpunktsregel (IMP) kein glatter Konvergenzgraph, sondern sie springt. Demgegenüber konvergiert die verallgemeinerter implizite Mittelpunktsregel (GIMP) sehr stabil, da sie die Knicke der Funktion mit in ihre Berechnung einbezieht.
+Dass die gewöhnliche implizite Mittelpunktsregel eine ebenso hohe Konvergenzrate besitzt ist darin begründet, dass sie im gegebenen Intervall nur $4$ mal pro $2\pi+4$ Periode Unglattheiten überquert, sonst jedoch normal konvergiert. Aufgrund dieser Unglattheiten entsteht für die implizite Mittelpunktsregel (IMP) kein glatter Konvergenzgraph, sondern sie springt. Demgegenüber konvergiert die verallgemeinerter implizite Mittelpunktsregel (GIMP) sehr stabil, da sie die Knicke der Funktion mit in ihre Berechnung einbezieht.
 Insbesondere wird der Fehler der GIMP mit zunehmender Zeit (siehe Fig. \ref{fig:rollingStonesEOT}) nur in den nicht affinen Abschnitten größer während in den affinen Abschnitten exakt gelöst wird, der lokale Fehler der IMP erhöht sich jedoch ständig, bedingt durch die Kinks und der zu großen Schrittweite. Der allgemeine Fehler ist dadurch für die IMP höher über die Zeit gesehen als der Fehler der GIMP (\ref{fig:rollingStonesEOTAll}).
 
-Die in Figur \ref{fig:rollingStonesConvergenceRomberg} durchgeführte Romberg Extrapolation führt zu sehr guten Ergebnissen. Da der Konvergenzgraph der GIMP stabil ist, lässt sich eine gute Extrapolation erreichen von Ordnung 3 bis 4. Demgegebenüber besitzt die Extrapolation der IMP keine höhere Konvergenzordnung als die IMP selbst.
+Da sich der rollende Stein reibungslos in unserem System bewegt, muss die analytische Lösung die komplette Energie erhalten, d.h. die potentielle Energie addiert mit der kinetischen $V(x) + \frac{1}{2}\dot x^2$ muss konstant sein. Das Bild \ref{fig:rollingStonesEnergyError} wurde mittels der summierten Variation der Energie 
+\[
+ h \left[\sum_{l=0}^{T/h} \left( V(x_1^l) + \frac{1}{2} (x_2^l)^2 -\frac{1}{2}\right)^2\right]^{\sfrac{1}{2}}
+\]
+berechnet. Es ist deutlich zu erkennen, dass die Energie mit der GIMP deutlich besser erhalten bleibt als mit den klassischen Methoden, selbst für große Schrittweiten.
+Dadurch führt die in Figur \ref{fig:rollingStonesConvergenceRomberg} durchgeführte Romberg Extrapolation zu sehr guten Ergebnissen. Da der Konvergenzgraph der GIMP stabil ist, lässt sich eine gute Extrapolation mit Konvergenzen der Ordnung 3 bis 4 erreichen. Demgegebenüber besitzt die Extrapolation der IMP keine höhere Konvergenzordnung als die der IMP selbst.
 \begin{figure}[H]
+\footnotesize 
 \centering
 \begin{minipage}[b]{0.49\linewidth}
 % \begin{minipage}[t][3cm][t]{5cm}
@@ -120,6 +141,7 @@ Die in Figur \ref{fig:rollingStonesConvergenceRomberg} durchgeführte Romberg Ex
 
 Beim Plot des Gradienten nach Anfangswerten wie in Figur \ref{fig:rollingGrad} ist zu erkennen, dass der Gradient berechnet mit der GIMP ebenfalls stabiler wirkt (Fig. \ref{fig:rollingGrad} links) als der Gradient berechnet mit der normalen Impliziten Mittelpunktsregel (Fig. \ref{fig:rollingGrad} rechts). Desweiteren existieren im Letzteren vereinzelt hohe Sprünge, welche durch nicht einbezogene Kinks erklärt werden können. 
 \begin{figure}[H]
+\footnotesize 
 \centering
 \begin{minipage}[b]{0.49\linewidth}
 % \begin{minipage}[t][3cm][t]{5cm}
@@ -161,18 +183,19 @@ TODO: HERAUSFINDEN WARUM DAS SO IST
 
 
 \begin{figure}[H]
+\footnotesize 
 \centering
 \begin{minipage}[b]{0.49\linewidth}
 % \begin{minipage}[t][3cm][t]{5cm}
 \input{img/rolling_convergence_adjoint_smooth.tikz}
-\caption{Rolling Stones Konvergenz glatt, $I=[0,40]$}
+\caption{Rolling Stones Konvergenz glatt\\ $I=[0,40]$}
 \label{fig:rollingStonesAdjointSmooth}
 \end{minipage}
 % \quad
 \begin{minipage}[b]{0.49\linewidth}
 % \begin{minipage}[t][3cm][t]{5cm}
 \input{img/rolling_convergence_adjoint_discrete.tikz}
-\caption{Rolling Stones Konvergenz diskret, $I=[0,40]$}
+\caption{Rolling Stones Konvergenz diskret\\ $I=[0,40]$}
 \label{fig:rollingStonesAdjointDiscrete}
 \end{minipage}
 \end{figure}
@@ -193,6 +216,7 @@ Für bestimmte Anfangswerte divergiert die klassische Methode wie in Figur \ref{
 
 Zusammenfassend ergibt sich für das Rolling Stones Beispiel ein insgesamt besseres Verhalten der verallgemeinerten Methoden im Gegensatz zu der klassischen impliziten Mittelpunktsregel.
 \begin{figure}[H]
+\footnotesize
 \centering
 \begin{minipage}[b]{0.49\linewidth}
 % \begin{minipage}[t][3cm][t]{5cm}
@@ -208,6 +232,7 @@ Zusammenfassend ergibt sich für das Rolling Stones Beispiel ein insgesamt besse
 \end{figure}
 
 \begin{figure}[H]
+\footnotesize 
 \centering
 \begin{minipage}[b]{0.49\linewidth}
 % \begin{minipage}[t][3cm][t]{5cm}
@@ -224,6 +249,15 @@ Zusammenfassend ergibt sich für das Rolling Stones Beispiel ein insgesamt besse
 
 
 \section{LC-Diode}
+\begin{figure}[H]
+\centering
+\input{img/lc_circuit.tikz}
+\caption{LC Schaltkreis Diagramm}
+\label{fig:lcDiode}
+\end{figure}
+
+
+
 \cite{boeck2014experiments}
 \section{Shallow Water Equation}
 \subsection{Problemstellung}
