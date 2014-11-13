@@ -1,0 +1,31 @@
+\documentclass{standalone}
+\IfStandalone{
+	\usepackage{pgfplots,pgfplotstable}
+	\usetikzlibrary{external}
+	\newcommand{\fromRoot}[1]{../#1}
+}{%
+}
+\begin{document}
+\tikzsetnextfilename{lc_error_over_time_all}
+\begin{tikzpicture}
+\begin{axis}[
+	width=\linewidth,
+	xlabel=Zeitpunkt $t$,
+	ylabel=Fehler zum Zeitpunkt $t$,
+	legend entries ={Expl. MP,
+	IMP,
+	GIMP 
+	},
+% 	legend style={at={(0,1)},anchor=north west}
+	legend style={at={(1,1.0)},anchor=south east},
+	legend columns=2,
+	xmin=-1E-12,
+	xmax=1.5E-8
+]
+\addplot[mark=none,red,very thin] table[x index=0,y index=3] {\fromRoot img/data/lc_eot_all.dat};
+\addplot[mark=none,green,very thin] table[x index=0,y index=2] {\fromRoot img/data/lc_eot_all.dat};
+\addplot[mark=none,blue,very thin] table[x index=0,y index=1] {\fromRoot img/data/lc_eot_all.dat};
+
+\end{axis}
+\end{tikzpicture}
+\end{document}

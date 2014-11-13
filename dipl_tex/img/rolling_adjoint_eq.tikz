@@ -1,0 +1,27 @@
+\documentclass{standalone}
+\IfStandalone{
+	\usepackage{pgfplots,pgfplotstable}
+	\usetikzlibrary{external}
+	\newcommand{\fromRoot}[1]{../#1}
+}{%
+}
+
+\begin{document}
+\tikzsetnextfilename{rolling_adjoint_eq}
+\begin{tikzpicture}
+\begin{axis}[
+	width=\linewidth,
+	xlabel=Zeit $t$,
+	ylabel=$\dot{\bar x}$,
+	legend entries ={
+	$\dot{\bar x}_1$,
+	$\dot{\bar x}_2$
+	},
+% 	legend style={at={(0.5,1.0)},anchor=south},
+% 	legend columns=2
+]
+  	\addplot[mark=none,blue,very thin] table[x index=0,y index=1] {\fromRoot img/data/rolling_adjoint_eq.dat};%expl midpoint
+ 	\addplot[mark=none,green,very thin] table[x index=0,y index=2] {\fromRoot img/data/rolling_adjoint_eq.dat};%impl midpoint
+\end{axis}
+\end{tikzpicture}
+\end{document}
