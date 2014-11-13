@@ -78,7 +78,7 @@ der Rest wird passend zur Dimension zu $0$ gesetzt. Für das Rolling Stones Beis
 und wird in Figur \ref{fig:rollingStonesSolution} angegeben. Dabei sind die grau eingezeichneten Bereiche linear.
 
 \subsection{Lösen der ODE}
-Die Konvergenz der verallgemeinerten impliziten Mittelpunktsregel 
+% Die Konvergenz der verallgemeinerten impliziten Mittelpunktsregel 
 \begin{figure}
 \centering
 \input{img/convergence_rolling_plot.tikz}
@@ -110,7 +110,7 @@ Die Konvergenz der verallgemeinerten impliziten Mittelpunktsregel
 
 Die in Theorem \ref{thm:convergenceGenMidpoint} vorhergesagte Konvergenzordnung von $\mathcal O(h^2)$ erfüllt die verallgemeinerte implizite Mittelpunktsregel wie in Figur \ref{fig:rollingStonesConvergence} ersichtlich.
 Dass die gewöhnliche implizite Mittelpunktsregel eine ebenso hohe Konvergenzrate besitzt ist darin begründet, dass sie im gegebenen Intervall nur $4$ mal pro $2\pi+4$ Periode Unglattheiten überquert, sonst jedoch normal konvergiert. Aufgrund dieser Unglattheiten entsteht für die implizite Mittelpunktsregel (IMP) kein glatter Konvergenzgraph, sondern sie springt. Demgegenüber konvergiert die verallgemeinerter implizite Mittelpunktsregel (GIMP) sehr stabil, da sie die Knicke der Funktion mit in ihre Berechnung einbezieht.
-Insbesondere wird der Fehler der GIMP mit zunehmender Zeit (siehe Fig. \ref{fig:rollingStonesEOT}) nur in den nicht affinen Abschnitten größer während in den affinen Abschnitten exakt gelöst wird, der lokale Fehler der IMP erhöht sich jedoch ständig, bedingt durch die Kinks und der zu großen Schrittweite. Der allgemeine Fehler ist dadurch für die IMP höher über die Zeit gesehen als der Fehler der GIMP (\ref{fig:rollingStonesEOTAll}).
+Insbesondere wird der Fehler der GIMP mit zunehmender Zeit (siehe Fig. \ref{fig:rollingStonesEOT}) nur in den nicht affinen Abschnitten größer während in den affinen Abschnitten exakt gelöst wird, der lokale Fehler der IMP erhöht sich jedoch ständig, bedingt durch die Kinks und der zu großen Schrittweite. Der allgemeine Fehler ist dadurch für die IMP höher über die Zeit gesehen als der Fehler der GIMP (\ref{fig:rollingStonesEOT}(b)).
 
 Da sich der rollende Stein reibungslos in unserem System bewegt, muss die analytische Lösung die komplette Energie erhalten, d.h. die potentielle Energie addiert mit der kinetischen $V(x) + \frac{1}{2}\dot x^2$ muss konstant sein. Das Bild \ref{fig:rollingStonesEnergyError} wurde mittels der summierten Variation der Energie 
 \[
@@ -124,16 +124,16 @@ Dadurch führt die in Figur \ref{fig:rollingStonesConvergenceRomberg} durchgefü
 \begin{minipage}[b]{0.49\linewidth}
 % \begin{minipage}[t][3cm][t]{5cm}
 \input{img/rolling_error_over_time.tikz}
-\caption{Rolling Stones Fehler über Zeit, \\$h=0.1,x_0=(1,1)$}
-\label{fig:rollingStonesEOT}
-\end{minipage}
+\caption*{(a) Am Zeitpunkt $t$}\end{minipage}
 % \quad
 \begin{minipage}[b]{0.49\linewidth}
 % \begin{minipage}[t][3cm][t]{5cm}
 \input{img/rolling_error_over_time_all.tikz}
-\caption{Rolling Stones Fehler über alle Komponenten, $h=0.1,x_0=(1,1)$}
-\label{fig:rollingStonesEOTAll}
+\caption*{(b) Akkumuliert}
 \end{minipage}
+\caption{Rolling Stones Fehler über Zeit, \\$h=0.1,x_0=(1,1)$}
+\label{fig:rollingStonesEOT}
+
 \end{figure}
 
 \subsection{Gradient des Kostenfunktionals}
@@ -174,9 +174,8 @@ Beim Plot des Gradienten nach Anfangswerten wie in Figur \ref{fig:rollingGrad} i
 \end{figure}
 
 
-Die Konvergenzplots \ref{fig:rollingStonesAdjointSmooth} und \ref{fig:rollingStonesAdjointDiscrete} ergeben ähnliche Robustheitsresultate wie bei der Vorwärtsintegration. Figur \ref{fig:rollingStonesAdjointSmooth} stellt dabei die Konvergenz mit einer Funktion als Observierungsparameter dar. Das bedeutet, dass in jeder Verfeinerung ebenfalls die Observierungsparameter verfeinert wurden also $t_{\text{state}} = t_{\text{Obs}}$. Diskrete Observierungsparameter wurden bei Figur \ref{fig:rollingStonesAdjointDiscrete} benutzt, sie blieben also bei jeder Verfeinerung des Gitters konstant. Die aus der GIMP berechneten Werte wurden mit einem Projektionsoperator vom Zustandsraum $X_{\text{State}}$ in den Raum der Observierungen $X_{\text{Obs}}$ projeziert, danach deren Differenz gebildet und wieder zurück nach $X_{\text{State}}$ projeziert. Die lineare Konvergenz der beiden Plots liefert 
-
-
+Die Konvergenzplots \ref{fig:rollingStonesAdjoint} ergeben ähnliche Robustheitsresultate wie bei der Vorwärtsintegration. Figur \ref{fig:rollingStonesAdjoint}(a) stellt dabei die Konvergenz mit einer Funktion als Observierungsparameter dar. Das bedeutet, dass in jeder Verfeinerung ebenfalls die Observierungsparameter verfeinert wurden also $t_{\text{state}} = t_{\text{Obs}}$. Diskrete Observierungsparameter wurden bei Figur \ref{fig:rollingStonesAdjoint}(b) benutzt, sie blieben also bei jeder Verfeinerung des Gitters konstant. Die aus der GIMP berechneten Werte wurden mit einem Projektionsoperator vom Zustandsraum $X_{\text{State}}$ in den Raum der Observierungen $X_{\text{Obs}}$ projeziert, danach deren Differenz gebildet und wieder zurück nach $X_{\text{State}}$ projeziert.
+% Die lineare Konvergenz der beiden Plots liefert 
 \begin{figure}[H]
 \centering
 \input{img/rolling_adjoint_eq.tikz}
@@ -193,16 +192,17 @@ TODO: HERAUSFINDEN WARUM DAS SO IST
 \begin{minipage}[b]{0.49\linewidth}
 % \begin{minipage}[t][3cm][t]{5cm}
 \input{img/rolling_convergence_adjoint_smooth.tikz}
-\caption{Rolling Stones Konvergenz glatt\\ $I=[0,40]$}
-\label{fig:rollingStonesAdjointSmooth}
+\caption*{(a) Glatte Observierung}
 \end{minipage}
 % \quad
 \begin{minipage}[b]{0.49\linewidth}
 % \begin{minipage}[t][3cm][t]{5cm}
 \input{img/rolling_convergence_adjoint_discrete.tikz}
-\caption{Rolling Stones Konvergenz diskret\\ $I=[0,40]$}
+\caption*{(b) Diskrete Observierung}
 \label{fig:rollingStonesAdjointDiscrete}
 \end{minipage}
+\caption{Rolling Stones Konvergenz $\nabla J(x_0)$\\ $I=[0,40],x_0=(0.5,0.5)$}
+\label{fig:rollingStonesAdjoint}
 \end{figure}
 
 \subsection{Optimierung}
@@ -358,8 +358,29 @@ Beim Fehler über die Zeit ist genau zu erkennen, dass der Fehler sich an den Ki
 \end{minipage}
 \caption{Fehler über Zeit}
 \end{figure}
+\section{Gradient und Optimierung}
+In diesem Abschnitt werden wir die Lösung im Intervall $[0,10^{-8}]$ mit den Anfangswerten $x_0=(0,0,0)$ als Observierungsparameter benutzen. Da wir keine analytische Lösung berechnen können, wird eine Lösung mit einer erheblich exakteren Schrittweite als Vergleichswert verwendet.
 
+Wie in Bild \ref{fig:lcAdjointConvergence} zu erkennen, konvergiert der Gradient bei der LC-Diode mit einer deutlich höheren Ordnung als im Rolling Stones Beispiel. Mit glatten Observierungsparametern ist der mit der GIMP berechnete Gradient von Anfang an zwei Größenordnungen genauer (Bild \ref{fig:lcAdjointConvergence}(b)), als der mit der IMP berechnete Gradient. 
+\begin{figure}[H]
+\footnotesize 
+\centering
+\begin{minipage}[b]{0.49\linewidth}
+% \begin{minipage}[t][3cm][t]{5cm}
+\input{img/lc_convergence_adjoint_discrete.tikz}
+\caption*{(a) Diskrete Observierung}
+\end{minipage}
+% \quad
+\begin{minipage}[b]{0.49\linewidth}
+% \begin{minipage}[t][3cm][t]{5cm}
+\input{img/lc_convergence_adjoint_smooth.tikz}
+\caption*{(b) Glatte Observierung}
+\end{minipage}
+\caption{LC Diode Konvergenz $\nabla J(x_0)$, \\$I=[0,10^{-8}],x_0=(0,0,10^{-13})$}
+\label{fig:lcAdjointConvergence}
+\end{figure}
 
+\section{Optimierung}
 \section{Shallow Water Equation}
 \subsection{Problemstellung}
 \subsection{Unglattheiten}
