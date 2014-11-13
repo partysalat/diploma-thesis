@@ -1,0 +1,48 @@
+\documentclass{standalone}
+\IfStandalone{
+	\usepackage{pgfplots,pgfplotstable}
+	\usetikzlibrary{external}
+	\newcommand{\fromRoot}[1]{../#1}
+}{%
+}
+\begin{document}
+\tikzsetnextfilename{lc_romberg2}
+\begin{tikzpicture}
+\begin{loglogaxis}[
+	width=\linewidth,
+	xlabel=Anzahl der Freiheitsgrade $N$,
+	ylabel=Fehler in zum Zeitpunkt $T$,
+% 	ymin=1E-13,
+%  	ymax=4E-7,
+	legend entries ={
+% 	Expl. MP,
+	IMP,
+	GIMP, 
+	Rom IMP,
+	Rom GIMP
+	},
+	legend style={at={(0.5,1.0)},anchor=south},
+	legend columns=2
+]
+  	\addplot[mark=none,green,very thin] table[x index=0,y index=2] {\fromRoot img/data/lc_romberg2.dat};%oimpl midpoint
+ 	\addplot[mark=none,blue,very thin] table[x index=0,y index=1] {\fromRoot img/data/lc_romberg2.dat};%gimp midpoint
+	\addplot[mark=none,lime,very thin] table[x index=0,y index=5] {\fromRoot img/data/lc_romberg2.dat};%rom gen midpoint
+	\addplot[mark=none,cyan,very thin] table[x index=0,y index=4] {\fromRoot img/data/lc_romberg2.dat};%rom impl midpoint
+	
+	\addplot[mark=none,very thin,gray, yshift=-20pt] 
+		table[y={create col/linear regression={x=0,y=4}}] {\fromRoot img/data/lc_romberg2.dat}
+		  coordinate [pos=0.5] (A)
+		  coordinate [pos=0.6] (B)
+		;
+	% save the slope parameter:
+	\pgfmathparse{-\pgfplotstableregressiona}	
+	\pgfmathsetmacro{\slope}{\pgfmathresult}
+	
+	% draw the opposite and adjacent sides
+	% of the triangle
+	\draw[very thin,gray] (B) -| (A)
+	node [pos=0.2,anchor=north]
+	{\pgfmathprintnumber{\slope}};
+\end{loglogaxis}
+\end{tikzpicture}
+\end{document}

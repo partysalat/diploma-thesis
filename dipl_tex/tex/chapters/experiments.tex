@@ -284,9 +284,9 @@ die Diode. Als Konstanten werden ähnliche Werte wie in echten Schaltkreisen ver
 \]
 Als Anfangswert liegt kein Strom an, d.h. $x_1(0)  = x_2(0) = x_3(0) = 0$.
 
-Im Gegensatz zu dem Rolling Stones Beispiel,lässt sich dieses Problem nicht in einer Abs-Normal Form darstellen lässt, da es kein stückweise lineares Problem ist. Die in Theorem \ref{thm:quadrApproxPL} besagte Konvergenz zweiter Ordnung ist nun hier zu beachten, sich das Modell nicht exakt Linearisieren lässt.
+Im Gegensatz zu dem Rolling Stones Beispiel lässt sich dieses Problem nicht in einer Abs-Normal Form darstellen lässt, da es kein stückweise lineares Problem ist. Die in Theorem \ref{thm:quadrApproxPL} besagte Konvergenz zweiter Ordnung ist nun hier zu beachten, da sich das Modell nicht exakt Linearisieren lässt. Als weiteres numerisches Problem stellen sich die kleinen Konstanten $L,C$ und $\beta$ heraus, ebenso wie die kleine Schrittweite in einem Intervall von $[0, 10^{-8}]$. In der Lösung erhalten wir für die Ladung des Kondensators Größenordnungen von $10^{-13}$, welche an der Maschinengenauigkeit von $\approx 1.1\cdot 10^{-16}$ (double precision) grenzen.
 
-
+\section{Lösung der ODE}
 \begin{figure}[H]
 \footnotesize 
 \centering
@@ -304,7 +304,35 @@ Im Gegensatz zu dem Rolling Stones Beispiel,lässt sich dieses Problem nicht in 
 \caption{LC-Diode Lösung der ODE}
 \label{fig:lc_solution}
 \end{figure}
-Die Lösung der ODEs \eqref{eq:lcOde} wird in Bild \ref{fig:lc_solution} gezeigt. Zu sehen ist, dass der Kondensator sich initial in einem Zyklus auflädt und sich über die Zeit nach und nach entlädt und schließlich in einem periodischen Verhalten mündet. Die Trajektorie der Stromstärke ändert ihr Verhalten mit ihrem Vorzeichen.
+Die Lösung der ODEs \eqref{eq:lcOde} wird in Bild \ref{fig:lc_solution} gezeigt. Zu sehen ist, dass der Kondensator sich initial in einem Zyklus auflädt und sich über die Zeit nach und nach entlädt und schließlich in einem periodischen Verhalten mündet. Die Trajektorie der Stromstärke ändert ihr Verhalten mit ihrem Vorzeichen. Desweiteren war es für die Implementierung notwendig, Abbruchtoleranzen von $10^{-14}$ zu wählen. 
+
+\begin{figure}
+\centering
+\input{img/lc_convergence.tikz}
+\caption{Konvergenz LC Diode im Intervall $[0,1.5\cdot 10^{-8}]$ mit $x_0=(0,0,0)$}
+\label{fig:lcConvergence}
+\end{figure}
+Im Konvergenzgraph \ref{fig:lcConvergence} ist ein ähnliches Verhalten wie beim Rolling Stones Beispiel zu erkennen. Nachdem sich der Konvergenzgraph bis ca. $5\cdot 10^2$ Schritten ähnlich wie die implizite Mittelpunktsregel verhält, konvergiert er stabil mit Ordnung 2, während die Implizite Mittelpunktsregel bedingt durch die wenigen Kinks ebenfalls springt. Das Explizite Verfahren konvergiert unterhalb von $10^3$ Schritten nicht. 
+Herauszustellen ist also, dass unsere Methoden selbst für nicht stückweise affine Beispiele stabile Konvergenzresultate erzielen.
+
+Die Romberg Extrapolation gestaltet sich in diesem Beispiel schwierig. Zwar ist in Bild \ref{fig:lcRomberg} ein besseres Verhalten der Extrapolation für die GIMP zu erkennen, diese stößt jedoch an die Grenzen sobald sie sich der Maschinengenauigkeit nähert.  Die Konvergenzgeschwindigkeit betrug in diesem Beispiel nur $2.24$. Insbesondere im Abschnitt zwischen $2\cdot 10^{3}$ und $10^4$ ist jedoch eine deutlich exaktere Extrapolation der GIMP im Gegensatz zur Extrapolation der IMP zu beobachten. In diesem Intervall beträgt die Konvergenzgeschwindigkeit jedoch schon $3.89$. 
+\begin{figure}[H]
+\footnotesize 
+\centering
+\begin{minipage}[b]{0.49\linewidth}
+% \begin{minipage}[t][3cm][t]{5cm}
+\input{img/lc_romberg.tikz}
+\caption*{(a) Gesamt}
+\end{minipage}
+% \quad
+\begin{minipage}[b]{0.49\linewidth}
+% \begin{minipage}[t][3cm][t]{5cm}
+\input{img/lc_romberg2.tikz}
+\caption*{(b) Ausschnitt}
+\end{minipage}
+\caption{Romberg Extrapolation}
+\label{fig:lcRomberg}
+\end{figure}
 \section{Shallow Water Equation}
 \subsection{Problemstellung}
 \subsection{Unglattheiten}
