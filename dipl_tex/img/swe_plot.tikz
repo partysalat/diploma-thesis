@@ -1,0 +1,25 @@
+\documentclass{standalone}
+\usepackage{pgfplots,pgfplotstable}
+\IfStandalone{
+	\usepackage{pgfplots,pgfplotstable}
+	\usetikzlibrary{external}
+	\newcommand{\fromRoot}[1]{../#1}
+}{%
+}
+\begin{document}
+\tikzsetnextfilename{swe_plot}
+\begin{tikzpicture}
+\begin{axis}[
+   view={-20}{60}, 
+   grid=both,
+   width=12cm,
+    xlabel={Zeit $t$},
+    ylabel={Gitter $x$},
+    zlabel={$h$},
+    ]
+\addplot3[surf] file {img/data/swe_plot.dat};
+% \addplot3[surf] file {img/data/grad1_gimp.dat};
+
+\end{axis}
+\end{tikzpicture}
+\end{document}

@@ -154,7 +154,7 @@ order=2
 
 [item:main.tex]
 archive=true
-column=7
+column=2
 encoding=UTF-8
 highlight=LaTeX
 line=11
@@ -224,30 +224,30 @@ order=0
 
 [item:tex/chapters/data_assimilation.tex]
 archive=true
-column=24
+column=0
 encoding=UTF-8
 highlight=LaTeX
-line=541
+line=60
 mode=LaTeX
-open=false
-order=2
+open=true
+order=3
 
 [item:tex/chapters/experiments.tex]
 archive=true
-column=328
+column=17
 encoding=UTF-8
 highlight=LaTeX
-line=306
+line=364
 mode=LaTeX
 open=true
 order=0
 
 [item:tex/chapters/implementation.tex]
 archive=true
-column=163
+column=214
 encoding=UTF-8
 highlight=LaTeX
-line=5
+line=232
 mode=LaTeX
 open=false
 order=4
@@ -274,20 +274,20 @@ order=4
 
 [item:tex/chapters/pl_data_assimilation.tex]
 archive=true
-column=33
+column=19
 encoding=UTF-8
 highlight=LaTeX
-line=102
+line=117
 mode=LaTeX
-open=false
-order=1
+open=true
+order=2
 
 [item:tex/chapters/pl_solve_ode.tex]
 archive=true
-column=128
+column=23
 encoding=UTF-8
 highlight=LaTeX
-line=401
+line=2
 mode=LaTeX
 open=false
 order=1
@@ -339,10 +339,10 @@ JumpList=
 ViMarks=.,281,0,[,273,0,],281,0
 
 [view-settings,view=0,item:main.tex]
-CursorColumn=7
+CursorColumn=2
 CursorLine=11
 JumpList=
-ViMarks=.,11,0,[,11,0,],11,0
+ViMarks=.,11,0,[,11,0,],11,1
 
 [view-settings,view=0,item:tex/appendix/selbststaendig.tex]
 CursorColumn=0
@@ -375,20 +375,20 @@ JumpList=
 ViMarks=.,254,23,[,254,10,],254,23
 
 [view-settings,view=0,item:tex/chapters/data_assimilation.tex]
-CursorColumn=24
-CursorLine=541
+CursorColumn=0
+CursorLine=60
 JumpList=
-ViMarks=.,631,15,[,631,8,],631,15
+ViMarks=.,60,0,[,60,0,],60,0
 
 [view-settings,view=0,item:tex/chapters/experiments.tex]
-CursorColumn=328
-CursorLine=306
+CursorColumn=17
+CursorLine=364
 JumpList=
-ViMarks=.,306,327,[,306,327,],306,327
+ViMarks=.,361,281,[,361,220,],-1,-1
 
 [view-settings,view=0,item:tex/chapters/implementation.tex]
-CursorColumn=163
-CursorLine=5
+CursorColumn=214
+CursorLine=232
 JumpList=
 ViMarks=.,222,17,[,222,16,],222,17
 
@@ -405,16 +405,16 @@ JumpList=
 ViMarks=.,6,0,[,6,0,],6,0
 
 [view-settings,view=0,item:tex/chapters/pl_data_assimilation.tex]
-CursorColumn=33
-CursorLine=102
+CursorColumn=19
+CursorLine=117
 JumpList=
-ViMarks=.,102,32,[,102,0,],102,32
+ViMarks=.,99,66,[,99,55,],99,66
 
 [view-settings,view=0,item:tex/chapters/pl_solve_ode.tex]
-CursorColumn=128
-CursorLine=401
+CursorColumn=23
+CursorLine=2
 JumpList=
-ViMarks=.,401,127,[,401,119,],401,127
+ViMarks=.,2,22,[,2,0,],2,22
 
 [view-settings,view=0,item:tex/chapters/titlepage.tex]
 CursorColumn=4

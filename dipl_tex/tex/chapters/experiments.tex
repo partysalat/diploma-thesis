@@ -380,69 +380,118 @@ Wie in Bild \ref{fig:lcAdjointConvergence} zu erkennen, konvergiert der Gradient
 \label{fig:lcAdjointConvergence}
 \end{figure}
 
-\section{Optimierung}
+Die Optimierung über das Kostenfunktional, Bild \ref{fig:lcOpt}, verläuft mit der GIMP ebenfalls stabiler als mit der IMP. Man sieht, dass nach zirka 5 Schritten die Konvergenz zunimmt bis sie schließlich nach 19 Schritten konvergiert \ref{fig:lcOpt}(a). Die Berechnung mit der IMP konvergiert nicht so gleichmäßig wie die GIMP. Jedoch ist das Konvergenzverhalten abhängig vom  initiale gewählten Anfangswert. In Bild \ref{fig:lcOpt}(b) konvergieren die IMP und die GIMP fast gleichschnell.
+
+\begin{figure}[H]
+\footnotesize
+\centering
+\begin{minipage}[b]{0.49\linewidth}
+% \begin{minipage}[t][3cm][t]{5cm}
+\input{img/lc_opt1_convergence.tikz}
+\caption*{(a) $x_0=(0,10^{-10},3\cdot 10^{-8})$}
+\end{minipage}
+% \quad
+\begin{minipage}[b]{0.49\linewidth}
+% \begin{minipage}[t][3cm][t]{5cm}
+\input{img/lc_opt2_convergence.tikz}
+\caption*{(b) $x_0=(0,10^{-11},5\cdot 10^{-7})$}
+\end{minipage}
+\caption{LC Diode Data Assimilation Optimierung auf dem Intervall $I = [0,10^{-8}], N=512$}
+\label{fig:lcOpt}
+\end{figure}
+
+
 \section{Shallow Water Equation}
 \subsection{Problemstellung}
+Ein oft genutztes Beispiel, in Datenassimilierungsmethoden Anwendung finden ist die sogenannte Shallow Water Equation (vgl. \cite{zou,navon}). 
+Diese partiellen Differentialgleichungen gehören zur Klasse der Saint-Venan Systemen und beschreiben eine Strömung einer Flüssigkeit in einem Gebiet unter Berücksichtigung diverser Nebenbedingungen wie Gravitationswellen, Boden- und Randgebietsbedingungen. Eingeführt wurden sie bereits vor über 140 Jahren in \cite{saint1871theorie} und werden zur Simulation von Strömungen in Kanälen und Küstengebieten verwendet.
+
+Im eindimensionalen (1-D) Fall ergibt sich das Saint-Venan System zu 
+\begin{equation}
+\begin{cases}
+ w_t + (hu)_x = 0,\\
+ (hu)_t + \left[\frac{(hu)^2}{w} + \frac{g}{2}w^2\right]_x = 0
+\end{cases} 
+\label{eq:swe}
+\end{equation}
+wobei $hu$ den Wasserabfluss, $w$ die Höhe und $g=9.81 \sfrac{m}{s^2}$ die Gravitationskonstante bezeichnet.
+Gleichung \eqref{eq:swe} wird 1-D Shallow Water Equation (SWE) genannt.
+
+Der Grundgedanke besteht darin, die hyperbolische partielle Differentialgleichung \eqref{eq:swe} in ein System von ODEs umzuformen, sodass unsere Methoden darauf angewendet werden können.
+Dazu nutzen wir die Finite Volumen Methode, welche unter Anderem von LeVeque in \cite{leveque2002finite} ausführlich behandelt wurde. Ähnlich wie Finite Differenzen werden Werte an diskreten Punkten in einem Gitter berechnet. Jedoch wird nicht der Punkt betrachtet, sondern die Gitterzellen, die sogenannten Volumen. In jedem dieser Volumen gilt der Erhaltungssatz. Bei der Integration über diese Volumen wird durch den Gaußschen Integralsatz über deren Rand intgegriert. 
+
+Kurganov bietet in \cite{kurganov2007second} ein robustes Finite Volumen Schema für die SWE an, welches genutzt wurde, um eine Ortsdiskretisierung durchzuführen. Finite Volumen Methoden werden unter Anderem von LeVeque in \cite{leveque2002finite} ausführlich behandelt.
+
+In der PDE auftretende Divergenzen werden durch 
+Die partielle Differentialgleichung \eqref{eq:swe} wird nach $x$ diskretisiert, sodass ein Gitter entsteht.
+\begin{figure}
+ \centering
+ \input{img/swe_plot.tikz}
+ \caption{Lösung der 1-D SWE auf $I=[0,300],~L=500,~\Delta x=10,~\Delta t=1$, periodischen Randbedingungen und normalverteiltem Anfangswert}
+ \label{fig:sweSolution}
+\end{figure}
+
+\cite{evans1998partial}
 \subsection{Unglattheiten}
 Fluxlimiter, Eigenwerte, Plot der Rechten Seite
 \subsection{Ergebnisse}
 
 
-Ein oft genutztes Beispiel, um Datenassimilierungsmethoden zu testen ist die sogenannte Shallow Water Equation (vgl. \cite{zou,navon}). Diese beschreibt die Bewegung einer Flüssigkeit in einem quadratischen Gebiet unter Berücksichtigung von Gravitationswellen. In kartesischen Koordinaten erhält man folgende Gleichungen
-\begin{equation}
-\begin{aligned}
- \frac{\partial u }{\partial t} = -u\frac{\partial u}{\partial x} -v\frac{\partial u}{\partial y} + fv - \frac{\partial \phi}{\partial x}\\
- \frac{\partial v }{\partial t} = -u\frac{\partial v}{\partial x} -v\frac{\partial v}{\partial y} - fu - \frac{\partial \phi}{\partial y}\\
- \frac{\partial \phi }{\partial t} = -\frac{\partial u\phi}{\partial x} -\frac{\partial v\phi}{\partial y} 
-\end{aligned}
-\label{eq:swe}
- \end{equation}
-Hierbei sind $u$ und $v$ die zwei Komponenten des Fließgeschwindigkeitsfeldes in $s^{-1}$ und $\phi$ das Geopotential in $m^2 s^{-1}$; 
-$f$ bezeichnet den Coriolisfaktor.
-Die Anfangsbedingungen für die folgenden Experimente wurden aus \cite{grammeltvedt}(6.I) übernommen. Es handelt sich hierbei um eine westwärtgsgerichtete Strömung mit Nord - Süd Störungen verschiedener Wellenlängen und Amplituden entlang der Zonal - Achse der Strömung. Das anfängliche Höhenfeld wurde gewählt mittels Höhenfunktion
-\begin{align*}
- h(x,y) = H_0 + H_1 \tanh \left( \frac{9(y-y_0)}{2D}\right) + H_2 \sech^2\left(\frac{9(y-y_0)}{D}\right) \sin\left(\frac{2\pi x}{L}\right)
-\end{align*}
-und Ableitungen
-\begin{align*}
- \frac{\partial h}{\partial x}(x,y) &= h_2\sech^2\left( \frac{9(y-y_0)}{D}\right) \cos\left( \frac{2\pi x}{L} \right)\frac{2\pi}{L} \\
- \frac{\partial h}{\partial y}(x,y) &= h_1 \sech^2\left( \frac{9(y-y_0)}{2D}\right)\frac{9}{2D} -  h_2\frac{18}{D} \sin\left( \frac{2\pi x}{L}\right) \frac{\sinh(9(y-y_0)/D)}{\cosh^3(9(y-y_0)/D)}\\
-\end{align*}
-wobei $D$ die Breite, $L$ die Länge der betrachteten Fläche ist,  $h_0 := 2000m$, $h_1 := -220m$, $h_2 := 133m$ und $y_0 = D/2$. Als schlussendliche Anfangsbedingungen ergeben sich
-\begin{align*}
- \phi_0(x,y) &= gh(x,y)\\
- u_0(x,y) &= -\frac{f}{g} \frac{\partial h}{\partial y}(x,y)\\
- v_0(x,y) &= \frac{f}{g} \frac{\partial h}{\partial x}(x,y)
-\end{align*}
-mit $f := 10^{-4} s^{-1}$ und $g:= 10 ms^{-1}$.
-Damit wir die Datenassimilierungsmethode auf (\ref{eq:swe}) anwenden können, müssen wir die Gleichung in eine Form überführen, welche nur noch von der Zeit $t$ abhängt. Grammeltvedt (in \cite{grammeltvedt}) bietet dazu diverse Finite Differenzen Schematas für die Shallow Water Equation an, mit denen sich \ref{eq:swe} in die gewünschte Form überführen lässt. In unserem Fall nutzen wir Schema F. (\ref{eq:swe}) erhält somit die Form:
-\begin{equation}
- \begin{aligned}
-  \frac{\partial u}{\partial t} &= -(\bar{u}^x\bar{u}^x)_x - (\bar{u}^y\bar{v}^y)_y + u(\bar{u}^x_x+ \bar{v}^y_y) +fv - \bar{\phi}^x_x\\
-  \frac{\partial v}{\partial t} &= -(\bar{v}^x\bar{u}^x)_x - (\bar{v}^y\bar{v}^y)_y + v(\bar{u}^x_x+ \bar{v}^y_y) -fv - \bar{\phi}^y_y\\
-  \frac{\partial \phi}{\partial t} &= -(\bar{\phi}^x\bar{u}^x)_x - (\bar{\phi}^y\bar{v}^y)_y   
- \end{aligned}
- \label{eq:schemef}
-\end{equation}
-mit \[
-\begin{aligned}
-\overline{(uv)}^x_x & = \bar{u}^{2x} \bar{v}^x_x +\bar{v}^{2x} \bar{u}^x_x \\
-(\bar{u}^z\bar{v}^z)_z &= \frac{1}{2} \left[ \overline{(uv)}^x_x + u \bar{v}^x_x + v \bar{u}^x_x \right] \\
- &= \frac{1}{2} \left[ \bar{u}^{2x}\bar{v}^x_x +  \bar{v}^{2x}\bar{u}^x_x  + u \bar{v}^x_x + v \bar{u}^x_x \right]\\
- \bar{u}^x_x &= \frac{1}{\Delta} \left[ \bar{u}^x(x_i+\frac{\Delta}{2}) -\bar{u}^x(x_i-\frac{\Delta}{2})  ) \right]\\
-	    &=  \frac{1}{2\Delta} \left[ u(x_i+\Delta)+u(x_i)-u(x_i)-u(x_i-\Delta) \right]\\
-	    &=  \frac{1}{2\Delta} \left[ u(x_i+\Delta)-u(x_i-\Delta) \right]\\
- \bar{u}^{2x}&= \frac{1}{2} \left[ u(x_i+\Delta) + u(x_i - \Delta)\right]
-\end{aligned}
-\]
-Mit diesen Gleichungen können wir das Schema programmieren. Die Randbedingungen sind durch starre homogene Neumannbedingungen entlang der Nord- und Süd Grenzen und periodischen Randbedingungen bezüglich der Ost/West Grenzen gegeben. Seien $x_l,x_r,y_t,y_b$ die Koordinaten bzgl. der linken (l), rechten (r), oberen (t) und unteren (b) Ränder. Dann sind die Randbedingungen folgendermaßen definiert:
-\begin{equation}
- \begin{aligned}
-  u(x_l,y,t) = u(x_r,y,t)\\
-  v(x_l,y,t) = v(x_r,y,t)\\
-  \phi(x_l,y,t) = \phi(x_r,y,t)\\
-  \frac{\partial u}{\partial y}(x,y_t,t) = 0 = \frac{\partial u}{\partial y}(x,y_b,t)\\ 
-  v(x,y_t,t) = 0 = v(x,y_b,t)\\
-  \frac{\partial \phi}{\partial y}(x,y_t,t) = 0 = \frac{\partial \phi}{\partial y}(x,y_b,t)\\ 
- \end{aligned}
-\end{equation}
+% Ein oft genutztes Beispiel, um Datenassimilierungsmethoden zu testen ist die sogenannte Shallow Water Equation (vgl. \cite{zou,navon}). Diese beschreibt die Bewegung einer Flüssigkeit in einem quadratischen Gebiet unter Berücksichtigung von Gravitationswellen. In kartesischen Koordinaten erhält man folgende Gleichungen
+% \begin{equation}
+% \begin{aligned}
+%  \frac{\partial u }{\partial t} = -u\frac{\partial u}{\partial x} -v\frac{\partial u}{\partial y} + fv - \frac{\partial \phi}{\partial x}\\
+%  \frac{\partial v }{\partial t} = -u\frac{\partial v}{\partial x} -v\frac{\partial v}{\partial y} - fu - \frac{\partial \phi}{\partial y}\\
+%  \frac{\partial \phi }{\partial t} = -\frac{\partial u\phi}{\partial x} -\frac{\partial v\phi}{\partial y} 
+% \end{aligned}
+% \label{eq:swe}
+%  \end{equation}
+% Hierbei sind $u$ und $v$ die zwei Komponenten des Fließgeschwindigkeitsfeldes in $s^{-1}$ und $\phi$ das Geopotential in $m^2 s^{-1}$; 
+% $f$ bezeichnet den Coriolisfaktor.
+% Die Anfangsbedingungen für die folgenden Experimente wurden aus \cite{grammeltvedt}(6.I) übernommen. Es handelt sich hierbei um eine westwärtgsgerichtete Strömung mit Nord - Süd Störungen verschiedener Wellenlängen und Amplituden entlang der Zonal - Achse der Strömung. Das anfängliche Höhenfeld wurde gewählt mittels Höhenfunktion
+% \begin{align*}
+%  h(x,y) = H_0 + H_1 \tanh \left( \frac{9(y-y_0)}{2D}\right) + H_2 \sech^2\left(\frac{9(y-y_0)}{D}\right) \sin\left(\frac{2\pi x}{L}\right)
+% \end{align*}
+% und Ableitungen
+% \begin{align*}
+%  \frac{\partial h}{\partial x}(x,y) &= h_2\sech^2\left( \frac{9(y-y_0)}{D}\right) \cos\left( \frac{2\pi x}{L} \right)\frac{2\pi}{L} \\
+%  \frac{\partial h}{\partial y}(x,y) &= h_1 \sech^2\left( \frac{9(y-y_0)}{2D}\right)\frac{9}{2D} -  h_2\frac{18}{D} \sin\left( \frac{2\pi x}{L}\right) \frac{\sinh(9(y-y_0)/D)}{\cosh^3(9(y-y_0)/D)}\\
+% \end{align*}
+% wobei $D$ die Breite, $L$ die Länge der betrachteten Fläche ist,  $h_0 := 2000m$, $h_1 := -220m$, $h_2 := 133m$ und $y_0 = D/2$. Als schlussendliche Anfangsbedingungen ergeben sich
+% \begin{align*}
+%  \phi_0(x,y) &= gh(x,y)\\
+%  u_0(x,y) &= -\frac{f}{g} \frac{\partial h}{\partial y}(x,y)\\
+%  v_0(x,y) &= \frac{f}{g} \frac{\partial h}{\partial x}(x,y)
+% \end{align*}
+% mit $f := 10^{-4} s^{-1}$ und $g:= 10 ms^{-1}$.
+% Damit wir die Datenassimilierungsmethode auf (\ref{eq:swe}) anwenden können, müssen wir die Gleichung in eine Form überführen, welche nur noch von der Zeit $t$ abhängt. Grammeltvedt (in \cite{grammeltvedt}) bietet dazu diverse Finite Differenzen Schematas für die Shallow Water Equation an, mit denen sich \ref{eq:swe} in die gewünschte Form überführen lässt. In unserem Fall nutzen wir Schema F. (\ref{eq:swe}) erhält somit die Form:
+% \begin{equation}
+%  \begin{aligned}
+%   \frac{\partial u}{\partial t} &= -(\bar{u}^x\bar{u}^x)_x - (\bar{u}^y\bar{v}^y)_y + u(\bar{u}^x_x+ \bar{v}^y_y) +fv - \bar{\phi}^x_x\\
+%   \frac{\partial v}{\partial t} &= -(\bar{v}^x\bar{u}^x)_x - (\bar{v}^y\bar{v}^y)_y + v(\bar{u}^x_x+ \bar{v}^y_y) -fv - \bar{\phi}^y_y\\
+%   \frac{\partial \phi}{\partial t} &= -(\bar{\phi}^x\bar{u}^x)_x - (\bar{\phi}^y\bar{v}^y)_y   
+%  \end{aligned}
+%  \label{eq:schemef}
+% \end{equation}
+% mit \[
+% \begin{aligned}
+% \overline{(uv)}^x_x & = \bar{u}^{2x} \bar{v}^x_x +\bar{v}^{2x} \bar{u}^x_x \\
+% (\bar{u}^z\bar{v}^z)_z &= \frac{1}{2} \left[ \overline{(uv)}^x_x + u \bar{v}^x_x + v \bar{u}^x_x \right] \\
+%  &= \frac{1}{2} \left[ \bar{u}^{2x}\bar{v}^x_x +  \bar{v}^{2x}\bar{u}^x_x  + u \bar{v}^x_x + v \bar{u}^x_x \right]\\
+%  \bar{u}^x_x &= \frac{1}{\Delta} \left[ \bar{u}^x(x_i+\frac{\Delta}{2}) -\bar{u}^x(x_i-\frac{\Delta}{2})  ) \right]\\
+% 	    &=  \frac{1}{2\Delta} \left[ u(x_i+\Delta)+u(x_i)-u(x_i)-u(x_i-\Delta) \right]\\
+% 	    &=  \frac{1}{2\Delta} \left[ u(x_i+\Delta)-u(x_i-\Delta) \right]\\
+%  \bar{u}^{2x}&= \frac{1}{2} \left[ u(x_i+\Delta) + u(x_i - \Delta)\right]
+% \end{aligned}
+% \]
+% Mit diesen Gleichungen können wir das Schema programmieren. Die Randbedingungen sind durch starre homogene Neumannbedingungen entlang der Nord- und Süd Grenzen und periodischen Randbedingungen bezüglich der Ost/West Grenzen gegeben. Seien $x_l,x_r,y_t,y_b$ die Koordinaten bzgl. der linken (l), rechten (r), oberen (t) und unteren (b) Ränder. Dann sind die Randbedingungen folgendermaßen definiert:
+% \begin{equation}
+%  \begin{aligned}
+%   u(x_l,y,t) = u(x_r,y,t)\\
+%   v(x_l,y,t) = v(x_r,y,t)\\
+%   \phi(x_l,y,t) = \phi(x_r,y,t)\\
+%   \frac{\partial u}{\partial y}(x,y_t,t) = 0 = \frac{\partial u}{\partial y}(x,y_b,t)\\ 
+%   v(x,y_t,t) = 0 = v(x,y_b,t)\\
+%   \frac{\partial \phi}{\partial y}(x,y_t,t) = 0 = \frac{\partial \phi}{\partial y}(x,y_b,t)\\ 
+%  \end{aligned}
+% \end{equation}

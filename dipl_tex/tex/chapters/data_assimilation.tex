@@ -626,6 +626,28 @@ Wobei die Matrix $A$ durch die BFGS-Updateformel
  A^{(k+1)} = A^{(k)} - \frac{A^{(k)}s^{(k)}(A^{(k)}s^{(k)})^\tr}{(s^{(k)})^\tr A^{(k)}s^{(k)}} + \frac{y^{(k)} (y^{(k)})^\tr}{(y^{(k)})^\tr s^{(k)}}
 \]
 errechnet wird.
+\subsubsection{Abbruchbedingungen}
+Der Optimierungsprozess bei der Data Assimilation wird abgebrochen, falls einige der folgenden Kriterien zu einer gegebenen Toleranz \texttt{tol} erfüllt sind
+\begin{itemize}
+ \item Änderung der Funktion zwischen zwei Iterierten
+ \[
+  |J(x_{k+1}) - J(x_{k})| < tol
+ \]
+\item Änderung im der Zustandsvariable
+\[
+ \|x_{k+1} - x_{k}\|<tol
+\]
+\item Die Norm des Gradienten
+\[
+ \|\nabla J(x_k)\|<tol
+\]
+\item Das Verhältnis des Gradienten am Anfangs und am jetzigen Wert
+\[
+ \frac{\|\nabla J(x_k)\| }{\|\nabla J(x_0)\|}<tol
+\]
+
+
+\end{itemize}
 
 
 \section{Zusammenfassung}
