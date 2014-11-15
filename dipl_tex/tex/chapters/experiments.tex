@@ -1,7 +1,7 @@
 \chapter{Experimente}
 In diesem Kapitel werden wir drei verschiedenen Beispielen mit sämtliche eingeführten Methoden duchrechnen. Dabei wird zunächst auf die Lösung der Differentialgleichung eingegangen und Konvergenzbetrachtungen durchgeführt. Danach wird der Gradienten des Kostenfunktionals behandelt und die Optimierung für diverse Anfangswerte durchgeführt. %Stay Tuned!
 \section{Rolling Stone}
-\subsection{Problemstellung}
+% \subsection{Problemstellung}
 Zum Anfang wollen wir uns dem sogenannten Rolling Stones Beispiel widmen, welches beispielsweise in \cite{boeck2014experiments} oder \cite{hasenfelder13} behandelt wurde. 
 Es behandelt eine sich reibungslos bewegende Kugel auf einer konvexen Parabel, in dessen Mitte eine flache Ebene auf dem Intervall $[-1,1]$ eingefügt wurde. 
 \begin{figure}[ht]
@@ -161,6 +161,7 @@ Beim Plot des Gradienten nach Anfangswerten wie in Figur \ref{fig:rollingGrad} i
 \input{img/rolling_jac_da_gradient2.tikz}
 % \caption{Ableitung des Kostenfunktional in erster Komponente von Rolling Stones }
 % \label{fig:rollingGrad2Gimp}
+\caption*{(a) GIMP}
 \end{minipage}
 % \quad
 \begin{minipage}[b]{0.49\linewidth}
@@ -168,8 +169,9 @@ Beim Plot des Gradienten nach Anfangswerten wie in Figur \ref{fig:rollingGrad} i
 \input{img/rolling_jac_da_gradient2_imp.tikz}
 % \caption{Ableitung des Kostenfunktional in erster Komponente von Rolling Stones}
 % \label{fig:rollingGrad2Imp}
+\caption*{(b) IMP}
 \end{minipage}
-\caption{Ableitung des Kostenfunktionals beim Rolling Stones Beispiel (links: GIMP, rechts: IMP), $I = [0,30],h=0.5$}
+\caption{Ableitung des Kostenfunktionals beim Rolling Stones Beispiel, $I = [0,30],h=0.5$}
 \label{fig:rollingGrad}
 \end{figure}
 
@@ -359,7 +361,7 @@ Beim Fehler über die Zeit ist genau zu erkennen, dass der Fehler sich an den Ki
 \caption{Fehler über Zeit}
 \end{figure}
 \section{Gradient und Optimierung}
-In diesem Abschnitt werden wir die Lösung im Intervall $[0,10^{-8}]$ mit den Anfangswerten $x_0=(0,0,0)$ als Observierungsparameter benutzen. Da wir keine analytische Lösung berechnen können, wird eine Lösung mit einer erheblich exakteren Schrittweite als Vergleichswert verwendet.
+In diesem Abschnitt werden wir die Lösung im Intervall $[0,10^{-8}]$ mit den Anfangswerten $x_0=(0,0,0)$ als Observierungsparameter benutzen. Da wir keine analytische Lösung berechnen können, wird eine Lösung mit einer erheblich exakteren Schrittweite ($4N$) als Vergleichswert verwendet.
 
 Wie in Bild \ref{fig:lcAdjointConvergence} zu erkennen, konvergiert der Gradient bei der LC-Diode mit einer deutlich höheren Ordnung als im Rolling Stones Beispiel. Mit glatten Observierungsparametern ist der mit der GIMP berechnete Gradient von Anfang an zwei Größenordnungen genauer (Bild \ref{fig:lcAdjointConvergence}(b)), als der mit der IMP berechnete Gradient. 
 \begin{figure}[H]
@@ -402,7 +404,7 @@ Die Optimierung über das Kostenfunktional, Bild \ref{fig:lcOpt}, verläuft mit 
 
 
 \section{Shallow Water Equation}
-\subsection{Problemstellung}
+% \subsection{Problemstellung}
 Ein oft genutztes Beispiel, in dem Datenassimilierungsmethoden Anwendung finden ist die sogenannte Shallow Water Equation (vgl. \cite{zou,navon}). 
 Diese partiellen Differentialgleichungen gehören zur Klasse der Saint-Venan Systemen und beschreiben eine Strömung einer Flüssigkeit in einem Gebiet unter Berücksichtigung diverser Nebenbedingungen wie Gravitationswellen, Boden- und Randgebietsbedingungen. Eingeführt wurden sie bereits vor über 140 Jahren von Saint-Venant in \cite{saint1871theorie} und werden zur Simulation von Strömungen in Kanälen und Küstengebieten verwendet.
 
@@ -410,13 +412,13 @@ Im einfachsten eindimensionalen Fall ergibt sich das Saint-Venan System zu
 \begin{equation}
 \begin{cases}
  h_t + (hu)_x = 0,\\
- (hu)_t + \left[\frac{(hu)^2}{h} + \frac{g}{2}w^2\right]_x = 0
+ (hu)_t + \left[\frac{(hu)^2}{h} + \frac{g}{2}h^2\right]_x = 0
 \end{cases} 
 \label{eq:swe}
 \end{equation}
 wobei $u$ die Geschwindigkeit, $hu$ den Wasserabfluss, $h$ die Höhe und $g=9.81 \sfrac{m}{s^2}$ die Gravitationskonstante bezeichnet.
 Die Gleichung \eqref{eq:swe} wird 1-D Shallow Water Equation (SWE) genannt.
-Diese kann durch Bodengegebenheiten oder Reibung erweitert werden.
+Diese kann durch Bodengegebenheiten, Reibung oder konvektiver Beschleunigung erweitert werden.
 Eine interessante Eigenschaft dieser Gleichung ist, dass sie glatte stationäre Lösung zulässt, die die Bedingungen
 \[
  hu = \text{const}, \quad \frac{u^2}{2}+gh = \text{const}
@@ -431,7 +433,7 @@ Der Grundgedanke zur numerischen Lösung des Problemes besteht darin, die hyperb
 Dazu nutzen wir die Finite Volumen Methode, welche unter Anderem von LeVeque in \cite{leveque2002finite} ausführlich behandelt wurde. Ähnlich wie Finite Differenzen werden Werte an diskreten Punkten in einem Gitter berechnet. Jedoch wird nicht der Punkt betrachtet, sondern die Gitterzellen, die sogenannten Volumen. In jedem dieser Volumen gilt der Erhaltungssatz für eine Größe; in unserem Beispiel die Höhe und der Wasserabfluss. Eine Veränderung der erhaltenden Größe kann nur durch Ab- oder Hinzufließen über den Rand der Gitterzelle geschehen, der sogenannte Flux. Dazu wird der Mittelwert der Erhaltungsgrößen in jeder Zelle berechnet. Damit entsteht eine Gleichung über die Veränderung der Größen in der Zeit, welche durch Löser für gewöhnliche Differentialgleichungen berechnet werden können.
 TODO: im LeVeque nachschauen und evtl. mit Theoremen ergänzen!
 
-Kurganov bietet in \cite{kurganov2007second} ein robustes Finite Volumen Schema für die SWE an, die sowohl \textit{well balanced} ist als auch den \textit{dry state} behandelt. Es wurde genutzt, um die gewünschte Ortsdiskretisierung durchzuführen.
+Kurganov bietet in \cite{kurganov2007second} ein robustes Finite Volumen Schema für die SWE an, die sowohl \textit{well balanced} ist als auch den \textit{dry state} behandelt. Es wurde genutzt, um die gewünschte Ortsdiskretisierung durchzuführen. Im Bild \ref{fig:sweSolution} ist die Lösung für
 
 \begin{figure}
  \centering
@@ -441,12 +443,27 @@ Kurganov bietet in \cite{kurganov2007second} ein robustes Finite Volumen Schema 
 \end{figure}
 
 % \cite{evans1998partial}
-\subsection{FVM Schema von Kurganov und Unglattheiten}
-
+\subsection{FVM Schema und Unglattheiten}
+Das Schema von Kurganov aus \cite{kurganov2007second} benutzt ein uniformes Gitter mit $x_\alpha=\alpha\cdot \Delta x$ wobei $\Delta x$ den Abstand zum nächsten Gitterpunkt beschreibt. $I_j = [x_{j-\sfrac{1}{2}},x_{j+\sfrac{1}{2}}]$ sei die $j-$te finite Volumenzelle.
+Eine zentrale Upwinding Semidiskretisierung von \eqref{eq:swe} ist das folgende System von ODEs
+\[
+ \frac{d}{dt} \bar U_j = - \frac{H_{j+\sfrac{1}{2}}-H_{j-\sfrac{1}{2}}}{\Delta x}
+\]
+wobei 
+\[
+ \bar U_j \approx \frac{1}{\Delta x}\int_{I_j} U(x,t) dx, \quad U:=(h,hu)^\tr
+\]
+die Mittelwerte der Erhaltungsgrößen der Zellen beschreibt. Der numerische Fluss $H_{j+\sfrac{1}{2}}$ ist definiert als
+\[
+\begin{aligned}
+ H_{j+\sfrac{1}{2}}(t) =& \frac{a^+_{j+\sfrac{1}{2}}F(U^-_{j+\sfrac{1}{2}}) - a^-_{j+\sfrac{1}{2}}F(U^+_{j+\sfrac{1}{2}})}{a^+_{j+\sfrac{1}{2}} -a^-_{j+\sfrac{1}{2}}} \\
+ & +\frac{a^+_{j+\sfrac{1}{2}} \cdot a^-_{j+\sfrac{1}{2}}}{a^+_{j+\sfrac{1}{2}} -a^-_{j+\sfrac{1}{2}}}[U^+_{j+\sfrac{1}{2}} - U^-_{j+\sfrac{1}{2}}]
+\end{aligned}
+ \]
 
 
 Fluxlimiter, Eigenwerte, Plot der Rechten Seite
-\subsection{Ergebnisse}
+\subsection{Lösen der ODE}
 
 
 % Ein oft genutztes Beispiel, um Datenassimilierungsmethoden zu testen ist die sogenannte Shallow Water Equation (vgl. \cite{zou,navon}). Diese beschreibt die Bewegung einer Flüssigkeit in einem quadratischen Gebiet unter Berücksichtigung von Gravitationswellen. In kartesischen Koordinaten erhält man folgende Gleichungen
