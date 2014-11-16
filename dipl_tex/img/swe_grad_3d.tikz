@@ -1,0 +1,23 @@
+\documentclass{standalone}
+\usepackage{pgfplots,pgfplotstable}
+\IfStandalone{
+	\usepackage{pgfplots,pgfplotstable}
+	\usetikzlibrary{external}
+	\newcommand{\fromRoot}[1]{../#1}
+}{%
+}
+\begin{document}
+\tikzsetnextfilename{swe_grad_3d}
+\begin{tikzpicture}
+    \begin{axis}[
+    view={-20}{60},
+    grid=both,
+    width=\linewidth,
+%      title={$\sfrac{\partial J}{\partial x_0^{(1)}}$},
+    xlabel={Zeit $t$},
+    ylabel={Ort $x$},
+    zlabel={$h_t$}]
+      \addplot3[surf] file {\fromRoot img/data/swe_grad_3d.dat};
+    \end{axis}
+\end{tikzpicture}
+\end{document}

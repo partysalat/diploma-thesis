@@ -4,7 +4,7 @@ img_extIsRegExp=false
 img_extensions=.eps .jpg .jpeg .png .pdf .ps .fig .gif .tikz
 kileprversion=2
 kileversion=2.1.3
-lastDocument=tex/chapters/experiments.tex
+lastDocument=main.tex
 masterDocument=
 name=planc
 pkg_extIsRegExp=false
@@ -144,17 +144,17 @@ Mode=LaTeX
 
 [item:main.bib]
 archive=true
-column=23
+column=30
 encoding=UTF-8
 highlight=BibTeX
-line=305
+line=299
 mode=BibTeX
 open=true
 order=1
 
 [item:main.tex]
 archive=true
-column=7
+column=9
 encoding=UTF-8
 highlight=LaTeX
 line=11
@@ -234,10 +234,10 @@ order=3
 
 [item:tex/chapters/experiments.tex]
 archive=true
-column=366
+column=4
 encoding=UTF-8
 highlight=LaTeX
-line=420
+line=459
 mode=LaTeX
 open=true
 order=0
@@ -333,16 +333,16 @@ open=false
 order=8
 
 [view-settings,view=0,item:main.bib]
-CursorColumn=23
-CursorLine=305
+CursorColumn=30
+CursorLine=299
 JumpList=
 ViMarks=.,330,0,[,297,0,],330,0
 
 [view-settings,view=0,item:main.tex]
-CursorColumn=7
+CursorColumn=9
 CursorLine=11
 JumpList=
-ViMarks=.,11,0,[,11,0,],11,0
+ViMarks=.,11,0,[,11,0,],11,1
 
 [view-settings,view=0,item:tex/appendix/selbststaendig.tex]
 CursorColumn=0
@@ -381,10 +381,10 @@ JumpList=
 ViMarks=.,645,45,[,645,45,],645,48
 
 [view-settings,view=0,item:tex/chapters/experiments.tex]
-CursorColumn=366
-CursorLine=420
+CursorColumn=4
+CursorLine=459
 JumpList=
-ViMarks=.,420,365,[,420,341,],420,365
+ViMarks=.,459,3,[,459,3,],459,3
 
 [view-settings,view=0,item:tex/chapters/implementation.tex]
 CursorColumn=214

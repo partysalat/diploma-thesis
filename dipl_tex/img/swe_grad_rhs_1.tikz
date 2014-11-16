@@ -1,0 +1,31 @@
+\documentclass{standalone}
+\usepackage{pgfplots,pgfplotstable}
+\usepackage{ifthen}
+\usepackage{intcalc}
+
+\IfStandalone{
+	\usepackage{pgfplots,pgfplotstable}
+	\usetikzlibrary{external}
+	\newcommand{\fromRoot}[1]{../#1}
+}{%
+}
+\begin{document}
+\tikzsetnextfilename{swe_grad_rhs_1}
+\begin{tikzpicture}
+     \begin{axis}[view={-20}{60},
+  %  grid=both,
+    width=\linewidth,
+%     title={Height SWE},
+    xlabel={$t$},
+    ylabel={Rechte Seite},
+]
+      \foreach \ind in {30,31,...,61}{
+        \ifnum\intcalcMod{\ind}{2}=0
+	  \addplot[mark=none,very thin,blue] table[x index=0,y index=1] {\fromRoot img/data/swe_grad_bundle/gradCut\ind.dat};
+	\else
+% 	  \addplot[mark=none,very thin,red] table[x index=0,y index=1] {dat/gradCut\ind.dat};
+	\fi
+      }
+    \end{axis}
+\end{tikzpicture}
+\end{document}
