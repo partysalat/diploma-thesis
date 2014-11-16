@@ -293,7 +293,7 @@ Als Anfangswert liegt kein Strom an, d.h. $x_1(0)  = x_2(0) = x_3(0) = 0$.
 
 Im Gegensatz zu dem Rolling Stones Beispiel lässt sich dieses Problem nicht in einer Abs-Normal Form darstellen lässt, da es kein stückweise lineares Problem ist. Die in Theorem \ref{thm:quadrApproxPL} besagte Konvergenz zweiter Ordnung ist nun hier zu beachten, da sich das Modell nicht exakt Linearisieren lässt. Als weiteres numerisches Problem stellen sich die kleinen Konstanten $L,C$ und $\beta$ heraus, ebenso wie die kleine Schrittweite in einem Intervall von $[0, 10^{-8}]$. In der Lösung erhalten wir für die Ladung des Kondensators Größenordnungen von $10^{-13}$, welche an der Maschinengenauigkeit von $\approx 1.1\cdot 10^{-16}$ (double precision) grenzen.
 
-\section{Lösung der ODE}
+\subsection{Lösen der ODE}
 \begin{figure}[H]
 \footnotesize 
 \centering
@@ -360,7 +360,7 @@ Beim Fehler über die Zeit ist genau zu erkennen, dass der Fehler sich an den Ki
 \end{minipage}
 \caption{Fehler über Zeit}
 \end{figure}
-\section{Gradient und Optimierung}
+\subsection{Gradient und Optimierung}
 In diesem Abschnitt werden wir die Lösung im Intervall $[0,10^{-8}]$ mit den Anfangswerten $x_0=(0,0,0)$ als Observierungsparameter benutzen. Da wir keine analytische Lösung berechnen können, wird eine Lösung mit einer erheblich exakteren Schrittweite ($4N$) als Vergleichswert verwendet.
 
 Wie in Bild \ref{fig:lcAdjointConvergence} zu erkennen, konvergiert der Gradient bei der LC-Diode mit einer deutlich höheren Ordnung als im Rolling Stones Beispiel. Mit glatten Observierungsparametern ist der mit der GIMP berechnete Gradient von Anfang an zwei Größenordnungen genauer (Bild \ref{fig:lcAdjointConvergence}(b)), als der mit der IMP berechnete Gradient. 
@@ -405,6 +405,8 @@ Die Optimierung über das Kostenfunktional, Bild \ref{fig:lcOpt}, verläuft mit 
 
 \section{Shallow Water Equation}
 % \subsection{Problemstellung}
+Bisher wurde die stückweise Linearisierung nur mit gewöhnlichen Differentialgleichungen durchgeführt; Ziel dieses Beispieles ist es, diese Methoden auf eine partielle Differentialgleichungen anzuwenden und an ihr Data Assimilation zu betreiben.
+
 Ein oft genutztes Beispiel, in dem Datenassimilierungsmethoden Anwendung finden ist die sogenannte Shallow Water Equation (vgl. \cite{zou,navon}). 
 Diese partiellen Differentialgleichungen gehören zur Klasse der Saint-Venan Systemen und beschreiben eine Strömung einer Flüssigkeit in einem Gebiet unter Berücksichtigung diverser Nebenbedingungen wie Gravitationswellen, Boden- und Randgebietsbedingungen. Eingeführt wurden sie bereits vor über 140 Jahren von Saint-Venant in \cite{saint1871theorie} und werden zur Simulation von Strömungen in Kanälen und Küstengebieten verwendet.
 
@@ -470,6 +472,25 @@ und $U^\pm_{j+\sfrac{1}{2}}$ sind die linken/rechten Seiten einer Stückweise li
 \]
 Die numerischen Ableitungen $(U_x)_j$ sind die Komponentenweisen Approximationen von $U_x(x_j ,t)$, welche durch nichtlineare \textit{Flux Limiter} berechnet werden, 
 da ansonsten oszillatorischen Verhalten in der Lösung auftreten kann aufgrund von zu starlen Änderungen der Steigung.(TODO: RAUSSUCHEN WO DAS STEHT).
+Der verallgemeinerte MinMod Flux Limiter wurde in der Implementierung benutzt und er hat die Form
+\[
+ \left(U_x\right) = \text{minmod}\left(\theta \frac{\bar U_j- \bar U_{j-1}}{\Delta x},\frac{\bar U_{j+1}- \bar U_{j-1}}{2\Delta x},\theta\frac{ \bar U_{j+1}- \bar U_{j}}{\Delta x}  \right), \quad \theta \in [1,2]
+\]
+wobei minmod definiert ist als
+\[
+ \text{minmod}(z_1,z_2,\ldots) = \begin{cases}
+                                  \min_j z_j & \text{falls }z_j>0~\forall j\\
+                                  \max_j z_j & \text{falls }z_j<0~\forall j\\
+                                  0 & \text{sonst}
+                                 \end{cases}
+ \]
+ TODO: LITERATUR MIT ANGEBEN
+Diesen kann man in max - min Repräsentation überführen, sodass wir die Funktion
+ \begin{equation}
+\text{minmod}(z_1,z_2,z_3) = \min(\max(z_1,z_2,z_3),0) + \max(\min(z_1,z_2,z_3),0)    
+ \end{equation}
+
+erhalten.
 
 Die rechts/linksseitigen lokalen Geschwindigkeiten $a^\pm_{j+\sfrac{1}{2}}$ werden aus dem größten und kleinsten Eigenwert der Jacobimatrix $\frac{\partial F}{\partial U}$ von \eqref{eq:swe} berechnet, wobei sie sich ergeben zu
 \[
@@ -478,14 +499,7 @@ Die rechts/linksseitigen lokalen Geschwindigkeiten $a^\pm_{j+\sfrac{1}{2}}$ werd
  a^-_{j+\sfrac{1}{2}} &= \max \left\lbrace u^+_{j+\sfrac{1}{2}} - \sqrt{gh^+_{j+\sfrac{1}{2}}},u^-_{j+\sfrac{1}{2}} - \sqrt{gh^-_{j+\sfrac{1}{2}}},0\right\rbrace
  \end{aligned}
 \]
-
-% \begin{figure}
-%  \centering
-%  \input{img/swe_grad_3d.tikz}
-%  \caption{Modell nach der Zeit}
-%  \label{fig:sweGrad3d}
-% \end{figure}
-\begin{figure}[H]
+\begin{figure}
 \footnotesize
 \centering
 \begin{minipage}[b]{\linewidth}
@@ -497,20 +511,42 @@ Die rechts/linksseitigen lokalen Geschwindigkeiten $a^\pm_{j+\sfrac{1}{2}}$ werd
 \begin{minipage}[b]{0.49\linewidth}
 % \begin{minipage}[t][3cm][t]{5cm}
 \input{img/swe_grad_rhs_1.tikz}
-\caption*{(b) Höhe $h$}
+\caption*{(b) Querschnitt Höhe $h$}
 \end{minipage}
 \begin{minipage}[b]{0.49\linewidth}
 % \begin{minipage}[t][3cm][t]{5cm}
 \input{img/swe_grad_rhs_2.tikz}
-\caption*{(c) Abfluss $hu$}
+\caption*{(c) Querschnitt Abfluss $hu$}
 \end{minipage}
 \caption{Rechte Seite der SWE über $I=[0,300], L=300, \Delta x=10, \Delta t = 1$}
-\label{fig:lcOpt}
+\label{fig:sweGrad}
 \end{figure}
 
 
-Fluxlimiter, Eigenwerte, Plot der Rechten Seite
+Die Berechnung der Eigenwerte und der Ableitungen über den MinMod Limiter bringen zusätzlich Unglattheiten in die Rechte Seite von \eqref{eq:swe}.  Der verallgemeinerte MinMod hat die switching depth $\nu = 3$ und erzeugt dadurch Knicke im computational graph. Ebenso die Eigenwertberechnung, welche eine switching depth von $\nu = 2$ erzeugt. In Figur \ref{fig:sweGrad} ist die Rechte Seite in der Zeit abgebildet. Man kann erkennen, dass Knicke auf der rechten Seite vorhanden sind, die auftreten, falls eine flache in eine steile Steigung übergeht und vice versa. Ebenso ist das oszillatorische Verhalten an den Knicken zu erkennen, welche zu Fehlern in der Zeitintegration mit klassichen Methoden führen.
+
 \subsection{Lösen der ODE}
+TODO: Bilder plotten
+\begin{figure}
+\footnotesize
+\centering
+\begin{minipage}[b]{\linewidth}
+% \begin{minipage}[t][3cm][t]{5cm}
+\input{img/lc_romberg.tikz}
+\end{minipage}
+\begin{minipage}[b]{0.49\linewidth}
+% \begin{minipage}[t][3cm][t]{5cm}
+\input{img/lc_romberg2.tikz}
+\caption*{(a) Querschnitt Höhe $h$}
+\end{minipage}
+\begin{minipage}[b]{0.49\linewidth}
+% \begin{minipage}[t][3cm][t]{5cm}
+\input{img/swe_convergence_romberg.tikz}
+\caption*{(b) Romberg}
+\end{minipage}
+\caption{Romberg}
+\label{fig:sweConvergence}
+\end{figure}
 
 
 % Ein oft genutztes Beispiel, um Datenassimilierungsmethoden zu testen ist die sogenannte Shallow Water Equation (vgl. \cite{zou,navon}). Diese beschreibt die Bewegung einer Flüssigkeit in einem quadratischen Gebiet unter Berücksichtigung von Gravitationswellen. In kartesischen Koordinaten erhält man folgende Gleichungen
