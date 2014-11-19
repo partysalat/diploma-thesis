@@ -17,10 +17,13 @@
     width=\linewidth,
 %     title={Height SWE},
     xlabel={$t$},
+%     ymax=0.005,
+%     ymin=-0.005,
     ylabel={Rechte Seite},
 ]
       \foreach \ind in {30,31,...,61}{
-        \ifnum\intcalcMod{\ind}{2}=0
+%       \foreach \ind in {0,1,...,61}{
+	\ifnum\intcalcMod{\ind}{2}=0
 	  \addplot[mark=none,very thin,blue] table[x index=0,y index=1] {\fromRoot img/data/swe_grad_bundle/gradCut\ind.dat};
 	\else
 % 	  \addplot[mark=none,very thin,red] table[x index=0,y index=1] {dat/gradCut\ind.dat};

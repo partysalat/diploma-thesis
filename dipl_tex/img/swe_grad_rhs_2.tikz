@@ -20,6 +20,7 @@
     ylabel={Rechte Seite},
 ]
      \foreach \ind in {30,31,...,61}{
+%      \foreach \ind in {0,1,...,61}{
         \ifnum\intcalcMod{\ind}{2}=0
 % 	  \addplot[mark=none,very thin,blue] table[x index=0,y index=1] {dat/gradCut\ind.dat};
 	\else

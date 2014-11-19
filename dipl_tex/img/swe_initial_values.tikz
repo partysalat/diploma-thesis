@@ -1,0 +1,31 @@
+\documentclass{standalone}
+\IfStandalone{
+	\usepackage{pgfplots,pgfplotstable}
+	\usetikzlibrary{external}
+	\newcommand{\fromRoot}[1]{../#1}
+}{%
+}
+\begin{document}
+\tikzsetnextfilename{swe_initial_values}
+\begin{tikzpicture}
+\begin{axis}[
+	width=\linewidth,
+% 	grid=both,
+	xlabel=$x$,
+	ylabel=$h$,
+	legend entries ={
+	$x_0^{(1)}$,
+	$x_0^{(2)}$,
+	$x_0^{(3)}$,
+	$x_0^{(4)}$
+	},
+	legend style={at={(0.5,1.0)},anchor=south},
+	legend columns=2
+]
+  	\addplot[mark=none,blue,very thin] table[x index=0,y index=1] {\fromRoot img/data/swe_initial_values.dat};%expl midpoint
+ 	\addplot[mark=none,green,very thin] table[x index=0,y index=2] {\fromRoot img/data/swe_initial_values.dat};%expl midpoint
+ 	\addplot[mark=none,red,very thin] table[x index=0,y index=3] {\fromRoot img/data/swe_initial_values.dat};%expl midpoint
+      \addplot[mark=none,pink,very thin] table[x index=0,y index=4] {\fromRoot img/data/swe_initial_values.dat};%expl midpoint
+ 	\end{axis}
+\end{tikzpicture}
+\end{document}

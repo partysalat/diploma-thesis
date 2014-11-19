@@ -1,0 +1,34 @@
+\documentclass{standalone}
+\IfStandalone{
+	\usepackage{pgfplots,pgfplotstable}
+	\usetikzlibrary{external}
+	\newcommand{\fromRoot}[1]{../#1}
+}{%
+}
+\begin{document}
+\tikzsetnextfilename{swe_error_over_time_all}
+\begin{tikzpicture}
+\begin{axis}[
+	width=\linewidth,
+	xlabel=Zeitpunkt $t$,
+	ylabel=Fehler zum Zeitpunkt $t$,
+% 	axis y line=right,
+% 	every axis y label/.style={at={(current axis.right )},rotate=270},
+% 	axis y line*=right,
+	ylabel near ticks,
+	yticklabel pos=right,	
+	legend entries ={Expl. MP,
+	IMP,
+	GIMP 
+	},
+% 	legend style={at={(0,1)},anchor=north west}
+	legend style={at={(0.5,1.0)},anchor=south},
+	legend columns=2
+]
+\addplot[mark=none,red,very thin] table[x index=0,y index=6] {\fromRoot img/data/swe_error_over_time.dat};
+\addplot[mark=none,green,very thin] table[x index=0,y index=5] {\fromRoot img/data/swe_error_over_time.dat};
+\addplot[mark=none,blue,very thin] table[x index=0,y index=4] {\fromRoot img/data/swe_error_over_time.dat};
+
+\end{axis}
+\end{tikzpicture}
+\end{document}

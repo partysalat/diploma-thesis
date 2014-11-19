@@ -129,7 +129,7 @@ Dadurch führt die in Figur \ref{fig:rollingStonesConvergenceRomberg} durchgefü
 \begin{minipage}[b]{0.49\linewidth}
 % \begin{minipage}[t][3cm][t]{5cm}
 \input{img/rolling_error_over_time_all.tikz}
-\caption*{(b) Akkumuliert}
+\caption*{(b) Summiert}
 \end{minipage}
 \caption{Rolling Stones Fehler über Zeit, \\$h=0.1,x_0=(1,1)$}
 \label{fig:rollingStonesEOT}
@@ -356,9 +356,9 @@ Beim Fehler über die Zeit ist genau zu erkennen, dass der Fehler sich an den Ki
 \begin{minipage}[b]{0.49\linewidth}
 % \begin{minipage}[t][3cm][t]{5cm}
 \input{img/lc_error_over_time_all.tikz}
-\caption*{(b) Akkumuliert}
+\caption*{(b) Summiert}
 \end{minipage}
-\caption{Fehler über Zeit}
+\caption{LC Fehler über Zeit mit $N =1024 ,x_0 = [0,0,0]$}
 \end{figure}
 \subsection{Gradient und Optimierung}
 In diesem Abschnitt werden wir die Lösung im Intervall $[0,10^{-8}]$ mit den Anfangswerten $x_0=(0,0,0)$ als Observierungsparameter benutzen. Da wir keine analytische Lösung berechnen können, wird eine Lösung mit einer erheblich exakteren Schrittweite ($4N$) als Vergleichswert verwendet.
@@ -408,7 +408,7 @@ Die Optimierung über das Kostenfunktional, Bild \ref{fig:lcOpt}, verläuft mit 
 Bisher wurde die stückweise Linearisierung nur mit gewöhnlichen Differentialgleichungen durchgeführt; Ziel dieses Beispieles ist es, diese Methoden auf eine partielle Differentialgleichungen anzuwenden und an ihr Data Assimilation zu betreiben.
 
 Ein oft genutztes Beispiel, in dem Datenassimilierungsmethoden Anwendung finden ist die sogenannte Shallow Water Equation (vgl. \cite{zou,navon}). 
-Diese partiellen Differentialgleichungen gehören zur Klasse der Saint-Venan Systemen und beschreiben eine Strömung einer Flüssigkeit in einem Gebiet unter Berücksichtigung diverser Nebenbedingungen wie Gravitationswellen, Boden- und Randgebietsbedingungen. Eingeführt wurden sie bereits vor über 140 Jahren von Saint-Venant in \cite{saint1871theorie} und werden zur Simulation von Strömungen in Kanälen und Küstengebieten verwendet.
+Diese partiellen Differentialgleichungen gehören zur Klasse der Saint-Venan Systemen und beschreiben eine Strömung einer Flüssigkeit in einem Gebiet unter Berücksichtigung diverser Nebenbedingungen wie Gravitationswellen, Bodenbegebenheit und Randgebiete. Eingeführt wurden sie bereits vor über 140 Jahren von Saint-Venant in \cite{saint1871theorie} und werden zur Simulation von Strömungen in Kanälen und Küstengebieten verwendet.
 
 Im einfachsten eindimensionalen Fall ergibt sich das Saint-Venan System zu 
 \begin{equation}
@@ -432,7 +432,7 @@ erfüllen und unglatte stationäre Lösungen. Eine stationäre Lösung ist beisp
 Methoden, die diese Lösungen erhalten werden als ausgeglichen (well balanced) bezeichnet. Falls die Höhe des Systems $h \approx 0 $, sich also einem \textit{dry state} nähert, kann sie durch numerische Ungenauigkeiten kleiner Null werden, sodass die Berechnung abbricht, da die Eigenwerte der Jacobimatrix von \eqref{eq:swe} die Form $u\pm \sqrt{gh}$ haben.
 
 Der Grundgedanke zur numerischen Lösung des Problemes besteht darin, die hyperbolische partielle Differentialgleichung \eqref{eq:swe} in ein System von ODEs umzuformen, sodass unsere Methoden darauf angewendet werden können.
-Dazu nutzen wir die Finite Volumen Methode, welche unter Anderem von LeVeque in \cite{leveque2002finite} ausführlich behandelt wurde. Ähnlich wie Finite Differenzen werden Werte an diskreten Punkten in einem Gitter berechnet. Jedoch wird nicht der Punkt betrachtet, sondern die Gitterzellen, die sogenannten Volumen. In jedem dieser Volumen gilt der Erhaltungssatz für eine Größe; in unserem Beispiel die Höhe und der Wasserabfluss. Eine Veränderung der erhaltenden Größe kann nur durch Ab- oder Hinzufließen über den Rand der Gitterzelle geschehen; dieser wird auch als Flux bezeichnet. Dazu wird der Mittelwert der Erhaltungsgrößen in jeder Zelle berechnet. Damit entsteht eine Gleichung über die Veränderung der Größen in der Zeit, welche durch Löser für gewöhnliche Differentialgleichungen berechnet werden können.
+Dazu nutzen wir die Finite Volumen Methode, welche unter Anderem von LeVeque in \cite{leveque2002finite} ausführlich behandelt wird. Ähnlich wie Finite Differenzen werden Werte an diskreten Punkten in einem Gitter berechnet. Jedoch wird nicht der Punkt allein betrachtet, sondern die gesamten Gitterzellen, die sogenannten Volumen. In jedem dieser Volumen gilt der Erhaltungssatz für eine Größe; in unserem Beispiel die Höhe und der Wasserabfluss. Eine Veränderung der erhaltenden Größe kann nur durch Ab- oder Hinzufließen über den Rand der Gitterzelle geschehen; dieser wird auch als Flux bezeichnet. Dazu wird der Mittelwert der Erhaltungsgrößen in jeder Zelle berechnet. Damit entsteht eine Gleichung über die Veränderung der Größen in der Zeit, welche durch Löser für gewöhnliche Differentialgleichungen berechnet werden können.
 TODO: im LeVeque nachschauen und evtl. mit Theoremen ergänzen!
 
 Kurganov bietet in \cite{kurganov2007second} ein robustes Finite Volumen Schema für die SWE an, die sowohl \textit{well balanced} ist als auch den \textit{dry state} behandelt. Es wurde genutzt, um die gewünschte Ortsdiskretisierung durchzuführen. Im Bild \ref{fig:sweSolution} ist die Lösung von \eqref{eq:swe} über die Zeit dargestellt.
@@ -471,8 +471,8 @@ und $U^\pm_{j+\sfrac{1}{2}}$ sind die linken/rechten Seiten einer Stückweise li
  U^\pm_{j+\sfrac{1}{2}} = U_{j+\sfrac{1}{2} \pm \sfrac{1}{2}} + \frac{\Delta x}{2} \left(U_x\right)_{j+\sfrac{1}{2}\pm\sfrac{1}{2}}
 \]
 Die numerischen Ableitungen $(U_x)_j$ sind die Komponentenweisen Approximationen von $U_x(x_j ,t)$, welche durch nichtlineare \textit{Flux Limiter} berechnet werden, 
-da ansonsten oszillatorischen Verhalten in der Lösung auftreten kann aufgrund von zu starlen Änderungen der Steigung.(TODO: RAUSSUCHEN WO DAS STEHT).
-Der verallgemeinerte MinMod Flux Limiter wurde in der Implementierung benutzt und er hat die Form
+da ansonsten oszillatorischen Verhalten in der Lösung auftreten kann aufgrund von zu starken Änderungen der Steigung.(TODO: RAUSSUCHEN WO DAS STEHT).
+Der verallgemeinerte MinMod Flux Limiter wurde in der Implementierung benutzt und hat die Form
 \[
  \left(U_x\right) = \text{minmod}\left(\theta \frac{\bar U_j- \bar U_{j-1}}{\Delta x},\frac{\bar U_{j+1}- \bar U_{j-1}}{2\Delta x},\theta\frac{ \bar U_{j+1}- \bar U_{j}}{\Delta x}  \right), \quad \theta \in [1,2]
 \]
@@ -523,87 +523,62 @@ Die rechts/linksseitigen lokalen Geschwindigkeiten $a^\pm_{j+\sfrac{1}{2}}$ werd
 \end{figure}
 
 
-Die Berechnung der Eigenwerte und der Ableitungen über den MinMod Limiter bringen zusätzlich Unglattheiten in die Rechte Seite von \eqref{eq:swe}.  Der verallgemeinerte MinMod hat die switching depth $\nu = 3$ und erzeugt dadurch Knicke im computational graph. Ebenso die Eigenwertberechnung, welche eine switching depth von $\nu = 2$ erzeugt. In Figur \ref{fig:sweGrad} ist die Rechte Seite in der Zeit abgebildet. Man kann erkennen, dass Knicke auf der rechten Seite vorhanden sind, die auftreten, falls eine flache in eine steile Steigung übergeht und vice versa. Ebenso ist das oszillatorische Verhalten an den Knicken zu erkennen, welche zu Fehlern in der Zeitintegration mit klassichen Methoden führen.
+Die Berechnung der Eigenwerte und der Ableitungen über den MinMod Limiter bringen die Unglattheiten auf der rechten Seite von \eqref{eq:swe}.  Der verallgemeinerte MinMod hat die switching depth $\nu = 3$ und erzeugt dadurch Knicke im computational graph. Ebenso die Eigenwertberechnung, welche eine switching depth von $\nu = 2$ erzeugt. In Figur \ref{fig:sweGrad} ist die Rechte Seite in der Zeit abgebildet. Man kann erkennen, dass Knicke auf der rechten Seite vorhanden sind, die auftreten, falls eine flache in eine steile Steigung übergeht und vice versa. Ebenso ist das oszillatorische Verhalten an den Knicken zu erkennen, welche zu Fehlern in der Zeitintegration mit klassichen Methoden führen.
 
 \subsection{Lösen der ODE}
-TODO: Bilder plotten
 \begin{figure}
 \footnotesize
 \centering
-\begin{minipage}[b]{\linewidth}
+\begin{minipage}[b]{0.49\linewidth}
 % \begin{minipage}[t][3cm][t]{5cm}
-\input{img/lc_romberg.tikz}
+\input{img/swe_initial_values.tikz}
+\caption*{(a) $h$}
 \end{minipage}
 \begin{minipage}[b]{0.49\linewidth}
 % \begin{minipage}[t][3cm][t]{5cm}
-\input{img/lc_romberg2.tikz}
-\caption*{(a) Querschnitt Höhe $h$}
+\input{img/swe_initial_values_hu.tikz}
+\caption*{(b) $hu$}
 \end{minipage}
-\begin{minipage}[b]{0.49\linewidth}
-% \begin{minipage}[t][3cm][t]{5cm}
-\input{img/swe_convergence_romberg.tikz}
-\caption*{(b) Romberg}
-\end{minipage}
-\caption{Romberg}
+\caption{SWE Benutzte Anfangswerte}
+\label{fig:sweInitialValues}
+\end{figure}
+
+Auch bei der Shallow Water Equation erhalten wir eine Konvergenz von $\mathcal O(h^2)$. Wie im Bild \ref{fig:sweConvergence} ersichtlich, ist der Konvergenzgraph sehr stabil gegenüber der implizitem Mittelpunktsregel, jedoch erst ab zirka $10^2$ Schritten. Bei mehr als $10^3$ Schritten ist der Abstand der des Konvergenzverhaltens der impliziten Mittelpunktsregel zur GIMP nur noch marginal. 
+
+
+\begin{figure}
+\centering
+\input{img/swe_convergence.tikz}
+\caption{Konvergenz SWE Romberg im Intervall $I = [0,50], L=50, dx=10$}
 \label{fig:sweConvergence}
 \end{figure}
 
+\begin{figure}
+\centering
+\input{img/swe_convergence_romberg.tikz}
+\caption{Konvergenz SWE Romberg im Intervall $I = [0,50], L=100, dx=10$}
+\label{fig:sweConvergenceRomberg}
+\end{figure}
+Dass die verallgemeinerte Mittelpunktsregel eine bessere Integration liefert ist auch im Bild \ref{fig:sweErrorOverTime} ersichtlich, in dem der Fehler über die Zeit geplottet wurde. Während die GIMP anfangs schlechter integriert, besitzt sie, über einen längeren Zeitraum betrachtet, einen deutlich geringeren Fehler.
 
-% Ein oft genutztes Beispiel, um Datenassimilierungsmethoden zu testen ist die sogenannte Shallow Water Equation (vgl. \cite{zou,navon}). Diese beschreibt die Bewegung einer Flüssigkeit in einem quadratischen Gebiet unter Berücksichtigung von Gravitationswellen. In kartesischen Koordinaten erhält man folgende Gleichungen
-% \begin{equation}
-% \begin{aligned}
-%  \frac{\partial u }{\partial t} = -u\frac{\partial u}{\partial x} -v\frac{\partial u}{\partial y} + fv - \frac{\partial \phi}{\partial x}\\
-%  \frac{\partial v }{\partial t} = -u\frac{\partial v}{\partial x} -v\frac{\partial v}{\partial y} - fu - \frac{\partial \phi}{\partial y}\\
-%  \frac{\partial \phi }{\partial t} = -\frac{\partial u\phi}{\partial x} -\frac{\partial v\phi}{\partial y} 
-% \end{aligned}
-% \label{eq:swe}
-%  \end{equation}
-% Hierbei sind $u$ und $v$ die zwei Komponenten des Fließgeschwindigkeitsfeldes in $s^{-1}$ und $\phi$ das Geopotential in $m^2 s^{-1}$; 
-% $f$ bezeichnet den Coriolisfaktor.
-% Die Anfangsbedingungen für die folgenden Experimente wurden aus \cite{grammeltvedt}(6.I) übernommen. Es handelt sich hierbei um eine westwärtgsgerichtete Strömung mit Nord - Süd Störungen verschiedener Wellenlängen und Amplituden entlang der Zonal - Achse der Strömung. Das anfängliche Höhenfeld wurde gewählt mittels Höhenfunktion
-% \begin{align*}
-%  h(x,y) = H_0 + H_1 \tanh \left( \frac{9(y-y_0)}{2D}\right) + H_2 \sech^2\left(\frac{9(y-y_0)}{D}\right) \sin\left(\frac{2\pi x}{L}\right)
-% \end{align*}
-% und Ableitungen
-% \begin{align*}
-%  \frac{\partial h}{\partial x}(x,y) &= h_2\sech^2\left( \frac{9(y-y_0)}{D}\right) \cos\left( \frac{2\pi x}{L} \right)\frac{2\pi}{L} \\
-%  \frac{\partial h}{\partial y}(x,y) &= h_1 \sech^2\left( \frac{9(y-y_0)}{2D}\right)\frac{9}{2D} -  h_2\frac{18}{D} \sin\left( \frac{2\pi x}{L}\right) \frac{\sinh(9(y-y_0)/D)}{\cosh^3(9(y-y_0)/D)}\\
-% \end{align*}
-% wobei $D$ die Breite, $L$ die Länge der betrachteten Fläche ist,  $h_0 := 2000m$, $h_1 := -220m$, $h_2 := 133m$ und $y_0 = D/2$. Als schlussendliche Anfangsbedingungen ergeben sich
-% \begin{align*}
-%  \phi_0(x,y) &= gh(x,y)\\
-%  u_0(x,y) &= -\frac{f}{g} \frac{\partial h}{\partial y}(x,y)\\
-%  v_0(x,y) &= \frac{f}{g} \frac{\partial h}{\partial x}(x,y)
-% \end{align*}
-% mit $f := 10^{-4} s^{-1}$ und $g:= 10 ms^{-1}$.
-% Damit wir die Datenassimilierungsmethode auf (\ref{eq:swe}) anwenden können, müssen wir die Gleichung in eine Form überführen, welche nur noch von der Zeit $t$ abhängt. Grammeltvedt (in \cite{grammeltvedt}) bietet dazu diverse Finite Differenzen Schematas für die Shallow Water Equation an, mit denen sich \ref{eq:swe} in die gewünschte Form überführen lässt. In unserem Fall nutzen wir Schema F. (\ref{eq:swe}) erhält somit die Form:
-% \begin{equation}
-%  \begin{aligned}
-%   \frac{\partial u}{\partial t} &= -(\bar{u}^x\bar{u}^x)_x - (\bar{u}^y\bar{v}^y)_y + u(\bar{u}^x_x+ \bar{v}^y_y) +fv - \bar{\phi}^x_x\\
-%   \frac{\partial v}{\partial t} &= -(\bar{v}^x\bar{u}^x)_x - (\bar{v}^y\bar{v}^y)_y + v(\bar{u}^x_x+ \bar{v}^y_y) -fv - \bar{\phi}^y_y\\
-%   \frac{\partial \phi}{\partial t} &= -(\bar{\phi}^x\bar{u}^x)_x - (\bar{\phi}^y\bar{v}^y)_y   
-%  \end{aligned}
-%  \label{eq:schemef}
-% \end{equation}
-% mit \[
-% \begin{aligned}
-% \overline{(uv)}^x_x & = \bar{u}^{2x} \bar{v}^x_x +\bar{v}^{2x} \bar{u}^x_x \\
-% (\bar{u}^z\bar{v}^z)_z &= \frac{1}{2} \left[ \overline{(uv)}^x_x + u \bar{v}^x_x + v \bar{u}^x_x \right] \\
-%  &= \frac{1}{2} \left[ \bar{u}^{2x}\bar{v}^x_x +  \bar{v}^{2x}\bar{u}^x_x  + u \bar{v}^x_x + v \bar{u}^x_x \right]\\
-%  \bar{u}^x_x &= \frac{1}{\Delta} \left[ \bar{u}^x(x_i+\frac{\Delta}{2}) -\bar{u}^x(x_i-\frac{\Delta}{2})  ) \right]\\
-% 	    &=  \frac{1}{2\Delta} \left[ u(x_i+\Delta)+u(x_i)-u(x_i)-u(x_i-\Delta) \right]\\
-% 	    &=  \frac{1}{2\Delta} \left[ u(x_i+\Delta)-u(x_i-\Delta) \right]\\
-%  \bar{u}^{2x}&= \frac{1}{2} \left[ u(x_i+\Delta) + u(x_i - \Delta)\right]
-% \end{aligned}
-% \]
-% Mit diesen Gleichungen können wir das Schema programmieren. Die Randbedingungen sind durch starre homogene Neumannbedingungen entlang der Nord- und Süd Grenzen und periodischen Randbedingungen bezüglich der Ost/West Grenzen gegeben. Seien $x_l,x_r,y_t,y_b$ die Koordinaten bzgl. der linken (l), rechten (r), oberen (t) und unteren (b) Ränder. Dann sind die Randbedingungen folgendermaßen definiert:
-% \begin{equation}
-%  \begin{aligned}
-%   u(x_l,y,t) = u(x_r,y,t)\\
-%   v(x_l,y,t) = v(x_r,y,t)\\
-%   \phi(x_l,y,t) = \phi(x_r,y,t)\\
-%   \frac{\partial u}{\partial y}(x,y_t,t) = 0 = \frac{\partial u}{\partial y}(x,y_b,t)\\ 
-%   v(x,y_t,t) = 0 = v(x,y_b,t)\\
-%   \frac{\partial \phi}{\partial y}(x,y_t,t) = 0 = \frac{\partial \phi}{\partial y}(x,y_b,t)\\ 
-%  \end{aligned}
-% \end{equation}
+\begin{figure}
+\footnotesize
+\begin{minipage}[b]{0.49\linewidth}
+% \begin{minipage}[t][3cm][t]{5cm}
+\centering
+\input{img/swe_error_over_time.tikz}
+\caption*{(a) Am Zeitpunk $t$}
+\end{minipage}
+%  \quad 
+\begin{minipage}[b]{0.49\linewidth}
+% \begin{minipage}[t][3cm][t]{5cm}
+\centering
+\input{img/swe_error_over_time_all.tikz}
+\caption*{(b) Summiert}
+\end{minipage}
+\caption{SWE Fehler über Zeit mit $L=200,dx=10,h = 1$}
+\label{fig:sweErrorOverTime}
+\end{figure}
+
+
+
