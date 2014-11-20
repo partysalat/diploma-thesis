@@ -392,14 +392,6 @@ Eine allgemeinere Form der Systeme lässt sich durch Umstellen des Ursprungssyst
   \end{bmatrix}
  \end{equation}
 welches wir Unfolded System (UPL) nennen. Dieses reduziert sich für die Werte $(x,z(x))$ zum OPL System und für die Werte $(x(z),z)$ zum CPL System.
-% 
-% 
-% TODO: VIELLICHT ALGORITHMUS ANGEBEN?
-% TODO: UPL = CPL, CPL mit einbauen und erklären, OPL,UPL,CPL
-% \subsubsection{Piecewise Linear Newton}
-% Der stückweise lineare Newton ist eine besondere Form des Newton Algorithmus. Die Grundidee besteht darin, dass 
-% TODO: PL Newton fertig schreiben
-% \section{Verallgemeinerte Newton}
 \section{Algorithmus}
 Nun können wir einen implementierbaren Algorithmus für die verallgemeinerte implizite Mittelpunktsregel angeben, da wir alle benötigten Verfahren eingeführt haben. Im folgenden, wie auch bisher, sei $\check x$ ein schon berechneter Punkt und $\hat x$ ein zu berechnender Punkt. $\xo$ sei der Entwicklungspunkt der stückweisen Linearisierung. Da $F(\xo)$ nicht von $t$ abhängt, kann die bereits hergeleiteten Regel umgestellt werden zu 
 \begin{equation}
