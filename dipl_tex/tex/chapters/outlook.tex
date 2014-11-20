@@ -1,2 +1,23 @@
 \chapter{Zusammenfassung und Ausblick}
 
+Im Rahmen dieser Arbeit wurden die bisherigen Konzepte der stückweisen Linearisierung von Griewank et. al. aus \cite{monster} und \cite{plan} erfolgreich auf die Datenassimilierung angewandt. Dazu wurden
+
+Dazu wurde zuerst die C++ Klasse \texttt{Plan-C} aus der Diplomarbeit von Boeck \cite{boeck14} verwendet, welche mittels der Abs-Normal Form gewöhnliche Differentialgleichung löst. Diese wurde überarbeitet und erweitert, damit sie performanter mit höherdimensionalen Problemen umgehen kann, etwa durch Sparsematrizen, Parallelisierung und Mikrooptimierungen. Als nächstes wurde aufbauend auf der verallgemeinerten Mittelpunktsregel das adjungierte tangent linear model entwickelt und implementiert, welches Unglattheiten und valley tracing modes mit einbezieht. Dadurch ist es gelungen, den Gradienten des Kostenfunktionals stabiler gegenüber Unglattheiten zu machen, welche in einer besseren Konvergenzgeschwindigkeit in der Optimierung über Kostenfunktionale mündete, sowohl beim Rolling Stone als auch bei der LC-Diode.
+
+Als zweiten Kernpunkt der Arbeit wurden die Methoden der stückweisen Linearisierung zum ersten mal auf eine partielle Differentialgleichung, der 1-D Shallow Water Equation, angewandt, obwohl diese per se ein glattes Problem ist. Unglattheiten entstanden erst durch Flux Limiter und Eigenwertberechnungen des verwendeten Finite Volumen Schemas, welche die Zeitintegration mittels der verallgemeinerten impliziten Mittelpunktsregel jedoch wenig beeinträchtigten. Die Optimierung des Kostenfunktionals ist durch den stabileren Gradienten ebenfalls schneller und stabiler konvergiert.
+
+Zu Verbessern gäbe es bei der aktuellen Implementierung allerhand. Beispielsweise ist die Abs-Normal Form zurzeit ohne sparsity (\cite[S.137 ff.]{griewank2008evaluating}) auf dem AD-Tape gespeichert und muss jedes mal beim Erzeugen der Abs-Normal Form aus einer Funktion vollständig gelesen werden. Dies für \texttt{ADOL-C} zu implementieren und in \texttt{Plan-C} zu ergänzen  würde insbesondere bei der Berechnung der Shallow Water Equation, welche eine sehr große Abs-Normal Form besitzt, aber auch anderen partiellen Differentialgleichungen einen sehr großen Geschwindigkeitsvorteil bieten. 
+
+Ein weiterer Punkt wäre \texttt{Plan-C} auch mit der Trapezregel aus \cite[S.23 (15)]{monster} zu erweitern. Ein Vorteil, der sich insbesondere auf die Datenassimilierung bezieht, ist dass die Lösung mittels Trapezregel eine quadratische Spline-Interpolation zweiter Ordnung der analytischen Lösung zulässt. Diese auf den Projektionsoperator anzuwenden wäre eine Vereinfachung der Berechnung, welche zurzeit mittels kubischer Spline Interpolation durchgeführt wird.
+
+Als nächstes wäre es sicher interessant, die stückweise Linearisierung und der damit verbundenen Datenassimilierung auf andere partielle Differentialgleichungen auszuweiten, wie etwa der 2-D Shallow Water Equation, realen Wettermodellen oder Bildrekonstruktionen. 
+Ebenfalls wäre es sinnvoll zu beobachten, wie sich die die 1-D Shallow Water Equation für andere als periodische Randbedingungen verhält.
+Desweiteren ließe sich das Bolza Problem \label{eq:costfunctional} erweitern, etwas durch zusätzliche Steuerungsparameter und Gewichten. 
+
+Weiterhin wäre es sinnvoll nach einer Möglichkeit zu suchen, das Kostenfunktional stückweise zu linearisieren, sodass die Optimierung über das stückweise lineare Modell durchgeführt werden kann.
+Unter der Leitung von Andreas Griewank und Andrea Walther wird zurzeit in Paderborn an einem stückweise linearen Optimierungsalgorithmus gearbeitet (\cite{griewank2014lipschitz}), welcher sehr gute Ergebnisse gezeigt hat. 
+Dieser nutzt als Optimierungsrichtung $d$ den von Filippov vorgestellten kleinsten Gradienten $short$:
+\[
+d(x) = \texŧ{short}(0,-\partial F(x)) = \text{argmin} \lbrace \|d\| ~|~ -d \in \partial f(x) \rbrace
+\]
+Diesen, anstatt dem polynomial escape in die Optimierung der Datenassimilierung einzubauen wäre ein erster Schritt die Optimierung der Datenassimilierung zu verbessern.

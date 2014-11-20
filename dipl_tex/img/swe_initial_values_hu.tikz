@@ -14,18 +14,18 @@
 	xlabel=$x$,
 	ylabel=$hu$,
 	legend entries ={
-	$x_0^{(1)}$,
-	$x_0^{(2)}$,
-	$x_0^{(3)}$,
-	$x_0^{(4)}$
+	$U_0^{(1)}$,
+	$U_0^{(2)}$,
+% 	$x_0^{(3)}$,
+% 	$x_0^{(4)}$
 	},
 	legend style={at={(0.5,1.0)},anchor=south},
 	legend columns=2
 ]
       \addplot[mark=none,blue,very thin] table[x index=0,y index=5] {\fromRoot img/data/swe_initial_values.dat};%expl midpoint
-      \addplot[mark=none,green,very thin] table[x index=0,y index=6] {\fromRoot img/data/swe_initial_values.dat};%expl midpoint
+%       \addplot[mark=none,green,very thin] table[x index=0,y index=6] {\fromRoot img/data/swe_initial_values.dat};%expl midpoint
       \addplot[mark=none,red,very thin] table[x index=0,y index=7] {\fromRoot img/data/swe_initial_values.dat};%expl midpoint
-      \addplot[mark=none,cyan,very thin] table[x index=0,y index=8] {\fromRoot img/data/swe_initial_values.dat};%expl midpoint
+%       \addplot[mark=none,cyan,very thin] table[x index=0,y index=8] {\fromRoot img/data/swe_initial_values.dat};%expl midpoint
  	\end{axis}
  	%tfewfe
 \end{tikzpicture}

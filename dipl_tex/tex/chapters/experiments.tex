@@ -551,11 +551,11 @@ Die Berechnung der Eigenwerte und der Ableitungen über den MinMod Limiter bring
 Die benutzten Anfangswerte $U_0 = (h_0,(hu)_0)$ sind in Bild \ref{fig:sweInitialValues} ersichtlich. Genauer ergeben sie sich zu
 \[
 \begin{aligned}
- h_0^{(1)} \tilde 50\cdot\mathcal N(0.5\cdot L,L) + 1 &&(hu)_0^{(1)}\tilde 50\cdot\mathcal N(0.5\cdot L,L) && \text{(Normalverteilt)}\\
- h_0^{(2)}(x)= \sin\left( \frac{2\pi k\cdot x}{L}\right) + 1.5 &&(hu)_0^{(2)}(x) = \cos\left( \frac{2\pi k\cdot x}{L}\right) + 1  && \text{(Sinus/Cosinus)}
+ h_0^{(1)} \sim 50\cdot\mathcal N(0.5\cdot L,L) + 1 &&(hu)_0^{(1)}\sim 50\cdot\mathcal N(0.5\cdot L,L) && \text{(Normalverteilt)}\\
+ h_0^{(2)}(x)= \sin\left( \frac{2\pi k\cdot x}{L}\right) + 1.5 &&(hu)_0^{(2)}(x) = \cos\left( \frac{2\pi k\cdot x}{L}\right) + 1  && \text{(Schwingung)}
 \end{aligned}
 \]
-Diese sind in Wellenform gewählt
+Wobei $\mathcal N(\mu, \sigma^2)$ die Normalverteilung mit Erwartungswert $\mu$ und Varianz $\sigma^2$ ist. Falls $U_0^{(2)}$ gewählt wurde ist $k\in \R$ die Periode. 
 \subsection{Lösen der ODE}
 Auch bei der Shallow Water Equation erhalten wir eine Konvergenz von $\mathcal O(\hat h^2)$, mit $\hat h$ als die Schrittweite. Wie im Bild \ref{fig:sweConvergence} ersichtlich, ist der Konvergenzgraph sehr stabil gegenüber der implizitem Mittelpunktsregel, wobei letztere stark springt.
 
@@ -566,14 +566,14 @@ Die Romberg Extrapolation konvergiert wie in den vorherigen Beispielen mit einer
 \begin{figure}
 \centering
 \input{img/swe_convergence.tikz}
-\caption{Konvergenz SWE im Intervall $I = [0,50], L=50, \Delta x=10$ mit $U_0^{(3)}$}
+\caption{Konvergenz SWE im Intervall $I = [0,50], L=50, \Delta x=10$ mit $U_0^{(1)}$}
 \label{fig:sweConvergence}
 \end{figure}
 
 \begin{figure}
 \centering
 \input{img/swe_convergence_romberg.tikz}
-\caption{Konvergenz SWE Romberg im Intervall $I = [0,50], L=100, \Delta x=10$ mit $U_0^{(3)}$}
+\caption{Konvergenz SWE Romberg im Intervall $I = [0,50], L=100, \Delta x=10$ mit $U_0^{(1)}$}
 \label{fig:sweConvergenceRomberg}
 \end{figure}
 Dass die verallgemeinerte Mittelpunktsregel eine bessere Integration liefert ist auch im Bild \ref{fig:sweErrorOverTime} ersichtlich, in dem der Fehler über die Zeit geplottet wurde. Während die GIMP anfangs schlechter integriert, besitzt sie, über einen längeren Zeitraum betrachtet, einen deutlich geringeren Fehler im Gegensatz zu den anderen Methoden.
@@ -593,7 +593,7 @@ Dass die verallgemeinerte Mittelpunktsregel eine bessere Integration liefert ist
 \input{img/swe_error_over_time_all.tikz}
 \caption*{(b) Summiert}
 \end{minipage}
-\caption{SWE Fehler über Zeit mit $L=200,\Delta x=10,h = 1$ und $U_0^{(1)}$}
+\caption{SWE Fehler über Zeit mit $L=200,\Delta x=10,h = 1$ und $U_0^{(2)},k=2$}
 \label{fig:sweErrorOverTime}
 \end{figure}
 Da in unserem System keine Reibung auftritt und periodische Randbedingungen haben, müssen die Summe der potentiellen und kinetischen Energie konstant sein. Nun können wir den Energieverlust über die Zeit mittels der Formel \eqref{eq:energyVariation} berechnen. Dabei wird die Höhe $h$ als potentielle und $\frac{1}{2}u^2$ als kinetische Energie betrachtet, wobei $u$ sich aus Formel \eqref{eq:sweHuToU} ergibt. Es entsteht (für $\hat h$ als Schrittweite)
