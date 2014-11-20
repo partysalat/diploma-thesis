@@ -113,9 +113,10 @@ Dass die gewöhnliche implizite Mittelpunktsregel eine ebenso hohe Konvergenzrat
 Insbesondere wird der Fehler der GIMP mit zunehmender Zeit (siehe Fig. \ref{fig:rollingStonesEOT}) nur in den nicht affinen Abschnitten größer während in den affinen Abschnitten exakt gelöst wird, der lokale Fehler der IMP erhöht sich jedoch ständig, bedingt durch die Kinks und der zu großen Schrittweite. Der allgemeine Fehler ist dadurch für die IMP höher über die Zeit gesehen als der Fehler der GIMP (\ref{fig:rollingStonesEOT}(b)).
 
 Da sich der rollende Stein reibungslos in unserem System bewegt, muss die analytische Lösung die komplette Energie erhalten, d.h. die potentielle Energie addiert mit der kinetischen $V(x) + \frac{1}{2}\dot x^2$ muss konstant sein. Das Bild \ref{fig:rollingStonesEnergyError} wurde mittels der summierten Variation der Energie 
-\[
+\begin{equation}
  h \left[\sum_{l=0}^{T/h} \left( V(x_1^l) + \frac{1}{2} (x_2^l)^2 -\frac{1}{2}\right)^2\right]^{\sfrac{1}{2}}
-\]
+ \label{eq:energyVariation}
+\end{equation}
 berechnet. Es ist deutlich zu erkennen, dass die Energie mit der GIMP deutlich besser erhalten bleibt als mit den klassischen Methoden, selbst für große Schrittweiten.
 Dadurch führt die in Figur \ref{fig:rollingStonesConvergenceRomberg} durchgeführte Romberg Extrapolation zu sehr guten Ergebnissen. Da der Konvergenzgraph der GIMP stabil ist, lässt sich eine gute Extrapolation mit Konvergenzen der Ordnung 3 bis 4 erreichen. Demgegebenüber besitzt die Extrapolation der IMP keine höhere Konvergenzordnung als die der IMP selbst.
 \begin{figure}[H]
@@ -499,6 +500,11 @@ Die rechts/linksseitigen lokalen Geschwindigkeiten $a^\pm_{j+\sfrac{1}{2}}$ werd
  a^-_{j+\sfrac{1}{2}} &= \max \left\lbrace u^+_{j+\sfrac{1}{2}} - \sqrt{gh^+_{j+\sfrac{1}{2}}},u^-_{j+\sfrac{1}{2}} - \sqrt{gh^-_{j+\sfrac{1}{2}}},0\right\rbrace
  \end{aligned}
 \]
+mit \begin{equation}
+u=\frac{h(hu)}{h^2 + \varepsilon}
+\label{eq:sweHuToU}
+    \end{equation}
+In den numerischen Experimenten ist $\varepsilon = \sfrac{1}{\Delta x^4}$ gewählt.
 \begin{figure}
 \footnotesize
 \centering
@@ -525,8 +531,8 @@ Die rechts/linksseitigen lokalen Geschwindigkeiten $a^\pm_{j+\sfrac{1}{2}}$ werd
 
 Die Berechnung der Eigenwerte und der Ableitungen über den MinMod Limiter bringen die Unglattheiten auf der rechten Seite von \eqref{eq:swe}.  Der verallgemeinerte MinMod hat die switching depth $\nu = 3$ und erzeugt dadurch Knicke im computational graph. Ebenso die Eigenwertberechnung, welche eine switching depth von $\nu = 2$ erzeugt. In Figur \ref{fig:sweGrad} ist die Rechte Seite in der Zeit abgebildet. Man kann erkennen, dass Knicke auf der rechten Seite vorhanden sind, die auftreten, falls eine flache in eine steile Steigung übergeht und vice versa. Ebenso ist das oszillatorische Verhalten an den Knicken zu erkennen, welche zu Fehlern in der Zeitintegration mit klassichen Methoden führen.
 
-\subsection{Lösen der ODE}
-\begin{figure}
+\subsection{Anfangswerte}
+\begin{figure}[H]
 \footnotesize
 \centering
 \begin{minipage}[b]{0.49\linewidth}
@@ -539,27 +545,38 @@ Die Berechnung der Eigenwerte und der Ableitungen über den MinMod Limiter bring
 \input{img/swe_initial_values_hu.tikz}
 \caption*{(b) $hu$}
 \end{minipage}
-\caption{SWE Benutzte Anfangswerte}
+\caption{SWE Anfangswerte}
 \label{fig:sweInitialValues}
 \end{figure}
+Die benutzten Anfangswerte $U_0 = (h_0,(hu)_0)$ sind in Bild \ref{fig:sweInitialValues} ersichtlich. Genauer ergeben sie sich zu
+\[
+\begin{aligned}
+ h_0^{(1)} \tilde 50\cdot\mathcal N(0.5\cdot L,L) + 1 &&(hu)_0^{(1)}\tilde 50\cdot\mathcal N(0.5\cdot L,L) && \text{(Normalverteilt)}\\
+ h_0^{(2)}(x)= \sin\left( \frac{2\pi k\cdot x}{L}\right) + 1.5 &&(hu)_0^{(2)}(x) = \cos\left( \frac{2\pi k\cdot x}{L}\right) + 1  && \text{(Sinus/Cosinus)}
+\end{aligned}
+\]
+Diese sind in Wellenform gewählt
+\subsection{Lösen der ODE}
+Auch bei der Shallow Water Equation erhalten wir eine Konvergenz von $\mathcal O(\hat h^2)$, mit $\hat h$ als die Schrittweite. Wie im Bild \ref{fig:sweConvergence} ersichtlich, ist der Konvergenzgraph sehr stabil gegenüber der implizitem Mittelpunktsregel, wobei letztere stark springt.
 
-Auch bei der Shallow Water Equation erhalten wir eine Konvergenz von $\mathcal O(h^2)$. Wie im Bild \ref{fig:sweConvergence} ersichtlich, ist der Konvergenzgraph sehr stabil gegenüber der implizitem Mittelpunktsregel, jedoch erst ab zirka $10^2$ Schritten. Bei mehr als $10^3$ Schritten ist der Abstand der des Konvergenzverhaltens der impliziten Mittelpunktsregel zur GIMP nur noch marginal. 
+Im Falle einer Schrittweite von $1.6\cdot 10^2$ divergiert die implizite Mittelpunktsregel, wobei die GIMP konvergiert.
 
+Die Romberg Extrapolation konvergiert wie in den vorherigen Beispielen mit einer Ordnung von etwas weniger als $\mathcal O(\hat h^3)$. 
 
 \begin{figure}
 \centering
 \input{img/swe_convergence.tikz}
-\caption{Konvergenz SWE Romberg im Intervall $I = [0,50], L=50, dx=10$}
+\caption{Konvergenz SWE im Intervall $I = [0,50], L=50, \Delta x=10$ mit $U_0^{(3)}$}
 \label{fig:sweConvergence}
 \end{figure}
 
 \begin{figure}
 \centering
 \input{img/swe_convergence_romberg.tikz}
-\caption{Konvergenz SWE Romberg im Intervall $I = [0,50], L=100, dx=10$}
+\caption{Konvergenz SWE Romberg im Intervall $I = [0,50], L=100, \Delta x=10$ mit $U_0^{(3)}$}
 \label{fig:sweConvergenceRomberg}
 \end{figure}
-Dass die verallgemeinerte Mittelpunktsregel eine bessere Integration liefert ist auch im Bild \ref{fig:sweErrorOverTime} ersichtlich, in dem der Fehler über die Zeit geplottet wurde. Während die GIMP anfangs schlechter integriert, besitzt sie, über einen längeren Zeitraum betrachtet, einen deutlich geringeren Fehler.
+Dass die verallgemeinerte Mittelpunktsregel eine bessere Integration liefert ist auch im Bild \ref{fig:sweErrorOverTime} ersichtlich, in dem der Fehler über die Zeit geplottet wurde. Während die GIMP anfangs schlechter integriert, besitzt sie, über einen längeren Zeitraum betrachtet, einen deutlich geringeren Fehler im Gegensatz zu den anderen Methoden.
 
 \begin{figure}
 \footnotesize
@@ -576,9 +593,24 @@ Dass die verallgemeinerte Mittelpunktsregel eine bessere Integration liefert ist
 \input{img/swe_error_over_time_all.tikz}
 \caption*{(b) Summiert}
 \end{minipage}
-\caption{SWE Fehler über Zeit mit $L=200,dx=10,h = 1$}
+\caption{SWE Fehler über Zeit mit $L=200,\Delta x=10,h = 1$ und $U_0^{(1)}$}
 \label{fig:sweErrorOverTime}
 \end{figure}
+Da in unserem System keine Reibung auftritt und periodische Randbedingungen haben, müssen die Summe der potentiellen und kinetischen Energie konstant sein. Nun können wir den Energieverlust über die Zeit mittels der Formel \eqref{eq:energyVariation} berechnen. Dabei wird die Höhe $h$ als potentielle und $\frac{1}{2}u^2$ als kinetische Energie betrachtet, wobei $u$ sich aus Formel \eqref{eq:sweHuToU} ergibt. Es entsteht (für $\hat h$ als Schrittweite)
+\[
+ \hat h \left[\sum_{l=0}^{T/\hat h} \left( h_l + \frac{1}{2} u_l^2 - \left(h_0 + \frac{1}{2} u_0^2\right)\right)^2\right]^{\sfrac{1}{2}}
+\]
+und als Energiefehler Bild \ref{fig:sweEnergyVariation}.
+\begin{figure}
+\centering
+\input{img/swe_energy_variation.tikz}
+\caption{Energievariation der SWE}
+\label{fig:sweEnergyVariation}
+\end{figure}
+Es ist zu erkennen, dass in diesem Beispiel keine Verbesserung bzgl. des Energievariationsfehlers vorhanden ist.
+\subsection{Gradient und Optimierung}
+
+
 
 
 

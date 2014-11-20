@@ -16,16 +16,15 @@
   %  grid=both,
     width=\linewidth,
 %     title={Height SWE},
+%     ymax=0.003,
+%     ymin=-0.003,    
     xlabel={$t$},
     ylabel={Rechte Seite},
 ]
-     \foreach \ind in {30,31,...,61}{
-%      \foreach \ind in {0,1,...,61}{
-        \ifnum\intcalcMod{\ind}{2}=0
-% 	  \addplot[mark=none,very thin,blue] table[x index=0,y index=1] {dat/gradCut\ind.dat};
-	\else
-	  \addplot[mark=none,very thin,red] table[x index=0,y index=1] {\fromRoot img/data/swe_grad_bundle/gradCut\ind.dat};
-	\fi
+     \foreach \ind in {31,33,...,61}{
+%      \foreach \ind in {1,5,...,61}{
+%         \ifnum\intcalcMod{\ind}{2}=0
+          \addplot[mark=none,very thin,red] table[x index=0,y index=1] {\fromRoot img/data/swe_grad_bundle/gradCut\ind.dat};
       }
     \end{axis}
 \end{tikzpicture}

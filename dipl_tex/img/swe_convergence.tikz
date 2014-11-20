@@ -18,7 +18,7 @@
 	legend entries ={
 	Expl. MP,
 	IMP,
-	GIMP, 
+	GIMP 
 % 	Rom. GIMP,
 % 	Rom. IMP
 	},
@@ -44,6 +44,7 @@
 	\draw[very thin,gray] (B) -| (A)
 	node [pos=0.2,anchor=north]
 	{\pgfmathprintnumber{\slope}};
+	%deufe
 \end{loglogaxis}
 \end{tikzpicture}
 \end{document}

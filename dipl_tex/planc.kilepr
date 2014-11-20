@@ -154,10 +154,10 @@ order=1
 
 [item:main.tex]
 archive=true
-column=0
+column=30
 encoding=UTF-8
 highlight=LaTeX
-line=11
+line=30
 mode=LaTeX
 open=true
 order=2
@@ -199,7 +199,7 @@ encoding=UTF-8
 highlight=LaTeX
 line=108
 mode=LaTeX
-open=true
+open=false
 order=3
 
 [item:tex/appendix/theses.tex]
@@ -234,10 +234,10 @@ order=3
 
 [item:tex/chapters/experiments.tex]
 archive=true
-column=0
+column=35
 encoding=UTF-8
 highlight=LaTeX
-line=526
+line=565
 mode=LaTeX
 open=true
 order=0
@@ -284,10 +284,10 @@ order=2
 
 [item:tex/chapters/pl_solve_ode.tex]
 archive=true
-column=23
+column=2
 encoding=UTF-8
 highlight=LaTeX
-line=2
+line=365
 mode=LaTeX
 open=false
 order=1
@@ -339,10 +339,10 @@ JumpList=
 ViMarks=.,330,0,[,297,0,],330,0
 
 [view-settings,view=0,item:main.tex]
-CursorColumn=0
-CursorLine=11
+CursorColumn=30
+CursorLine=30
 JumpList=
-ViMarks=.,11,0,[,11,0,],11,0
+ViMarks=.,11,0,[,11,0,],11,1
 
 [view-settings,view=0,item:tex/appendix/selbststaendig.tex]
 CursorColumn=0
@@ -381,10 +381,10 @@ JumpList=
 ViMarks=.,645,45,[,645,45,],645,48
 
 [view-settings,view=0,item:tex/chapters/experiments.tex]
-CursorColumn=0
-CursorLine=526
+CursorColumn=35
+CursorLine=565
 JumpList=
-ViMarks=.,532,0,[,532,0,],532,1
+ViMarks=.,571,0,[,571,0,],571,1
 
 [view-settings,view=0,item:tex/chapters/implementation.tex]
 CursorColumn=214
@@ -411,10 +411,10 @@ JumpList=
 ViMarks=.,99,66,[,99,55,],99,66
 
 [view-settings,view=0,item:tex/chapters/pl_solve_ode.tex]
-CursorColumn=23
-CursorLine=2
+CursorColumn=2
+CursorLine=365
 JumpList=
-ViMarks=.,2,22,[,2,0,],2,22
+ViMarks=.,394,0,[,394,0,],394,1
 
 [view-settings,view=0,item:tex/chapters/titlepage.tex]
 CursorColumn=4
