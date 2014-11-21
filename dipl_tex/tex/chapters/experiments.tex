@@ -611,7 +611,24 @@ und als Energiefehler Bild \ref{fig:sweEnergyVariation}.
 Es ist zu erkennen, dass in diesem Beispiel keine Verbesserung bzgl. des Energievariationsfehlers vorhanden ist.
 \subsection{Gradient und Optimierung}
 
-
+\begin{figure}
+\footnotesize
+\begin{minipage}[b]{0.49\linewidth}
+% \begin{minipage}[t][3cm][t]{5cm}
+\centering
+\input{img/swe_convergence_adjoint_discrete.tikz}
+\caption*{(a) Am Zeitpunk $t$}
+\end{minipage}
+%  \quad 
+\begin{minipage}[b]{0.49\linewidth}
+% \begin{minipage}[t][3cm][t]{5cm}
+\centering
+\input{img/swe_convergence_adjoint_smooth.tikz}
+\caption*{(b) Summiert}
+\end{minipage}
+\caption{SWE Fehler über Zeit mit $L=200,\Delta x=10,h = 1$ und $U_0^{(2)},k=2$}
+\label{fig:sweConvergenceAdjoint}
+\end{figure}
 
 
 

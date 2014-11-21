@@ -149,7 +149,7 @@ eine limiting Jacobian von $F'(\xo;\Delta x))$ und $\Delta F(\xo;\Delta x)$ am P
 % Wie wir in (??) beobachtet haben, müssen wir das Adjungierte Modell rückwärts integrieren. Die Grundidee besteht darin, dass wir auf das Adjungierte Modell (??) der Datenassimilierung ebenfalls wieder die verallgemeinerte Mittelpunktsregel (??) anwenden. Daher, dass wir das Integral in Teilintervalle zerlegen können, berechnen wir die kritischen Multiplikatoren, springen von Kink zu Kink und berechnen auf diesen Teilintervalen den Gradienten unserer rechten Seite $F$.
 In diesem Abschnitt wollen wir die inhomogene adjungierte Differentialgleichung auf die verallgemeinerte Mittelpunktsregel anwenden.
 
-Falls wir den Gradienten des Kostenfunktionals mit der impliziten Mittelpunktsregel berechnen, so würden wir als Auswertungspunkt des Gradienten den Mittelpunkt $\xo$ benutzen. Wie im Bild \ref{fig:multipleKinksAdjoint}(a) zu erkennen ist, kann dies dazu führen, dass der Gradient keine sinnvolle Aussage der Steigung widerspiegelt. Im Rolling Stones Beispiel mündet dieses Problem beispielsweise in einem sehr verzerrtem Gradienten (siehe Bild \ref{fig:rollingGrad}). Die Idee besteht darin, die Eigenschaften der verallgemeinerten impliziten Mittelpunktsregel zu nutzen, um eine Art Mittelwert des Gradienten berechnen zu können, der an den Stellen zwischen den Kinks, wie im Bild \ref{fig:multipleKinksAdjoint}(b), ausgewertet und gewichtet aufaddiert wird. 
+Falls wir den Gradienten des Kostenfunktionals mit der impliziten Mittelpunktsregel berechnen, so würden wir als Auswertungspunkt des Gradienten den Mittelpunkt $\xo$ benutzen. Wie im Bild \ref{fig:multipleKinksAdjoint}(a) zu erkennen ist, kann dies dazu führen, dass der Gradient keine sinnvolle Aussage der Steigung widerspiegelt. Im Rolling Stones Beispiel mündet dieses Problem beispielsweise in einem sehr verzerrtem Gradienten (siehe Bild \ref{fig:rollingGrad}). Die Idee besteht darin, die Eigenschaften der verallgemeinerten impliziten Mittelpunktsregel zu nutzen, um eine Art Mittelwert des Gradienten berechnen zu können, der an den Stellen zwischen den Kinks, wie im Bild \ref{fig:multipleKinksAdjoint}(b), ausgewertet und gewichtet summiert wird. 
 
 \begin{figure}[H]
 \footnotesize
@@ -194,19 +194,25 @@ Angenommen wir haben $l \in \mathbb{N}$ Kinks zwischen $x_n$ und $x_{a}$, wobei 
 \end{align*}
 
 Nun wenden wir die stückweise Linearisierung auf $\xadj$ an. Es entsteht
+\allowdisplaybreaks
 \begin{align*}
 \xadj_n - \xadj_a &= h\cdot (\xo -\rxobs - \sum_{i=1}^l A_i^\tr \cdot \int_{\tau_{i-1}}^{\tau_{i}} \rxadj + t\diff \xadj dt)\\
-									&= h\cdot \left[\xo -\rxobs - \sum_{i=1}^l A_i^\tr \cdot \left[t\rxadj + \frac{t^2}{2}\diff \xadj \right]_{\tau_{i-1}}^{\tau_i} \right]\\
-									&= h\cdot \left[\xo -\rxobs - \sum_{i=1}^l A_i^\tr \cdot \left( (\tau_i - \tau_{i-1})\cdot \rxadj + \frac{1}{2}\diff \xadj \cdot(\tau_i^2-\tau_{i-1}^2) \right)\right]\\
-									&= h\cdot \left[\xo -\rxobs - \sum_{i=1}^l A_i^\tr \cdot \left(\diff \tau_i\cdot \rxadj +  \diff \tau_i \frac{1}{2}\cdot(\tau_i+\tau_{i-1})\cdot \diff \xadj \right)\right]\\
-									&= h\cdot \left[\xo -\rxobs - \sum_{i=1}^l A_i^\tr \cdot \left( \diff \tau_i\cdot \rxadj +  \diff \tau_i \rtau_i \diff \xadj \right)\right]\\
+		  &= h\cdot \left[\xo -\rxobs - \sum_{i=1}^l A_i^\tr \cdot \left[t\rxadj + \frac{t^2}{2}\diff \xadj \right]_{\tau_{i-1}}^{\tau_i} \right]\\
+		  &= h\cdot \left[\xo -\rxobs - \sum_{i=1}^l A_i^\tr \cdot \left( (\tau_i - \tau_{i-1})\cdot \rxadj + \frac{1}{2}\diff \xadj \cdot(\tau_i^2-\tau_{i-1}^2) \right)\right]\\
+		  &= h\cdot \left[\xo -\rxobs - \sum_{i=1}^l A_i^\tr \cdot \left(\diff \tau_i\cdot \rxadj +  \diff \tau_i \frac{1}{2}\cdot(\tau_i+\tau_{i-1})\cdot \diff \xadj \right)\right]\\
+		  &= h\cdot \left[\xo -\rxobs - \sum_{i=1}^l A_i^\tr \cdot \left( \diff \tau_i\cdot \rxadj +  \diff \tau_i \rtau_i \diff \xadj \right)\right]
 \end{align*}
+
 Mit $\rxadj =\frac{1}{2}(\xadj_n + \xadj_a) $ und $\diff \xadj =\xadj_n - \xadj_a $ ergibt sich
+\allowdisplaybreaks
 \begin{align*}
-\xadj_n - \xadj_a &= h\cdot \left[\xo -\rxobs - \sum_{i=1}^l A_i^\tr \cdot \left( \diff \tau_i\cdot \frac{\xadj_n + \xadj_a}{2} +  \diff \tau_i \rtau_i (\xadj_n - \xadj_a) \right)\right]\\
- &= h\cdot \left[\xo -\rxobs - \sum_{i=1}^l A_i^\tr \cdot \left( \left(\frac{1}{2} \diff \tau_i +\diff \tau_i \rtau_i\right) \cdot \xadj_n  +  \left(\frac{1}{2}\diff \tau_i-\diff \tau_i \rtau_i\right) \cdot \xadj_a \right)\right]\\
- &= h\cdot \left[\xo -\rxobs -  \left( \sum_{i=1}^l A_i^\tr \left(\frac{1}{2} \diff \tau_i +\diff \tau_i \rtau_i\right) \cdot \xadj_n  + \sum_{i=1}^l A_i^\tr  \left(\frac{1}{2}\diff \tau_i-\diff \tau_i \rtau_i\right) \cdot \xadj_a \right)\right])\\
+\xadj_n - \xadj_a =& h\cdot \left[\xo -\rxobs - \sum_{i=1}^l A_i^\tr \cdot \left( \diff \tau_i\cdot \frac{\xadj_n + \xadj_a}{2} +  \diff \tau_i \rtau_i (\xadj_n - \xadj_a) \right)\right]\\
+ &= h\cdot \left(\xo -\rxobs\right) \\
+ &-h\left[\sum_{i=1}^l A_i^\tr \cdot \left( \left(\frac{1}{2} \diff \tau_i +\diff \tau_i \rtau_i\right) \cdot \xadj_n  +  \left(\frac{1}{2}\diff \tau_i-\diff \tau_i \rtau_i\right) \cdot \xadj_a \right)\right]\\
+ &= h\cdot \left(\xo -\rxobs \right)\\
+ &-h \left[\left( \sum_{i=1}^l A_i^\tr \left(\frac{1}{2} \diff \tau_i +\diff \tau_i \rtau_i\right) \cdot \xadj_n  + \sum_{i=1}^l A_i^\tr  \left(\frac{1}{2}\diff \tau_i-\diff \tau_i \rtau_i\right) \cdot \xadj_a \right)\right]\\
 \end{align*}
+ 
 Durch Umsortierung erhalten wir
 \begin{align*}
 && \left[I +h\sum_{i=1}^l A_i^\tr \left(\frac{1}{2} \diff \tau_i +\diff \tau_i \rtau_i\right) \right]\xadj_n &= 
@@ -279,10 +285,14 @@ Bemerkt sei, dass sich die Formel für $l=1$, wenn sich also kein Kink zwischen 
 &\left[I - h A_1^\tr  \left(\frac{1}{2} \cdot 1-0\right)\right]\xadj_a \\
 &+h\cdot (\xo -\rxobs)                                                                                  
 \end{aligned}\\
-\iff &&  \left[ I +\frac{h}{2} \frac{\partial F(\xo ,d)}{\partial x}^\tr \right]\xadj_n &= \left[ I - \frac{h}{2}  \frac{\partial F(\xo ,d)}{\partial x}^\tr  \right]\xadj_a  +h\cdot (\xo -\rxobs)\\
+\iff &&  \left[ I +\frac{h}{2} \frac{\partial F(\xo ,d)}{\partial x}^\tr \right]\xadj_n &= 
+\begin{aligned}[t]
+&\left[ I - \frac{h}{2}  \frac{\partial F(\xo ,d)}{\partial x}^\tr  \right]\xadj_a \\
+&+h\cdot (\xo -\rxobs)\\
+\end{aligned}\\
 \iff &&  \xadj_n - \xadj_a &=h\cdot \left[\xo -\rxobs - \frac{\partial F(\xo ,d)}{\partial x}^\tr  \frac{\xadj_n + \xadj_a}{2}\right]\\
 \end{align*}
-vgl. [Satz wo normale implizite midpointrule aufgeführt wird]
+Dies entspricht der verallgemeinerten impliziten Mittelpunktsregel \eqref{eq:genMidpointRule}.
  
 
  
