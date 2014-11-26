@@ -474,7 +474,7 @@ und $U^\pm_{j+\sfrac{1}{2}}$ sind die linken/rechten Seiten einer Stückweise li
 \]
 Die numerischen Ableitungen $(U_x)_j$ sind die Komponentenweisen Approximationen von $U_x(x_j ,t)$, welche durch nichtlineare \textit{Flux Limiter} berechnet werden, 
 da ansonsten oszillatorischen Verhalten in der Lösung auftreten kann aufgrund von zu starken Änderungen der Steigung.(TODO: RAUSSUCHEN WO DAS STEHT).
-Der verallgemeinerte MinMod Flux Limiter wurde in der Implementierung benutzt und hat die Form
+Der verallgemeinerte MinMod Flux Limiter (\cite[(4.9)]{kurganov2000new}) wurde in der Implementierung benutzt und hat die Form
 \[
  \left(U_x\right) = \text{minmod}\left(\theta \frac{\bar U_j- \bar U_{j-1}}{\Delta x},\frac{\bar U_{j+1}- \bar U_{j-1}}{2\Delta x},\theta\frac{ \bar U_{j+1}- \bar U_{j}}{\Delta x}  \right), \quad \theta \in [1,2]
 \]
@@ -486,7 +486,7 @@ wobei minmod definiert ist als
                                   0 & \text{sonst}
                                  \end{cases}
  \]
- TODO: LITERATUR MIT ANGEBEN
+ 
 Diesen kann man in max - min Repräsentation überführen, sodass wir die Funktion
  \begin{equation}
 \text{minmod}(z_1,z_2,z_3) = \min(\max(z_1,z_2,z_3),0) + \max(\min(z_1,z_2,z_3),0)    
@@ -552,11 +552,11 @@ Die Berechnung der Eigenwerte und der Ableitungen über den MinMod Limiter bring
 Die benutzten Anfangswerte $U_0 = (h_0,(hu)_0)$ sind in Bild \ref{fig:sweInitialValues} ersichtlich. Genauer ergeben sie sich zu
 \[
 \begin{aligned}
- h_0^{(1)} \sim 50\cdot\mathcal N(0.5\cdot L,L) + 1 &&(hu)_0^{(1)}\sim 50\cdot\mathcal N(0.5\cdot L,L) && \text{(Normalverteilt)}\\
+ h_0^{(1)} \sim n\cdot\mathcal N(0.5\cdot L,L) + 1 &&(hu)_0^{(1)}\sim 50\cdot\mathcal N(0.5\cdot L,L) && \text{(Normalverteilt)}\\
  h_0^{(2)}(x)= \sin\left( \frac{2\pi k\cdot x}{L}\right) + 1.5 &&(hu)_0^{(2)}(x) = \cos\left( \frac{2\pi k\cdot x}{L}\right) + 1  && \text{(Schwingung)}
 \end{aligned}
 \]
-Wobei $\mathcal N(\mu, \sigma^2)$ die Normalverteilung mit Erwartungswert $\mu$ und Varianz $\sigma^2$ ist. Falls $U_0^{(2)}$ gewählt wurde ist mit $k\in \R$ die Periode definiert. 
+Wobei $\mathcal N(\mu, \sigma^2)$ die Normalverteilung mit Erwartungswert $\mu$, Varianz $\sigma^2$ und Multiplikator $n$ ist. Falls $U_0^{(2)}$ gewählt wurde ist mit $k\in \R$ die Periode definiert. 
 \subsection{Lösen der ODE}
 Auch bei der Shallow Water Equation erhalten wir eine Konvergenz von $\mathcal O(\hat h^2)$, mit $\hat h$ als die Schrittweite. Wie im Bild \ref{fig:sweConvergence} ersichtlich, ist der Konvergenzgraph sehr stabil gegenüber der implizitem Mittelpunktsregel, wobei letztere stark springt.
 
@@ -610,7 +610,7 @@ und als Energiefehler Bild \ref{fig:sweEnergyVariation}.
 \end{figure}
 Es ist zu erkennen, dass in diesem Beispiel keine Verbesserung bzgl. des Energievariationsfehlers vorhanden ist.
 \subsection{Gradient und Optimierung}
-
+Bei der Konvergenz des Gradienten ist für $\theta=1$ kein besseres Verhalten der GIMP gegenüber der IMP feststellbar. 
 \begin{figure}
 \footnotesize
 \begin{minipage}[b]{0.49\linewidth}
@@ -626,9 +626,28 @@ Es ist zu erkennen, dass in diesem Beispiel keine Verbesserung bzgl. des Energie
 \input{img/swe_convergence_adjoint_smooth.tikz}
 \caption*{(b) Summiert}
 \end{minipage}
-\caption{SWE Fehler über Zeit mit $L=200,\Delta x=10,h = 1$ und $U_0^{(2)},k=2$}
+\caption{SWE Fehler über Zeit mit $L=50,\Delta x=10$, $x_0=U_0^{(1)},n=50$, $x_{\text{Obs}} = U_0^{(2)}, k=0.5$ und $\theta=1$}
 \label{fig:sweConvergenceAdjoint}
+% \end{figure}
+% 
+% \begin{figure}
+% \footnotesize
+\quad\\[0.3cm]
+\begin{minipage}[b]{0.49\linewidth}
+% \begin{minipage}[t][3cm][t]{5cm}
+\centering
+\input{img/swe_convergence_adjoint_discrete.tikz}
+\caption*{(a) Am Zeitpunk $t$}
+\end{minipage}
+%  \quad 
+\begin{minipage}[b]{0.49\linewidth}
+% \begin{minipage}[t][3cm][t]{5cm}
+\centering
+\input{img/swe_convergence_adjoint_smooth1.tikz}
+\caption*{(b) Summiert}
+\end{minipage}
+\caption{SWE Fehler über Zeit mit $L=50,\Delta x=10$, $x_0=U_0^{(1)},n=50$, $x_{\text{Obs}} = U_0^{(2)}, k=0.5$ und $\theta=2$}
+\label{fig:sweConvergenceAdjoint1}
 \end{figure}
-
 
 
