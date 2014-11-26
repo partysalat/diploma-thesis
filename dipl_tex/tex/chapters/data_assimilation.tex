@@ -1,6 +1,6 @@
 \chapter{Datenassimilation}
 \section{Problemstellung}
-Die 4D variationelle Datenassimilation ist eine Methode, die im Zusammenhang mit hyperbolischen partiellen Differentialgleichungen steht, wie z.B. der Wellengleichung. Ziel ist es durch Steuerungsparameter, wie etwa Anfangswerte zum Zeitpunkt $t_0$, den Abstand eines Modells gegenüber der in der Zeit gemessenen Observierungsparameter minimal werden zu lassen. 
+Die 4D variationelle Datenassimilation ist eine Methode, die im Zusammenhang mit hyperbolischen partiellen Differentialgleichungen steht, z.B. der Wellengleichung. Ziel ist es durch Steuerungsparameter, wie etwa Anfangswerte zum Zeitpunkt $t_0$, den Abstand eines Modells gegenüber der in der Zeit gemessenen Observierungsparameter minimal werden zu lassen. 
 
 Um diese Methode herzuleiten folgen wir der Herangehensweise von Talagrand in \cite{talagrand1987variational} und nehmen zuerst die Evolutionsgleichung
 \begin{equation}
@@ -92,7 +92,7 @@ Ein Einschrittverfahren der Gestalt
 \[
  x_{i+1}^h = x_i^h + h\sum_{j=1}^m \beta_j k_j \quad \text{ mit } \quad k_j  = f(t_i+ \rho_ih, x_i^h + \sum_{l=1}^m \gamma_{jl} k_l ), \quad j=1,\ldots,m
 \]
-wird \textit{m- stufiges Runge Kutta Verfahren} genannt, mit $m\in \N$. Die Koeffizienten $\beta_j,\gamma_{jl}$ und $\rho_i$ sind geeignet gewählte, reele Zahlen, die durch das Verfahren eindeutig gegeben sind. Diese Koeffizienten lassen sich in \textit{Butcher Diagramme} angegeben, welche dann ein Verfahren eindeutig beschreiben. Beispiele sind in Tabelle \ref{tab:rungekutta} gegeben.
+wird \textit{m- stufiges Runge Kutta Verfahren} genannt, mit $m\in \N$. Die Koeffizienten $\beta_j,\gamma_{jl}$ und $\rho_i$ sind geeignet gewählte, reelle Zahlen, die durch das Verfahren eindeutig gegeben sind. Diese Koeffizienten lassen sich in \textit{Butcher Diagramme} angegeben, welche dann ein Verfahren eindeutig beschreiben. Beispiele sind in Tabelle \ref{tab:rungekutta} gegeben.
 
 \begin{table}[htdp]
  \centering

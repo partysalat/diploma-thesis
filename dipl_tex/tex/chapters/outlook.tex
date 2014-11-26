@@ -10,8 +10,8 @@ Zu Verbessern gäbe es bei der aktuellen Implementierung allerhand. Beispielswei
 
 Ein weiterer Punkt wäre \texttt{Plan-C} auch mit der Trapezregel aus \cite[S.23 (15)]{monster} zu erweitern. Ein Vorteil, der sich insbesondere auf die Datenassimilierung bezieht, ist dass die Lösung mittels Trapezregel eine quadratische Spline-Interpolation zweiter Ordnung der analytischen Lösung zulässt. Diese auf den Projektionsoperator anzuwenden wäre eine Vereinfachung der Berechnung, welche zurzeit mittels kubischer Spline Interpolation durchgeführt wird.
 
-Als nächstes wäre es sicher interessant, die stückweise Linearisierung und der damit verbundenen Datenassimilierung auf andere partielle Differentialgleichungen auszuweiten, wie etwa der 2-D Shallow Water Equation, realen Wettermodellen oder Bildrekonstruktionen. 
-Ebenfalls wäre es sinnvoll zu beobachten, wie sich die die 1-D Shallow Water Equation für andere als periodische Randbedingungen verhält.
+Als nächstes wäre es sicher interessant, die stückweise Linearisierung und der damit verbundenen Datenassimilierung auf andere partielle Differentialgleichungen auszuweiten, wie etwa der 2-D Shallow Water Equation (\cite[\S 3]{kurganov2007second}), der Two-Layer Shallow Water Equation (\cite{kurganov2009central}), Bildrekonstruktionen (\cite{korotaev2008retrieving}) oder realen Wettermodellen wie beispielsweise GFS (\cite{gfs}). 
+Ebenfalls wäre es sinnvoll zu beobachten, wie sich die die 1-D Shallow Water Equation für andere als periodische Randbedingungen verhält, ebenso wie für andere Finite Volumen Schemata und/oder anderen Flux-Limitern (\cite{juntasaro2004comparative}).
 Desweiteren ließe sich das Bolza Problem \eqref{eq:costfunctional} erweitern, etwas durch zusätzliche Steuerungsparameter und Gewichten. 
 
 Weiterhin wäre es sinnvoll nach einer Möglichkeit zu suchen, das Kostenfunktional stückweise zu linearisieren, sodass die Optimierung über das stückweise lineare Modell durchgeführt werden kann.
@@ -20,4 +20,5 @@ Dieser nutzt als Optimierungsrichtung $d$ den von Filippov vorgestellten kleinst
 \[
 d(x) = \text{short}(0,-\partial F(x)) = \text{argmin} \lbrace \|d\| ~|~ -d \in \partial f(x) \rbrace
 \]
-Diesen, anstatt dem polynomial escape in die Optimierung der Datenassimilierung einzubauen wäre ein erster Schritt die Optimierung der Datenassimilierung zu verbessern.
+
+Diesen, anstatt dem polynomial escape in die Berechnung des Gradienten und in die Optimierung der Datenassimilierung einzubauen wäre ein erster Schritt diese beiden Routinen zu verbessern.
