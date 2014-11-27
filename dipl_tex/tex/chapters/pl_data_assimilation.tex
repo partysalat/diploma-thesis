@@ -233,14 +233,14 @@ Als Algorithmus ergibt sich folglich
  	\State $\bar{A} \gets 0 $, $\hat{A} \gets 0$
  	\Repeat
  	  \State $\check{\tau} \gets \check{\tau} + \hat{\tau}, ~ x_{kink} \gets x_{kink} +\check{\tau}d$
- 	  \State $\hat{\tau} \gets \Call{critMult}{ x_{kink},d}$ 		 \Comment{Berechne kritischen Multiplikator}
+ 	  \State $\hat{\tau} \gets \check{\tau} + \Call{critMult}{ x_{kink},d}$ 		 \Comment{Berechne kritischen Multiplikator}
 		\If{$\hat{\tau}>1$} $\hat{\tau}\gets 1$ \EndIf 
  		\State $\rx \gets x_{kink}+0.5\cdot \hat{\tau} d$	\Comment{Berechne Mittelpunkt zwischen den Kinks}
  	  \State $\frac{\partial F(\rx)}{\partial x} \gets $ gen\_jac($\rx,d$) \Comment{Berechne $\partial F$ aus der Abs-Normalform}
  
  % 		\State $\rx \gets \Call{Solve}{\rx_\mathrm{new}}$
  	  \State $\bar{A} \gets \bar{A} +  \frac{\partial F(\rx)}{\partial x} \cdot (\hat{\tau} - \check{\tau})$ 
- 		\State $\hat{A} \gets \hat{A} +  \frac{\partial F(\rx)}{\partial x} \cdot  \frac{1}{2}(\check{\tau} + \hat{\tau})-0.5$ \Comment{Verschiebe $\tau$ um $-0.5$}
+ 		\State $\hat{A} \gets \hat{A} +  \frac{\partial F(\rx)}{\partial x} \cdot  \left(\frac{1}{2}(\check{\tau} + \hat{\tau})-0.5\right)$ \Comment{Verschiebe $\tau$ um $-0.5$}
  		
  \Until{$\hat{\tau} \geq 1$	}
  \State \Return $[\bar{A}, \hat{A}]$;
@@ -290,7 +290,7 @@ Bemerkt sei, dass sich die Formel für $l=1$, wenn sich also kein Kink zwischen 
 \end{aligned}\\
 \iff &&  \xadj_n - \xadj_a &=h\cdot \left[\xo -\rxobs - \frac{\partial F(\xo ,d)}{\partial x}^\tr  \frac{\xadj_n + \xadj_a}{2}\right]\\
 \end{align*}
-Dies entspricht der verallgemeinerten impliziten Mittelpunktsregel \eqref{eq:genMidpointRule}.
+Dies entspricht der verallgemeinerten impliziten Mittelpunktsregel \eqref{eq:genMidpointRule} für das inhomogene adjungierte Modell \eqref{eq:inhAdjEquation}.
  
 
  
