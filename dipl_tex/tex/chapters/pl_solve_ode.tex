@@ -1,15 +1,16 @@
 \chapter{Lösen von ODEs mittels stückweiser Linearisierung}
-\section{Grundlagen}
-Eine Verallgemeinerung 
-\cite{filippov1971existence}
-\begin{theorem}[Filippov]
- Sei U wie in \ref{thm:picard-lindeloeff} gegeben und $D\subset U$. Sei $F:D\rightrightarrows \R^n$ eine mengenwertige Abbildung. Für alle Punkte der Region $D$ sei $F(t,x)$ eine nichtleere beschränkte abgeschlossene Menge. Desweiteren sei $F(t,x)$ oberhalbstetig, also für alle $(t,x)\in D$ und alle $\varepsilon>0$ existiert ein $\delta = \delta(\varepsilon,t,x)>0$, sodass für alle Punkte $(t',x')$ der $\delta$- Umgebung von $(t,x)$ die Menge $F(t',x')$ in der $\varepsilon$-Umgebung der menge $F(t,x)$ liegt.
- Wenn nun $F(t,x)$ überall konvex ist, dann besitzt  
- \[
-  \dot x \in F(t,x)
- \]
- für alle Anfangswerte $x(t_0)=x_0$ mit $(t_0,x_0)\in D$ mindestens eine Lösung.
-\end{theorem}
+% \section{Grundlagen}
+% Falls eine gewöhnliche Differentialgleichung mit nur lipschitzstetiger rechter Seite gelöst werden soll, ist von allein nicht klar, dass 
+% Eine Verallgemeinerung 
+% \cite{filippov1971existence}
+% \begin{theorem}[Filippov]
+%  Sei U wie in \ref{thm:picard-lindeloeff} gegeben und $D\subset U$. Sei $F:D\rightrightarrows \R^n$ eine mengenwertige Abbildung. Für alle Punkte der Region $D$ sei $F(t,x)$ eine nichtleere beschränkte abgeschlossene Menge. Desweiteren sei $F(t,x)$ oberhalbstetig, also für alle $(t,x)\in D$ und alle $\varepsilon>0$ existiert ein $\delta = \delta(\varepsilon,t,x)>0$, sodass für alle Punkte $(t',x')$ der $\delta$- Umgebung von $(t,x)$ die Menge $F(t',x')$ in der $\varepsilon$-Umgebung der menge $F(t,x)$ liegt.
+%  Wenn nun $F(t,x)$ überall konvex ist, dann besitzt  
+%  \[
+%   \dot x \in F(t,x)
+%  \]
+%  für alle Anfangswerte $x(t_0)=x_0$ mit $(t_0,x_0)\in D$ mindestens eine Lösung.
+% \end{theorem}
 
 \section{Verallgemeinerte Mittelpunktsregel}
 
@@ -449,7 +450,7 @@ Dieser Abschnnitt lieferte einen Überblick, wie gewöhnliche Differentialgleich
 \section{Romberg Extrapolation}
 Der Grundgedanke der Romberg Extrapolation besteht darin, aus einem groben und einer feineren Diskretisierung eine Extrapolation zu berechnen, die bessere Näherungswerte für die eigentliche Lösung zulässt und schnellere Konvergenzgeschwindigkeiten unter gewissen Vorraussetzungen verspricht.
 
-Dazu sei in einem Intervall $[a,b]$ eine Folge von Schrittweiten 
+Nach Stoer und Bulirsch in \cite{stoer1989numerische} sei dazu in einem Intervall $[a,b]$ eine Folge von Schrittweiten 
 \[
  h_0 = \frac{b-a}{n_0},~ h_1 = \frac{h_0}{n_1},\ldots, h_m = \frac{h_0}{n_m}
 \]
@@ -465,8 +466,39 @@ höchstens $m$-ten Grades in $h^2$ für das gilt
 \[
  \tilde T_{mm}(h_i) = T(h_i), \quad i=0,1,\ldots,m
 \]
+Der Wert $\tilde T_{mm}(0)$ stellt dann in der Regel ein guten Näherungswert für das gesuchte Integral dar. Dieser lässt sich mittels des Neville-Aitken Algorithmus \cite[(2.1.2)]{stoer1989numerische} wie folgt berechnen:
+Für $i,k$ mit $1\leq k\leq i\leq m$ sei $\tilde T_{ik}(h)$ das Polynom vom Grad $\leq k$ in $h^2$ mit 
+\[
+ \tilde T_{ik} = T(h_j),\quad j=i-k,i-k+1,\ldots,i
+\]
+Für die extrapolierten Werte $T_{ik}:=\tilde T_{ik}(0)$ gilt
+\begin{equation}
+\label{eq:rombergFormular}
+  T_{ik} = T_{i,k-1}+\frac{T_{i,k-1}-T_{i-1,k-1}}{\left(\frac{h_{i-k}}{h_i}\right)^2-1}, \quad 1\leq k\leq i\leq m
+\end{equation}
+Diese Werte werden nach Tableau \ref{fig:rombergTableau} angeordnet und berechnet.
+\begin{figure}[H]
+\centering
+\begin{tabular}{ l | c c c c c c c }
+  $h_0^2$ & $T(h_0)=T_{00}$\\
+	  &		    &$\searrow$\\
+  $h_1^2$ & $T(h_1)=T_{10}$ &$\rightarrow$	& $T_{11}$  \\
+	  &		    &$\searrow$ & &$\searrow$ \\
+  $h_2^2$ & $T(h_2)=T_{20}$ &$\rightarrow$	&$T_{21}$&$\rightarrow$&$T_{22}$\\
+	  &		    &$\searrow$ & &$\searrow$& &$\searrow$ \\
+  $h_3^2$ & $T(h_3)=T_{30}$ &$\rightarrow$	& $T_{31}$&  	 $\rightarrow$& $T_{32}$  &$\rightarrow$& $T_{33}$\\
+\end{tabular}
+\caption{Romberg Tableau für $m=3$}
+\label{fig:rombergTableau}
+\end{figure}
+
+In den experimentellen Betrachtungen wird die Romberg Extrapolation für den Fall $m=1$ betrachtet mit verdoppelter Schrittweite, also $h_1=0.5\cdot h_0$, wodurch sich \eqref{eq:rombergFormular} vereinfacht zu
+\[
+\begin{aligned}
+ T_{11} &= T_{10} + \frac{T_{10}-T_{00}}{2^2-1}\\
+	  &= \frac{4\cdot T_{10}-T_{00}}{3}
+ \end{aligned}
+\]
 
 
 
-
-\cite{stoer1989numerische}

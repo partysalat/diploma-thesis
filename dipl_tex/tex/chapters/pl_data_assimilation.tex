@@ -18,6 +18,7 @@ Dadurch ist es möglich, dass in der Zeitintegration Sprünge durch den verallge
 In der numerischen Berechnung muss der verallgemeinerte Gradient in eine Richtung $\Delta x$ betrachtet werden, sinnvollerweise in die Richtung des Inkrements der vorherigen Iteration $\Delta x_i = x_{i-1} - x_i$, falls wir uns in Iteration $i$ befinden. 
 Falls sich die Gerade $x_i + \Delta x$ auf einem Kink befindet, wie in Bild \ref{fig:adjValleyTracing} zu sehen, sprechen wir von einem so genannten \textit{valley tracing mode}, welcher von Khan und Barton in \cite{khan2014} ausführlich behandelt wird. 
 \begin{figure}
+\centering
 \begin{minipage}[b]{0.49\linewidth}
 \centering
 \input{img/adj_valley_tracing.tikz}
@@ -125,8 +126,6 @@ Die $\sigma_i$ erhalten wir nun lexikographisch, indem wir Prozedur \eqref{eq:ja
 \]
 
 Griewank konnte in \cite[Prop.8]{monster} zeigen, dass solch eine permutierte lexikographische Definition von $\sigma_i$ ebenfalls zu einer limiting Jacobian führt
-% Dies tun wir, damit die \textit{Sherman Morrison Woodbury Formel} keine Probleme durch den Nenner bereitet, wie wir gleich sehen werden.
-% TODO: Überlegen, was passiert falls genJac auf Kink -> Polynomial Escape für Nulleinträge? IN Richtung d?
 % Falls nun die Jacobimatrix auf einem Kink berechnet werden soll, ist sie nicht mehr eindeutig. 
 \begin{theorem}[Polynomial Escape]
 Angenommen, wir initialisieren $(\nabla x_i^\tr)_{i=1,\ldots,n} = E$ mit $\det(E)\neq 0$ und sei $\sigma$ lexikographisch bestimmt. Dann ergibt die Auswertung von Gleichung \eqref{eq:jacAbsNormalForm} eine Matrix $J_\sigma^E = (\nabla y_{i-s}^\tr)_{i=1,\ldots,m}$ dessen Rücktransformation

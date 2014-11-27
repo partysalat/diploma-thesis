@@ -1,6 +1,6 @@
 \chapter{Datenassimilation}
 \section{Problemstellung}
-Die 4-D variationelle Datenassimilation ist eine Methode, die im Zusammenhang mit hyperbolischen partiellen Differentialgleichungen steht, z.B. der Wellengleichung. Benutzt wird dieses Verfahren meist in athmosphärischen Modellen, um optimale Parameter zur numerischen Wettervorhersage zu finden. Auch in ozeanographischen Modellen findet diese Methode Anwendung. Eingeführt von Talagrand und Le Dimet in \cite{dimet1986variational} finden die Methoden der optimalen Steuerung immer mehr Verwendung in realen Anwendungsgebieten (z.B. \cite{korotaev2008retrieving,elbern20004d,broquet2009application}).
+Die 4-D variationelle Datenassimilation ist eine Methode, die im Zusammenhang mit hyperbolischen partiellen Differentialgleichungen steht, z.B. der Wellengleichung.  Eingeführt von Talagrand und Le Dimet in \cite{dimet1986variational} finden die Methoden der optimalen Steuerung immer mehr Verwendung in realen Anwendungsgebieten (z.B. \cite{korotaev2008retrieving,elbern20004d,broquet2009application}). Benutzt wird dieses Verfahren meist in athmosphärischen Modellen, um optimale Parameter zur numerischen Wettervorhersage zu finden. Auch in ozeanographischen Modellen findet diese Methode Anwendung.
 
 Ziel der 4-D Datenassimilation ist es durch Steuerungsparameter, wie etwa Anfangswerte zum Zeitpunkt $t_0$, den Abstand eines Modells gegenüber der in der Zeit gemessenen Observierungsparameter minimal werden zu lassen. 
 
@@ -41,7 +41,7 @@ Falls nämlich eine Differentialgleichung n-ter Ordnung der Form
 \[
  \frac{d^n x}{dt^n}= F\left(t;x,\frac{dx}{dt},\ldots,\frac{d^{n-1} x}{dt^{n-1}}\right)
 \]
-mit $F$ differenzierbar, gegeben ist, ist wohlbekannt, dass sie sich durch Hinzufügen zusätzlicher Variablen in ein Differentialgleichungssystem erster Ordnung überführen lässt (\cite[S. 105]{arnold2001grundbegriffe}), mittels
+mit $F$ differenzierbar, gegeben ist, ist wohlbekannt, dass sie sich durch Hinzufügen zusätzlicher Variablen in ein Differentialgleichungssystem erster Ordnung überführen lassen (\cite[S. 105]{arnold2001grundbegriffe}), mittels
 \[
  \dot x_1 = x_2 \quad ,\ldots,\quad \dot x_{n-1} = x_n, \quad  \dot x_n = F(t;x_1,\ldots,x_{n-1})
 \]
@@ -64,6 +64,15 @@ Die Existenz und Eindeutigkeit von Lösungen wird durch den Satz von Picard-Lind
 % \[
 %  \dot x \in F(t,x)
 % \]
+Falls eine gewöhnliche Differentialgleichung keine stetige rechte Seite besitzt, kann trotzdem eine Aussage zur Existenz einer Lösung getroffen werden. Filippov beschreibt in \cite{filippov1971existence} die Existenz einer Lösung für Multifunktionen $F(x):\mathcal D \rightrightarrows R^n$ falls diese jedoch \textit{oberhalbstetig} sind. 
+\begin{theorem}[Filippov]
+ Sei U wie in \ref{thm:picard-lindeloeff} gegeben und $D\subset U$. Sei $F:D\rightrightarrows \R^n$ eine mengenwertige Abbildung. Für alle Punkte der Region $D$ sei $F(t,x)$ eine nichtleere beschränkte abgeschlossene Menge. Desweiteren sei $F(t,x)$ oberhalbstetig, also für alle $(t,x)\in D$ und alle $\varepsilon>0$ existiert ein $\delta = \delta(\varepsilon,t,x)>0$, sodass für alle Punkte $(t',x')$ der $\delta$- Umgebung von $(t,x)$ die Menge $F(t',x')$ in der $\varepsilon$-Umgebung der menge $F(t,x)$ liegt.
+ Wenn nun $F(t,x)$ überall konvex ist, dann besitzt die Differentialinklusion
+ \[
+  \dot x \in F(t,x)
+ \]
+ für alle Anfangswerte $x(t_0)=x_0$ mit $(t_0,x_0)\in D$ mindestens eine Lösung.
+\end{theorem}
 
 
 \subsection{Numerik gewöhnlicher Differentialgleichungen}
