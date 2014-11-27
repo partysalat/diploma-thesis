@@ -165,6 +165,7 @@ Mit dem Algorithmus in Prozedur \ref{alg:quad} kann nun die Quadratur für stüc
 % \label{alg:quad}
 \algrenewcommand{\algorithmiccomment}[1]{\hfill{\scriptsize #1}}
 \begin{algorithmic}
+\label{alg:integratePL}
 \Function{integrate}{$\Delta x$} 
   \State {$x \gets 0$}
   \State {$z \gets$ calculate\_z($x$)}
@@ -422,7 +423,7 @@ Die letzte Gleichung von \eqref{eq:reorderedGenMidpointAlg} ist stückweise line
 \caption{Berechnung der Verallgemeinerten Impliten Mittelpunktsregel}
 \label{alg:genMidpointRule}
 \algrenewcommand{\algorithmiccomment}[1]{\hfill{\scriptsize #1}}
-\begin{algorithmic}
+\begin{algorithmic}\label{alg:solveOde}
 \Function{PlanC::solve\_ode}{$vec~ t,vec ~x_0,double ~TOL$} 
   \State{$N \gets t.length$}
   \State{$\check x \gets x_0$}

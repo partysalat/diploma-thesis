@@ -1,133 +1,126 @@
-\chapter{Source}\label{sec:source}
-\section[Public Methods]{The \texorpdfstring{\src{public}}{Public} Methods}
+\chapter{Quellcode Dokumentation}\label{sec:source}
+Die Dokumentation ist in Teilen aus der Diplomarbeit von Paul Boeck aus \cite{boeck14} übernommen und mit eigenen Methoden erweitert worden.
+\section[Public Methods]{\texorpdfstring{\src{public}}{Public} Methoden}
 \lstset{
 		aboveskip=0pt,
 		belowskip=0pt,
 		columns=flexible,
 	}
 \begin{lstlisting}[numbers=none]
-PlanC(Vector &c, Vector &b, Matrix &Z, Matrix &L, Matrix &J,Matrix &Y, Vector &xo)
+PlanC(vec &c, vec &b, mat &Z, mat &L, mat &J,mat &Y, vec &xo)
 \end{lstlisting}
-This constructor takes all necessary information to build an abs-normal form without further calculations.
+Mit diesem Konstruktor kann eine Abs-Normal Form ohne AD erstellt werden.
 \begin{lstlisting}[numbers=none]
 PlanC(size_t n, size_t m, size_t s)
 \end{lstlisting}
-This constructor only takes the dimensions of the expected abs-normal form. This is used to internally in the ADOL-C constructor.
+Dieser Konstruktor wird intern benutzt und benötigt nur die Dimensionen als auch die Anzahl der switching Variablen.
 \begin{lstlisting}[numbers=none]
 PlanC(const PlanC &other)
 \end{lstlisting}
-This is the copy constructor that copies all internal data.
+Erstellt einen Klon eines gegebenen Plan-C Objektes
 \begin{lstlisting}[numbers=none]
-PlanC(size_t n,size_t m,const Vector &x,simple_function func)
+PlanC(size_t n,size_t m,const vec &x,simple_function func)
 \end{lstlisting}
-This is the main constructor for users. See \ref{sec:implementation} for details.
+Dies ist der am meisten benutzte Konstruktor, er erstellt aus einer gegebenen Funktion eine Abs-Normal Form und rechnet mit ihr. Siehe \ref{sec:impl:planc} für Details
 \begin{lstlisting}[numbers=none]
 ~PlanC()
 \end{lstlisting}
-This is the destructor.
+Dies ist der Destruktor.
 \begin{lstlisting}[numbers=none]
 void insertRow(size_t row, double* in)
 \end{lstlisting}
-This method provides the interface for ADOL-C. It fills the extended Jacobian \src{Big} row wise. 
+Diese Methode nimmt den Pointer auf ein Datenarray, welcher von ADOL-C erstellt wurde und kopiert die Daten zeilenweise in das interne Datenmodell.
 \begin{lstlisting}[numbers=none]
 void factorize()
 \end{lstlisting}
-This performs an LU-factorization of the lower left part ($J$) of the extended Jacobian.
-\clearpage
+Führt eine LU Faktorisierung der Matrix $J$ der Abs-Normal Form durch
+% \clearpage
 \begin{lstlisting}[numbers=none]
 is_factorized()
 \end{lstlisting}
-This is a getter that returns if the LU-factorization has been performed.
+Gibt ein \texttt{boolean} zurück, welcher beschreibt, ob die LU Faktorisierung für die aktuelle Abs-Normal Form bereits durchgeführt wurde.
 \begin{lstlisting}[numbers=none]
 PlanC linear_combination(double alpha, double beta)
 \end{lstlisting}
-Calling this method creates a new \src{PlanC} object that represents the linear combination $\alpha x + \beta F$. In section  \ref{sec:implementation} this method is described in more detail. 
+Erstellt ein neues geshiftetes Plan-C Objekt, welches $\alpha x + \beta F$ beschreibt. Sie wird bei der Berechnung der ODE in Algorithmus \ref{alg:solveOde} verwendet.
+% Calling this method creates a new \src{PlanC} object that represents the linear combination $\alpha x + \beta F$. In section  \ref{sec:implementation} this method is described in more detail. 
 \begin{lstlisting}[numbers=none]
-Vector integrate(const Vector v)
+vec integrate(const vec v)
 \end{lstlisting}
-This method calculates the exact value of $\int_{0}^{-\frac12} \pl_{\rx}F(t\cdot v)\d t$.
+Implementation der Prozedur \ref{alg:integratePL}
 \begin{lstlisting}[numbers=none]
-Vector integrate_simple(Vector v, const double h)
+vec eval(const vec &x)
 \end{lstlisting}
-This function integrates $\int_{0}^{-\frac12} \pl_{\rx}F(t\cdot v)\d t$ assuming that $\pl_{\rx} F(t\cdot v)$ is linear w.r.t. $t$.
+Wertet die gegenwärtige Abs-Normal Form an Stelle \texttt{x} aus
 \begin{lstlisting}[numbers=none]
-Vector eval(const Vector &x)
+vec eval_F(const vec &x)
 \end{lstlisting}
-This method evaluates the piecewise linearization $\pl_{\rx} F(\cdot)$ at point \src{x}.
+Wertet die übergebene Funktion $F$ an der Stelle \texttt{x} aus, falls diese nicht definiert ist, wird stattdessen \texttt{eval(x)} ausgeführt.
 \begin{lstlisting}[numbers=none]
-Vector eval_F(const Vector &x)
+vec solve(const vec &y,bool verbose, double TOL,int type=0)
 \end{lstlisting}
-Evaluates the underlying functions $F$ at point \src{x}. If there is no underlaying function, this call is identical to \src{eval(x)}.
+Diese Methode wird benutzt, um Gleichungen der Art $F(\xo)+\Delta F(\xo,\Delta x) = y$ mit Toleranz \src{TOL} zu lösen. Dabei kann der Algorithmentyp \texttt{type} mit übergeben werden, wobei \text{type}=0 lösen auf dem CPL, \text{type}=1 lösen auf dem UPL und \text{type}=2 lösen mittels des stückweise linearen Newton bedeutet. Standardmäßig wird \texttt{type}=0 gesetzt.    
+% This is a method to solve the equation $\pl_{\rx} F(x) = y$ to a tolerance \src{TOL} with the unfolded Newton. See equation \eqref{eq:unfolded_newton} for details.
 \begin{lstlisting}[numbers=none]
-Vector findRoot(double TOL)
+mat gen_jac(const vec &x, const vec &dx, bool disableKinkPrediction=false)
 \end{lstlisting}
-Solves the fix point iteration $z_+ = S |z| + \hat c$.
+Berechnet den verallgemeinerten Gradienten in Richtung \src{dx} an der Stelle \src x. Versucht intern den Gradienten an der Stelle \src{x +0.5 tau dx} zu bestimmen und berechnet dafür den kritischen Multiplikator \src{tau}. Falls in Richtung \src{dx} ein Valley tracing mode ist, wird der Gradient über polynomial escape bestimmt. Lässt sich mittels der Flag \src{disableKinkPrediction} abschalten, wobei intern \src{tau = 1} gesetzt wird.
+% This builds the generalized Jacobian in the direction of $v$. The equation \src{gen_jac(x,v) == jac(x+v)} (abusing notation) holds if \src{jac(x+v)} is well defined.
 \begin{lstlisting}[numbers=none]
-Vector solve(const Vector &y,bool verbose, double TOL)
+mat solve_ode(const double N, const vec &x0, const double t0, const double t_end, bool verbose, double TOL)
 \end{lstlisting}
-This is a method to solve the equation $\pl_{\rx} F(x) = y$ to a tolerance \src{TOL} with the unfolded Newton. See equation \eqref{eq:unfolded_newton} for details.
+Läst die gewöhnliche Differentialgleichung  $\dot x = F(x)$ mittels stückweiser Linearisierung. Implementierung des Algorithmus \ref{alg:solveOde}
+% Solves the ordinary differential equation $\dot x = F(x)$. See algorithm \ref{alg:solveODE} for details.
 \begin{lstlisting}[numbers=none]
-Matrix gen_jac(const Vector &x, const Vector &v)
+mat solve_ode_midpoint_implicit(double N, const vec &x0, double t_0,double t_end, bool verbose = false)
 \end{lstlisting}
-This builds the generalized Jacobian in the direction of $v$. The equation \src{gen_jac(x,v) == jac(x+v)} (abusing notation) holds if \src{jac(x+v)} is well defined.
+Löst die ODE  $\dot x = F(x)$ mit der impliziten Mittelpunktsregel
+% Solves the ODE $\dot x = F(x)$ with the explicit midpoint rule $\cx - \hx = h F(\cx + \tfrac12 h F(\cx))$.
 \begin{lstlisting}[numbers=none]
-Matrix jac(const Vector &x)
+mat solve_ode_midpoint_explicit(double N, const vec &x0, double t_0,double t_end, bool verbose = false)
 \end{lstlisting}
-This builds the Jacobian at point \src{x}. This is only viable for non-critical \src{x} (meaning all components of the signature vector $\sigma$ are nonzero).
+Löst die ODE  $\dot x = F(x)$ mit der expliziten Mittelpunktsregel
 \begin{lstlisting}[numbers=none]
-Matrix solve_ode(const double N, const Vector &x0, const double t0, const double t_end, bool verbose, double TOL)
+mat projState2ObsLinear(const vec &tState, const vec &tObs,const mat &xState)
 \end{lstlisting}
-Solves the ordinary differential equation $\dot x = F(x)$. See algorithm \ref{alg:solveODE} for details.
+Projeziert die Werte \src{xState} des Zustandsraumes mit den Stützstellen \src{tState} in den Raum der Observierungen mit den Stützstellen \src{tObs} mittels linearer Interpolation.
 \begin{lstlisting}[numbers=none]
-Matrix solve_ode_simple(double N, const Vector &x0, double t_0,double t_end, bool verbose = false)
+mat projObs2StateLinear(const vec &tState, const vec &tObs,const mat &xObs)
 \end{lstlisting}
-Solves the ODE $\dot x = F(x)$ with the explicit midpoint rule $\cx - \hx = h F(\cx + \tfrac12 h F(\cx))$.
+Projeziert die Werte \src{xObs} des Observierungsraumes mit den Stützstellen \src{tObs} in den Zustandsraum mit den Stützstellen \src{tState} mittels linearer Interpolation.
 \begin{lstlisting}[numbers=none]
-friend ostream& operator <<(ostream &os, const PlanC &p)
+mat projState2ObsSpline(const vec &tState, const vec &tObs,const mat &xState)
 \end{lstlisting}
-This overrides the out stream operator \src{<<}. All relevant components are printed.
-% \begin{description}
-% \lstinlineitem{PlanC(Vector &c, Vector &b, Matrix &Z, Matrix &L, Matrix &J,Matrix &Y, Vector &xo)} This constructor takes all necessary information to build an abs-normal form without further calculations.
-% \lstinlineitem{PlanC(size_t n, size_t m, size_t s)} This constructor only takes the dimensions of the expected abs-normal form. This is used to internally in the ADOL-C constructor.
-% \lstinlineitem{PlanC(const PlanC &other)} This is the copy constructor that copies all internal data.
-% \lstinlineitem{PlanC(size_t n,size_t m,const Vector &x,simple_function func)} This is the main constructor for users. See \ref{sec:implementation} for details
-% \lstinlineitem{~PlanC()} This is the destructor.
-% \lstinlineitem{void insertRow(size_t row, double* in)} This method provides the interface for ADOL-C. It fills the extended Jacobian \src{Big} row wise. 
-% \lstinlineitem{void factorize()} This performs an LU-factorization of the lower left part ($J$) of the extended Jacobian.
-% \lstinlineitem{is_factorized()} This is a getter that returns if the LU-factorization has been performed.
-% \lstinlineitem{PlanC linear_combination(double alpha, double beta)} Calling this method creates a new \src{PlanC} object that represents the linear combination $\alpha x + \beta F$. In section  \ref{sec:implementation} this method is described in more detail. 
-% \lstinlineitem{Vector integrate(const Vector v)} This method calculates the exact value of $\int_{0}^{-\frac12} \pl_{\rx}F(t\cdot v)\d t$ 
-% \lstinlineitem{Vector integrate_simple(Vector v, const double h)} This function integrates $\int_{0}^{-\frac12} \pl_{\rx}F(t\cdot v)\d t$ assuming that $\pl_{\rx} F(t\cdot v)$ is linear w.r.t. $t$.
-% \lstinlineitem{Vector eval(const Vector &x)} This method evaluates the piecewise linearization $\pl_{\rx} F(\cdot)$ at point \src{x}.
-% \lstinlineitem{Vector eval_F(const Vector &x)} Evaluates the underlaying functions $F$ at point \src{x}. If there is no underlaying function, this call is identical to \src{eval(x)}.
-% \lstinlineitem{Vector findRoot(double TOL)} Solves the fix point iteration $z_+ = S |z| + \hat c$.
-% \lstinlineitem{Vector solve(const Vector &y,bool verbose, double TOL)} This is \, a method to solve the equation $\pl_{\rx} F(x) = y$ to a tolerance \src{TOL} with a Newton variant. See equation \eqref{eq:plannewton} for details.
-% \lstinlineitem{Matrix gen_jac(const Vector &x, const Vector &v)} This builds the generalized Jacobian in the direction of $v$. The equation \src{gen_jac(x,v) == jac(x+v)} (abusing notation) holds if \src{jac(x+v)} is well defined. 
-% \lstinlineitem{Matrix jac(const Vector &x)} This builds the Jacobian at point \src{x}. This is only viable for non-critical \src{x} (meaning all components of the signature vector $\sigma$ are nonzero).
-% \lstinlineitem{Matrix solveODE(const double N, const Vector &x0, const double t0, const double t_end, bool verbose, double TOL)} Solves the ordinary differential equation $\dot x = F(x)$. See algorithm \ref{alg:solveODE} for details.
-% \lstinlineitem{Matrix solve_ode_simple(double N, const Vector &x0, double t_0,double t_end, bool verbose = false)} Solves the ODE $\dot x = F(x)$ with the explicit midpoint rule $\cx - \hx = h F(\cx + \tfrac12 h F(\cx))$.
-% \lstinlineitem{friend ostream& operator <<(ostream &os, const PlanC &p)} This overrides the outstream operator \src{<<}. All relevant components are printed.
-% \end{description}
+Projeziert die Werte \src{xState} des Zustandsraumes mit den Stützstellen \src{tState} in den Raum der Observierungen mit den Stützstellen \src{tObs} mittels Spline Interpolation.
+\begin{lstlisting}[numbers=none]
+mat projObs2StateSpline(const vec &tState, const vec &tObs,const mat &xObs)
+\end{lstlisting}
+Projeziert die Werte \src{xObs} des Observierungsraumes mit den Stützstellen \src{tObs} in den Zustandsraum mit den Stützstellen \src{tState} mittels Spline Interpolation.
+to be continued...
+\begin{lstlisting}[numbers=none]
+void out()
+\end{lstlisting}
+Macht eine Konsolenausgabe des \src{Plan-C} Objektes
 \section[Private Fields]{The \texorpdfstring{\src{private}}{Private} Fields}
 \begin{description}
 \lstinlineitem{const int MAX_IT} The maximal number of iterations in the inner loop of \src{SolveODE}.
 \lstinlineitem{size_t n,m,s} The dimensions of the linearization. \src{n} is the size of the input of $F$, \src{m} the size of the output and \src{s} is the number of switching variables.
 \lstinlineitem{bool factorized} The flag that shows if the LU-factorization of $J$ has been performed.
-\lstinlineitem{Vector c,b} The vector components of the abs-normal form.
-\lstinlineitem{Matrix Z,L,J,Y} The matrix components of the abs-normal form.
-\lstinlineitem{Matrix Big} The extended Jacobian consisting of \src{Z,L,J,Y}. 
-\lstinlineitem{Vector idx} The permutation vector belonging to the LU-factorized $J$. 
-\lstinlineitem{SubMatrix S} The Schur-complement of the abs-normal form. This is only available if \src{factorized==true}. This is a virtual matrix that accesses the memory of \src{Big} (the upper right block matrix of it).
-\lstinlineitem{SubMatrix LUJ} The lower left block of \src{Big} that is representing the LU-factorization of $J$. 
+\lstinlineitem{vec c,b} The vector components of the abs-normal form.
+\lstinlineitem{mat Z,L,J,Y} The matrix components of the abs-normal form.
+\lstinlineitem{mat Big} The extended Jacobian consisting of \src{Z,L,J,Y}. 
+\lstinlineitem{vec idx} The permutation vector belonging to the LU-factorized $J$. 
+\lstinlineitem{mat S} The Schur-complement of the abs-normal form. This is only available if \src{factorized==true}. This is a virtual matrix that accesses the memory of \src{Big} (the upper right block matrix of it).
+\lstinlineitem{mat LUJ} The lower left block of \src{Big} that is representing the LU-factorization of $J$. 
 \lstinlineitem{simple_function F} The function pointer to the underlying function for the piecewise linearization. This may be \src{std::nullptr} if the linearization is not dependent on an external function.
-\lstinlineitem{Vector xo} The base point of the linearization. If no base point is given, this point is initialized with $0_n$.
-\lstinlineitem{Vector fxo} The function evaluated at \src{xo}. According to equation \eqref{eq:plf} this is the same for the linearization and the underlying function.
+\lstinlineitem{vec xo} The base point of the linearization. If no base point is given, this point is initialized with $0_n$.
+\lstinlineitem{vec fxo} The function evaluated at \src{xo}. According to equation \eqref{eq:plf} this is the same for the linearization and the underlying function.
 \end{description}
 \section[Private Methods]{The \texorpdfstring{\src{private}}{Private} Methods}
 \begin{description}
-\lstinlineitem{void updateLinearization(const Vector &x)} Recalculates the piecewise linearization at point \src{x}. If there is no underlying function, this only changes \src{xo} and \src{fxo}. Otherwise a new linearization is calculated with ADOL-C.
-\lstinlineitem{Vector getCHat(const Vector &y)} This calculates $\hat c = c - Z J^{-1}b$. It triggers a \src{factorize()}.
-\lstinlineitem{Vector calculate_z(const Vector &x)} solves $z = c + Zx + L|z|$ for $z$ using the strict triangular structure of $L$.
-\lstinlineitem{Vector calculate_x(Vector z, Vector y)} solves $y = b + Jx + Y|z|$ for $x$. This triggers a \src{factorize()} and uses the LU-factorization of $J$. 
-\lstinlineitem{Vector eval(Vector z, Vector x)} evaluates the piecewise linearization using the already calculated value for \src{z}.
+\lstinlineitem{void updateLinearization(const vec &x)} Recalculates the piecewise linearization at point \src{x}. If there is no underlying function, this only changes \src{xo} and \src{fxo}. Otherwise a new linearization is calculated with ADOL-C.
+\lstinlineitem{vec getCHat(const vec &y)} This calculates $\hat c = c - Z J^{-1}b$. It triggers a \src{factorize()}.
+\lstinlineitem{vec calculate_z(const vec &x)} solves $z = c + Zx + L|z|$ for $z$ using the strict triangular structure of $L$.
+\lstinlineitem{vec calculate_x(vec z, vec y)} solves $y = b + Jx + Y|z|$ for $x$. This triggers a \src{factorize()} and uses the LU-factorization of $J$. 
+\lstinlineitem{vec eval(vec z, vec x)} evaluates the piecewise linearization using the already calculated value for \src{z}.
 \end{description}

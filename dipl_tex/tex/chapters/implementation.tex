@@ -11,6 +11,7 @@ ADOL-C ist ebenfalls ein Open Source Paket zur exakten automatischen Differentia
 ADOL-C wurde von Andreas Griewank erdacht und wird zurzeit in der Forschungsgruppe um Andrea Walther an der Universität Paderborn weiterentwickelt. Weitere Informationen zur Verwendung lassen sich in der Dokumentation \cite{walther2012getting} nachvollziehen. ADOL-C ist unter der \textit{Eclipse Public License 1.0} oder der \textit{GNU General Public License 2.0} in Projekten einsetzbar.
 
 \section{Plan-C}
+\label{sec:impl:planc}
 Sämtliche Versuche wurden mit Plan-C erstellt, einer C++ Bibliothek, welche im Rahmen der Diplomarbeit von Paul Boeck in \cite{boeck14} erarbeitet und dokumentiert wurde. Da im Rahmen der vorliegenden Arbeit rechenintensivere Beispiele betrachtet werden, wurde ein Fork dieser Bibliothek erstellt und Armadillo als Matrix - Vektor Bibliothek eingesetzt, um die allgemeine Performance zu steigern; dies bedeutet, die in Boecks Arbeit als Verbesserungsvorschlag gegebene Benutzung von Sparse Matrizen einzubauen und mehrerer Prozessorkerne durch Parallelisierung zu unterstützen.  Desweiteren wurde sie durch diverse Funktionen erweitert, damit sie die Datenassimilierung mittels stückweiser Linearisierung unterstützt. Eine kurze Dokumentation darüber soll im Folgenden dargelegt werden.
 
 \subsection{Abs-Normal Form}
