@@ -186,7 +186,7 @@ Wenn wir nun die verallgemeinerte Mittelpunktsregel \eqref{eq:genMidpointRule} a
 \xadj_n - \xadj_a &= h\cdot \int_{-0.5}^{0.5}\xo-\rxobs - \frac{\partial F(\xo,d)}{\partial x}^\tr \cdot \xadj\\
 									&= h\cdot \left[\xo-\rxobs - \int_{-0.5}^{0.5} \frac{\partial F(\xo ,d)}{\partial x}^\tr \cdot \xadj dt\right]\\
 \end{align*}
-Angenommen wir haben $l \in \mathbb{N}$ Kinks zwischen $x_n$ und $x_{a}$, wobei $-0.5 = \tau_0 <\tau_1 <\ldots < \tau_l=0.5$, dann können wir das Integral aufteilen, sodass wir über die Teilintervalle $[t_j,t_j+1], j=0,\ldots,l$ integrieren und unabhängige Variablen herausziehen können:
+Angenommen wir haben $l \in \mathbb{N}$ Kinks zwischen $x_n$ und $x_{a}$, wobei $-0.5 = \tau_0 <\tau_1 <\ldots < \tau_l=0.5$, dann können wir durch die Additivität das Integral aufspalten, sodass wir über die Teilintervalle $[t_j,t_j+1], j=0,\ldots,l$ integrieren und unabhängige Variablen herausziehen können:
 \begin{align*}
 \xadj_n - \xadj_a &= h\cdot \left[ \xo-\rxobs - \sum_{i=1}^l \int_{\tau_{i-1}}^{\tau_{i}}\frac{\partial F(\xo+\tau_{i-1}d,d)}{\partial x}^\tr \cdot \xadj dt\right]\\
 									&= h\cdot \left[\xo -\rxobs - \sum_{i=1}^l \underbrace{\frac{\partial F(\xo+\tau_{i-1}d,d)}{\partial x}^\tr }_{A_i^\tr} \cdot \int_{\tau_{i-1}}^{\tau_{i}} \xadj dt\right]\\
@@ -231,10 +231,9 @@ Als Algorithmus ergibt sich folglich
  \Function{calc\_kink\_partials}{$\cx,\hx,d$}
  	\State $\hat{\tau} \gets 0$, $x_{kink} \gets \cx$
  	\State $\bar{A} \gets 0 $, $\hat{A} \gets 0$
-	\State $d\gets \frac{d}{\|d\|}\cdot \|\xhat - \xcheck\|$ \Comment{Normalize direction}
  	\Repeat
- 	  \State $\check{\tau} \gets \hat{\tau}, ~ x_{kink} \gets x_{kink} +\check{\tau}d$
- 	  \State $\hat{\tau} \gets \Call{critMult}{ x_{kink},d}$ 		 \Comment{Berechne kritischen Multiplikator bis zum nächsten Kink}
+ 	  \State $\check{\tau} \gets \check{\tau} + \hat{\tau}, ~ x_{kink} \gets x_{kink} +\check{\tau}d$
+ 	  \State $\hat{\tau} \gets \Call{critMult}{ x_{kink},d}$ 		 \Comment{Berechne kritischen Multiplikator}
 		\If{$\hat{\tau}>1$} $\hat{\tau}\gets 1$ \EndIf 
  		\State $\rx \gets x_{kink}+0.5\cdot \hat{\tau} d$	\Comment{Berechne Mittelpunkt zwischen den Kinks}
  	  \State $\frac{\partial F(\rx)}{\partial x} \gets $ gen\_jac($\rx,d$) \Comment{Berechne $\partial F$ aus der Abs-Normalform}
