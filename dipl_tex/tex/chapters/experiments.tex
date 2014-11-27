@@ -613,7 +613,11 @@ Es ist zu erkennen, dass in diesem Beispiel keine Verbesserung bzgl. des Energie
 \subsection{Gradient und Optimierung}
 Bei der Konvergenz des Gradienten in Bild \ref{fig:sweConvergenceAdjoint} ist für $\theta=1$ kein besseres Verhalten der GIMP gegenüber der IMP feststellbar. Falls $\theta=2$ gesetzt wird (Bild \ref{fig:sweConvergenceAdjoint1}), so ergibt sich zwar keine bessere Konvergenzordnung der GIMP, jedoch hat sie einen kleineren Fehler.
 
-Mit $\theta\approx 2$ ist der Limiter am wenigsten dissipativ, d.h. es entstehen keine neuen lokalen Extrema durch die Diskretisierung, währenddessen für $\theta\approx 1$ eine nichtoszillatorische Natur der approximativen Lösung sichert (\cite{kurganov2000new}).
+Mit $\theta\approx 2$ ist der Limiter am wenigsten dissipativ, d.h. es entstehen keine neuen lokalen Extrema durch die Diskretisierung, währenddessen für $\theta\approx 1$ eine nichtoszillatorische Natur der approximativen Lösung sichert (\cite[Abschnitt 6]{kurganov2000new}).
+
+Die Vermutung liegt deshalb nahe, dass die GIMP besser oszillatorischem Verhalten der Lösung behandelt, als die IMP.
+
+
 \begin{figure}
 \footnotesize
 \begin{minipage}[b]{0.49\linewidth}
