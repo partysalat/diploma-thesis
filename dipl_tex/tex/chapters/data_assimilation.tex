@@ -332,7 +332,7 @@ Integration über $[t,t_1]$ liefert
  \gatdiff 'x(t) -  \gatdiff 'x(t_1)  = \int_t^{t_1} S(t,\tau) \nabla_x H(\tau) d\tau
 \]
 Mit $ \gatdiff 'x(t_1) = 0$ und mit \eqref{eq:gradCostFunctionalAdjoint} folgt, dass $\nabla_v J = \gatdiff'x(0)$. Das bedeutet, dass sich der Gradient des Zielfunktionals mithilfe einer Rückwärtsintegration des Adjungierten Modells berechnen lässt.
-Genauer werden folgende Schritte benötigt, um den Gradienten des Zielfunktionals \eqref{eq:costfunctional} zu berechnen
+Genauer werden die Schritte in Figur \ref{alg:genCostFunctionalPseudo} benötigt, um den Gradienten des Zielfunktionals \eqref{eq:costfunctional} zu berechnen.
 \begin{figure}
 \begin{framed}
  \begin{enumerate}
@@ -343,6 +343,7 @@ Genauer werden folgende Schritte benötigt, um den Gradienten des Zielfunktional
 \end{enumerate}
 \end{framed}
 \caption{Berechnung der Jacobimatrix des Kostenfunktionals $J$}
+\label{alg:genCostFunctionalPseudo}
 \end{figure}
 
 % Übersetzt in Pseudocode lautet der Algorithmus

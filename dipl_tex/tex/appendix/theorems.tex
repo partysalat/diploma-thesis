@@ -1,4 +1,4 @@
-\chapter{Theorems}
+\chapter{Theoreme}
 % http://www.math.wisc.edu/~rharron/teaching/MAT203/LeibnizRule.pdf
 \section{Verallgemeinerte Leibniz Integral Regel}
 \begin{theorem}[Leibniz Integral Regel]
@@ -88,25 +88,25 @@ und damit die Behauptung.
 \end{theorem}
 
  
-\section{Verallgemeinerter MinMod Flux Limiter}
-Der verallgemeinerte MinMod lautet
-\[
- \Phi_{mg} = \text{minmod}\left( \theta \frac{u_i-u_{i-1}}{\Delta x}, \frac{u_{i+1}-u_{i-1}}{2\Delta x},\theta \frac{u_{i+1}-u_{i}}{\Delta x}\right) ~ \Theta \in [1,2]
-\]
-mit 
-\[
- \text{minmod}(z_1,z_2,\ldots) = 
- \begin{cases}
-  \min_j & \text{falls }z_j>0~ \forall j\\
-  \max_j & \text{falls }z_j<0~\forall j\\
-  0 & \text{sonst}
- \end{cases}
-\]
-
-\begin{theorem}
- Der Verallgemeinerte minmod Flux Limiter lässt sich darstellen als:
- \[
-  \Phi_{mg} = \min(\max(z_1,z_2,z_3),0) + \max(\min(z_1,z_2,z_3),0)
- \]
-mit $z_1 = \theta \frac{u_i-u_{i-1}}{\Delta x}$, $z_2=\frac{u_{i+1}-u_{i-1}}{2\Delta x}$ und $z_3 = \theta \frac{u_{i+1}-u_{i}}{\Delta x}$
-\end{theorem}
+% \section{Verallgemeinerter MinMod Flux Limiter}
+% Der verallgemeinerte MinMod lautet
+% \[
+%  \Phi_{mg} = \text{minmod}\left( \theta \frac{u_i-u_{i-1}}{\Delta x}, \frac{u_{i+1}-u_{i-1}}{2\Delta x},\theta \frac{u_{i+1}-u_{i}}{\Delta x}\right) ~ \Theta \in [1,2]
+% \]
+% mit 
+% \[
+%  \text{minmod}(z_1,z_2,\ldots) = 
+%  \begin{cases}
+%   \min_j & \text{falls }z_j>0~ \forall j\\
+%   \max_j & \text{falls }z_j<0~\forall j\\
+%   0 & \text{sonst}
+%  \end{cases}
+% \]
+% 
+% \begin{theorem}
+%  Der Verallgemeinerte minmod Flux Limiter lässt sich darstellen als:
+%  \[
+%   \Phi_{mg} = \min(\max(z_1,z_2,z_3),0) + \max(\min(z_1,z_2,z_3),0)
+%  \]
+% mit $z_1 = \theta \frac{u_i-u_{i-1}}{\Delta x}$, $z_2=\frac{u_{i+1}-u_{i-1}}{2\Delta x}$ und $z_3 = \theta \frac{u_{i+1}-u_{i}}{\Delta x}$
+% \end{theorem}

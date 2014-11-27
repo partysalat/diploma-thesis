@@ -185,8 +185,9 @@ Die Konvergenzplots \ref{fig:rollingStonesAdjoint} ergeben ähnliche Robustheits
 \caption{Rolling Stones Adjungierte Gleichung im Intervall $[0,40]$}
 \label{fig:rolling_adjoint_eq}
 \end{figure}
-Dabei fällt die lineare Konvergenz aller Methoden auf. Selbst für einfachere Beispiele ohne Kinks ist die Konvergenz nicht schneller als linear.
-TODO: HERAUSFINDEN WARUM DAS SO IST
+Dabei fällt die in Kapitel \ref{sec:adjointInclusion} vorhergesagte lineare Konvergenz aller Methoden auf.
+% Selbst für einfachere Beispiele ohne Kinks ist die Konvergenz nicht schneller als linear.
+% TODO: HERAUSFINDEN WARUM DAS SO IST
 
 
 \begin{figure}[H]
@@ -552,7 +553,7 @@ Die Berechnung der Eigenwerte und der Ableitungen über den MinMod Limiter bring
 Die benutzten Anfangswerte $U_0 = (h_0,(hu)_0)$ sind in Bild \ref{fig:sweInitialValues} ersichtlich. Genauer ergeben sie sich zu
 \[
 \begin{aligned}
- h_0^{(1)} \sim n\cdot\mathcal N(0.5\cdot L,L) + 1 &&(hu)_0^{(1)}\sim 50\cdot\mathcal N(0.5\cdot L,L) && \text{(Normalverteilt)}\\
+ h_0^{(1)} \sim n\cdot\mathcal N(0.5\cdot L,L) + 1 &&(hu)_0^{(1)}\sim n\cdot\mathcal N(0.5\cdot L,L) && \text{(Normalverteilt)}\\
  h_0^{(2)}(x)= \sin\left( \frac{2\pi k\cdot x}{L}\right) + 1.5 &&(hu)_0^{(2)}(x) = \cos\left( \frac{2\pi k\cdot x}{L}\right) + 1  && \text{(Schwingung)}
 \end{aligned}
 \]
