@@ -568,14 +568,14 @@ Die Romberg Extrapolation konvergiert wie in den vorherigen Beispielen mit einer
 \begin{figure}
 \centering
 \input{img/swe_convergence.tikz}
-\caption{Konvergenz SWE im Intervall $I = [0,50], L=50, \Delta x=10$ mit $U_0^{(1)}$}
+\caption{Konvergenz SWE im Intervall $I = [0,50], L=50, \Delta x=10$ mit $U_0^{(1)},\theta=1$}
 \label{fig:sweConvergence}
 \end{figure}
 
 \begin{figure}
 \centering
 \input{img/swe_convergence_romberg.tikz}
-\caption{Konvergenz SWE Romberg im Intervall $I = [0,50], L=100, \Delta x=10$ mit $U_0^{(1)}$}
+\caption{Konvergenz SWE Romberg im Intervall $I = [0,50], L=100, \Delta x=10$ mit $U_0^{(1)},\theta=1$}
 \label{fig:sweConvergenceRomberg}
 \end{figure}
 Dass die verallgemeinerte Mittelpunktsregel eine bessere Integration liefert ist auch im Bild \ref{fig:sweErrorOverTime} ersichtlich, in dem der Fehler über die Zeit geplottet wurde. Während die GIMP anfangs schlechter integriert, besitzt sie, über einen längeren Zeitraum betrachtet, einen deutlich geringeren Fehler im Gegensatz zu den anderen Methoden.
@@ -595,7 +595,7 @@ Dass die verallgemeinerte Mittelpunktsregel eine bessere Integration liefert ist
 \input{img/swe_error_over_time_all.tikz}
 \caption*{(b) Summiert}
 \end{minipage}
-\caption{SWE Fehler über Zeit mit $L=200,\Delta x=10,h = 1$ und $U_0^{(2)},k=2$}
+\caption{SWE Fehler über Zeit mit $L=200,\Delta x=10,h = 1$ und $U_0^{(2)},k=2,\theta=1$}
 \label{fig:sweErrorOverTime}
 \end{figure}
 Da in unserem System keine Reibung auftritt und periodische Randbedingungen haben, müssen die Summe der potentiellen und kinetischen Energie konstant sein. Nun können wir den Energieverlust über die Zeit mittels der Formel \eqref{eq:energyVariation} berechnen. Dabei wird die Höhe $h$ als potentielle und $\frac{1}{2}u^2$ als kinetische Energie betrachtet, wobei $u$ sich aus Formel \eqref{eq:sweHuToU} ergibt. Es entsteht (für $\hat h$ als Schrittweite)
@@ -606,7 +606,7 @@ und als Energiefehler Bild \ref{fig:sweEnergyVariation}.
 \begin{figure}
 \centering
 \input{img/swe_energy_variation.tikz}
-\caption{Energievariation der SWE}
+\caption{Energievariation der SWE mit $L=50,\Delta x = 10, I = [0,25],\theta=1,U_0^{(2)},k=0.5$}
 \label{fig:sweEnergyVariation}
 \end{figure}
 Es ist zu erkennen, dass in diesem Beispiel keine Verbesserung bzgl. des Energievariationsfehlers vorhanden ist.
@@ -615,7 +615,7 @@ Bei der Konvergenz des Gradienten in Bild \ref{fig:sweConvergenceAdjoint} ist f�
 
 Mit $\theta\approx 2$ ist der Limiter am wenigsten dissipativ, d.h. es entstehen keine neuen lokalen Extrema durch die Diskretisierung, währenddessen für $\theta\approx 1$ eine nichtoszillatorische Natur der approximativen Lösung sichert (\cite[Abschnitt 6]{kurganov2000new}).
 
-Die Vermutung liegt deshalb nahe, dass die GIMP besser oszillatorischem Verhalten der Lösung behandelt, als die IMP.
+Die Vermutung liegt deshalb nahe, dass die GIMP besser oszillatorisches Verhalten der Lösung behandelt, als die IMP.
 
 
 \begin{figure}

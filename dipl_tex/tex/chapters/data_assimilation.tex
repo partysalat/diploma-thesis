@@ -294,7 +294,7 @@ Für den Gradienten des Kostenfunktionals \eqref{eq:gradCostFunctional} entsteht
 \label{eq:gradCostFunctionalAdjoint}
  \nabla_v J = \int_0^T S(0,t) \nabla_x H(t) dt
 \end{equation}
-Um den Gradienten des Kostenfunktionals nun darstellen zu können benötigen wir die \textit{Inhomogene Adjungierte Gleichung}
+Um den Gradienten des Kostenfunktionals nun darstellen zu können benötigen wir die \textit{Inhomogene Adjungierte Gleichung} (oder auch \textit{inhomogenes adjungierte tangent linear model})
 \begin{equation}
 \label{eq:inhAdjEquation}
 -d\gatdiff'x(t) = F'^*(t)\gatdiff'x - \nabla_x H(t)
@@ -304,7 +304,8 @@ welche durch die Lösung
 \label{eq:solutionInhAdjEquation}
  \gatdiff'x(t) = \int_t^{t_1} S(t,\tau)\nabla_x H(\tau)d\tau
 \end{equation}
-mit $\gatdiff x(t_1)=0$ beschrieben ist. Dass \eqref{eq:solutionInhAdjEquation} die Inhomomgene Adjungierte Gleichung \eqref{eq:inhAdjEquation} löst lässt sich mittels den Eigenschaften des Resolventen \eqref{eq:resolventPropertiesA} und \eqref{eq:resolventPropertiesB} zeigen. Durch Substituieren erhält man
+mit $\gatdiff x(t_1)=0$ beschrieben ist.
+Dass \eqref{eq:solutionInhAdjEquation} die Inhomomgene Adjungierte Gleichung \eqref{eq:inhAdjEquation} löst lässt sich mittels den Eigenschaften des Resolventen \eqref{eq:resolventPropertiesA} und \eqref{eq:resolventPropertiesB} zeigen. Durch Substituieren erhält man
 \begin{equation*}
  \begin{aligned}
   \frac{d\gatdiff'x}{dt} &= \frac{d}{dt} \int_t^{t_1} S(t,\tau)\nabla_x H(\tau)d\tau \\
