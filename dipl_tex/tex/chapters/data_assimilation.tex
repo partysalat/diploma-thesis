@@ -20,7 +20,7 @@ Als Kostenfunktional dient die $L^2$ - Norm der Differenz der Lösung $x$ von \e
  J(x_0) = \frac{1}{2}\int_0^T H(x(t),t)dt= \frac{1}{2}\int_0^T \|C\cdot x(V)-\xobs\|^2dt
 \end{equation}
 Die skalarwertige Funktion $J$ ist damit jene Funktion, die das Maß zwischen der Lösung $x$ und den Observierungsparametern $\xobs$ darstellt.
-Man beachte, dass das Zielfunktional nur abhängig vom Anfangswert $x_0$ ist. Das Ziel besteht darin, $x_0 = x_0^*$ zu finden, sodass
+Man beachte, dass das Zielfunktional nur abhängig vom Anfangswert $x_0$ ist. Das Ziel besteht darin, $x_0 = x_0^*$ zu finden, sodass das unrestringierte Optimierungsproblem
 \begin{equation}
 \label{eq:bolzaProblem}
 \begin{aligned}
@@ -29,7 +29,7 @@ Man beachte, dass das Zielfunktional nur abhängig vom Anfangswert $x_0$ ist. Da
 \end{aligned}
 \end{equation}
 
-minimiert wird. 
+gelöst wird. 
 In der Literatur ist dieses Problem auch als \textit{Bolza Problem} bekannt. Clarke gibt in seinem Buch \cite[S. 165 ff]{clarke1990optimization} eine Einführung in ein verallgemeinertes Problem, in dieser Arbeit werden wir uns auf das oben Diskutierte beschränken.
 
 Die Grundlage zur Minimierung des Kostenfunktionals ist zunächst die Lösungstheorie zu gewöhnlichen Differentialgleichungen.

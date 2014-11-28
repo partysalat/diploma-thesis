@@ -224,9 +224,9 @@ Durch Umsortierung erhalten wir
 \end{align*}
 mit $\bar{A}^\tr = \sum_{i=1}^l A_i^\tr \diff \tau_i $ und $\hat{A}^\tr = \sum_{i=1}^l A_i^\tr \diff \tau_i \rtau_i$.
 Als Algorithmus ergibt sich folglich Prozedur 4, welche die Berechnung von $\bar A$ und $\hat A$ durchführt, als auch Prozedur 5, welche das erstellte Gleichungssystem löst.
- \begin{algorithm}
+ \begin{algorithm}[H]
  \algrenewcommand{\algorithmiccomment}[1]{\hfill{\scriptsize #1}}
- \caption{\texttt{PlanC::calc\_kink\_partials}}
+ \caption{Gewichtete Gradienten}
  \label{alg:kinkPartials}
  \begin{algorithmic}[1]
  \Function{calc\_kink\_partials}{$\cx,\hx,\Delta x$}
@@ -250,10 +250,11 @@ Als Algorithmus ergibt sich folglich Prozedur 4, welche die Berechnung von $\bar
  \end{algorithm}
 \begin{algorithm}
  \algrenewcommand{\algorithmiccomment}[1]{\hfill{\scriptsize #1}}
- \caption{\texttt{PlanC::jac\_data\_assimilation}}
+ \caption{Gradient des Kostenfunktionals}
  \label{alg:jacDataAssimilation}
  \begin{algorithmic}[1]
- \Require $x_{0},t_0,T, h,x_{Obs}, TOL$
+%  \Require $x_{0},t_0,T, h,x_{Obs}, TOL$
+ \Function{jac\_data\_assimilation}{$x_{0},t_0,T, h,x_{Obs}, TOL$}
  \State $N = \ceilS{\frac{t_0 - T}{h}}$
  \State $\hat{\bar{x}} \gets 0$ \Comment{Setze Anfangswert}
  \State $x \gets  \Call{solveODE}{x_0,t_0, T,h, TOL};$\Comment{Löse ODE in Vorwärtsrichtung}
@@ -267,6 +268,7 @@ Als Algorithmus ergibt sich folglich Prozedur 4, welche die Berechnung von $\bar
  	\State $\check{\bar{x}} \gets \Call{Solve}{( I-\frac{h}{2}\bar{A}^\tr + h \hat{A}^\tr)\check{\bar{x}}  = (I+\frac{h}{2}\bar{A}^\tr + h\hat{A}^\tr)\hat{\bar{x}}- h(\rx-\rx_{Obs})}$
  \EndFor
  \State \Return $-\check{\bar{x}}$
+ \EndFunction
  \end{algorithmic}
  \end{algorithm}
 Bemerkt sei, dass sich die Formel für $l=1$, wenn sich also kein Kink zwischen $x_n$ und $x_a$ befindet, zur bekannten impliziten Mittelpunktsregel vereinfacht. Für diesen Fall gilt $\diff \tau =1,\rtau = 0$ und damit
