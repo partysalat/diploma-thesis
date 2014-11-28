@@ -9,7 +9,7 @@
 \tikzsetnextfilename{swe_energy_variation}
 \begin{tikzpicture}
 \begin{loglogaxis}[
-	width=\linewidth,
+	width=10cm,
 % 	grid=both,
 	xlabel=Anzahl der Freiheitsgrade $N$,
 	ylabel=Mittelwert des Energieverlustes $T$,

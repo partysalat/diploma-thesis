@@ -9,7 +9,7 @@
 \tikzsetnextfilename{swe_convergence_opt}
 \begin{tikzpicture}
 \begin{loglogaxis}[
-	width=\linewidth,
+	width=10cm,
 % 	grid=both,
 	xlabel=Optimierungsschritte,
 	ylabel=$J(x)$,

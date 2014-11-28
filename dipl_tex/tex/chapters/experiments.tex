@@ -671,6 +671,14 @@ Die Vermutung liegt deshalb nahe, dass die GIMP besser oszillatorisches Verhalte
 \end{figure}
 
 
+In Abbildung \ref{fig:sweConvergenceOpt} ist das Konvergenzresultat für eine Optimierung erkennbar. Beide Methoden konvergieren in etwa gleich schnell, wobei die Optimierung mit der GIMP etwas schneller konvergiert. Da beide Gradienten des Kostenfunktionals für die gegebenen Eingansparameter ein ähnlich schlechtes Konvergenzverhalten besitzen, war kein besseres Verhalten der GIMP zu erwarten. Auch in der Rekonstruktionen der Anfangswerte in Abbildung \ref{fig:sweOptInitValues} ist ersichtlich, dass beide Methoden ähnlich schlecht den ursprünglichen Anfangswert berechnen konnten.
+% Da jedoch beide Methoden bei einem relativ großen Fehler abbrechen ist alles kacke
+\begin{figure}[H]
+\centering
+\input{img/swe_convergence_opt.tikz}
+\caption{SWE Konvergenz Optimierung mit Parametern $L=100,\Delta x=10$, $x_0=U_0^{(2)},k=0.5$, $x_{\text{Obs}} = U_0^{(2)}, k=1$ und $\theta=2$}
+\label{fig:sweConvergenceOpt}
+\end{figure}
 
 \begin{figure}[H]
 \begin{minipage}[b]{0.49\linewidth}
@@ -688,11 +696,4 @@ Die Vermutung liegt deshalb nahe, dass die GIMP besser oszillatorisches Verhalte
 \caption{SWE Rekonstruktion der Anfangswerte mit $L=100,\Delta x=10$, $x_0=U_0^{(2)},k=0.5$, $x_{\text{Obs}} = U_0^{(2)}, k=1$ und $\theta=2$}
 \label{fig:sweOptInitValues}
 \end{figure}
-In Abbildung 
 
-\begin{figure}[H]
-\centering
-\input{img/swe_convergence_opt.tikz}
-\caption{SWE Konvergenz Optimierung mit Parametern $L=100,\Delta x=10$, $x_0=U_0^{(2)},k=0.5$, $x_{\text{Obs}} = U_0^{(2)}, k=1$ und $\theta=2$}
-\label{fig:sweConvergenceOpt}
-\end{figure}
