@@ -1,0 +1,34 @@
+\documentclass{standalone}
+\IfStandalone{
+	\usepackage{pgfplots,pgfplotstable}
+	\usetikzlibrary{external}
+	\newcommand{\fromRoot}[1]{../#1}
+}{%
+}
+\begin{document}
+\tikzsetnextfilename{swe_opt_initial_values}
+\begin{tikzpicture}
+\begin{axis}[
+	width=\linewidth,
+% 	grid=both,
+	xlabel=$x$,
+	ylabel=$h$,
+	legend entries ={
+	$x_0^{(Obs)}$,
+	$x_0^{(Start)}$,
+	$x_0^{(PL)}$,
+	$x_0^{(Impl)}$
+	},
+	legend style={at={(0.5,1.0)},anchor=south},
+	legend columns=2
+]
+      \addplot[mark=none,red,very thin] table[x index=0,y index=2] {\fromRoot img/data/sweInitVals/x0Obs.dat};%Obs
+      \addplot[mark=none,orange,very thin] table[x index=0,y index=2] {\fromRoot img/data/sweInitVals/x0Start.dat};%x0
+%       \addplot[mark=none,green,very thin] table[x index=0,y index=2] {\fromRoot img/data/swe_initial_values.dat};%expl midpoint
+      \addplot[mark=none,green,very thin] table[x index=0,y index=2] {\fromRoot img/data/sweInitVals/x0CalcImpl.dat};%impl
+    \addplot[mark=none,blue,very thin] table[x index=0,y index=2] {\fromRoot img/data/sweInitVals/x0Calc.dat};%PL
+%       \addplot[mark=none,cyan,very thin] table[x index=0,y index=4] {\fromRoot img/data/swe_initial_values.dat};%expl midpoint
+ 	\end{axis}
+ 	%f
+\end{tikzpicture}
+\end{document}

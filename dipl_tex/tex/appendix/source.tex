@@ -1,6 +1,6 @@
 \chapter{Quellcode Dokumentation}\label{sec:source}
 Die Dokumentation ist in Teilen aus der Diplomarbeit von Paul Boeck aus \cite{boeck14} übernommen und mit eigenen Methoden erweitert worden.
-\section[Public Methods]{\texorpdfstring{\src{public}}{Public} Methoden}
+\section[Public Methoden]{\texorpdfstring{\src{public}}{Public} Methoden}
 \lstset{
 		aboveskip=0pt,
 		belowskip=0pt,
@@ -96,31 +96,69 @@ Projeziert die Werte \src{xState} des Zustandsraumes mit den Stützstellen \src{
 mat projObs2StateSpline(const vec &tState, const vec &tObs,const mat &xObs)
 \end{lstlisting}
 Projeziert die Werte \src{xObs} des Observierungsraumes mit den Stützstellen \src{tObs} in den Zustandsraum mit den Stützstellen \src{tState} mittels Spline Interpolation.
-to be continued...
+%
+\begin{lstlisting}[numbers=none]
+void calc_kink_partial(double tCheck, double tHat, vec xCheck,  xHat, const vec &d, mat &A, mat &B)
+\end{lstlisting}
+Berechnet den gewichteten Gradienten nach Prozedur \ref{alg:kinkPartials} im Intervall \src{xCheck} bis \src{xHat} und speichert die Werte in \src{A} und \src{B}.
+\begin{lstlisting}[numbers=none]
+double cost_functional_data_assimilation(const vec &tState, const vec &x0, const vec &tObs, const mat &xObs, size_t type, bool verbose=false, mat sol=mat(0,0))
+\end{lstlisting}
+Berechnet das Kostenfunktional \eqref{eq:costfunctional} mittels Trapezregel wie im Abschnitt \ref{sec:implementation:costfunctional} beschrieben. \src{tState} ist dabei die Zeitdiskretisierung des Zustandsraumes, \src{x0} der Auswertungspunkt, \src{tObs} die Zeitdiskretisierung des Observierungsraumes, \src{xObs} die Observierungen, \src{type} gibt die ODE Methode an (0:PL,1:Implizit,2:Explizit), verbose gibt zusätzliche Informationen in der Konsole aus. Optional kann die ODE Lösung \src{sol} mit übergeben werden, sodass diese nicht noch einmal berechnet werden muss.  
+\begin{lstlisting}[numbers=none]
+vec jac_data_assimilation_pl(const vec &tState, const vec &x0, const vec &tObs, const mat &xObs, vec direction, double TOL, bool verbose = false, mat sol=mat(0,0))
+\end{lstlisting}
+Berechnet den Gradienten des Kostenfunktionals nach Prozedur \ref{alg:jacDataAssimilation}. Für Parameter siehe \src{cost_functional_data_assimilation}.
+\begin{lstlisting}[numbers=none]
+vec jac_data_assimilation_implicit_midpoint(const vec &tState, const vec &x0, const vec &tObs, const mat &xObs, vec direction, double TOL, bool verbose = false, mat sol=mat(0,0))
+\end{lstlisting}
+Analog zu \src{jac_data_assimilation_pl} nur mit impliziter Mittelpunktsregel berechnet.
+\begin{lstlisting}[numbers=none]
+vec jac_data_assimilation_explicit_midpoint(const vec &tState, const vec &x0, const vec &tObs, const mat &xObs, vec direction, double TOL, bool verbose = false, mat sol=mat(0,0))
+\end{lstlisting}
+Analog zu \src{jac_data_assimilation_pl} nur mit expliziter Mittelpunktsregel berechnet.
+\begin{lstlisting}[numbers=none]
+vec solve_data_assimilation_bfgs(const vec &tState, const vec &x0, const vec &tObs, const mat &xObs, double TOL, mat &iterationSteps, bool verbose = false, int type=0)
+\end{lstlisting}
+Führt die Optimierung des Kostenfunkionals mittels BFGS Algorithmus (siehe \ref{alg:bfgs}) aus. Die Variable \src{iterations} kann mit übergeben werden in welcher die Iterationsschritte gespeichert werden. Mit \src{type} kann wieder entschieden werden, welche Methode der Optimierung zu Grunde liegt.
+\begin{lstlisting}[numbers=none]
+void useLUFactorization()
+\end{lstlisting}
+Benutzt die LU Faktorisierung zum Lösen linearer Gleichungssysteme
+\begin{lstlisting}[numbers=none]
+void useNewtonSolver(size_t type)
+\end{lstlisting}
+Setzt den Typ des Newton Solvers.\src{(0:OPL=default, 1:CPL, 2:UPL)}
+\begin{lstlisting}[numbers=none]
+void useLUFactorization(bool flag=true)
+\end{lstlisting}
+Wenn auf \src{flag=true}, wird versucht mit der LU Faktorisierung zu rechnen. 
 \begin{lstlisting}[numbers=none]
 void out()
 \end{lstlisting}
-Macht eine Konsolenausgabe des \src{Plan-C} Objektes
-\section[Private Fields]{The \texorpdfstring{\src{private}}{Private} Fields}
+Gibt das \src{Plan-C} Objekte in der Konsole aus.
+\section[Private Variablen]{\texorpdfstring{\src{private}}{Private} Variablen}
 \begin{description}
-\lstinlineitem{const int MAX_IT} The maximal number of iterations in the inner loop of \src{SolveODE}.
-\lstinlineitem{size_t n,m,s} The dimensions of the linearization. \src{n} is the size of the input of $F$, \src{m} the size of the output and \src{s} is the number of switching variables.
-\lstinlineitem{bool factorized} The flag that shows if the LU-factorization of $J$ has been performed.
-\lstinlineitem{vec c,b} The vector components of the abs-normal form.
-\lstinlineitem{mat Z,L,J,Y} The matrix components of the abs-normal form.
-\lstinlineitem{mat Big} The extended Jacobian consisting of \src{Z,L,J,Y}. 
-\lstinlineitem{vec idx} The permutation vector belonging to the LU-factorized $J$. 
-\lstinlineitem{mat S} The Schur-complement of the abs-normal form. This is only available if \src{factorized==true}. This is a virtual matrix that accesses the memory of \src{Big} (the upper right block matrix of it).
-\lstinlineitem{mat LUJ} The lower left block of \src{Big} that is representing the LU-factorization of $J$. 
-\lstinlineitem{simple_function F} The function pointer to the underlying function for the piecewise linearization. This may be \src{std::nullptr} if the linearization is not dependent on an external function.
-\lstinlineitem{vec xo} The base point of the linearization. If no base point is given, this point is initialized with $0_n$.
-\lstinlineitem{vec fxo} The function evaluated at \src{xo}. According to equation \eqref{eq:plf} this is the same for the linearization and the underlying function.
+\lstinlineitem{const int MAX_IT} Die Maximale Anzahl innerer Schleifen für \src{solve_ode}.
+\lstinlineitem{size_t n,m,s} Die Dimension der Linearisierung. \src{n} ist dabei de Größe des Definitionsberechs von $F$, \src{m} die Größe des Wertebereichs und \src{s} die Anzahl der switching Variablen.
+\lstinlineitem{bool factorized} Flag die zeigt, ob die aktuelle Abs-Normal form LU-faktorisiert wurde
+\lstinlineitem{vec c,b} Die Vektor Komponenten der Abs-Normal Form
+\lstinlineitem{mat Z,L,J,Y} Die Matrix Komponenten der Abs-Normal Form. 
+\lstinlineitem{vec idx} Permutationsvektor der zur LU-Faktorisierung von $J$gehört.
+\lstinlineitem{mat S} Das Schur Komplement der Abs-Normal Form die bei der Methode \src{factorize()} abgespeichert wird
+\lstinlineitem{mat LUJ} Repräsentiert die LU-Faktorisierung von $J$
+\lstinlineitem{simple_function F} Der Function pointer auf die übergebene Funktion
+\lstinlineitem{vec xo} Entwicklungspunkt der aktuellen Abs-Normal Form, falls nicht übergeben wird er auf $0_n$ gesetzt.
+\lstinlineitem{vec fxo} Der am Punkt \src{xo} ausgewertete Funktionswert. An diesem Punkt ist die Auswertung der Linearisierung und der Funktion identisch.
+\lstinlineitem{size_t newtonSolverType} Speichert den gewünschten Newton Solver.
+\lstinlineitem{bool useLUFactorizationFlag} Speichert, ob die LU Faktorisierung benutzt werden soll
+
 \end{description}
-\section[Private Methods]{The \texorpdfstring{\src{private}}{Private} Methods}
+\section[Private Methoden]{\texorpdfstring{\src{private}}{Private} Methoden}
 \begin{description}
-\lstinlineitem{void updateLinearization(const vec &x)} Recalculates the piecewise linearization at point \src{x}. If there is no underlying function, this only changes \src{xo} and \src{fxo}. Otherwise a new linearization is calculated with ADOL-C.
-\lstinlineitem{vec getCHat(const vec &y)} This calculates $\hat c = c - Z J^{-1}b$. It triggers a \src{factorize()}.
-\lstinlineitem{vec calculate_z(const vec &x)} solves $z = c + Zx + L|z|$ for $z$ using the strict triangular structure of $L$.
-\lstinlineitem{vec calculate_x(vec z, vec y)} solves $y = b + Jx + Y|z|$ for $x$. This triggers a \src{factorize()} and uses the LU-factorization of $J$. 
-\lstinlineitem{vec eval(vec z, vec x)} evaluates the piecewise linearization using the already calculated value for \src{z}.
+\lstinlineitem{void updateLinearization(const vec &x)} Erstellt am übergebenen Punkt eine neue Linearisierung der übergebenen Funktion. Falls keine Funktion übergeben wurde wird nur \src{xo} und \src{fxo} angepasst.
+\lstinlineitem{vec getCHat(const vec &y)} Berechnet $\hat c = c - Z J^{-1}b$. Wird im Falle von \src{factorize()} aufgerufen.
+\lstinlineitem{vec calculate_z(const vec &x)} Berechnet $z = c + Zx + L|z|$.
+\lstinlineitem{vec calculate_x(vec z, vec y)} Löst $y = b + Jx + Y|z|$ nach $x$. Dies ruft \src{factorize()} auf und benutzt die LU Faktorisierung von $J$.(falls \src{useLUFactorization=true} ) 
+\lstinlineitem{vec eval(vec z, vec x)} Wertet die Abs-Normal Form am Punkt \src{x} mit bereits berechnetem \src{z} aus. 
 \end{description}
