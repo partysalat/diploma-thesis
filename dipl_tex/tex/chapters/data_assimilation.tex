@@ -1,8 +1,8 @@
 \chapter{Datenassimilation}
 \section{Problemstellung}
-Die 4-D variationelle Datenassimilation ist eine Methode, die im Zusammenhang mit hyperbolischen partiellen Differentialgleichungen steht, z.B. der Wellengleichung.  Eingeführt von Talagrand und Le Dimet in \cite{dimet1986variational} finden die Methoden der optimalen Steuerung immer mehr Verwendung in realen Anwendungsgebieten (z.B. \cite{korotaev2008retrieving,elbern20004d,broquet2009application}). Benutzt wird dieses Verfahren meist in athmosphärischen Modellen, um optimale Parameter zur numerischen Wettervorhersage zu finden. Auch in ozeanographischen Modellen findet diese Methode Anwendung.
+Die 4-D variationelle Datenassimilation ist eine Methode, die im Zusammenhang mit hyperbolischen partiellen Differentialgleichungen steht, z.B. der Wellengleichung.  Eingeführt von Talagrand und Le Dimet in \cite{dimet1986variational} finden die Methoden der optimalen Steuerung immer mehr Verwendung in realen Anwendungsgebieten (z.B. \cite{korotaev2008retrieving,elbern20004d,broquet2009application}). Benutzt wird dieses Verfahren meist in atmosphärischen Modellen, um optimale Parameter zur numerischen Wettervorhersage zu finden. Auch in ozeanographischen Modellen findet diese Methode Anwendung.
 
-Ziel der 4-D Datenassimilation ist es durch Steuerungsparameter, wie etwa Anfangswerte zum Zeitpunkt $t_0$, den Abstand eines Modells gegenüber der in der Zeit gemessenen Observierungsparameter minimal werden zu lassen. 
+Ziel der 4-D Datenassimilation ist es durch Steuerungsparameter, wie etwa Anfangswerte zum Zeitpunkt $t_0$, den Abstand eines Modells gegenüber den in der Zeit gemessenen Observierungsparametern minimal werden zu lassen. 
 
 Um diese Methode herzuleiten folgen wir der Herangehensweise von Talagrand in \cite{talagrand1987variational} und nehmen zuerst die Evolutionsgleichung
 \begin{equation}
@@ -12,7 +12,7 @@ Um diese Methode herzuleiten folgen wir der Herangehensweise von Talagrand in \c
   
 welche eine Gewöhnliche Differentialgleichung beschreibt. $x$ ist dabei die zeitabhängige Zustandsvariable aus dem Hilbertraum $\R^n$, welche die Entwicklung des Systems zu einem Zeitpunkt $t\in \R$ beschreibt. 
 $x_0 \in \R^n$ sei der Anfangswert, welcher gleichzeitig der Steuerungsparameter ist.
-Die Observierungsparameter $\xobs$ sind diskrete Werte, welche Orts - und Zeitabhängig und über ein Intervall $[0,T]$ verteilt sind. Da $\xobs$ diskret ist, wird eine Projektion $C:\Xstate\to \Xobs$ benötigt, welche $x$ aus dem Zustandsraum $\Xstate$ in den Observierungsraum $\Xobs$ abbildet. Üblicherweise ist diese Funktion eine Auswertungsfunktion von $x$ an den Stellen $\tobs$.
+Die Observierungsparameter $\xobs$ sind diskrete Werte oder Funktionen, welche Orts - und Zeitabhängig und über ein Intervall $[0,T]$ verteilt sind. Da $\xobs$  nicht zwangsweise im Zustandsraum $\Xstate$ lebt, wird eine Projektion $C:\Xstate\to \Xobs$ benötigt, welche $x$ aus $\Xstate$ in den Observierungsraum $\Xobs$ abbildet. Üblicherweise ist diese Funktion eine Auswertungsfunktion von $x$ an den Stellen $\tobs$.
 
 Als Kostenfunktional dient die $L^2$ - Norm der Differenz der Lösung $x$ von \eqref{eq:odemodel} zu $\xobs$ über ein gegebenes Zeitintervall $[0,T]$
 \begin{equation}
@@ -36,14 +36,14 @@ Die Grundlage zur Minimierung des Kostenfunktionals ist zunächst die Lösungsth
 
 \section{Gewöhnliche Differentialgleichungen}
 Eine Gleichung der Form \eqref{eq:odemodel} wird eine \textit{Gewöhnliche Differentialgleichung erster Ordnung} genannt. 
-In der nachfolgend betrachteten Theorie sowie in der Implementation der Verfahren in dieser Arbeit werden ausschließlich autonome Gewöhnliche Differentialgleichungen erster Ordnung betrachtet, da sich sämtliche Gewöhnliche Differentialgleichungen in diese Form umschreiben lassen.
-Falls nämlich eine Differentialgleichung n-ter Ordnung der Form 
+In der nachfolgend betrachteten Theorie sowie in der Implementation der Verfahren in dieser Arbeit werden ausschließlich autonome Gewöhnliche Differentialgleichungen erster Ordnung betrachtet, da sich sämtliche Gewöhnliche Differentialgleichungen in diese Form überführen lassen.
+Falls eine Differentialgleichung n-ter Ordnung der Form 
 \[
  \frac{d^n x}{dt^n}= F\left(t;x,\frac{dx}{dt},\ldots,\frac{d^{n-1} x}{dt^{n-1}}\right)
 \]
 mit $F$ differenzierbar, gegeben ist, ist wohlbekannt, dass sie sich durch Hinzufügen zusätzlicher Variablen in ein Differentialgleichungssystem erster Ordnung überführen lassen (\cite[S. 105]{arnold2001grundbegriffe}), mittels
 \[
- \dot x_1 = x_2 \quad ,\ldots,\quad \dot x_{n-1} = x_n, \quad  \dot x_n = F(t;x_1,\ldots,x_{n-1})
+ \dot x_0=t\quad \dot x_1 = x_2 \quad ,\ldots,\quad \dot x_{n-1} = x_n, \quad  \dot x_n = F(x_0;x_1,\ldots,x_{n-1})
 \]
 Durch die Einführung einer weiteren Variablen $x_0 = t$ und Gleichung $\dot x_0=1$ lässt sich die gegebene ODE autonom, also die rechte Seite $F$ unabhängig von der Zeit $t$, schreiben.
 \subsection{Grundlagen}
@@ -66,7 +66,7 @@ Die Existenz und Eindeutigkeit von Lösungen wird durch den Satz von Picard-Lind
 % \]
 Falls eine gewöhnliche Differentialgleichung keine stetige rechte Seite besitzt, kann trotzdem eine Aussage zur Existenz einer Lösung getroffen werden. Filippov beschreibt in \cite{filippov1971existence} die Existenz einer Lösung für Multifunktionen $F(x):\mathcal D \rightrightarrows R^n$ falls diese jedoch \textit{oberhalbstetig} sind. 
 \begin{theorem}[Filippov]
- Sei U wie in \ref{thm:picard-lindeloeff} gegeben und $D\subset U$. Sei $F:D\rightrightarrows \R^n$ eine mengenwertige Abbildung. Für alle Punkte der Region $D$ sei $F(t,x)$ eine nichtleere beschränkte abgeschlossene Menge. Desweiteren sei $F(t,x)$ oberhalbstetig, also für alle $(t,x)\in D$ und alle $\varepsilon>0$ existiert ein $\delta = \delta(\varepsilon,t,x)>0$, sodass für alle Punkte $(t',x')$ der $\delta$- Umgebung von $(t,x)$ die Menge $F(t',x')$ in der $\varepsilon$-Umgebung der menge $F(t,x)$ liegt.
+ Sei U wie in \ref{thm:picard-lindeloeff} gegeben und $D\subset U$. Sei $F:D\rightrightarrows \R^n$ eine mengenwertige Abbildung. Für alle Punkte der Region $D$ sei $F(t,x)$ eine nichtleere beschränkte abgeschlossene Menge. Desweiteren sei $F(t,x)$ oberhalbstetig, also für alle $(t,x)\in D$ und alle $\varepsilon>0$ existiert ein $\delta = \delta(\varepsilon,t,x)>0$, sodass für alle Punkte $(t',x')$ der $\delta$- Umgebung von $(t,x)$ die Menge $F(t',x')$ in der $\varepsilon$-Umgebung der Menge $F(t,x)$ liegt.
  Wenn nun $F(t,x)$ überall konvex ist, dann besitzt die Differentialinklusion
  \[
   \dot x \in F(t,x)
@@ -103,7 +103,7 @@ Ein Einschrittverfahren der Gestalt
 \[
  x_{i+1}^h = x_i^h + h\sum_{j=1}^m \beta_j k_j \quad \text{ mit } \quad k_j  = f(t_i+ \rho_ih, x_i^h + \sum_{l=1}^m \gamma_{jl} k_l ), \quad j=1,\ldots,m
 \]
-wird \textit{m- stufiges Runge Kutta Verfahren} genannt, mit $m\in \N$. Die Koeffizienten $\beta_j,\gamma_{jl}$ und $\rho_i$ sind geeignet gewählte, reelle Zahlen, die durch das Verfahren eindeutig gegeben sind. Diese Koeffizienten lassen sich in \textit{Butcher Diagramme} angegeben, welche dann ein Verfahren eindeutig beschreiben. Beispiele sind in Tabelle \ref{tab:rungekutta} gegeben.
+wird \textit{m- stufiges Runge Kutta Verfahren} genannt, mit $m\in \N$. Die Koeffizienten $\beta_j,\gamma_{jl}$ und $\rho_i$ sind geeignet gewählte, reelle Zahlen, die durch das Verfahren eindeutig gegeben sind. Diese Koeffizienten lassen sich in \textit{Butcher Tableaus} angegeben, welche dann ein Verfahren eindeutig beschreiben. Beispiele sind in Tabelle \ref{tab:rungekutta} gegeben.
 
 \begin{table}[htdp]
  \centering
@@ -161,16 +161,16 @@ wird \textit{m- stufiges Runge Kutta Verfahren} genannt, mit $m\in \N$. Die Koef
 \caption{Beispiele Runge Kutta Verfahren}
 \label{tab:rungekutta}
 \end{table}
-Bei der Lösung impliziter Verfahren müssen Gleichungssysteme gelöst werden, welche die Berechnungszeit erhöhen. Explizite Verfahren sind schneller zu berechnen, jedoch fehleranfälliger für steife Probleme und im allgemeinen nicht so genau wie implizite Methoden. Im folgenden werden wir für die Lösung von gewöhnlichen Differentialgleichungen die Implizite Mittelpunktsregel benutzen. 
+Bei der Lösung impliziter Verfahren müssen Gleichungssysteme gelöst werden, welche den Berechnungsaufwand pro Schritt erhöhen. Explizite Verfahren sind schneller zu berechnen, jedoch fehleranfälliger für steife Probleme und im allgemeinen nicht so genau wie implizite Methoden. Im folgenden werden wir für die Lösung von gewöhnlichen Differentialgleichungen die Implizite Mittelpunktsregel benutzen. 
 
 Durch das Lösen unseres Modells \eqref{eq:odemodel} mit einer der vorgestellten Methode lässt sich nun das Kostenfunktional $J(x_0)$ \eqref{eq:costfunctional} an einer Stelle $x_0$ berechnen. Das Ziel besteht nun darin, diese Funktion $J$ zu minimieren.
 Bei den Optimierungsmethoden, welche wir betrachten, benötigt man den Gradienten von $J$.
 
 \section{Der Gradient des Zielfunktionals}
 \subsection{Adjungierte Operatoren}
-Für höhere Dimensionen ist die Bestimmung dieses Gradienten jedoch auf klassischem Weg numerisch sehr komplex. Dazu würde man jede Komponente unseres Systems \eqref{eq:odemodel} stören, das gestörte Modell in jeder Komponente integrieren und das Kostenfunktional dieser ausrechnen. Aus der Störung würde sich der Gradient $\partial J/\partial x_0$ ergeben. Dies ist sehr ineffizient. Als effiziente Alternative hat sich die Anwendung adjungierter Gleichungen erwiesen. Mit ihrer Hilfe kann die numerische Komplexität der Berechnung des Gradienten auf ein weniges Vielfaches des integrierens der Evolutionsgleichung \eqref{eq:odemodel} vermindert werden.
+Für höhere Dimensionen ist die Bestimmung dieses Gradienten jedoch auf klassischem Weg numerisch sehr komplex. Dazu würde man jede Komponente unseres Systems \eqref{eq:odemodel} stören, das gestörte Modell in jeder Komponente integrieren und das Kostenfunktional dieser ausrechnen. Aus der Störung würde sich der Gradient $\partial J/\partial x_0$ ergeben. Dies ist sehr ineffizient. Als effiziente Alternative hat sich die Anwendung adjungierter Methoden erwiesen. Mit ihrer Hilfe kann die numerische Komplexität der Berechnung des Gradienten auf ein weniges Vielfaches des Integrierens der Evolutionsgleichung \eqref{eq:odemodel} vermindert werden.
 
-Eine allgemeine Einführung zur Theorie von adjungierten Gleichungen wurde beispielsweise von Cacuci \cite{cacuci1981sensitivity} gegeben, während Talagrand in \cite{talagrand1987variational} adjungierte Operatoren auf Hilberträume einschränkt und mit diesen die Datenassimilation einführt.
+Eine allgemeine Einführung zur Theorie von adjungierten Gleichungen wurde beispielsweise von Cacuci \cite{cacuci1981sensitivity} gegeben, während Talagrand in \cite{talagrand1987variational} adjungierte Operatoren auf Hilberträume einschränkt und mit Diesen die Datenassimilation einführt.
 Für die folgenden Betrachtungen sind Hilberträume von besonderer Wichtigkeit. Sämtliche Lösungstheorie sowohl bei gewöhnlichen als auch bei partiellen Differentialgleichungen basieren auf den speziellen Eigenschaften dieser Räume.
 
 Ein Hilbertraum ist ein reller oder komplexer Vektorraum mit einem Skalarprodukt, der bzgl. der vom Skalarprodukt induzierten Norm vollständig ist. Da $\R$ vollständig ist, ist jeder endlichdimensionale Vektorraum versehen mit einem Skalarprodukt vollständig. In der numerischen Praxis sind damit sämtliche folgenden Schritte valide. 
@@ -219,7 +219,7 @@ wobei $G'^*$ der adjungierte Operator von $G'$ beschreibt. Damit ist
 \label{eq:adjointEssential}
 \nabla_u J = G'^*\nabla_v J
 \end{equation} 
-Die Gleichung \eqref{eq:adjointEssential} stellt die Basis für die Nutzung der adjungierte Operatoren für die Datenassimilation dar. Sie bietet ein besonders effizienten Weg $\nabla_u J$ numerisch zu berechnen. Angewandt auf unser Problem wäre $u\mapsto v =G(u) $ eine Integration eines numerischen Modells. Aus einem Integrierer der $G'^*w$ für ein gegebenes $w$ berechnen kann, kann nun aus $\nabla_v J$ mittels \eqref{eq:adjointEssential} einfach $\nabla_u J$ errechnet werden. 
+Die Gleichung \eqref{eq:adjointEssential} stellt die Basis für die Nutzung der adjungierte Operatoren für die Datenassimilation dar. Sie bietet ein besonders effizienten Weg $\nabla_u J$ numerisch zu berechnen. Angewandt auf unser Problem wäre $u\mapsto v =G(u) $ eine Integration eines numerischen Modells. Aus einer Integrationsmethode, welche $G'^*w$ für ein gegebenes $w$ berechnen kann, kann nun aus $\nabla_v J$ mittels \eqref{eq:adjointEssential} einfach $\nabla_u J$ errechnet werden. 
 % Wenn $J$ einfach gewählt wurde, lässt sich daraus $\nabla_v J$ ebenfalls einfach berechnen. 
 Um $\nabla_u J$ zu erhalten, muss zuerst $v = G(u)$ berechnet werden, danach $\nabla_v J$ und schlussendlich wieder $\nabla_u J$ durch \eqref{eq:adjointEssential}.
 
@@ -228,14 +228,14 @@ Um vorherige Betrachtungen auf die Ableitung des Zielfunktionals \eqref{eq:costf
 \begin{equation}
 \label{eq:gatcost}
 \begin{aligned}
- \gatdiff J(v)  &= \lim_{\tau\to 0} \frac{1}{\tau}\int_0^T H(x+\tau\gatdiff x)-H(x) dt\\
-	    &= \lim_{\tau\to 0} \frac{1}{\tau}\int_0^T \int_0^1 \frac{d}{ds}H(x+s\tau\gatdiff x) dt\\
-	    &= \lim_{\tau\to 0} \frac{1}{\tau}\int_0^T \int_0^1 \nabla_x H(x+s\tau\gatdiff x)\cdot \gatdiff x dt\\
-	    &= \int_0^T \nabla_x H(x)\cdot \gatdiff x dt\\
+ \gatdiff J(v)  &= \lim_{\tau\to 0} \frac{1}{\tau}\int_0^T H(x+\tau\gatdiff x)-H(x)~ dt\\
+	    &= \lim_{\tau\to 0} \frac{1}{\tau}\int_0^T \int_0^1 \frac{d}{ds}H(x+s\tau\gatdiff x) ~ds~ dt\\
+	    &= \lim_{\tau\to 0} \int_0^T \int_0^1 \nabla_x H(x+s\tau\gatdiff x)\cdot \frac{\tau \gatdiff x}{\tau} ~ds ~dt\\
+	    &= \int_0^T \nabla_x H(x)\cdot \gatdiff x~ dt\\
 	    &= \int_0^T \langle \nabla_x H(x), \gatdiff x \rangle dt\\  
 \end{aligned}
 \end{equation}
-wobei $\nabla_x H(t)$ der Gradient von $H(x,t)$ ausgewertet an der Stelle $(x(t),t)$ und $\gatdiff x$ die Gâteaux-Ableitung von $x$, also eine Störung, beschreibt. Diese ist die Lösung von
+wobei $\nabla_x H(t)$ der Gradient von $H(x,t)$ ausgewertet an der Stelle $(x(t),t)$ und $\gatdiff x$ die Gâteaux-Ableitung von $x$, also eine Störung, beschreibt. Diese ist definiert als die Lösung von
 \begin{equation}
 \label{eq:tlm}
 \begin{aligned}
@@ -333,7 +333,7 @@ Integration über $[t,t_1]$ liefert
  \gatdiff 'x(t) -  \gatdiff 'x(t_1)  = \int_t^{t_1} S(t,\tau) \nabla_x H(\tau) d\tau
 \]
 Mit $ \gatdiff 'x(t_1) = 0$ und mit \eqref{eq:gradCostFunctionalAdjoint} folgt, dass $\nabla_v J = \gatdiff'x(0)$. Das bedeutet, dass sich der Gradient des Zielfunktionals mithilfe einer Rückwärtsintegration des Adjungierten Modells berechnen lässt.
-Genauer werden die Schritte in Figur \ref{alg:genCostFunctionalPseudo} benötigt, um den Gradienten des Zielfunktionals \eqref{eq:costfunctional} zu berechnen.
+Genauer werden die Schritte in Abbildung \ref{alg:genCostFunctionalPseudo} benötigt, um den Gradienten des Zielfunktionals \eqref{eq:costfunctional} zu berechnen.
 \begin{figure}
 \begin{framed}
  \begin{enumerate}
@@ -466,7 +466,7 @@ mit von $x$ und $d$ unabhängigen Konstanten $c_1>0$, $c_2>0$ gilt. Eine Schritt
 \]
 mit einer von $x$ und $d$ unabhängigen Konstanten $c>0$ gilt.
 \end{definition}
-Die erste Bedingung stellt sicher, dass der neue Funktionswert $f(x+\sigma d)$ unterhalb der von $x$ in Abstiegsrichtung $d$ aufgespannten Geraden befindet. 
+Die erste Bedingung stellt sicher, dass sich der neue Funktionswert $f(x+\sigma d)$ unterhalb der von $x$ in Abstiegsrichtung $d$ aufgespannten Geraden befindet. 
 Die zweite Bedingung sichert, dass die Schrittweite $\sigma$ in Bezug zu $\nabla J(x)^\tr d$ nicht zu schnell gegen $0$ geht.
 
 Falls die Voraussetzung \eqref{eq:niveauset} erfüllt ist und wir effiziente Schrittweiten benutzen ist 

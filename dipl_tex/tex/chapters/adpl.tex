@@ -2,10 +2,10 @@
  Sämtliche Betrachtungen, welche wir bis jetzt geführt haben, setzen voraus, dass die rechte Seite $F$ unseres Modells \eqref{eq:odemodel} hinreichend glatt definiert ist, damit wir sie anwenden können. 
 
 In diesem Kapitel werden Lösungen geführt, welche es ermöglichen, vorherige Betrachtungen auf stückweise lineare
-\footnote{In dieser Arbeit nutzen wir "linear" synonym zu "affin" (oder "polyhedral"), da sich jede affine Funktion in eine lineare Funktion  transformieren lässt. Sie entsprechen den Begriffen bei Griewank \cite{monster} und Scholtes \cite{scholtes2012introduction}}
+\footnote{In dieser Arbeit nutzen wir \glqq linear\grqq synonym zu \glqq affin\grqq (oder \glqq polyhedral\grqq), da sich jede affine Funktion in eine lineare Funktion  transformieren lässt. Sie entsprechen den Begriffen bei Griewank \cite{monster} und Scholtes \cite{scholtes2012introduction}}
 Funktionen
 % , bzw. lokal Lipschitzstetige Funktionen $F$ 
-anzuwenden. Desweiteren wird eine kurze Einführung in Automatischem Differenzieren gegeben, welches so erweitert wird, dass es auf verkettet stückweise lineare Funktionen angewandt werden kann.
+anzuwenden. Desweiteren wird eine kurze Einführung in Automatischem Differenzieren gegeben, welches so erweitert wird, dass es auf verkettet stückweise lineare Funktionen angewendet werden kann.
 \section{Verallgemeinerte Gradienten}
 Da wir im späteren Verlauf der Arbeit spezielle unglatte Funktionen betrachten wollen, muss zunächst geklärt werden, wie ein möglicher Ableitungsbegriff aussieht und welche Eigenschaften gelten.
 
@@ -43,7 +43,7 @@ Für die Bouligandableitung gelten alle Differentiationsregeln wie für die Fré
 
 Ein weiterer allgemeiner gefasster Ableitungsbegriff, welcher im Verlaufe der Arbeit des öfteren benutzt wird ist die Clarke Ableitung \cite[Def. 2.6.1.]{clarke1990optimization}
 \begin{definition}[Limiting Jacobian und Clarke Ableitung]
- Sei die Funktion $F$ und die Mengen $\mathcal D$ und $S$ wie im Theorem von Rademacher \ref{thm:rademacher} definiert.$\nabla F(y)$ sei die Jacobimatrix an einer Stelle $y\in \mathcal D\backslash S$. Dann ist die Menge der \textit{limiting Jacobians} und die \textit{verallgemeinerte Ableitung nach Clarke} definiert als
+ Sei die Funktion $F$ und die Mengen $\mathcal D$ und $S$ wie im Theorem von Rademacher \ref{thm:rademacher} definiert. $\nabla F(y)$ sei die Jacobimatrix an einer Stelle $y\in \mathcal D\backslash S$. Dann ist die Menge der \textit{limiting Jacobians} und die \textit{verallgemeinerte Ableitung nach Clarke} definiert als
  \begin{align}
   \partial^L F(x) &= \lbrace \lim_{i\to \infty} \nabla F(x_i)~ \vert~ x_i \to x, x_i \not \in S \rbrace\\
   \partial F(x) &= \text{conv} \lbrace \partial^L F(x)  \rbrace

@@ -13,13 +13,15 @@
 		samples=150,
 		xmax=2.2,
 		xmin=-2,
+		height=5cm,
+		width=10cm,
  		yticklabels={,,},
  		xticklabels={,,},
 		extra x ticks={-1.75,-0.661,0.71,1.95},
 		extra x tick labels={$\sigma_1$,$\sigma_2$,$\sigma_3$,$\sigma_4$},
 		extra x tick style={%
 		  text height=\heightof{0},% Align labels at baseline
-		  color=red}
+		  color=black}
 	]
 	% use TeX as calculator:
  	\addplot[mark=none, color=blue] {100*(2.2-x^2)^2+ (1-x)^2};
