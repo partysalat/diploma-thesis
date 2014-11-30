@@ -123,7 +123,7 @@ und deren Richtungsableitung an $z$
 
 und bilden für jedes $z_j$ seine Tangente
 \[
- z_j + \tau \dot z_k = 0 \quad \Leftrightarrow \quad \tau =- \frac{z_k}{\dot z_k}
+ z_j + \tau \dot z_k = 0 \quad \iff \quad \tau =- \frac{z_k}{\dot z_k}
 \]
 deren Nullstelle wir berechnen. Da sich das Vorzeichen des Abs Aufrufs in \eqref{eq:absNormalZ} bis zur Nullstelle nicht ändert, wir uns also im selben Polyeder befinden, haben wir lokal eine affine Funktion, deren Richtungsableitung \eqref{eq:absNormalZDerivative} lokal wohldefiniert ist.
 Falls $z_j\dot z_j <0$ gilt, kreuzt die Tangente in Richtung $\Delta x$ einen Kink.
@@ -147,7 +147,7 @@ Nun, da wir die Stellen der $k$ Kinks ausrechnen könnne, teilen wir das Interva
 \[
  [0,\sfrac{1}{2}] = \bigcup_{i=0}^{k-1} [\tau_i,\tau_{i+1}]
 \]
-damit wir das Integral zerlegen können in
+damit wir das Integral zerlegen können in Teilintegrale
 \[
  \int_0^{\sfrac{1}{2}} \Delta F(\xo,t\Delta x) \text{d}t = \sum_{i=0}^{k-1} \int_\tau^{\sfrac{1}{2}} \Delta F(\xo,t\Delta x) \text{d}t
 \]
@@ -262,7 +262,7 @@ Der Algorithmus zum Auswerten der lokale Jacobimatrix $J_\sigma$ dient der Algor
 \algrenewcommand{\algorithmiccomment}[1]{\hfill{\scriptsize #1}}
 \begin{algorithmic}
 \Function{genJac}{$x,\Sigma$} 
-		\State{$\tau \gets$ crit\_mult($x,d$)} \Comment{$0<\tau<1$, berechne $\tau$ an Stelle $x$ in $d$}
+		\State{$\tau \gets$ crit\_mult($x,d,1$)} \Comment{$0<\tau<1$, berechne $\tau$ an Stelle $x$ in $d$}
 % 		\State{$arc \gets$ calculate\_arc($\tau$,$d$)} \Comment{Berechne Polynomial Escape Arc}
 		\State{$z \gets$ calculate\_z($x+0.5\cdot\tau\cdot d$)} \Comment{Berechne $z$ mit polynomial escape}
 % 		\State{$z \gets$ calculate\_z($x$)} \Comment{Berechne $z$ aus der Abs-Normal Form}
@@ -289,7 +289,7 @@ mit einer Funktion  $F:\R^n \to \R^n$ in Abs-Normal Form zu lösen.
 Ein wohlbekanntes Resultat von Qi und Sun in \cite{qi1993nonsmooth} stellt sicher, dass die Newtoniteration
 \begin{equation}
 \label{eq:genNewtonIteration}
- x_+ = x- A^{-1}F(x)\quad \text{mit } A \in \partial^LF(x)
+ x_n = x_a- A^{-1}F(x_a)\quad \text{mit } A \in \partial^LF(x_a)
 \end{equation}
 konvergiert für Startwerte $x_0$, welche hinreichend nah an der Lösung $x_*$ liegen und falls alle Elemente aus $\partial^L F(x_*)$ an der Stelle $x_*$ nichtsingulär sind. 
 Für unser gegebenes $F$ in Abs-Normal Form könnten wir den Startwert $x_0$ aus $\lbrace S_\sigma:x_*\in \bar S_\sigma \rbrace$, also aus der Menge der Polyeder, welche im Abschluss  $x_*$ enthalten, wählen. Damit würde die Newtoniteration \eqref{eq:genNewtonIteration} nach einem Schritt konvergieren. 
@@ -324,7 +324,7 @@ Damit lässt sich die zweite Gleichung der Abs-Normal Form nach $x$ auflösen, m
 \[
  \begin{aligned}
 		 && 0 &=  b+Jx + Y|z|   \\
- \Leftrightarrow && x = x(z) &=-J^{-1}(b+Y|z|)
+ \iff && x = x(z) &=-J^{-1}(b+Y|z|)
  \end{aligned}
 \]
 in die erste Gleichung einsetzen und das Schurkomplement darauf anwenden. Es entsteht die Vektorfunktion $H(z)$
@@ -335,7 +335,7 @@ Für gegebenes $z$ können wir die obere Gleichung ebenfalls nach $z$ auflösen:
 \[
 \begin{aligned}
 		 && z &= c+Zx + L|z|\\
- \Leftrightarrow && z- L |z| &= c+Zx \\
+ \iff && z- L |z| &= c+Zx \\
  \Rightarrow && z = z(x) &= G^{-1}(c+Zx)\quad \text{mit }G(z)\equiv z-L|z|
 \end{aligned} 
 \]
@@ -401,21 +401,21 @@ Nun können wir einen implementierbaren Algorithmus für die verallgemeinerte im
 \label{eq:genMidpointAlg}
 \begin{aligned}
  && \hat x - \check x &= h\int_{-\sfrac{1}{2}}^{\sfrac{1}{2}}F(\xo)+ \Delta F(\xo;t(\hat x - \check x)) \\
- \Leftrightarrow && \hat x - \check x - hF(\xo) & =\underbrace{h \int_{-\sfrac{1}{2}}^{\sfrac{1}{2}} \Delta F(\xo;t(\hat x - \check x))}_{r} \\
- \Leftrightarrow && \hat x - \check x - hF(\xo) & =r(\hat x,\check x)
+ \iff && \hat x - \check x - hF(\xo) & =\underbrace{h \int_{-\sfrac{1}{2}}^{\sfrac{1}{2}} \Delta F(\xo;t(\hat x - \check x))}_{r} \\
+ \iff && \hat x - \check x - hF(\xo) & =r(\hat x,\check x)
 \end{aligned}
 \end{equation}
 Um $r$ zu berechnen, wird die Quadratur aus Prozedur \ref{alg:quad} auf $\Delta x = \hat x - \check x$ und $-\Delta x$ angewandt. Im Falle, dass $r=0$ ist, ist $F$ glatt im Integrationsintervall aufgrund von \eqref{eq:equivalenceGenImplMidpoint}.
 
 Dazu wird $F(\xo)$ durch die stückweise Linearisierung $F(\xo)\approx F(\xoold)+\Delta F(\xoold;\xonew -\xoold )$ am neuen Basispunkt $\xo_{\text{new}}$ersetzt. 
 Wir wollen nun einen neuen Entwicklungspunkt $\xonew$ durch Fixpunktiteration finden, der die Gleichung \eqref{eq:genMidpointAlg} löst. 
-Es entsteht mit $\xo = \sfrac{1}{2} (\hat x + \check x) \Leftrightarrow \hat x = 2\xo - \check x$:
+Es entsteht mit $\xo = \sfrac{1}{2} (\hat x + \check x) \iff \hat x = 2\xo - \check x$:
 \begin{equation}
 \label{eq:reorderedGenMidpointAlg}
  \begin{aligned}
 		 && \hat x_{\text{new}} - \check x - h (F(\xoold) +\Delta F(\xoold,\xonew - \xoold) &= r(\hat x_{\text{old}},\check x)\\
- \Leftrightarrow && 2\xonew - 2\check x - h (F(\xoold) +\Delta F(\xoold,\xonew - \xoold) &= r(\hat x_{\text{old}},\check x)\\
- \Leftrightarrow && 2\xonew -  h (F(\xoold) +\Delta F(\xoold,\xonew - \xoold) &= r(\hat x_{\text{old}},\check x) + 2\check x
+ \iff && 2\xonew - 2\check x - h (F(\xoold) +\Delta F(\xoold,\xonew - \xoold) &= r(\hat x_{\text{old}},\check x)\\
+ \iff && 2\xonew -  h (F(\xoold) +\Delta F(\xoold,\xonew - \xoold) &= r(\hat x_{\text{old}},\check x) + 2\check x
  \end{aligned}
 \end{equation}
 Die letzte Gleichung von \eqref{eq:reorderedGenMidpointAlg} ist stückweise linear und kann mit dem Unfolded Newton \eqref{eq:unfoldedNewton} gelöst werden. Der entstehende Algorithmus gestaltet sich damit zu Algorithmus \ref{alg:genMidpointRule}

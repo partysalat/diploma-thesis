@@ -212,7 +212,7 @@ void PlanC::calc_kink_partial(vec xCheck, vec xHat,const vec &d, mat &A, mat &B)
   double tau(0), tau_old(0),deltaTau, rTau;
   do {
     //Kritischer Multiplikator
-    tau =  crit_mult(xKink,d);
+    tau =  crit_mult(xKink,d,1);
     tau = tau+tau_old;
     //Inkrement zum naechsten Kink
     dx = tau * d;

@@ -101,9 +101,9 @@ Da sich $max$ und $min$ als
 \[
 \max(a,b) = \frac{1}{2}(a+b + |a-b|)\quad \text{und} \quad \min(a,b) = \frac{1}{2}(a+b - |a-b|)
 \]
-darstellen lassen, können alle $max$ und $min$ - Funktionsaufrufe als $s\geq 0$ Aufrufe der $|z_i|$ Funktion behandelt werden. Die Argumente $z_i$ heißen hierbei \textit{switching-Variablen}. Jede switching Variable $z_i$ beschreibt für sich genommen bereits eine stückweise lineare Funktion, welche wiederrum die Funktionen $|z_j|, ~j<i$ aufrufen. Desweiteren existieren Variablen $x_k, ~k\leq n$, welche unabhängig von $abs$ sind. Diese Abhängigkeiten lassen sich in der \textit{Abs Normal Form} beschreiben, welche von Griewank et. al. in \cite{plan} eingeführt wurde:
+darstellen lassen, können alle $max$ und $min$ - Funktionsaufrufe als $s\geq 0$ Aufrufe der $|z_i|$ Funktion behandelt werden. Die Argumente $z_i$ heißen hierbei \textit{switching-Variablen}. Jede switching Variable $z_i$ beschreibt für sich genommen bereits eine stückweise lineare Funktion, welche wiederrum die Funktionen $|z_j|, ~j<i$, aufrufen. Desweiteren existieren Variablen $x_k, ~k\leq n$, welche unabhängig von $abs$ sind. Diese Abhängigkeiten lassen sich in der \textit{Abs Normal Form} beschreiben, welche von Griewank et. al. in \cite{plan} eingeführt wurde:
 \begin{definition}[Abs Normal Form]
- Eine stückweise lineare Funktion $F:\R^n\to \R^m$ mit $F(x) = y$ ist in \textit{Abs Normal Form}, falls sie die folgende Form besitzt
+ Eine stückweise lineare Funktion $F:\R^n\to \R^m$ mit $F(x) = y$ ist in \textit{Abs Normal Form}, falls sie sich darstellen lässt als
  \begin{equation}
 \label{eq:absNormalForm}
   \begin{bmatrix}
@@ -126,6 +126,7 @@ wobei
 \[
 c\in \R^s, ~ Z\in \R^{s\times n},~ L\in\R^{s\times s}, ~ b\in\R^m, ~ J\in\R^{m\times n}, ~ Y\in \R^{m\times s} 
 \]
+% Die Vektoren $c$ und $b$ 
 $L$ muss offensichtlich die Form eine streng unteren Dreiecksmatrix besitzen, da sonst im Auswertungsgraph der Funktion $F$ Zyklen entstehen könnten. Die Zahl $s\in \N$ ist hierbei die Gesamtanzahl der $abs$ Aufrufe.
 \end{definition}
 Die kleinste ganze Zahl $\nu \leq s$ für die 
@@ -178,13 +179,13 @@ Für alle $\phi_i$ wird angenommen, dass sie differenzierbar in einer für uns h
 
 benutzt, wobei $\mathring c_{ij} = \phi'_i(\vo_j)$
 % und als \textit{tangent functions} bezeichnet werden 
-und es ergibt sich durch die Kettenregel
+und es ergibt sich durch die Kettenregel \eqref{eq:bouligandChainRule}
 \[
  \Delta y = \Delta F(\xo,\Delta x) \equiv \nabla F(\xo)\Delta x
 \]
 bei der $\nabla F(\xo)\in \R^{m\times m}$ die Jacobimatrix bezeichnet.
 
-Diese Methode wird "Vorwärtsmodus" genannt, bei welchem jedoch insbesondere für Ableitungen höherer Dimensionen $d$ der Aufwand linear mit $d$ wächst. Um diesen Aufwand zu verkleinern existiert in Analogie zum "Vorwärtsmodus" der sogenannte "Rückwärtsmodus", welcher die Zielfunktion auswertet, Parameter abspeichert und die Ableitung mit weniger Aufwand aus den gespeicherten Werten "rückwärts" berechnen kann. Diese Möglichkeit wird an dieser Stelle nur erwähnt, da ihre Erläuterung den Rahmen der Arbeit sprengen würde.
+Diese Methode wird \textit{forward mode} genannt, bei welchem jedoch insbesondere für Ableitungen höherer Dimensionen $d$ der Aufwand linear mit $d$ wächst. Um diesen Aufwand zu verkleinern existiert in Analogie zum forward mode der sogenannte \textit{reverse mode}, welcher die Zielfunktion auswertet, Parameter abspeichert und die Ableitung mit weniger Aufwand aus den gespeicherten Werten \textit{rückwärts} berechnen kann. Diese Möglichkeit wird an dieser Stelle nur erwähnt, da ihre Erläuterung den Rahmen der Arbeit sprengen würde.
 
 Automatisches Differenzieren wurde bisher nur für Elementarfunktionen benutzt, die eine Ableitung besitzen. Im nächsten Kapitel werden wir dies auf $\abs(x)$ erweitern.
 

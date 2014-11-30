@@ -13,7 +13,7 @@ Angenommen die rechte Seite $F$ unserer Evolutionsgleichung \eqref{eq:odemodel} 
  \frac{d \delta' x}{dt} =- \partial F(x)^*\delta'x + \nabla H(t)
 \end{equation}
 für den Gradienten eine mengenwertige Abbildung $\partial F(x)^*:\R^n\rightrightarrows \R^n$ und damit eine \textit{Differential Inclusion}.
-Dadurch ist es möglich, dass in der Zeitintegration Sprünge durch den verallgemeinerten Gradienten $\partial F(x)^*$ auftreten. Falls die Zeitintegration konvergiert, ist deswegen mit einer geringen Konvergenzordnung von $\mathcal O(h)$ zu rechnen.
+Dadurch ist es möglich, dass in der Zeitintegration Sprünge durch den verallgemeinerten Gradienten $\partial F(x)^*$ auftreten. Falls die Zeitintegration konvergiert, ist deswegen mit einer geringen Konvergenzordnung von ungefähr $\mathcal O(h)$ zu rechnen.
 % TODO: Konvergenzresultat?
 
 In der numerischen Berechnung muss der verallgemeinerte Gradient in eine Richtung $\Delta x$ betrachtet werden, sinnvollerweise in die Richtung des Inkrements der vorherigen Iteration $\Delta x_i = x_{i-1} - x_i$, falls wir uns in Iteration $i$ befinden. 
@@ -149,7 +149,7 @@ eine limiting Jacobian von $F'(\xo;\Delta x))$ und $\Delta F(\xo;\Delta x)$ am P
 % Wie wir in (??) beobachtet haben, müssen wir das Adjungierte Modell rückwärts integrieren. Die Grundidee besteht darin, dass wir auf das Adjungierte Modell (??) der Datenassimilierung ebenfalls wieder die verallgemeinerte Mittelpunktsregel (??) anwenden. Daher, dass wir das Integral in Teilintervalle zerlegen können, berechnen wir die kritischen Multiplikatoren, springen von Kink zu Kink und berechnen auf diesen Teilintervalen den Gradienten unserer rechten Seite $F$.
 In diesem Abschnitt wollen wir die inhomogene adjungierte Differentialgleichung auf die verallgemeinerte Mittelpunktsregel anwenden.
 
-Falls wir den Gradienten des Kostenfunktionals mit der impliziten Mittelpunktsregel berechnen, so würden wir als Auswertungspunkt des Gradienten den Mittelpunkt $\xo$ benutzen. Wie im Bild \ref{fig:multipleKinksAdjoint}(a) zu erkennen ist, kann dies dazu führen, dass der Gradient keine sinnvolle Aussage der Steigung widerspiegelt. Im Rolling Stones Beispiel mündet dieses Problem beispielsweise in einem sehr verzerrtem Gradienten (siehe Bild \ref{fig:rollingGrad}). Die Idee besteht darin, die Eigenschaften der verallgemeinerten impliziten Mittelpunktsregel zu nutzen, um eine Art Mittelwert des Gradienten berechnen zu können, der an den Stellen zwischen den Kinks, wie im Bild \ref{fig:multipleKinksAdjoint}(b), ausgewertet und gewichtet summiert wird. 
+Falls wir den Gradienten des Kostenfunktionals mit der impliziten Mittelpunktsregel berechnen, so würden wir als Auswertungspunkt des Gradienten den Mittelpunkt $\xo$ benutzen. Wie im Bild \ref{fig:multipleKinksAdjoint}(a) zu erkennen ist, kann dies dazu führen, dass der Gradient keine sinnvolle Aussage der Steigung widerspiegelt. Im Rolling Stones Beispiel mündet dieses Problem beispielsweise in einem sehr verzerrten Gradienten (siehe Bild \ref{fig:rollingGrad}). Wir wollen nun die Eigenschaften der verallgemeinerten impliziten Mittelpunktsregel nutzen, um eine Art Mittelwert des Gradienten berechnen zu können, der an den Stellen zwischen den Kinks, wie im Bild \ref{fig:multipleKinksAdjoint}(b), ausgewertet und gewichtet summiert wird. 
 
 \begin{figure}[H]
 \footnotesize
@@ -157,7 +157,7 @@ Falls wir den Gradienten des Kostenfunktionals mit der impliziten Mittelpunktsre
 \begin{minipage}[b]{\linewidth}
 % \begin{minipage}[t][3cm][t]{5cm}
 \input{img/multiple_kinks_adjoint.tikz}
-\caption*{(a) implizite Mittelpunktsregel}
+\caption*{(a) Klassische implizite Mittelpunktsregel}
 \end{minipage}
 \begin{minipage}[b]{\linewidth}
 % \begin{minipage}[t][3cm][t]{5cm}
@@ -171,9 +171,9 @@ Falls wir den Gradienten des Kostenfunktionals mit der impliziten Mittelpunktsre
 
 Sei dazu $\tau$ der kritische Multiplikator zum nächsten Kink. $x_n$ und $x_a$ sind die jeweiligen iterierten Werte mit $\xo$ als deren Mittelpunkt und $\diff \xo$ als Differenz. Dann ergibt sich 
 \begin{align*}
-\xo &= \frac{\xhat+\xcheck}{2}\eq \xcheck = 2\xo - \xhat\\
+\xo &= \frac{x_n+x_a}{2}\eq x_a = 2\xo - x_n\\
 \diff \xo &= \xo_n - \xo_a \eq \xo_n = \diff \xo + \xo_a\\
-\xhat - \xcheck &= 2\xhat - 2\xo\\
+x_n - x_a &= 2x_n - 2\xo\\
 \diff \tau_j&=\tau_j-\tau_{j-1}
 \end{align*}
 Die inhomogene adjungierte Differentialgleichung ergibt sich aus \eqref{eq:inhAdjEquation} mit adjungierter Variable $\xadj := \gatdiff x$ zu

@@ -10,12 +10,13 @@
 \draw[->] (0,-.2) -- (0,2.5);
 \draw[->] (-.2,0) -- (2.5,0);
 \draw[] (-.2,2.2) -- (2.2,-.2) 
-node[sloped,pos=0.5,anchor=north] {$\dot z_j \equiv$ slope};
+node[sloped,pos=0.5,anchor=north] {$\dot z_j$};
 \draw[decorate,decoration={brace,raise=4pt}] (0,2) -- (2,0) 
 node[pos=0.5,anchor=south west] {$\tau$};
 \draw[] (-.1,2) -- (.1,2);
 \draw (2,-.1) -- (2,.1);
 \node[] at (-.3,2) {$z_j$};
+\node[pos=0,anchor=north east] {$0$};
 \end{tikzpicture}
 
  
