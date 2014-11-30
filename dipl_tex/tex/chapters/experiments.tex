@@ -112,7 +112,7 @@ und wird in Figur \ref{fig:rollingStonesSolution} angegeben. Dabei sind die grau
 
 Die in Theorem \ref{thm:convergenceGenMidpoint} vorhergesagte Konvergenzordnung von $\mathcal O(h^2)$ erfüllt die verallgemeinerte implizite Mittelpunktsregel wie in Figur \ref{fig:rollingStonesConvergence} ersichtlich.
 Dass die gewöhnliche implizite Mittelpunktsregel eine ebenso hohe Konvergenzrate besitzt ist darin begründet, dass sie im gegebenen Intervall nur $4$ mal pro $2\pi+4$ Periode Unglattheiten überquert, sonst jedoch normal konvergiert. Aufgrund dieser Unglattheiten entsteht für die implizite Mittelpunktsregel (IMP) kein glatter Konvergenzgraph, sondern sie springt. Demgegenüber konvergiert die verallgemeinerter implizite Mittelpunktsregel (GIMP) sehr stabil, da sie die Knicke der Funktion mit in ihre Berechnung einbezieht.
-Insbesondere wird der Fehler der GIMP mit zunehmender Zeit (siehe Fig. \ref{fig:rollingStonesEOT}) nur in den nicht affinen Abschnitten größer während in den affinen Abschnitten exakt gelöst wird, der lokale Fehler der IMP erhöht sich jedoch ständig, bedingt durch die Kinks und der zu großen Schrittweite. Der allgemeine Fehler ist dadurch für die IMP höher über die Zeit gesehen als der Fehler der GIMP (\ref{fig:rollingStonesEOT}(b)).
+Insbesondere wird der Fehler der GIMP mit zunehmender Zeit (siehe Fig. \ref{fig:rollingStonesEOT}(a)) nur in den nicht affinen Abschnitten größer während in den affinen Abschnitten exakt gelöst wird, der lokale Fehler der IMP erhöht sich jedoch ständig, bedingt durch die Kinks und der zu großen Schrittweite. Der allgemeine Fehler ist dadurch für die IMP höher über die Zeit gesehen als der Fehler der GIMP (\ref{fig:rollingStonesEOT}(b)).
 
 Da sich der rollende Stein reibungslos in unserem System bewegt, muss die analytische Lösung die komplette Energie erhalten, d.h. die potentielle Energie addiert mit der kinetischen $V(x) + \frac{1}{2}\dot x^2$ muss konstant sein. Das Bild \ref{fig:rollingStonesEnergyError} wurde mittels der summierten Variation der Energie 
 \begin{equation}
@@ -187,7 +187,7 @@ Die Konvergenzplots \ref{fig:rollingStonesAdjoint} ergeben ähnliche Robustheits
 \caption{Rolling Stones Adjungierte Gleichung im Intervall $[0,40]$}
 \label{fig:rolling_adjoint_eq}
 \end{figure}
-Dabei fällt die in Kapitel \ref{sec:adjointInclusion} vorhergesagte lineare Konvergenz aller Methoden auf.
+In Abbildung \ref{fig:rolling_adjoint_eq} zeigt die zu rückwärts zu integrierende rechte Seite. Dabei sind für $\dot \bar{x_2}$ deutlich Sprünge zu erkennen. Dadurch fällt die in Kapitel \ref{sec:adjointInclusion} vorhergesagte lineare Konvergenz aller Methoden auf.
 % Selbst für einfachere Beispiele ohne Kinks ist die Konvergenz nicht schneller als linear.
 % TODO: HERAUSFINDEN WARUM DAS SO IST
 
@@ -260,7 +260,7 @@ Zusammenfassend ergibt sich für das Rolling Stones Beispiel ein insgesamt besse
 
 
 \section{LC-Diode}
-Das nächste Beispiel hat mehr Nähe zu praktischen Bezügen. In \cite{boeck2014experiments} eingeführt, betrachten wir einen LC-Schaltkreis in welchen wir den Widerstand durch eine Diode ausgewechselt haben, welches Unglätten in unsere Systemgleichungen bringen. Im Bild \ref{fig:lcDiode} ist eine schematische Darstellung des Problems dargestellt. 
+Das nächste Beispiel hat mehr Nähe zu praktischen Bezügen. In \cite{boeck2014experiments} eingeführt, betrachten wir einen LC-Schaltkreis in welchem wir den Widerstand durch eine Diode ausgewechselt haben, welches Unglätten in unsere Systemgleichungen bringen. Im Bild \ref{fig:lcDiode} ist eine schematische Darstellung des Problems dargestellt. 
 \begin{figure}[H]
 \centering
 \input{img/lc_circuit.tikz}
@@ -281,7 +281,7 @@ Das beschreibende System von ODEs hat die Form
   -\left(x_2-CV(x_1) + g(Cx_3)\right)\frac{1}{LC}
  \end{pmatrix}
 \]
-wobei $x_1$ die Zeit, $x_2$ die Ladung des Kondensators $C$ und $x_3$ die elektrische Stromstärke bezeichnet. Die Spannungsquelle wird mittels $V(t)=\sin(\omega t)$ simuliert und $g(z)$ modelliert mittels der stückweisen linearen Funktion 
+wobei $x_1$ die Zeit, $x_2$ die Ladung des Kondensators $C$ und $x_3$ die elektrische Stromstärke des Gesamtsystems bezeichnet. Die Spannungsquelle wird mittels $V(t)=\sin(\omega t)$ simuliert und $g(z)$ modelliert mittels der stückweisen linearen Funktion 
 \begin{equation}
  g(z) = \frac{z+|z|}{2\alpha} + \frac{z-|z|}{2\beta}  = \begin{cases}
                                                          \frac{z}{\alpha} & z\geq 0\\
@@ -323,10 +323,10 @@ Die Lösung der ODEs \eqref{eq:lcOde} wird in Bild \ref{fig:lc_solution} gezeigt
 \caption{Konvergenz LC Diode im Intervall $[0,1.5\cdot 10^{-8}]$ mit $x_0=(0,0,0)$}
 \label{fig:lcConvergence}
 \end{figure}
-Im Konvergenzgraph \ref{fig:lcConvergence} ist ein ähnliches Verhalten wie beim Rolling Stones Beispiel zu erkennen. Nachdem sich der Konvergenzgraph bis ca. $5\cdot 10^2$ Schritten ähnlich wie die implizite Mittelpunktsregel verhält, konvergiert er stabil mit Ordnung 2, während die Implizite Mittelpunktsregel bedingt durch die wenigen Kinks ebenfalls springt. Das Explizite Verfahren konvergiert unterhalb von $10^3$ Schritten nicht. 
+Im Konvergenzgraph \ref{fig:lcConvergence} ist ein ähnliches Verhalten wie beim Rolling Stones Beispiel zu erkennen. Nachdem sich der Konvergenzgraph bis ca. $5\cdot 10^2$ Schritten ähnlich wie die implizite Mittelpunktsregel verhält, konvergiert er stabil mit Ordnung 2, während die Implizite Mittelpunktsregel bedingt durch die wenigen Kinks ebenfalls springt. Die explizite Mittelpunktsregel konvergiert unterhalb von $10^3$ Schritten nicht. 
 Herauszustellen ist also, dass unsere Methoden selbst für nicht stückweise affine Beispiele stabile Konvergenzresultate erzielen.
 
-Die Romberg Extrapolation gestaltet sich in diesem Beispiel schwierig. Zwar ist in Bild \ref{fig:lcRomberg} ein besseres Verhalten der Extrapolation für die GIMP zu erkennen, diese stößt jedoch an die Grenzen sobald sie sich der Maschinengenauigkeit nähert.  Die Konvergenzgeschwindigkeit betrug in diesem Beispiel nur $2.24$. Insbesondere im Abschnitt zwischen $2\cdot 10^{3}$ und $10^4$ ist jedoch eine deutlich exaktere Extrapolation der GIMP im Gegensatz zur Extrapolation der IMP zu beobachten. In diesem Intervall beträgt die Konvergenzgeschwindigkeit jedoch schon $3.89$. 
+Die Romberg Extrapolation gestaltet sich in diesem Beispiel schwierig. Zwar ist in Bild \ref{fig:lcRomberg} ein besseres Verhalten der Extrapolation für die GIMP zu erkennen, diese stößt jedoch an die Grenzen sobald sie sich der Maschinengenauigkeit nähert.  Die Konvergenzgeschwindigkeit betrug in diesem Beispiel nur $2.24$. Insbesondere im Abschnitt zwischen $2\cdot 10^{3}$ und $10^4$ ist jedoch eine deutlich exaktere Extrapolation der GIMP im Gegensatz zur Extrapolation der IMP zu beobachten. In diesem Intervall beträgt die Konvergenzgeschwindigkeit schon $3.89$. 
 \begin{figure}[H]
 \footnotesize 
 \centering
@@ -437,9 +437,9 @@ Methoden, die diese Lösungen erhalten werden als ausgeglichen (well balanced) b
 
 Der Grundgedanke zur numerischen Lösung des Problemes besteht darin, die hyperbolische partielle Differentialgleichung \eqref{eq:swe} in ein System von ODEs umzuformen, sodass unsere Methoden darauf angewendet werden können.
 Dazu nutzen wir die Finite Volumen Methode, welche unter Anderem von LeVeque in \cite[Abschnitt 4.]{leveque2002finite} ausführlich behandelt wird. Ähnlich wie Finite Differenzen werden Werte an diskreten Punkten in einem Gitter berechnet. Jedoch wird nicht der Punkt allein betrachtet, sondern die gesamten Gitterzellen, die sogenannten Volumen. In jedem dieser Volumen gilt der Erhaltungssatz für eine Größe; in unserem Beispiel die Höhe und der Wasserabfluss. Eine Veränderung der erhaltenden Größe kann nur durch Ab- oder Hinzufließen über den Rand der Gitterzelle geschehen; dieser wird auch als Flux bezeichnet. Dazu wird der Mittelwert der Erhaltungsgrößen in jeder Zelle berechnet. Damit entsteht eine Gleichung über die Veränderung der Größen in der Zeit, welche durch Löser für gewöhnliche Differentialgleichungen berechnet werden können.
-TODO: im LeVeque nachschauen und evtl. mit Theoremen ergänzen!
+% TODO: im LeVeque nachschauen und evtl. mit Theoremen ergänzen!
 
-Kurganov bietet in \cite{kurganov2007second} ein robustes Finite Volumen Schema für die SWE an, die sowohl \textit{well balanced} ist als auch den \textit{dry state} behandelt. Es wurde genutzt, um die gewünschte Ortsdiskretisierung durchzuführen. Im Bild \ref{fig:sweSolution} ist die Lösung von \eqref{eq:swe} über die Zeit dargestellt.
+Kurganov bietet in \cite{kurganov2007second} ein robustes second order central upwind Finite Volumen Schema für die SWE an, die sowohl \textit{well balanced} ist als auch den \textit{dry state} behandelt. Es wurde genutzt, um die gewünschte Ortsdiskretisierung durchzuführen. Im Bild \ref{fig:sweSolution} ist die Lösung von \eqref{eq:swe} über die Zeit dargestellt.
 
 \begin{figure}
  \centering
@@ -533,7 +533,7 @@ In den numerischen Experimenten ist $\varepsilon = \sfrac{1}{\Delta x^4}$ gewäh
 \end{figure}
 
 
-Die Berechnung der Eigenwerte und der Ableitungen über den MinMod Limiter bringen die Unglattheiten auf der rechten Seite von \eqref{eq:swe}.  Der verallgemeinerte MinMod hat die switching depth $\nu = 3$ und erzeugt dadurch Knicke im computational graph. Ebenso die Eigenwertberechnung, welche eine switching depth von $\nu = 2$ erzeugt. Diese hohe switching depth könnte in den Ergebnissen, wie in Abschnitt \ref{sec:absNormalForm} beschrieben, zu einer hohen Komplexität der Abs-Normal Form und numerischen Instabilitäten führen. In Figur \ref{fig:sweGrad} ist die Rechte Seite in der Zeit abgebildet. Man kann erkennen, dass Knicke auf der rechten Seite vorhanden sind, die auftreten, falls eine flache in eine steile Steigung übergeht und vice versa. Ebenso ist das oszillatorische Verhalten an den Knicken zu erkennen, welche zu Fehlern in der Zeitintegration mit klassichen Methoden führen.
+Die Berechnung der Eigenwerte und der Ableitungen über den MinMod Limiter bringen die Unglattheiten auf der rechten Seite von \eqref{eq:swe}.  Der verallgemeinerte MinMod hat die switching depth $\nu = 3$ und erzeugt dadurch Knicke im computational graph. Ebenso die Eigenwertberechnung, welche eine switching depth von $\nu = 2$ erzeugt. Diese hohe switching depth führt in den Ergebnissen, wie in Abschnitt \ref{sec:absNormalForm} beschrieben, zu einer hohen Komplexität der Abs-Normal Form und numerischen Instabilitäten. In Figur \ref{fig:sweGrad} ist die Rechte Seite in der Zeit abgebildet. Man kann erkennen, dass Knicke auf der rechten Seite vorhanden sind, die auftreten, falls eine flache in eine steile Steigung übergeht und vice versa. Ebenso ist das oszillatorische Verhalten an den Knicken zu erkennen, welche zu Fehlern in der Zeitintegration mit klassichen Methoden führen.
 
 \subsection{CFL Bedingung}
 Bei der Wahl der Methode zur Zeitintegration wird in der Praxis zwischen expliziten und impliziten Verfahren abgewägt. Explizite Verfahren kommen besonders dort zum Einsatz, wo man eine möglichst feinschrittige Lösung benötigt. Für diesen Fall werden sogenannte higher order strong stability preserving (SSP) Runge Kutta Methoden, beispielsweise in \cite{gottlieb2003strong} vorgeschlagen, wozu auch das explizite Euler Verfahren gehört. Dazu werden Anforderungen an die Koeffizienten des Runge Kutta Verfahrens gestellt, sodass sie sich prinzipiell aus einfachen Euler Schritten zusammensetzen und ihre Konvergenzeigenschaft auf die des Expliziten Euler Verfahrens zurückgeführt werden kann (\cite[Lemma 1.1]{gottlieb2003strong}). Explizite Verfahren besitzen den Vorteil, dass bei der Berechnung kein lineares Gleichungssystem gelöst werden muss, welches unter Umständen sehr groß sein kann, auf jeden Fall aber einen höheren Rechenaufwand bedeutet.
@@ -543,7 +543,7 @@ Falls die Zeitschritte der Integration zu groß werden und damit über eine Nach
   Eine numerische Methode kann nur dann konvergent sein, wenn der numerische Definitionsbereich der Abhängigkeiten dem wahren Definitionsbereich der Abhängigkeiten der PDE enthält; zumindest für $\Delta t, \Delta x\to 0$.
 \end{theorem*}
 
-Falls nun aber größere Schrittweiten benutzt werden müssen oder nur an der Lösung eines entfernten Zeitschrittes interessiert ist, werden in der Praxis implizite Verfahren benutzt, welche keiner CFL Bedingung unterliegen. Dies ist darin begründet, dass bei der Lösung des linearen Gleichungssystems der numerische Definitionsbereich der Abhängigkeiten der gesamte Definitionsbereich ist, welcher durch das lineare Gleichungssystem aneinander gekoppelt sind.
+Falls nun aber größere Schrittweiten benutzt werden müssen oder nur an der Lösung eines entfernten Zeitschrittes interessiert ist, werden in der Praxis implizite Verfahren benutzt, welche keiner CFL Bedingung unterliegen. Dies ist darin begründet, dass bei der Lösung des linearen Gleichungssystems der numerische Definitionsbereich der Abhängigkeiten der gesamte Definitionsbereich ist, welcher durch das lineare Gleichungssystem aneinander gekoppelt wird.
 
 \subsection{Anfangswerte}
 \begin{figure}[H]
@@ -646,7 +646,7 @@ Die Vermutung liegt deshalb nahe, dass die GIMP besser oszillatorisches Verhalte
 \input{img/swe_convergence_adjoint_smooth.tikz}
 \caption*{(b) Summiert}
 \end{minipage}
-\caption{SWE Fehler über Zeit mit $L=50,\Delta x=10$, $x_0=U_0^{(2)},k=0.5$, $x_{\text{Obs}} = U_0^{(2)}, k=2$ und $\theta=1$}
+\caption{SWE Konvergenz von $\nabla J$ mit $L=50,\Delta x=10$, $x_0=U_0^{(2)},k=0.5$, $x_{\text{Obs}} = U_0^{(2)}, k=2$ und $\theta=1$}
 \label{fig:sweConvergenceAdjoint}
 % \end{figure}
 % 
@@ -657,16 +657,16 @@ Die Vermutung liegt deshalb nahe, dass die GIMP besser oszillatorisches Verhalte
 % \begin{minipage}[t][3cm][t]{5cm}
 \centering
 \input{img/swe_convergence_adjoint_discrete1.tikz}
-\caption*{(a) Am Zeitpunk $t$}
+\caption*{(a) Diskrete Observierung}
 \end{minipage}
 %  \quad 
 \begin{minipage}[b]{0.49\linewidth}
 % \begin{minipage}[t][3cm][t]{5cm}
 \centering
 \input{img/swe_convergence_adjoint_smooth1.tikz}
-\caption*{(b) Summiert}
+\caption*{(b) Glatte Observierung}
 \end{minipage}
-\caption{SWE Fehler über Zeit mit $L=50,\Delta x=10$, $x_0=U_0^{(2)},k=0.5$, $x_{\text{Obs}} = U_0^{(2)}, k=2$ und $\theta=2$}
+\caption{SWE Konvergenz von $\nabla J$ mit $L=50,\Delta x=10$, $x_0=U_0^{(2)},k=0.5$, $x_{\text{Obs}} = U_0^{(2)}, k=2$ und $\theta=2$}
 \label{fig:sweConvergenceAdjoint1}
 \end{figure}
 

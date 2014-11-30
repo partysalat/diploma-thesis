@@ -1,9 +1,9 @@
 \chapter{Implementierung}
 \section{Armadillo und OPENBlas}
-Die Implementierung der theoretischen Ergebnisse der letzten Kapitel wurde in C++ programmiert mittels \textit{Armadillo}. 
-Armadillo ist eine Template basierte C++ -Matrix-Vektor Bibliothek, welche ähnliche Syntax wie Matlab zulässt. Neben Matrix-Matrix oder Matrix-Vektor Multiplikationen liefert es eigene LGS-Löser mit, bietet einfache Möglichkeiten Teilmatrizen zu extrahieren und unterstützt teilweise Sparse Matrizen. Armadillo ist unter der Webseite \url{http://arma.sourceforge.net}(abgerufen am 26. November 2014) erreichbar und steht unter der \textit{Mozilla Public License 2.0} (\url{https://www.mozilla.org/MPL/2.0/}) als Open Source Projekt zur Verfügung.
+Zur Implementierung der theoretischen Ergebnisse der letzten Kapitel wurde die C++ Klasse \textit{Armadillo} verwendet. 
+Armadillo ist eine Template basierte C++ -Matrix-Vektor Bibliothek, welche ähnliche Syntax wie Matlab zulässt. Neben Matrix-Matrix oder Matrix-Vektor Multiplikationen liefert sie eigene LGS-Löser mit, bietet einfache Möglichkeiten Teilmatrizen zu extrahieren und unterstützt teilweise Sparse Matrizen. Armadillo ist unter der Webseite \url{http://arma.sourceforge.net}(abgerufen am 26. November 2014) erreichbar und steht unter der \textit{Mozilla Public License 2.0} (\url{https://www.mozilla.org/MPL/2.0/}) als Open Source Projekt zur Verfügung.
 
-Desweiteren unterstützt Armadillo Multi Threaded Operationen durch die Abstrahierung des OpenBlas (\url{http://www.openblas.net/}, abgerufen am 26. November 2014) Interfaces, wodurch nahtlos Armadillos eigene Routinen durch die von OpenBlas ersetzt werden und trotzdem der Vorteil der einfachen Nutzbarkeit beibehalten bleibt. OpenBlas ist eine auf Parallelität optimierte Version der bekannten Linearen Algebra Bibliothek BLAS (Basic Linear Algebra Subprograms, \url{http://www.netlib.org/blas}). Es steht unter der BSD Lizenz (\url{http://www.linfo.org/bsdlicense.html}) zur Nutzung bereit.
+Desweiteren unterstützt Armadillo Multi Threaded Operationen durch die Abstrahierung des OpenBlas Interfaces (\url{http://www.openblas.net/}, abgerufen am 26. November 2014), wodurch nahtlos Armadillos eigene Routinen durch die von OpenBlas ersetzt werden und trotzdem der Vorteil der einfachen Nutzbarkeit beibehalten bleibt. OpenBlas ist eine auf Parallelität optimierte Version der bekannten Linearen Algebra Bibliothek BLAS (Basic Linear Algebra Subprograms, \url{http://www.netlib.org/blas}). OpenBlas steht unter der BSD Lizenz (\url{http://www.linfo.org/bsdlicense.html}) zur Nutzung bereit.
 
 \section{ADOL-C}
 ADOL-C ist ebenfalls ein Open Source Paket zur exakten automatischen Differentiation von C/C++ Programmen im Rahmen der Rechengenauigkeit. Im Mittelpunkt stehen dabei die \textit{aktiven Variablen}, welche die Initialisierungsvariablen darstellen. Diese werden mit einem eigenen Typ \texttt{adouble} initialisiert, welche eine Erweiterung der \texttt{double} Klasse darstellt. Mit diesen Werten wird die gewünschte Funktion, wie im Falle von \texttt{double}, zwischen den Aufrufen \texttt{trace\_on(tag)} und \texttt{trace\_off(tag)} ausgeführt und durch \textit{operator overloading} im gleichen Zuge die Ableitung bestimmt. Intern erzeugt ADOL-C ein Tape, welches den computational graph der Funktionsauswertung erstellt und auf das durch \texttt{tag} referenziert wird. Nach dieser Auswertung bietet ADOL-C verschiedene Methoden dieses Tape auszuwerten.
@@ -12,7 +12,7 @@ ADOL-C wurde von Andreas Griewank erdacht und wird zurzeit in der Forschungsgrup
 
 \section{Plan-C}
 \label{sec:impl:planc}
-Sämtliche Versuche wurden mit Plan-C erstellt, einer C++ Bibliothek, welche im Rahmen der Diplomarbeit von Paul Boeck in \cite{boeck14} erarbeitet und dokumentiert wurde. Da im Rahmen der vorliegenden Arbeit rechenintensivere Beispiele betrachtet werden, wurde ein Fork dieser Bibliothek erstellt und Armadillo als Matrix - Vektor Bibliothek eingesetzt, um die allgemeine Performance zu steigern; dies bedeutet, die in Boecks Arbeit als Verbesserungsvorschlag gegebene Benutzung von Sparse Matrizen einzubauen und mehrerer Prozessorkerne durch Parallelisierung zu unterstützen.  Desweiteren wurde sie durch diverse Funktionen erweitert, damit sie die Datenassimilierung mittels stückweiser Linearisierung unterstützt. Eine kurze Dokumentation darüber soll im Folgenden dargelegt werden.
+Sämtliche Versuche wurden mit Plan-C erstellt, einer C++ Bibliothek, welche im Rahmen der Diplomarbeit von Paul Boeck in \cite{boeck14} erarbeitet und dokumentiert wurde. Da im Rahmen der vorliegenden Arbeit rechenintensivere Beispiele betrachtet werden, wurde ein Fork dieser Bibliothek erstellt und Armadillo als Matrix - Vektor Bibliothek eingesetzt, um die allgemeine Performance zu steigern; dies bedeutet, die in Boecks Arbeit als Verbesserungsvorschlag gegebene Benutzung von Sparse Matrizen einzubauen und mehrerer Prozessorkerne durch Parallelisierung zu unterstützen.  Desweiteren wurde sie durch diverse Funktionen erweitert, damit sie die Datenassimilierung mittels stückweiser Linearisierung unterstützt. Eine kurze Dokumentation der wichtigsten Funktionen soll im Folgenden dargelegt werden. Das Interface zu Plan-C ist im Anhang \ref{sec:source} beschrieben.
 
 \subsection{Abs-Normal Form}
 Plan-C ist eine C++ Klasse, die ein Objekt zur Verfügung stellt welches eine Abstraktion einer Funktion darstellt. Intern wird der Reverse Mode von \texttt{ADOL-C} benutzt, um zu einer gegebene Funktion seine Abs-Normal Form an einem gegebenen Entwicklungspunkt aufzustellen und mit ihr zu rechnen.
@@ -220,7 +220,7 @@ void PlanC::calc_kink_partial(vec xCheck, vec xHat,const vec &d, mat &A, mat &B)
     //Shifte Interval von [0,1] nach [-0.5,0.5]
     rTau = 0.5 * (tau + tau_old)-0.5;
     //Ableitung an der Stelle xKink
-    df = gen_jac(xKink, d).t();
+    df = gen_jac(xKink, dx, true).t();
     //Gehe zum naechsten Kink
     xKink = xKink + dx;
 
@@ -231,12 +231,12 @@ void PlanC::calc_kink_partial(vec xCheck, vec xHat,const vec &d, mat &A, mat &B)
 }
 \end{lstlisting}
 
-Die Methode \texttt{gen\_jac(vec x,vec d)} berechnet den zum jeweiligen Polyeder zugehörige limiting Jacobian an Stelle \texttt{x} in Richtung \texttt{d} mittels des Polynomial Escape Algorithmus \ref{alg:genjac}. 
+Die Methode \texttt{gen\_jac(vec x,vec d,bool disableKinkPrediction)} berechnet den zum jeweiligen Polyeder zugehörige limiting Jacobian an Stelle \texttt{x} in Richtung \texttt{d} mittels des Polynomial Escape Algorithmus \ref{alg:genjac}. Die Flag \texttt{disableKinkPrediction} ist gesetzt, damit nicht noch einmal das nächste $\tau$ berechnet wird.
 
 
 \subsection{Optimierung}
 Die Optimierungsmethode ist ebenfalls im \texttt{PlanC} Objekt untergebracht. Sie berechnet nun mittels BFGS Verfahren \ref{alg:bfgs} mit Wolfe-Powell Linesearchmethode \ref{alg:wolfePowell} das Minimum. 
-Als zu minimierende Funktion wird die Methode \texttt{cost\_functional\_data\_assimilation} verwendet, als erste Ableitung die Prozedur \texttt{jac\_data\_assimilation\_pl}. 
+Als zu minimierende Funktion wird die Methode \texttt{cost\_functional\_data\_assimilation} verwendet, als erste Ableitung die Prozedur \texttt{jac\_data\_assimilation\_pl}.
 
 % \begin{lstlisting}
 % solve_data_assimilation_bfgs

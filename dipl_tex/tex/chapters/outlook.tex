@@ -2,7 +2,7 @@
 
 Im Rahmen dieser Arbeit wurden die bisherigen Konzepte der stückweisen Linearisierung von Griewank et. al. aus \cite{monster} und \cite{plan} erfolgreich auf die Datenassimilierung angewandt.
 
-Dazu wurde zuerst die C++ Klasse \texttt{Plan-C} aus der Diplomarbeit von Boeck \cite{boeck14} verwendet, welche mittels der Abs-Normal Form gewöhnliche Differentialgleichung löst. Diese wurde überarbeitet und erweitert, damit sie performanter mit höherdimensionalen Problemen umgehen kann, etwa durch Sparsematrizen, Parallelisierung und Mikrooptimierungen. Als nächstes wurde aufbauend auf der verallgemeinerten Mittelpunktsregel das inhomogene adjungierte tangent linear model entwickelt und implementiert, welches Unglattheiten und valley tracing modes mit einbezieht. Dadurch ist es gelungen, den Gradienten des Kostenfunktionals stabiler gegenüber Unglattheiten zu machen, welche in einer besseren Konvergenzgeschwindigkeit in der Optimierung über Kostenfunktionale mündete, sowohl beim Rolling Stone als auch bei der LC-Diode.
+Dazu wurde zuerst die C++ Klasse \texttt{Plan-C} aus der Diplomarbeit von Boeck \cite{boeck14} verwendet, welche mittels der Abs-Normal Form gewöhnliche Differentialgleichung löst. Diese wurde überarbeitet und erweitert, damit sie performanter mit höherdimensionalen Problemen umgehen kann, etwa durch Sparsematrizen, Parallelisierung und Mikrooptimierungen. Als nächstes wurde aufbauend auf der verallgemeinerten Mittelpunktsregel das inhomogene adjungierte tangent linear model \eqref{eq:genMidpointAdjoint} entwickelt und implementiert, welches Unglattheiten und valley tracing modes mit einbezieht. Dadurch ist es gelungen, den Gradienten des Kostenfunktionals stabiler gegenüber Unglattheiten zu machen, welche in einer besseren Konvergenzgeschwindigkeit in der Optimierung über Kostenfunktionale mündete, sowohl beim Rolling Stone als auch bei der LC-Diode.
 
 Als zweiten Kernpunkt der Arbeit wurden die Methoden der stückweisen Linearisierung zum ersten mal auf eine partielle Differentialgleichung, der 1-D Shallow Water Equation, angewandt, obwohl diese per se ein glattes Problem ist. Unglattheiten entstanden erst durch Flux Limiter und Eigenwertberechnungen des verwendeten Finite Volumen Schemas, welche die Zeitintegration mittels der verallgemeinerten impliziten Mittelpunktsregel jedoch wenig beeinträchtigten. Die Optimierung des Kostenfunktionals ist durch den stabileren Gradienten ebenfalls schneller und stabiler konvergiert.
 
@@ -15,7 +15,7 @@ Ebenfalls wäre es sinnvoll zu beobachten, wie sich die die 1-D Shallow Water Eq
 Desweiteren ließe sich das Bolza Problem \eqref{eq:costfunctional} erweitern, etwas durch zusätzliche Steuerungsparameter und Gewichten. 
 
 Weiterhin wäre es sinnvoll nach einer Möglichkeit zu suchen, das Kostenfunktional stückweise zu linearisieren, sodass die Optimierung über das stückweise lineare Modell durchgeführt werden kann.
-Unter der Leitung von Andreas Griewank und Andrea Walther wird zurzeit in Paderborn an einem stückweise linearen Optimierungsalgorithmus gearbeitet (\cite{griewank2014lipschitz}), welcher sehr gute Ergebnisse gezeigt hat. 
+Unter der Leitung von Andreas Griewank und Andrea Walther wird zurzeit in Paderborn an einem stückweise linearen Optimierungsalgorithmus gearbeitet (\cite{griewank2014lipschitz}), welcher auf gute Ergebnisse hoffen lässt. 
 Dieser nutzt als Optimierungsrichtung $d$ den von Filippov vorgestellten kleinsten Gradienten $short$:
 \[
 d(x) = \text{short}(0,-\partial F(x)) = \text{argmin} \lbrace \|d\| ~|~ -d \in \partial f(x) \rbrace

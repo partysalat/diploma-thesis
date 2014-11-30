@@ -214,14 +214,17 @@ Mit $\rxadj =\frac{1}{2}(\xadj_n + \xadj_a) $ und $\diff \xadj =\xadj_n - \xadj_
 \end{align*}
  
 Durch Umsortierung erhalten wir
-\begin{align*}
+\begin{equation}
+\label{eq:genMidpointAdjoint}
+\begin{aligned}
 && \left[I +h\sum_{i=1}^l A_i^\tr \left(\frac{1}{2} \diff \tau_i +\diff \tau_i \rtau_i\right) \right]\xadj_n &= 
 \begin{aligned}[t]
 &\left[I - h\sum_{i=1}^l A_i^\tr  \left(\frac{1}{2}\diff \tau_i-\diff \tau_i \rtau_i\right)\right]\xadj_a \\
 & +h (\xo -\rxobs)
 \end{aligned}\\
 \iff&& \left[I +\frac{h}{2} \bar{A}^\tr +h\hat{A}^\tr\right]\xadj_n &= \left[I - \frac{h}{2}\bar{A}^\tr + h\hat{A}^\tr\right]\xadj_a  +h (\xo -\rxobs)\\
-\end{align*}
+\end{aligned}
+\end{equation}
 mit $\bar{A}^\tr = \sum_{i=1}^l A_i^\tr \diff \tau_i $ und $\hat{A}^\tr = \sum_{i=1}^l A_i^\tr \diff \tau_i \rtau_i$.
 Als Algorithmus ergibt sich folglich Prozedur 4, welche die Berechnung von $\bar A$ und $\hat A$ durchführt, als auch Prozedur 5, welche das erstellte Gleichungssystem löst.
  \begin{algorithm}[H]
@@ -298,4 +301,4 @@ Dies entspricht der verallgemeinerten impliziten Mittelpunktsregel \eqref{eq:gen
 
  
 \section{Optimierung}
- Zur Zeit der Erstellung dieser Arbeit konnte keine sinnvolle Verbesserung der Optimierung des Kostenfunktionals gefunden werden. Es wird daher das L-BFGS Verfahren benutzt, welches nach Zou und Navon in \cite{zou1993numerical} gute Ergebnisse für die 4-D Datenassimilierung liefert. 
+ Zur Zeit der Erstellung dieser Arbeit konnte keine sinnvolle Verbesserung der Optimierung des Kostenfunktionals gefunden werden. Es wird daher das BFGS Verfahren benutzt, welches nach Zou und Navon in \cite{zou1993numerical} gute Ergebnisse für die 4-D Datenassimilierung liefert. 
