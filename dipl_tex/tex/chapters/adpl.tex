@@ -5,7 +5,7 @@ In diesem Kapitel werden Lösungen geführt, welche es ermöglichen, vorherige B
 \footnote{In dieser Arbeit nutzen wir \glqq linear\grqq synonym zu \glqq affin\grqq (oder \glqq polyhedral\grqq), da sich jede affine Funktion in eine lineare Funktion  transformieren lässt. Sie entsprechen den Begriffen bei Griewank \cite{monster} und Scholtes \cite{scholtes2012introduction}}
 Funktionen
 % , bzw. lokal Lipschitzstetige Funktionen $F$ 
-anzuwenden. Desweiteren wird eine kurze Einführung in Automatischem Differenzieren gegeben, welches so erweitert wird, dass es auf verkettet stückweise lineare Funktionen angewendet werden kann.
+anzuwenden. Desweiteren wird eine kurze Einführung im Automatischen Differenzieren gegeben, welches so erweitert wird, dass es auf verkettet stückweise lineare Funktionen angewendet werden kann.
 \section{Verallgemeinerte Gradienten}
 Da wir im späteren Verlauf der Arbeit spezielle unglatte Funktionen betrachten wollen, muss zunächst geklärt werden, wie ein möglicher Ableitungsbegriff aussieht und welche Eigenschaften gelten.
 
@@ -41,7 +41,7 @@ Für die Bouligandableitung gelten alle Differentiationsregeln wie für die Fré
  (F\circ G)'(x_0;d) = F'(G(x_0);G'(x_0;d)) 
 \end{equation}
 
-Ein weiterer allgemeiner gefasster Ableitungsbegriff, welcher im Verlaufe der Arbeit des öfteren benutzt wird ist die Clarke Ableitung \cite[Def. 2.6.1.]{clarke1990optimization}
+Ein weiterer allgemeiner gefasster Ableitungsbegriff ist die Clarke Ableitung \cite[Def. 2.6.1.]{clarke1990optimization}, welche mengenwertige Funktionen als Ableitungen zulässt.
 \begin{definition}[Limiting Jacobian und Clarke Ableitung]
  Sei die Funktion $F$ und die Mengen $\mathcal D$ und $S$ wie im Theorem von Rademacher \ref{thm:rademacher} definiert. $\nabla F(y)$ sei die Jacobimatrix an einer Stelle $y\in \mathcal D\backslash S$. Dann ist die Menge der \textit{limiting Jacobians} und die \textit{verallgemeinerte Ableitung nach Clarke} definiert als
  \begin{align}
@@ -157,7 +157,7 @@ Automatisches oder Algorithmisches Differenzieren ist ein Verfahren, um exakte, 
 Um eine vektorwertige Funktion $F:\mathcal D \subset \R^n\to \R^m$ mittels Automatischem Differenzieren abzuleiten, muss sie bereits in einer algebraischen Form vorliegen, sie soll also aus Verknüpfung der Relationen $+, -, \cdot, /$ oder polynomiellen arithmetischen Operationen sin, cos, sqrt, exp, log usw. bestehen, also jenen, von denen eine elementare Ableitung bekannt ist.  
 
 Zum Auswerten einer programmierten Funktion führt der Compiler eine sogenannte \textit{Three-Part Evaluation Procedure} durch, d.h. er speichert die unabhängigen Eingangsvariablen $x\in \R^n$ in internen Variablen $(v_{1-n},\ldots,v_{-1})$ ab, führt $l-m$ Berechnungsschritte $(v_1,\ldots, v_{l-m})$ aus und gibt die abhängigen Variablen $(v_{l-m+1},\ldots,v_l)$ zurück. Diese Berechnungen lassen sich durch einen \textit{Computational Graph} visualisieren, wie dies in Figur \ref{fig:computationalGraph} für das Beispiel $F(x) = \sin(|x_1\cdot x_2|+x_1)$ durchgeführt wurde. 
-Für das Ausführen werden diese \textit{Elementarfunktionen} $\lbrace \phi_i \rbrace_{i\in I}$ nacheinander in der richtigen Reihenfolge ausgeführt, welche durch die Halbordnung $\prec$ definiert ist, sodass wir für jedes $v_i$ mit $i>0$ und Argumenten $v_j$, $j<i$ schreiben können
+Die \textit{Elementarfunktionen} $\lbrace \phi_i \rbrace_{i\in I}$ werden nacheinander in der richtigen Reihenfolge ausgeführt, welche durch die Halbordnung $\prec$ definiert ist, sodass wir für jedes $v_i$ mit $i>0$ und Argumenten $v_j$, $j<i$ schreiben können
 \[
  v_i = \phi_i(v_j)_{j\prec i}
 \]
