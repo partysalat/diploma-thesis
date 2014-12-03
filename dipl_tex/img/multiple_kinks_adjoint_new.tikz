@@ -1,8 +1,10 @@
 \documentclass{standalone}
-\usepackage{pgfplots,pgfplotstable}
-
-\usetikzlibrary{external}
-
+\IfStandalone{
+	\usepackage{pgfplots,pgfplotstable}
+	\usetikzlibrary{external}
+	\newcommand{\fromRoot}[1]{../#1}
+}{%
+}
 \begin{document}
 
 \tikzsetnextfilename{multiple_kinks_adjoint_new}
@@ -13,7 +15,7 @@
 % 
 % \draw (0,1) -- (1,2) -- (2,0.5) -- (3,1.5) -- (4,1) -- (5,2.5) -- (6,2);
 \begin{axis}[
-	width=\linewidth,
+	width=\textwidth,
 	height=5cm,
 % 	xlabel = $v$,
 % 	ylabel = $y$,
@@ -52,8 +54,6 @@
 % 		7 1.3
 % 	};
 \end{axis}
-
 \end{tikzpicture}
 
- 
 \end{document}

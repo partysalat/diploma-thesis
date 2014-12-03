@@ -1,29 +1,19 @@
 \documentclass{standalone}
-\usepackage{pgfplots,pgfplotstable}
-
-\usetikzlibrary{external}
-
-\begin{document}
+\IfStandalone{
+	\usepackage{pgfplots,pgfplotstable}
+	\usetikzlibrary{external}
+	\newcommand{\fromRoot}[1]{../#1}
+}{%
+}\begin{document}
 
 \tikzsetnextfilename{multiple_kinks_adjoint}
 \begin{tikzpicture}
-% \draw (0,0) grid (7,3);
-% \draw[help lines,->] (0,0) -- (7,0) node[anchor=north west] {$v$};
-% \draw[help lines,->] (0,0) -- (0,3) node[anchor=south east] {$y$};
-% 
-% \draw (0,1) -- (1,2) -- (2,0.5) -- (3,1.5) -- (4,1) -- (5,2.5) -- (6,2);
 \begin{axis}[
 	width=\linewidth,
 	height=5cm,
-% 	xlabel = $v$,
-% 	ylabel = $y$,
-% 	xtick = data,
-% 	ytick = data,
 	xmajorgrids,
-% 	xticklabels={$\check x$,$\tau_1\Delta x$,$\mathring x$,$\tau_2 \Delta x$,$\tau_3 \Delta x$,$\hat x$},
 	xtick={0,2,3.5,6},
 	xticklabels={$ x_a$,$\tau_1\Delta x$,$\tau_2\Delta x$,$x_n$},
-% 	xticklabel=\empty,
 	yticklabel=\empty,
 	ylabel={$F(x)$},
 	every axis y label/.style={
@@ -32,25 +22,11 @@
 	  anchor=south east,
 	},
 	extra x ticks={3},
-	extra x tick labels={$\mathring x$},
-% 	extra y ticks={1,1.3},
-% 	extra y tick labels={$y_0$,$y_1$},
+	extra x tick labels={$\mathring x$}
 ]
 	\addplot [mark=none,draw=black,thin, domain=0:2] {0.5*x^2};
 	\addplot [mark=none,draw=black,thin, domain=2:3.5] {-x+4)};
 	\addplot [mark=none,draw=black,thin, domain=3.5:6] {sin(deg(x-3.5))+0.5};
-% 	\draw[->] (0,0) .. controls (1.4,0.6) and (1.4,0.6) .. (1.5,2);
-% 	\addplot[no marks] table {
-% 		0 1
-% 		1.5 1.3
-% 		3.5 1.15
-% 		};
-% 	\addplot[no marks] table {
-% 		3.5 1.15
-% 		4.2 1.1
-% 		5 1.5
-% 		7 1.3
-% 	};
 \end{axis}
 
 \end{tikzpicture}
