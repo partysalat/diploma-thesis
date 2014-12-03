@@ -493,6 +493,15 @@ Diese Werte werden nach Tableau \ref{fig:rombergTableau} angeordnet und berechne
 \label{fig:rombergTableau}
 \end{figure}
 
+Dass die Romberg Extrapolation konvergiert wurde zum Beispiel in \cite{von1993short} bewiesen 
+\begin{theorem}[Romberg Konvergenz]
+ Die Funktion $f$ sei $2m+2$ mal stetig differenzierbar auf dem Intervall $[a,b]$ und weiterhin $N=2^mn$ mit $m,n\in \N$. Dann gilt
+ \begin{equation}\label{eq:rombergConvergence}
+  |T_{N,m} - I(f)| \leq C_m(b-a)^{2m+3}\max_{\xi \in[a,b]}|f^{(2m+2)}(\xi)|n^{-(2m+2)}
+ \end{equation}
+
+\end{theorem}
+
 In den experimentellen Betrachtungen wird die Romberg Extrapolation für den Fall $m=1$ betrachtet mit verdoppelter Schrittweite, also $h_1=0.5\cdot h_0$, wodurch sich \eqref{eq:rombergFormular} vereinfacht zu
 \[
 \begin{aligned}
@@ -500,6 +509,5 @@ In den experimentellen Betrachtungen wird die Romberg Extrapolation für den Fal
 	  &= \frac{4\cdot T_{10}-T_{00}}{3}
  \end{aligned}
 \]
-
-
+wobei mit einer quartischen Konvergenzordnung aufgrund von \eqref{eq:rombergConvergence} zu rechnen ist.
 
