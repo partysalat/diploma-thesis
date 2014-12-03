@@ -1,5 +1,5 @@
 \chapter{AD und Behandlung von Unglattheiten}
- Sämtliche Betrachtungen, welche wir bis jetzt geführt haben, setzen voraus, dass die rechte Seite $F$ unseres Modells \eqref{eq:odemodel} hinreichend glatt definiert ist, damit wir sie anwenden können. 
+ Sämtliche Betrachtungen, welche wir bis jetzt geführt haben, setzen voraus, dass die rechte Seite $F$ unseres Modells \eqref{eq:odemodel} hinreichend glatt definiert ist, also dass mindestens $F\in C^1(\R^n)$ gilt, damit wir sie anwenden können. 
 
 In diesem Kapitel werden Lösungen geführt, welche es ermöglichen, vorherige Betrachtungen auf stückweise lineare
 \footnote{In dieser Arbeit nutzen wir \glqq linear\grqq synonym zu \glqq affin\grqq (oder \glqq polyhedral\grqq), da sich jede affine Funktion in eine lineare Funktion  transformieren lässt. Sie entsprechen den Begriffen bei Griewank \cite{monster} und Scholtes \cite{scholtes2012introduction}}
@@ -50,7 +50,7 @@ Ein weiterer allgemeiner gefasster Ableitungsbegriff ist die Clarke Ableitung \c
  \end{align}
 %  mit "conv als konvexe Hülle.
 \end{definition}
-Die Menge der limiting Jacobians beschreibt also die Menge der geeigneten Fréchetableitungen in der Umgebung von Auswertungspunkt. Die Clarke Ableitung ist die konvexe Hülle darüber.
+Die Menge der limiting Jacobians $\partial^L F(x)$ beschreibt also die Menge der geeigneten Fréchetableitungen in der Umgebung von Auswertungspunkt. Die Clarke Ableitung $\partial F(x)$ ist die konvexe Hülle darüber.
 
 % Eine Funktion $F:U\subseteq \R^n\to \R^m$ heißt Lipschitzstetig, wenn eine Konstante $L$ existiert, sodass für alle $x,y\in U$ gilt
 % \[
@@ -80,7 +80,7 @@ Eine andere Art der Darstellung, welche in der polyhedralen Natur der stückweis
  Eine Menge $P\subseteq \R^n$ wird Polyeder genannt, falls eine $m\times n$ - Matrix $A$ und ein $m$-dimensionaler Vektor $b$ existiert, sodass $P = \lbrace x\in \R^n ~|~ Ax\leq b \rbrace$. 
 Die Menge dieser konvexen Polyeder werden \textit{Polyhedrale Subdivision} von $\R^n$ zur Funktion $f$ genannt. Genauer ist $\Sigma$ eine Polyhedrale Subdivision von $P \subseteq \R^n$, falls
 \begin{enumerate}
- \item Jedes Polyeder $S_\sigma \in \Sigma$ eine Teilmenge von $\R^n$ ist
+ \item Jedes Polyeder $P_\sigma \in \Sigma$ eine Teilmenge von $\R^n$ ist
  \item Die Dimension der Polyeder aus $\Sigma$ mit der Dimension von $\R^n$ übereinstimmt
  \item Die Vereinigung aller Polyeder von $\Sigma$ den Raum $\R^n$ überdeckt
  \item Jeweils zwei Polyeder von $\Sigma$ sind entweder disjunkt oder berühren sich nur an ihren Kanten.
@@ -234,7 +234,7 @@ Gegeben sei eine verkettete stückweise glatte Funktion $F:\R^n\to\R^m$ mit $s>0
 die stückweise lineare und stetige \textit{Inkrementfunktion}.
 \end{definition}
 
-Für stückweise differenzierbare Funktionen ist die Bouligandableitung $F'(\xo;\Delta x)$ stückweise linear und positiv homogen, was die Inkrementfunktion jedoch nicht ist.
+Für stückweise differenzierbare Funktionen ist die Bouligandableitung $F'(\xo;\Delta x)$ stückweise linear und positiv homogen, d.h. $F'(\xo;\alpha \Delta x) = \alpha F(\xo;\Delta x), \alpha\geq 0$, was die Inkrementfunktion jedoch nicht ist.
 Tauscht man \eqref{eq:absAdRule} durch die Vorschrift
 \begin{equation}
  \label{eq:improvedAbsAdRule}
@@ -243,7 +243,16 @@ Tauscht man \eqref{eq:absAdRule} durch die Vorschrift
  \end{aligned}
 \end{equation}
 
-aus und falls das Inkrement $\Delta x$ hinreichend klein ist, existiert eine Grenze $\rho(\xo)$ sodass für die Inkrementfunktion 
+aus, mit
+\[
+ \sign(x) = \begin{cases}
+            1 &, x>0\\
+            -1&, x<0\\
+            0 &, \text{sonst}
+           \end{cases}
+
+\]
+und falls das Inkrement $\Delta x$ hinreichend klein ist, existiert eine Grenze $\rho(\xo)$ sodass für die Inkrementfunktion 
  \[
   \Delta F(\xo;\Delta x) = F'(\xo;\Delta x)\text{ falls }\|\Delta x\|\leq \rho(\xo)
  \]
@@ -280,7 +289,7 @@ Der Signaturvektor, welcher als
 \]
 definiert ist, beschreibt den Weg des computational graphs bei der Auswertung der Inkrementfunktion, d.h. durch jeden $abs$ Aufruf wird beispielsweise durch Vorzeichenwechsel definiert, dass ein Kink überquert wurde. Die Mengen 
 \[
- S_\sigma = \lbrace \Delta x \in \R^n:\sigma(\Delta x) = \sigma \rbrace
+ P_\sigma = \lbrace \Delta x \in \R^n:\sigma(\Delta x) = \sigma \rbrace
 \]
 sind relativ offen und konvexe Polyeder in $\R^n$, welche paarweise disjunkt sind und den kompletten $\R^n$ aufspannen.
 Die polyhedrale Dekomposition der Auswertungsprozedur ist dabei eindeutig durch diesen Signaturvektor definiert.
@@ -290,9 +299,9 @@ Unser stückweise Lineares Modell besitzt die Eigenschaften
 \begin{theorem}[Stückweise Lineares Modell]
  \begin{enumerate}
   \item An jedem $\xo\in \mathcal D$ ist die Funktion $\Delta F(\xo;\Delta x)$ definiert für alle $\Delta x\in \R^n$.
-  \item $\R^n$ ist die disjunkte Vereinigung relativ offener Mengen konvexer Polyeder $S_\sigma$ für $\sigma \in \lbrace -1,0,1\rbrace$
-  \item Auf dem Abschluss $\bar S_\sigma$ ist die Funktion $\Delta F(\xo;\Delta x)$ linear mit Jacobimatrizen $J_\sigma\in \R^{m\times n}$
-  \item Wenn eine gemeinsame Seite $\bar S_\sigma \cap S_{\tilde \sigma}$ die maximale Dimension $n-1$ besitzt, dann gilt $J_\sigma - J_{\tilde \sigma} = 2ba^\tr$, wobei $a$ eine Normale auf der Seite ist, welche nicht null ist und $b\in \R^n$
+  \item $\R^n$ ist die disjunkte Vereinigung relativ offener Mengen konvexer Polyeder $P_\sigma$ für $\sigma \in \lbrace -1,0,1\rbrace$
+  \item Auf dem Abschluss $\bar P_\sigma$ ist die Funktion $\Delta F(\xo;\Delta x)$ linear mit Jacobimatrizen $J_\sigma\in \R^{m\times n}$
+  \item Wenn eine gemeinsame Seite $\bar P_\sigma \cap S_{\tilde \sigma}$ die maximale Dimension $n-1$ besitzt, dann gilt $J_\sigma - J_{\tilde \sigma} = 2ba^\tr$, wobei $a$ eine Normale auf der Seite ist, welche nicht null ist und $b\in \R^n$
  \end{enumerate}
 \end{theorem}
 

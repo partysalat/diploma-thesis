@@ -76,7 +76,7 @@ zu nutzen, wobei $\mathring c_{ij}$ die glatten Ableitungen zum Entwicklungspunk
 \end{aligned}
 \label{eq:jacAbsNormalForm}
 \end{equation}
-für $\Sigma = \diag(\sigma) \in \R^{s\times s}$ zu berechnen. Die Idee besteht nun darin, die Richtung $\Delta x$, in der der Gradient berechnet werden soll, in den Nulleinträgen so zu stören, dass wir uns innerhalb eines Polyeders befinden, der Rest jedoch unangetastet bleibt. Da das Komplement $\mathcal C$ aller offenen Polyeder $S_\sigma$ aus eine endliche Anzahl an Hyperflächen  besteht kann kein Pfad der Form
+für $\Sigma = \diag(\sigma) \in \R^{s\times s}$ zu berechnen. Die Idee besteht nun darin, die Richtung $\Delta x$, in der der Gradient berechnet werden soll, in den Nulleinträgen so zu stören, dass wir uns innerhalb eines Polyeders befinden, der Rest jedoch unangetastet bleibt. Da das Komplement $\mathcal C$ aller offenen Polyeder $P_\sigma$ aus eine endliche Anzahl an Hyperflächen  besteht kann kein Pfad der Form
 \begin{equation}
  \Delta x(t) = \sum_{j=1}^n e_j t^j \quad ,0<t<\bar t;~e_j\in \R^n ~,\det(e_1,\ldots,e_n)\neq 0
 \end{equation}
@@ -85,7 +85,7 @@ Ein naheliegender Ansatz ist die Auswertungsprozedur \eqref{eq:jacAbsNormalForm}
 \[
  \sigma_i = \text{firstsign}(z_i,\nabla z_i^\tr\Delta x) = \sign(z_i+\Delta z_i)
 \]
-anzuwenden, wobei firstsign$(z,\Delta z)$ eines Vektors $z$ definiert ist als das Vorzeichen der ersten nicht verschwindenden Komponente des Vektors $z$, ansonsten wird sie zu $\Delta z$ gesetzt. Falls nun alle Werte $\sigma_i \neq 0$ sind, ist $J_\sigma$ eine Bouligandableitung der Funktion $F$ und ihrer stückweisen Linearisierung im Polyeder $S_\sigma$ auf dessen Abschluss der Auswertungspunkt $\xo$ liegt.
+anzuwenden, wobei firstsign$(z,\Delta z)$ eines Vektors $z$ definiert ist als das Vorzeichen der ersten nicht verschwindenden Komponente des Vektors $z$, ansonsten wird sie zu $\Delta z$ gesetzt. Falls nun alle Werte $\sigma_i \neq 0$ sind, ist $J_\sigma$ eine Bouligandableitung der Funktion $F$ und ihrer stückweisen Linearisierung im Polyeder $P_\sigma$ auf dessen Abschluss der Auswertungspunkt $\xo$ liegt.
 
 Der Ansatz um diesen Pfad zu konstruieren besteht darin, den Richtungsvektor $e_1 = \Delta x$ mit $n-1$ linear unabhängigen Vektoren $e_2,\ldots, e_n$ zu komplementieren, sodass sie eine nichtsinguläre Basismatrix $E\in \R^{n\times n}$ bilden.
 Das bedeutet, wir stellen das System linear unabhängiger Vektoren $\tilde E$, welche wir definieren als
