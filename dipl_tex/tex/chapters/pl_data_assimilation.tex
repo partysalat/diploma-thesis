@@ -4,8 +4,8 @@
 % \begin{document}
 \chapter{Datenassimilierung mittels stückweiser Linearisierung}
 In diesem Abschnitt widmen wir uns der Aufgabe, das inhomogene adjungierte tangent linear model \eqref{eq:inhAdjEquation} zur verallgemeinerten Impliziten Mittelpunktsregel herzuleiten.
-\section{Probleme durch Unglattheiten}
-\subsection{Adjoint Inclusion}
+
+\section{Adjoint Inclusion}
 \label{sec:adjointInclusion}
 Angenommen die rechte Seite $F$ unserer Evolutionsgleichung \eqref{eq:odemodel} sei eine stückweise glatte verkettete Funktion. Dann behält die inhomogene adjungierte Gleichung \eqref{eq:inhAdjEquation} für die glatten Bereiche von $F$ ihre Gültigkeit. An den Nullstellen der switching Variablen $z$ erhalten wir jedoch
 \begin{equation}
@@ -16,7 +16,7 @@ für den Gradienten eine mengenwertige Abbildung $\partial F(x)^*:\R^n\rightrigh
 Dadurch ist es möglich, dass in der Zeitintegration Sprünge durch den verallgemeinerten Gradienten $\partial F(x)^*$ auftreten. Falls die Zeitintegration konvergiert, ist deswegen mit einer geringen Konvergenzordnung von ungefähr $\mathcal O(h)$ zu rechnen.
 % TODO: Konvergenzresultat?
 
-In der numerischen Berechnung muss der verallgemeinerte Gradient in eine Richtung $\Delta x$ betrachtet werden, sinnvollerweise in die Richtung des Inkrements der vorherigen Iteration $\Delta x_i = x_{i-1} - x_i$, falls wir uns in Iteration $i$ befinden. 
+In der numerischen Berechnung muss der verallgemeinerte Gradient in eine Richtung $\Delta x$ betrachtet werden, sinnvollerweise in die Richtung des Inkrements der vorherigen Iteration $\Delta x_i = x_{i-1} - x_i$, falls wir uns in Iteration $i$ befinden, damit aus der Mengenwertigen Abbildung $ \partial F(x)^*$ ein Gradient ausgewählt wird. 
 Falls sich die Gerade $x_i + \Delta x$ auf einem Kink befindet, wie in Bild \ref{fig:adjValleyTracing} zu sehen, sprechen wir von einem so genannten \textit{valley tracing mode}, welcher von Khan und Barton in \cite{khan2014} ausführlich behandelt wird. 
 \begin{figure}
 \centering
@@ -35,7 +35,7 @@ Falls sich die Gerade $x_i + \Delta x$ auf einem Kink befindet, wie in Bild \ref
 \end{figure}
 
 Eine mögliche Lösung des Problem stellt die Methode des \textit{Polynomial Escapes} dar.
-
+\section{Polynomial Escape}
 %agenda:
 %brauche Richtung 
 %Nehme Richtung zum nächsten Punkt x_i-1 - x_i
@@ -53,9 +53,9 @@ Eine mögliche Lösung des Problem stellt die Methode des \textit{Polynomial Esc
 % Da die Jacobimatrix an Kinks nicht eindeutig sein muss, wird ein Vektor $d$ mit angegeben, welcher uns die Richtung der Ableitung vorgibt. Diese ist dann wiederum eindeutig bestimmt.
 % Um dies mit unseren eben geführten Betrachtungen zu vereinen berechnen wir also den Gradienten $J_\sigma$ nicht an der gegebenen Stelle $x_0$, sondern gehen ein Stück in das durch $d$ und $\Sigma$ vorgegebene Polyeder und berechnen dort die Ableitung an Stelle $\xo_0 = x_0+\frac{1}{2}\tau\cdot d$. Aufgrund der Linearität der Polyeder stimmen die Ableitung an der Stelle $x_0$ und jene an Stelle $\xo_0$ überein. Der Algorithmus ergibt sich sofort zu
 % [TODOBild auf Linker Seite]
-\section{Polynomial Escape}
+
 %TODO BILD POLYNOMIAL ESCAPE
-Obwohl es in der Praxis unwahrscheinlich ist, kann es passieren, dass der Gradient auf einem Kink an einer Stelle $\xo$ in Richtung $\Delta x$ berechnet werden muss. Die Richtung könnte dabei ebenfalls entlang eines Kinks verlaufen.
+Obwohl es in der Praxis unwahrscheinlich ist, kann der Fall des valley tracing modes eintreten.
 %Bei pl data assimilation  brauchen wir polynomial escape
 In diesem Fall haben wir keine Bouligandableitung mehr, da das errechnete $\Sigma(z)$ und damit $J_\sigma$ für ein $z_i=0$ Nulleinträge aufweist. Griewank schlägt deshalb in \cite[S.29]{monster} vor, die reduzierte Repräsentation des computational graphs 
 \begin{equation}
