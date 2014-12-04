@@ -1,7 +1,7 @@
 \chapter{Experimente}
 In diesem Kapitel werden wir drei verschiedenen Beispielen mit sämtliche eingeführten Methoden duchrechnen. Dabei wird zunächst auf die Lösung der Differentialgleichung eingegangen und Konvergenzbetrachtungen durchgeführt. Danach wird der Gradienten des Kostenfunktionals behandelt und die Optimierung für diverse Anfangswerte durchgeführt.
-Als erstes Problem dient das Rolling Stones Beispiel, welche ein stückweise lineares Problem darstellt. Die LC- Diode, das nächste Beispiel, ist ein System von gewöhnlichen Differentialgleichungen, welche nahe der Maschinengenauigkeit modelliert. Als Abschluss wird die 1-D Shallow Water Equation Ortsdiskretisiert, sodass sie mit der verallgemeinerten Mittelpunktsregel als System von ODEs in der Zeit gelöst werden kann.
-%Stay Tuned!
+Als erstes Problem dient das Rolling Stones Beispiel, welche ein stückweise lineares Problem darstellt. Die LC- Diode, das nächste Beispiel, ist ein System von gewöhnlichen Differentialgleichungen, welche nahe der Maschinengenauigkeit modelliert. Als Abschluss wird die 1-D Shallow Water Equation Ortsdiskretisiert, sodass sie mit der verallgemeinerten Mittelpunktsregel als System von ODEs in der Zeit gelöst werden kann. Im Folgenden werden wir mit \glqq IMP\grqq die klassische implizite Mittelpunktsregel und mit \glqq GIMP\grqq die verallgemeinerte implizite Mittelpunktsregel bezeichnen.
+
 \section{Rolling Stone}
 % \subsection{Problemstellung}
 Zum Anfang wollen wir uns dem sogenannten Rolling Stones Beispiel widmen, welches beispielsweise in \cite{boeck2014experiments} oder \cite{hasenfelder13} eingeführt wurde. 
@@ -103,15 +103,15 @@ und wird in Figur \ref{fig:rollingStonesSolution} angegeben. Dabei sind die grau
 \begin{minipage}[b]{0.45\linewidth}
 % \begin{minipage}[t][3cm][t]{5cm}
 \input{img/convergence_rolling_romberg_plot.tikz}
-\caption{Konvergenz der Romberg Extrapolation im Intervall $[0,50]$ mit $x_0=(1,1)$}
+\caption{Romberg Konvergenz im Intervall $[0,50]$ mit $x_0=(1,1)$}
 \label{fig:rollingStonesConvergenceRomberg}
 \end{minipage}
 
 \end{figure}
 
 
-Die in Theorem \ref{thm:convergenceGenMidpoint} vorhergesagte Konvergenzordnung von $\mathcal O(h^2)$ erfüllt die verallgemeinerte implizite Mittelpunktsregel wie in Figur \ref{fig:rollingStonesConvergence} ersichtlich.
-Dass die gewöhnliche implizite Mittelpunktsregel eine ebenso hohe Konvergenzrate besitzt ist darin begründet, dass sie im gegebenen Intervall nur $4$ mal pro $2\pi+4$ Periode Unglattheiten überquert, sonst jedoch normal konvergiert. Aufgrund dieser Unglattheiten entsteht für die implizite Mittelpunktsregel (IMP) kein glatter Konvergenzgraph, sondern sie springt. Demgegenüber konvergiert die verallgemeinerter implizite Mittelpunktsregel (GIMP) sehr stabil, da sie die Knicke der Funktion mit in ihre Berechnung einbezieht.
+Die in Theorem \ref{thm:convergenceGenMidpoint} vorhergesagte Konvergenzordnung von $\mathcal O(h^2)$ erfüllt die GIMP wie in Figur \ref{fig:rollingStonesConvergence} ersichtlich.
+Dass die IMP eine ebenso hohe Konvergenzrate besitzt ist darin begründet, dass sie im gegebenen Intervall nur $4$ mal pro $2\pi+4$ Periode Unglattheiten überquert, sonst jedoch normal konvergiert. Aufgrund dieser Unglattheiten entsteht für die IMP kein glatter Konvergenzgraph, sondern sie springt. Demgegenüber konvergiert die GIMP sehr stabil, da sie die Knicke der Funktion mit in ihre Berechnung einbezieht.
 Insbesondere wird der Fehler der GIMP mit zunehmender Zeit (siehe Fig. \ref{fig:rollingStonesEOT}(a)) nur in den nicht affinen Abschnitten größer während in den affinen Abschnitten exakt gelöst wird, der lokale Fehler der IMP erhöht sich jedoch ständig, bedingt durch die Kinks und der zu großen Schrittweite. Der allgemeine Fehler ist dadurch für die IMP höher über die Zeit gesehen als der Fehler der GIMP (\ref{fig:rollingStonesEOT}(b)).
 
 Da sich der rollende Stein reibungslos in unserem System bewegt, muss die analytische Lösung die komplette Energie erhalten, d.h. die potentielle Energie addiert mit der kinetischen $V(x) + \frac{1}{2}\dot x^2$ muss konstant sein. Das Bild \ref{fig:rollingStonesEnergyError} wurde mittels der summierten Variation der Energie 
@@ -142,7 +142,7 @@ Dadurch führt die in Figur \ref{fig:rollingStonesConvergenceRomberg} durchgefü
 \subsection{Gradient des Kostenfunktionals}
 Ähnliche Ergebnisse wie beim Lösen der ODE erwarten wir für die Integration des inhomogenen adjungierten Tangent Linear Models \eqref{eq:inhAdjEquation}. Falls nicht anders beschrieben werden im Folgenden immer die exakte Lösung des Rolling Stones Beispiel \eqref{eq:analyticSolRolling} als Obervierungsparameter $x_{\text{Obs}}$ mit der selben Diskretisierung wie die des ODE Lösers verwendet.
 
-Beim Plot des Gradienten nach Anfangswerten wie in Figur \ref{fig:rollingGrad} ist zu erkennen, dass der Gradient berechnet mit der GIMP ebenfalls stabiler wirkt (Fig. \ref{fig:rollingGrad} links) als der Gradient berechnet mit der normalen Impliziten Mittelpunktsregel (Fig. \ref{fig:rollingGrad} rechts). Desweiteren existieren im Letzteren vereinzelt hohe Sprünge, welche durch nicht einbezogene Kinks erklärt werden können. 
+Beim Plot des Gradienten nach Anfangswerten wie in Figur \ref{fig:rollingGrad} ist zu erkennen, dass der Gradient berechnet mit der GIMP ebenfalls stabiler wirkt (Fig. \ref{fig:rollingGrad} links) als der Gradient berechnet mit der IMP (Fig. \ref{fig:rollingGrad} rechts). Desweiteren existieren im Letzteren vereinzelt hohe Sprünge, welche durch nicht einbezogene Kinks erklärt werden können. 
 \begin{figure}[H]
 \footnotesize 
 \centering
@@ -187,7 +187,7 @@ Die Konvergenzplots \ref{fig:rollingStonesAdjoint} ergeben ähnliche Robustheits
 \caption{Rolling Stones Adjungierte Gleichung im Intervall $[0,40]$}
 \label{fig:rolling_adjoint_eq}
 \end{figure}
-In Abbildung \ref{fig:rolling_adjoint_eq} zeigt die zu rückwärts zu integrierende rechte Seite. Dabei sind für $\dot \bar{x_2}$ deutlich Sprünge zu erkennen. Dadurch fällt die in Kapitel \ref{sec:adjointInclusion} vorhergesagte lineare Konvergenz aller Methoden auf.
+In Abbildung \ref{fig:rolling_adjoint_eq} zeigt die zu rückwärts zu integrierende rechte Seite. Dabei sind für die Geschwindigkeit $\dot{\bar{x_2}}$ genau an den Übergängen zu den linearen Teilen der Funktion Sprünge zu erkennen. Dadurch fällt die in Kapitel \ref{sec:adjointInclusion} vorhergesagte lineare Konvergenz aller Methoden auf.
 % Selbst für einfachere Beispiele ohne Kinks ist die Konvergenz nicht schneller als linear.
 % TODO: HERAUSFINDEN WARUM DAS SO IST
 
@@ -225,7 +225,7 @@ Die Optimierung in diesem Beispiel wurden mit dem BFGS - Verfahren (siehe Algori
 
 Für bestimmte Anfangswerte divergiert die klassische Methode wie in Figur \ref{fig:rollingStonesOpt1} wohingegen die Optimierung über GIMP konvergiert. 
 
-Zusammenfassend ergibt sich für das Rolling Stones Beispiel ein insgesamt besseres Verhalten der verallgemeinerten Methoden im Gegensatz zu der klassischen impliziten Mittelpunktsregel.
+Zusammenfassend ergibt sich für das Rolling Stones Beispiel ein insgesamt besseres Verhalten der verallgemeinerten Methoden im Gegensatz zu den Klassischen.
 \begin{figure}[H]
 \footnotesize
 \centering
@@ -323,7 +323,7 @@ Die Lösung der ODEs \eqref{eq:lcOde} wird in Bild \ref{fig:lc_solution} gezeigt
 \caption{Konvergenz LC Diode im Intervall $[0,1.5\cdot 10^{-8}]$ mit $x_0=(0,0,0)$}
 \label{fig:lcConvergence}
 \end{figure}
-Im Konvergenzgraph \ref{fig:lcConvergence} ist ein ähnliches Verhalten wie beim Rolling Stones Beispiel zu erkennen. Nachdem sich der Konvergenzgraph bis ca. $5\cdot 10^2$ Schritten ähnlich wie die implizite Mittelpunktsregel verhält, konvergiert er stabil mit Ordnung 2, während die Implizite Mittelpunktsregel bedingt durch die wenigen Kinks ebenfalls springt. Die explizite Mittelpunktsregel konvergiert unterhalb von $10^3$ Schritten nicht. 
+Im Konvergenzgraph \ref{fig:lcConvergence} ist ein ähnliches Verhalten wie beim Rolling Stones Beispiel zu erkennen. Nachdem sich der Konvergenzgraph bis ca. $5\cdot 10^2$ Schritten ähnlich wie die IMP verhält, konvergiert er stabil mit Ordnung 2, während die IMP bedingt durch die wenigen Kinks ebenfalls springt. Die explizite Mittelpunktsregel konvergiert unterhalb von $10^3$ Schritten nicht. 
 Herauszustellen ist also, dass unsere Methoden selbst für nicht stückweise affine Beispiele stabile Konvergenzresultate erzielen.
 
 Die Romberg Extrapolation gestaltet sich in diesem Beispiel schwierig. Zwar ist in Bild \ref{fig:lcRomberg} ein besseres Verhalten der Extrapolation für die GIMP zu erkennen, diese stößt jedoch an die Grenzen sobald sie sich der Maschinengenauigkeit nähert.  Die Konvergenzgeschwindigkeit betrug in diesem Beispiel nur $2.24$. Insbesondere im Abschnitt zwischen $2\cdot 10^{3}$ und $10^4$ ist jedoch eine deutlich exaktere Extrapolation der GIMP im Gegensatz zur Extrapolation der IMP zu beobachten. In diesem Intervall beträgt die Konvergenzgeschwindigkeit schon $3.89$. 
@@ -365,9 +365,27 @@ Beim Fehler über die Zeit ist genau zu erkennen, dass der Fehler sich an den Ki
 \caption{LC Fehler über Zeit mit $N =1024 ,x_0 = [0,0,0]$}
 \end{figure}
 \subsection{Gradient und Optimierung}
+\begin{figure}[H]
+\footnotesize
+\begin{minipage}[b]{0.49\linewidth}
+% \begin{minipage}[t][3cm][t]{5cm}
+\centering
+\input{img/lc_adjoint_eq.tikz}
+\caption*{(a) $\dot{\overline{x_2}}$}
+\end{minipage}
+%  \quad 
+\begin{minipage}[b]{0.49\linewidth}
+% \begin{minipage}[t][3cm][t]{5cm}
+\centering
+\input{img/lc_adjoint_eq1.tikz}
+\caption*{(b) $\dot{\overline{x_3}}$}
+\end{minipage}
+\caption{LC Adjungierte Gleichung mit $x_0=(0,0,10^{-13})$}
+\label{fig:lcAdjointEqRHS}
+\end{figure}
 In diesem Abschnitt werden wir die Lösung im Intervall $[0,10^{-8}]$ mit den Anfangswerten $x_0=(0,0,0)$ als Observierungsparameter benutzen. Da wir keine analytische Lösung berechnen können, wird eine Lösung mit einer erheblich exakteren Schrittweite ($4N$) als Vergleichswert verwendet.
 
-Wie in Bild \ref{fig:lcAdjointConvergence} zu erkennen, konvergiert der Gradient bei der LC-Diode mit einer deutlich höheren Ordnung als im Rolling Stones Beispiel. Mit glatten Observierungsparametern ist der mit der GIMP berechnete Gradient von Anfang an zwei Größenordnungen genauer (Bild \ref{fig:lcAdjointConvergence}(b)), als der mit der IMP berechnete Gradient. 
+Wie in Bild \ref{fig:lcAdjointConvergence} zu erkennen, konvergiert der Gradient bei der LC-Diode mit einer deutlich höheren Ordnung als im Rolling Stones Beispiel. Mit glatten Observierungsparametern ist der mit der GIMP berechnete Gradient von Anfang an zwei Größenordnungen genauer (Bild \ref{fig:lcAdjointConvergence}(b)), als der mit der IMP berechnete Gradient. Da die adjungierte rechte Seite (Bild \ref{fig:lcAdjointEqRHS}) fast keine Sprünge aufweist, ist die Konvergenzordnung zu erwarten.
 \begin{figure}[H]
 \footnotesize 
 \centering
@@ -571,7 +589,7 @@ Die benutzten Anfangswerte $U_0 = (h_0,(hu)_0)$ sind in Bild \ref{fig:sweInitial
 \]
 Wobei $\mathcal N(\mu, \sigma^2)$ die Normalverteilung mit Erwartungswert $\mu$, Varianz $\sigma^2$ und Multiplikator $n$ ist. Falls $U_0^{(2)}$ gewählt wurde ist mit $k\in \R$ die Periode definiert. 
 \subsection{Lösen der ODE}
-Auch bei der Shallow Water Equation erhalten wir eine Konvergenz von $\mathcal O(\hat h^2)$, mit $\hat h$ als die Schrittweite. Wie im Bild \ref{fig:sweConvergence} ersichtlich, ist der Konvergenzgraph sehr stabil gegenüber der implizitem Mittelpunktsregel, wobei letztere stark springt.
+Auch bei der Shallow Water Equation erhalten wir eine Konvergenz von $\mathcal O(\hat h^2)$, mit $\hat h$ als die Schrittweite. Wie im Bild \ref{fig:sweConvergence} ersichtlich, ist der Konvergenzgraph sehr stabil gegenüber der IMP, wobei letztere stark springt.
 
 Im Falle einer Schrittweite von $1.6\cdot 10^2$ divergiert die implizite Mittelpunktsregel, wobei die GIMP konvergiert. 
 %TODO: WARUM?
@@ -591,7 +609,7 @@ Die Romberg Extrapolation konvergiert wie in den vorherigen Beispielen mit einer
 \caption{Konvergenz SWE Romberg im Intervall $I = [0,50], L=100, \Delta x=10$ mit $U_0^{(1)},\theta=1$}
 \label{fig:sweConvergenceRomberg}
 \end{figure}
-Dass die verallgemeinerte Mittelpunktsregel eine bessere Integration liefert ist auch im Bild \ref{fig:sweErrorOverTime} ersichtlich, in dem der Fehler über die Zeit geplottet wurde. Während die GIMP anfangs schlechter integriert, besitzt sie, über einen längeren Zeitraum betrachtet, einen deutlich geringeren Fehler im Gegensatz zu den anderen Methoden.
+Dass die GIMP eine bessere Integration liefert ist auch im Bild \ref{fig:sweErrorOverTime} ersichtlich, in dem der Fehler über die Zeit geplottet wurde. Während die GIMP anfangs schlechter integriert, besitzt sie, über einen längeren Zeitraum betrachtet, einen deutlich geringeren Fehler im Gegensatz zu den anderen Methoden.
 
 \begin{figure}
 \footnotesize
@@ -624,12 +642,30 @@ und als Energiefehler Bild \ref{fig:sweEnergyVariation}.
 \end{figure}
 Es ist zu erkennen, dass in diesem Beispiel keine Verbesserung bzgl. des Energievariationsfehlers vorhanden ist.
 \subsection{Gradient und Optimierung}
-Bei der Konvergenz des Gradienten in Bild \ref{fig:sweConvergenceAdjoint} ist für $\theta=1$ kein besseres Verhalten der GIMP gegenüber der IMP feststellbar. Falls $\theta=2$ gesetzt wird (Bild \ref{fig:sweConvergenceAdjoint1}), so ergibt sich zwar keine bessere Konvergenzordnung der GIMP, jedoch hat sie einen kleineren Fehler.
+\begin{figure}[H]
+\footnotesize
+\begin{minipage}[b]{0.49\linewidth}
+% \begin{minipage}[t][3cm][t]{5cm}
+\centering
+\input{img/swe_adjoint_eq.tikz}
+\caption*{(a) $\dot{\overline{h}}$}
+\end{minipage}
+%  \quad 
+\begin{minipage}[b]{0.49\linewidth}
+% \begin{minipage}[t][3cm][t]{5cm}
+\centering
+\input{img/swe_adjoint_eq1.tikz}
+\caption*{(b) $\dot{\overline{hu}}$}
+\end{minipage}
+\caption{SWE Adjungierte Gleichung mit $L=100,\Delta x=10,h = 0.1$ und $U_0^{(2)},k=1,\theta=2,x_{\text{obs}}=U_0^{(2)},k_{\text{obs}}=2$}
+\label{fig:sweAdjointEqRHS}
+\end{figure}
+Bei der Konvergenz des Gradienten in Bild \ref{fig:sweConvergenceAdjoint} ist für $\theta=1$ kein besseres Verhalten der GIMP gegenüber der IMP feststellbar. Falls $\theta=2$ gesetzt wird (Bild \ref{fig:sweConvergenceAdjoint1}), so ergibt sich zwar keine bessere Konvergenzordnung der GIMP, jedoch hat sie einen kleineren Fehler. 
 
 Mit $\theta\approx 2$ ist der Limiter am wenigsten dissipativ, d.h. es entstehen keine neuen lokalen Extrema durch die Diskretisierung, währenddessen für $\theta\approx 1$ eine nichtoszillatorische Natur der approximativen Lösung sichert (\cite[Abschnitt 6]{kurganov2000new}).
 
 Die Vermutung liegt deshalb nahe, dass die GIMP besser oszillatorisches Verhalten der Lösung behandelt, als die IMP.
-
+Die schlechte Konvergenzordnung der Verfahren ist nicht verwunderlich, da die rechte Seite der adjungierten inhomogenen Gleichung, wie in Abbildung \ref{fig:sweAdjointEqRHS} zu sehen, viele Sprünge besitzt und sehr unregelmäßig ist.
 
 \begin{figure}
 \footnotesize

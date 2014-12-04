@@ -61,9 +61,9 @@ In diesem Fall haben wir keine Bouligandableitung mehr, da das errechnete $\Sigm
 \begin{equation}
  \begin{aligned}
   \Delta v_{i-n} &= \Delta x_i \quad \text{für } i=1,\ldots,n, \\
-  \Delta u_i &= \sum_{j\prec i} \mathring c_{ij}\Delta v_j,\\
-  \sigma_i& = \sign(\mathring u_i + \Delta u_i) \quad \text{für } i=1,\ldots,s,\\
-  \Delta v_i &= \sigma_i \cdot (\mathring u_i+\Delta u_i) - \vo_i\\
+  \Delta z_i &= \sum_{j\prec i} \mathring c_{ij}\Delta v_j,\\
+  \sigma_i& = \sign(\mathring z_i + \Delta z_i) \quad \text{für } i=1,\ldots,s,\\
+  \Delta v_i &= \sigma_i \cdot (\mathring z_i+\Delta z_i) - \vo_i\\
   \Delta y_{i-s}& = \sum_{j\prec i} \mathring c_{ij} \Delta v_j \quad \text{für } i=s+1, \ldots, s+m
  \end{aligned}
  \label{eq:minComputationalGraphRepr}
@@ -97,7 +97,7 @@ Das bedeutet, wir stellen das System linear unabhängiger Vektoren $\tilde E$, w
   \vdots   & 0&I_{k-1}
  \end{pmatrix}
 \]
-wobei $\Delta x_k$ der Eintrag mit dem betragsmäßig größten, nicht verschwindenden Element ist. Nun verschieben wir durch eine Permutationsmatrix $P$ den Vektor $\Delta x$ an die $k$-te Stelle der Matrix $\tilde E$
+wobei $\Delta x_k$ der Eintrag mit dem betragsmäßig größten, nicht verschwindenden Element ist und $I$ die Einheitsmatrix. Nun verschieben wir durch eine Permutationsmatrix $P$ den Vektor $\Delta x$ an die $k$-te Stelle der Matrix $\tilde E$
 \[
 E = \tilde E \cdot P=
 \begin{pmatrix}
@@ -114,11 +114,11 @@ E = \tilde E \cdot P=
 \]
 Diese Permutation ist numerisch von großer von Bedeutung. $E$ kann geschrieben werden als
 \[
-  E = I + (v-e_k)\cdot e_k^\tr 
+  E = I + (\Delta x-e_k)\cdot e_k^\tr 
 \] 
 deren Inverse sich nach der \textit{Sherman-Morrison-Woodbury} Formel ergibt zu
 \[
- E^{-1} = I + \frac{(v-e_k)\cdot e_k^\tr}{v_k}
+ E^{-1} = I + \frac{(\Delta x-e_k)\cdot e_k^\tr}{\Delta x_k}
 \]
 Da wir $\tilde E$ permutierten zu $E$, ist sichergestellt, dass das Inverse $E^{-1}$ die bestmögliche numerische Genauigkeit der Division behält.
 Die $\sigma_i$ erhalten wir nun lexikographisch, indem wir Prozedur \eqref{eq:jacAbsNormalForm} auf jeden Vektor aus $E$ anwenden mit 
@@ -131,10 +131,47 @@ Griewank konnte in \cite[Prop.8]{monster} zeigen, dass solch eine permutierte le
 \begin{theorem}[Polynomial Escape]
 Angenommen, wir initialisieren $(\nabla x_i^\tr)_{i=1,\ldots,n} = E$ mit $\det(E)\neq 0$ und sei $\sigma$ lexikographisch bestimmt. Dann ergibt die Auswertung von Gleichung \eqref{eq:jacAbsNormalForm} eine Matrix $J_\sigma^E = (\nabla y_{i-s}^\tr)_{i=1,\ldots,m}$ dessen Rücktransformation
 \[
- J_\sigma \equiv J_\sigma^E E^{-1} \in \nabla^L \Delta F(\xo;0) 
+ J_\sigma \equiv J_\sigma^E E^{-1} \in \partial^L \Delta F(\xo;0) 
 \]
 eine limiting Jacobian von $F'(\xo;\Delta x))$ und $\Delta F(\xo;\Delta x)$ am Punkt $\xo$ ist.
 \end{theorem}
+Der Algorithmus \ref{alg:polynomialEscape} zeigt die zur Berechnung benötigten Schritte.
+ \begin{algorithm}
+ \algrenewcommand{\algorithmiccomment}[1]{\hfill{\scriptsize #1}}
+ \caption{Polynomial Escape}
+ \label{alg:polynomialEscape}
+ \begin{algorithmic}[1]
+ \Function{gen\_jac}{$x,\Delta x$}
+ 	\State $k \gets \max_i\lbrace i~|~\Delta x_i\rbrace$
+ 	\State $z \gets $calculate\_z($x$)
+ 	\For{$i=1\ldots n$}\Comment{Berechnung von $\nabla z$}
+	  \State $\sigma_i\gets \sign(z_i)$ 
+	  \State $\nabla z_{i,1} = Z.row(i)\cdot \Delta x$\Comment{Berechne $Z\Delta x$}
+	  \State $\nabla z_{i,j+1} = Z.row(i)\cdot e_j$, für $j=1,\ldots,k-1$
+	  \State $\nabla z_{i,j} = Z.row(i)\cdot e_j$, für $j=k+1,\ldots, n$
+	  \State $\nabla z.row(i) \mathrel{+}= L_{i,j}\cdot \sigma_j\cdot \nabla z.row(j)$ für $j=1,\ldots, i$\Comment{Berechne $L\Sigma \nabla z$}
+	  \State $j\gets 2$
+	  \While{$\sigma_i==0$ \&\& $j<s$ }\Comment{Firstsign}
+	    \State $\sigma_i \gets \sign(\nabla z_{i,j})$
+	    \State $j++$
+	  \EndWhile
+	\EndFor
+	\For{$i=1\ldots n$}\Comment{Berechnung von $\nabla y$}
+	  \State $\nabla y_{i,1} = J.row(i)\cdot \Delta x$\Comment{Berechne $J\Delta x$}
+	  \State $\nabla y_{i,j+1} = J.row(i)\cdot e_j$, für $j=1,\ldots,k-1$
+	  \State $\nabla y_{i,j} = J.row(i)\cdot e_j$, für $j=k+1,\ldots, n$
+	  \State $\nabla y.row(i) \mathrel{+}= Y_{i,j}\cdot \sigma_j\cdot \nabla z.row(j)$ für $j=1,\ldots, n$\Comment{Berechne $Y\nabla z$}
+	\EndFor
+	\For{$j=1\ldots n$}\Comment{Berechnung von $J_\sigma^E\cdot E^{-1}$}
+	  \State $\tilde J_{i,j} =\nabla y_{j,i+1}$für $i=1,\ldots,k-1$
+	  \State $\tilde J_{i,j} = \nabla y_{j,i} $ für $i=k+1,\ldots,n$
+	  \State $\tilde J_{k,j} = \nabla y_{j,1}$
+	  \State $\tilde J_{k,j} \mathrel{+}= (\tilde J_{i,j}\Delta x_i) / \Delta x_k$ für $i=1,\ldots,k-1,k+1,\ldots,n$
+	\EndFor
+	\State $J_\sigma = \tilde J$
+ \EndFunction
+ \end{algorithmic}
+ \end{algorithm}
 % Für die Inhomogene Adjungierte Gleichung ergibt sich
 % \[
 %  \frac{d \delta' x}{dt} =- F'(x;\Delta x)^\tr\delta'x + \nabla H(t)
@@ -151,7 +188,7 @@ In diesem Abschnitt wollen wir die inhomogene adjungierte Differentialgleichung 
 
 Falls wir den Gradienten des Kostenfunktionals mit der impliziten Mittelpunktsregel berechnen, so würden wir als Auswertungspunkt des Gradienten den Mittelpunkt $\xo$ benutzen. Wie im Bild \ref{fig:multipleKinksAdjoint}(a) zu erkennen ist, kann dies dazu führen, dass der Gradient keine sinnvolle Aussage der Steigung widerspiegelt. Im Rolling Stones Beispiel mündet dieses Problem beispielsweise in einem sehr verzerrten Gradienten (siehe Bild \ref{fig:rollingGrad}). Wir wollen nun die Eigenschaften der verallgemeinerten impliziten Mittelpunktsregel nutzen, um eine Art Mittelwert des Gradienten berechnen zu können, der an den Stellen zwischen den Kinks, wie im Bild \ref{fig:multipleKinksAdjoint}(b), ausgewertet und gewichtet summiert wird. 
 
-\begin{figure}[H]
+\begin{figure}
 \footnotesize
 \centering
 \begin{minipage}[b]{\linewidth}

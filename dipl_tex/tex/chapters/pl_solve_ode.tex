@@ -254,30 +254,30 @@ y = b+Y\Sigma(I-L\Sigma)^{-1}c + J_\sigma x  \quad \text{mit} \quad J_\sigma = J
 Hier ist $J_\sigma$ die Jacobimatrix von $F$ eingeschränkt auf $P_\sigma$. Sie reduziert sich zu $J_\sigma=J+Y\Sigma Z$ für einfache switching depth und zu $J$ für glatte Probleme.
 \end{theorem}
 
-Der Algorithmus zum Auswerten der lokale Jacobimatrix $J_\sigma$ dient der Algorithmus \ref{alg:genjac}.
-
-\begin{algorithm}[H]
-\caption{Berechnung des verallgemeinerten Gradienten an Stelle $x_0$}
-\label{alg:genjac}
-\algrenewcommand{\algorithmiccomment}[1]{\hfill{\scriptsize #1}}
-\begin{algorithmic}
-\Function{genJac}{$x,\Sigma$} 
-		\State{$\tau \gets$ crit\_mult($x,d,1$)} \Comment{$0<\tau<1$, berechne $\tau$ an Stelle $x$ in $d$}
-% 		\State{$arc \gets$ calculate\_arc($\tau$,$d$)} \Comment{Berechne Polynomial Escape Arc}
-		\State{$z \gets$ calculate\_z($x+0.5\cdot\tau\cdot d$)} \Comment{Berechne $z$ mit polynomial escape}
-% 		\State{$z \gets$ calculate\_z($x$)} \Comment{Berechne $z$ aus der Abs-Normal Form}
-		\State{$\Sigma \gets$ calc\_sigma(z)} \Comment{Berechne sign Matrix $\Sigma$}
-		\State{$L_\sigma \gets L\cdot\Sigma$}
-		\State{$L_{\sigma+} \gets 0$, $L_{\sigma*}\gets I$}
-		\Repeat \Comment{Berechne Neumann Reihe bis Konvergenz}
-			\State $L_{\sigma+} \gets L_{\sigma+}+ L_{\sigma*}$
-			\State $L_{\sigma*} \gets L_{\sigma*}\cdot L_\sigma$
-		\Until($L_{\sigma*} \equiv 0$)\Comment{Überprüfe auf Konvergenz}
-		\State $J_\sigma \gets J+Y\cdot \Sigma\cdot L_{\sigma+} \cdot Z$ \Comment{Berechne Gradienten}
-		\State \Return $J_\sigma$
-\EndFunction
-\end{algorithmic}
-\end{algorithm}
+% Der Algorithmus zum Auswerten der lokale Jacobimatrix $J_\sigma$ dient der Algorithmus \ref{alg:genjac}.
+% 
+% \begin{algorithm}[H]
+% \caption{Berechnung des verallgemeinerten Gradienten an Stelle $x_0$}
+% \label{alg:genjac}
+% \algrenewcommand{\algorithmiccomment}[1]{\hfill{\scriptsize #1}}
+% \begin{algorithmic}
+% \Function{genJac}{$x,\Sigma$} 
+% 		\State{$\tau \gets$ crit\_mult($x,d,1$)} \Comment{$0<\tau<1$, berechne $\tau$ an Stelle $x$ in $d$}
+% % 		\State{$arc \gets$ calculate\_arc($\tau$,$d$)} \Comment{Berechne Polynomial Escape Arc}
+% 		\State{$z \gets$ calculate\_z($x+0.5\cdot\tau\cdot d$)} \Comment{Berechne $z$ mit polynomial escape}
+% % 		\State{$z \gets$ calculate\_z($x$)} \Comment{Berechne $z$ aus der Abs-Normal Form}
+% 		\State{$\Sigma \gets$ calc\_sigma(z)} \Comment{Berechne sign Matrix $\Sigma$}
+% 		\State{$L_\sigma \gets L\cdot\Sigma$}
+% 		\State{$L_{\sigma+} \gets 0$, $L_{\sigma*}\gets I$}
+% 		\Repeat \Comment{Berechne Neumann Reihe bis Konvergenz}
+% 			\State $L_{\sigma+} \gets L_{\sigma+}+ L_{\sigma*}$
+% 			\State $L_{\sigma*} \gets L_{\sigma*}\cdot L_\sigma$
+% 		\Until($L_{\sigma*} \equiv 0$)\Comment{Überprüfe auf Konvergenz}
+% 		\State $J_\sigma \gets J+Y\cdot \Sigma\cdot L_{\sigma+} \cdot Z$ \Comment{Berechne Gradienten}
+% 		\State \Return $J_\sigma$
+% \EndFunction
+% \end{algorithmic}
+% \end{algorithm}
 
 
 \subsection{Unfolded Newtonalgorithmus}

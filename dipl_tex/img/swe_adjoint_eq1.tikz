@@ -1,0 +1,27 @@
+\documentclass{standalone}
+\IfStandalone{
+	\usepackage{pgfplots,pgfplotstable}
+	\usetikzlibrary{external}
+	\newcommand{\fromRoot}[1]{../#1}
+}{%
+}
+
+\begin{document}
+\tikzsetnextfilename{swe_adjoint_eq1}
+\begin{tikzpicture}
+\begin{axis}[
+	width=\linewidth,
+	xlabel=Zeit $t$,
+	ylabel=$\dot{\overline{hu}}$,
+	legend entries ={
+	$\dot{\overline{hu}}$
+	},
+% 	legend style={at={(0.5,1.0)},anchor=south},
+% 	legend columns=2
+]
+\foreach \ind in {1,2,...,11}{
+  	\addplot[mark=none,red,very thin] table[x index=0,y index=\ind] {\fromRoot img/data/swe_adjoint_eq1.dat};%expl midpoint
+ }
+\end{axis}
+\end{tikzpicture}
+\end{document}

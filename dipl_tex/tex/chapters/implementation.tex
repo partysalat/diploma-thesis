@@ -231,7 +231,10 @@ void PlanC::calc_kink_partial(vec xCheck, vec xHat,const vec &d, mat &A, mat &B)
 }
 \end{lstlisting}
 
-Die Methode \texttt{gen\_jac(vec x,vec d,bool disableKinkPrediction)} berechnet den zum jeweiligen Polyeder zugehörige limiting Jacobian an Stelle \texttt{x} in Richtung \texttt{d} mittels des Polynomial Escape Algorithmus \ref{alg:genjac}. Die Flag \texttt{disableKinkPrediction} ist gesetzt, damit nicht noch einmal das nächste $\tau$ berechnet wird.
+Die Methode \texttt{gen\_jac(vec x,vec d,bool disableKinkPrediction)} berechnet den zum jeweiligen Polyeder zugehörige limiting Jacobian an Stelle \texttt{x} in Richtung \texttt{d} mittels des Polynomial Escape Algorithmus 
+% \ref{alg:genjac}
+\ref{alg:polynomialEscape}
+. Die Flag \texttt{disableKinkPrediction} ist gesetzt, damit nicht noch einmal das nächste $\tau$ berechnet wird.
 
 
 \subsection{Optimierung}
