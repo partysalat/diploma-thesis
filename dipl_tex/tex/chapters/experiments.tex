@@ -142,7 +142,7 @@ Dadurch führt die in Figur \ref{fig:rollingStonesConvergenceRomberg} durchgefü
 \subsection{Gradient des Kostenfunktionals}
 Ähnliche Ergebnisse wie beim Lösen der ODE erwarten wir für die Integration des inhomogenen adjungierten Tangent Linear Models \eqref{eq:inhAdjEquation}. Falls nicht anders beschrieben werden im Folgenden immer die exakte Lösung des Rolling Stones Beispiel \eqref{eq:analyticSolRolling} als Obervierungsparameter $x_{\text{Obs}}$ mit der selben Diskretisierung wie die des ODE Lösers verwendet.
 
-Beim Plot des Gradienten nach Anfangswerten wie in Figur \ref{fig:rollingGrad} ist zu erkennen, dass der Gradient berechnet mit der GIMP ebenfalls stabiler wirkt (Fig. \ref{fig:rollingGrad} links) als der Gradient berechnet mit der IMP (Fig. \ref{fig:rollingGrad} rechts). Desweiteren existieren im Letzteren vereinzelt hohe Sprünge, welche durch nicht einbezogene Kinks erklärt werden können. 
+Beim Plot des Gradienten nach Anfangswerten wie in Figur \ref{fig:rollingGrad} ist zu erkennen, dass der Gradient berechnet mit der GIMP ebenfalls stabiler wirkt (Fig. \ref{fig:rollingGrad} (a)) als der Gradient berechnet mit der IMP (Fig. \ref{fig:rollingGrad} (b)). Desweiteren existieren im Letzteren vereinzelt hohe Sprünge, welche durch nicht einbezogene Kinks erklärt werden können. 
 \begin{figure}[H]
 \footnotesize 
 \centering
@@ -561,7 +561,7 @@ Falls die Zeitschritte der Integration zu groß werden und damit über eine Nach
   Eine numerische Methode kann nur dann konvergent sein, wenn der numerische Definitionsbereich der Abhängigkeiten dem wahren Definitionsbereich der Abhängigkeiten der PDE enthält; zumindest für $\Delta t, \Delta x\to 0$.
 \end{theorem*}
 
-Falls nun aber größere Schrittweiten benutzt werden müssen oder nur an der Lösung eines entfernten Zeitschrittes interessiert ist, werden in der Praxis implizite Verfahren benutzt, welche keiner CFL Bedingung unterliegen. Dies ist darin begründet, dass bei der Lösung des linearen Gleichungssystems der numerische Definitionsbereich der Abhängigkeiten der gesamte Definitionsbereich ist, welcher durch das lineare Gleichungssystem aneinander gekoppelt wird.
+Falls nun aber größere Schrittweiten benutzt werden müssen oder man nur an der Lösung eines entfernten Zeitschrittes interessiert ist, werden in der Praxis implizite Verfahren benutzt, welche keiner CFL Bedingung unterliegen. Dies ist darin begründet, dass bei der Lösung des linearen Gleichungssystems der numerische Definitionsbereich der Abhängigkeiten der gesamte Definitionsbereich ist, welcher durch das lineare Gleichungssystem aneinander gekoppelt wird. Falls in der Realität Observierungen benutzt werden, dessen zeitliche Messungen weit auseinander liegen, kommt man nicht umhin implizite Methoden zu nutzen.
 
 \subsection{Anfangswerte}
 \begin{figure}[H]

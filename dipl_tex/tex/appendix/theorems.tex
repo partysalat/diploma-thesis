@@ -86,8 +86,24 @@ und damit die Behauptung.
 
 
 \end{theorem}
+\section{Bouligandableitung und Inkrementfunktion}\label{sec:bouligandAndIncrement}
+ Die Bouligandableitung $F'(x;\cdot)$ \eqref{eq:bouligandDerivative} ist positiv homogen, da für $x\in \R^n, d\in \R^n,$ und $\alpha>0$ gilt
+ \[
+ \begin{aligned}
+  F'(x;\alpha d) &=  \lim_{\substack{s\to 0 \\ s>0}} \frac{F(x+s\alpha d)-F(x)}{s} &,s = \frac{\tilde s}{\alpha} \\
+			 &=  \lim_{\substack{\sfrac{\tilde s}{\alpha}\to 0 \\ \sfrac{\tilde s}{\alpha}>0}} \alpha \frac{F(x+\tilde s d)-F(x)}{\tilde s} \\
+			 &= \alpha \lim_{\substack{\tilde s\to 0 \\ \tilde s>0}} \frac{F(x+\tilde s d)-F(x)}{\tilde s} \\
+			 &= \alpha  F'(x, d) 
+ \end{aligned}
+ \]
+Für die Inkrementfunktion $\Delta F(x,\cdot)$ gilt dies nicht mit der Regel \ref{eq:absAdRule}, da 
+\[
+\begin{aligned}
+ \Delta v_i &= \abs(\vo_j+ \alpha \Delta v_j) - \vo_i \\
+ &\neq \alpha (\abs(\vo_j+ \Delta v_j) - \vo_i) \\
+ \end{aligned}
+\]
 
- 
 % \section{Verallgemeinerter MinMod Flux Limiter}
 % Der verallgemeinerte MinMod lautet
 % \[

@@ -1,8 +1,7 @@
 \chapter{AD und Behandlung von Unglattheiten}
- Sämtliche Betrachtungen, welche wir bis jetzt geführt haben, setzen voraus, dass die rechte Seite $F$ unseres Modells \eqref{eq:odemodel} hinreichend glatt definiert ist, also dass mindestens $F\in C^1(\R^n)$ gilt, damit wir sie anwenden können. 
+ Sämtliche Betrachtungen, welche wir bis jetzt geführt haben, setzen voraus, dass die rechte Seite $F$ unseres Modells \eqref{eq:odemodel} hinreichend glatt definiert ist, d.h. dass mindestens $F\in C^1(\R^n)$ gilt, damit wir sie anwenden können. 
 
-In diesem Kapitel werden Lösungen geführt, welche es ermöglichen, vorherige Betrachtungen auf stückweise lineare
-\footnote{In dieser Arbeit nutzen wir \glqq linear\grqq synonym zu \glqq affin\grqq (oder \glqq polyhedral\grqq), da sich jede affine Funktion in eine lineare Funktion  transformieren lässt. Sie entsprechen den Begriffen bei Griewank \cite{monster} und Scholtes \cite{scholtes2012introduction}}
+In diesem Kapitel werden Lösungen geführt, welche es ermöglichen, vorherige Betrachtungen auf stückweise lineare\footnote{In dieser Arbeit nutzen wir \glqq linear\grqq  synonym zu \glqq affin\grqq (oder \glqq polyhedral\grqq), da sich jede affine Funktion in eine lineare Funktion  transformieren lässt. Sie entsprechen den Begriffen bei Griewank \cite{monster} und Scholtes \cite{scholtes2012introduction}}
 Funktionen
 % , bzw. lokal Lipschitzstetige Funktionen $F$ 
 anzuwenden. Desweiteren wird eine kurze Einführung im Automatischen Differenzieren gegeben, welches so erweitert wird, dass es auf verkettet stückweise lineare Funktionen angewendet werden kann.
@@ -24,9 +23,9 @@ für alle $x\in \mathcal D\backslash S$, wobei $S$ eine Nullmenge ist und $Lip_F
 \end{theorem}
 
 Für die Elemente aus der Nullmenge $S$ existiert jedoch nun keine Fréchet Ableitung. Schaut man sich jedoch Richtungsableitungen an, so kann man das klassiche Konzept der Ableitungen erweitern. Eine Funktion, die aus einer offenen Umgebung $U\subseteq \R^n$ nach $\R^m$ abbildet wird \textit{richtungsdifferenzierbar} genannt, falls für jedes $d\in \R^n$ der Grenzwert
-\[
- F'(x_0;d) = \lim_{\substack{s\to 0 \\ s>0}} \frac{F(x_0+sd)-f(x_0)}{s} 
-\]
+\begin{equation}\label{eq:bouligandDerivative}
+ F'(x_0;d) = \lim_{\substack{s\to 0 \\ s>0}} \frac{F(x_0+sd)-F(x_0)}{s} 
+\end{equation}
 existiert. $F'(x_0;d)$ heißt hierbei die Richtungsableitung von $F$ in $x_0$ in Richtung $d$.
 
 \begin{definition}[B-Differenzierbarkeit]
@@ -234,7 +233,7 @@ Gegeben sei eine verkettete stückweise glatte Funktion $F:\R^n\to\R^m$ mit $s>0
 die stückweise lineare und stetige \textit{Inkrementfunktion}.
 \end{definition}
 
-Für stückweise differenzierbare Funktionen ist die Bouligandableitung $F'(\xo;\Delta x)$ stückweise linear und positiv homogen, d.h. $F'(\xo;\alpha \Delta x) = \alpha F(\xo;\Delta x), \alpha\geq 0$, was die Inkrementfunktion jedoch nicht ist.
+Für stückweise differenzierbare Funktionen ist die Bouligandableitung $F'(\xo;\Delta x)$ stückweise linear und positiv homogen, d.h. $F'(\xo;\alpha \Delta x) = \alpha F(\xo;\Delta x), \alpha\geq 0$, was die Inkrementfunktion jedoch nicht ist  (siehe \ref{sec:bouligandAndIncrement}).
 Tauscht man \eqref{eq:absAdRule} durch die Vorschrift
 \begin{equation}
  \label{eq:improvedAbsAdRule}

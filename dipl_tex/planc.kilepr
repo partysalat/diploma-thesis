@@ -4,7 +4,7 @@ img_extIsRegExp=false
 img_extensions=.eps .jpg .jpeg .png .pdf .ps .fig .gif .tikz
 kileprversion=2
 kileversion=2.1.3
-lastDocument=main.tex
+lastDocument=tex/chapters/pl_solve_ode.tex
 masterDocument=
 name=planc
 pkg_extIsRegExp=false
@@ -168,13 +168,13 @@ order=3
 
 [item:main.tex]
 archive=true
-column=34
+column=7
 encoding=UTF-8
 highlight=LaTeX
-line=44
+line=11
 mode=LaTeX
 open=true
-order=11
+order=2
 
 [item:planc.kilepr]
 archive=true
@@ -193,7 +193,7 @@ encoding=UTF-8
 highlight=LaTeX
 line=2
 mode=LaTeX
-open=true
+open=false
 order=8
 
 [item:tex/appendix/selbststaendig.tex]
@@ -218,13 +218,13 @@ order=7
 
 [item:tex/appendix/theorems.tex]
 archive=true
-column=17
+column=47
 encoding=UTF-8
 highlight=LaTeX
-line=0
+line=102
 mode=LaTeX
 open=true
-order=9
+order=1
 
 [item:tex/appendix/theses.tex]
 archive=true
@@ -233,48 +233,48 @@ encoding=UTF-8
 highlight=LaTeX
 line=14
 mode=LaTeX
-open=true
+open=false
 order=10
 
 [item:tex/chapters/adpl.tex]
 archive=true
-column=0
+column=75
 encoding=UTF-8
 highlight=LaTeX
-line=282
+line=200
 mode=LaTeX
 open=true
 order=0
 
 [item:tex/chapters/data_assimilation.tex]
 archive=true
-column=224
+column=237
 encoding=UTF-8
 highlight=LaTeX
-line=14
+line=247
 mode=LaTeX
-open=true
+open=false
 order=1
 
 [item:tex/chapters/experiments.tex]
 archive=true
-column=533
+column=14
 encoding=UTF-8
 highlight=LaTeX
-line=2
-mode=LaTeX
-open=true
-order=2
-
-[item:tex/chapters/implementation.tex]
-archive=true
-column=25
-encoding=UTF-8
-highlight=LaTeX
-line=235
+line=522
 mode=LaTeX
 open=true
 order=3
+
+[item:tex/chapters/implementation.tex]
+archive=true
+column=105
+encoding=UTF-8
+highlight=LaTeX
+line=80
+mode=LaTeX
+open=true
+order=4
 
 [item:tex/chapters/introduction.tex]
 archive=true
@@ -283,7 +283,7 @@ encoding=UTF-8
 highlight=LaTeX
 line=1
 mode=LaTeX
-open=true
+open=false
 order=4
 
 [item:tex/chapters/odes.tex]
@@ -303,28 +303,28 @@ encoding=UTF-8
 highlight=LaTeX
 line=9
 mode=LaTeX
-open=true
+open=false
 order=5
 
 [item:tex/chapters/pl_data_assimilation.tex]
 archive=true
-column=0
+column=420
 encoding=UTF-8
 highlight=LaTeX
-line=17
+line=87
 mode=LaTeX
 open=true
-order=6
+order=5
 
 [item:tex/chapters/pl_solve_ode.tex]
 archive=true
-column=64
+column=34
 encoding=UTF-8
 highlight=LaTeX
-line=496
+line=413
 mode=LaTeX
 open=true
-order=7
+order=6
 
 [item:tex/chapters/titlepage.tex]
 archive=true
@@ -373,10 +373,10 @@ JumpList=
 ViMarks=.,348,34,[,348,34,],348,34
 
 [view-settings,view=0,item:main.tex]
-CursorColumn=34
-CursorLine=44
+CursorColumn=7
+CursorLine=11
 JumpList=
-ViMarks=.,44,33,[,44,33,],44,33
+ViMarks=.,11,0,[,11,0,],11,0
 
 [view-settings,view=0,item:tex/appendix/plots.tex]
 CursorColumn=0
@@ -397,10 +397,10 @@ JumpList=
 ViMarks=.,53,143,[,53,143,],53,143
 
 [view-settings,view=0,item:tex/appendix/theorems.tex]
-CursorColumn=17
-CursorLine=0
+CursorColumn=47
+CursorLine=102
 JumpList=
-ViMarks=.,0,16,[,0,9,],0,16
+ViMarks=.,102,46,[,102,46,],102,46
 
 [view-settings,view=0,item:tex/appendix/theses.tex]
 CursorColumn=15
@@ -409,28 +409,28 @@ JumpList=
 ViMarks=.,0,14,[,0,14,],0,14
 
 [view-settings,view=0,item:tex/chapters/adpl.tex]
-CursorColumn=0
-CursorLine=282
+CursorColumn=75
+CursorLine=200
 JumpList=
-ViMarks=.,251,22,[,251,22,],251,22
+ViMarks=.,27,61,[,27,61,],27,61
 
 [view-settings,view=0,item:tex/chapters/data_assimilation.tex]
-CursorColumn=224
-CursorLine=14
+CursorColumn=237
+CursorLine=247
 JumpList=
-ViMarks=.,2,351,[,2,352,],2,351
+ViMarks=.,247,236,[,247,227,],247,236
 
 [view-settings,view=0,item:tex/chapters/experiments.tex]
-CursorColumn=533
-CursorLine=2
+CursorColumn=14
+CursorLine=522
 JumpList=
-ViMarks=.,2,533,[,2,533,],2,533
+ViMarks=.,144,263,[,144,263,],144,263
 
 [view-settings,view=0,item:tex/chapters/implementation.tex]
-CursorColumn=25
-CursorLine=235
+CursorColumn=105
+CursorLine=80
 JumpList=
-ViMarks=.,235,5,[,235,5,],235,24
+ViMarks=.,80,104,[,80,96,],80,104
 
 [view-settings,view=0,item:tex/chapters/introduction.tex]
 CursorColumn=902
@@ -451,16 +451,16 @@ JumpList=
 ViMarks=.,7,129,[,7,112,],7,129
 
 [view-settings,view=0,item:tex/chapters/pl_data_assimilation.tex]
-CursorColumn=0
-CursorLine=17
+CursorColumn=420
+CursorLine=87
 JumpList=
-ViMarks=.,37,0,[,37,0,],37,26
+ViMarks=.,87,419,[,87,418,],87,419
 
 [view-settings,view=0,item:tex/chapters/pl_solve_ode.tex]
-CursorColumn=64
-CursorLine=496
+CursorColumn=34
+CursorLine=413
 JumpList=
-ViMarks=.,496,63,[,496,44,],496,63
+ViMarks=.,398,0,[,398,0,],398,0
 
 [view-settings,view=0,item:tex/chapters/titlepage.tex]
 CursorColumn=4

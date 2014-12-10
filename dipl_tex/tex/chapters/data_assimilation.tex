@@ -1,6 +1,7 @@
 \chapter{Datenassimilation}
 \section{Problemstellung}
-Die 4-D variationelle Datenassimilation ist eine Methode, die im Zusammenhang mit hyperbolischen partiellen Differentialgleichungen steht, z.B. der Wellengleichung.  Eingeführt von Talagrand und Le Dimet in \cite{dimet1986variational} finden die Methoden der optimalen Steuerung immer mehr Verwendung in Dateneassimilierungsmethoden für reale Beispiele(z.B. \cite{korotaev2008retrieving,elbern20004d,broquet2009application}). Benutzt wird dieses Verfahren meist in atmosphärischen Modellen, um optimale Parameter zur numerischen Wettervorhersage zu finden. Auch in ozeanographischen Modellen findet diese Methode Anwendung.
+Die 4-D Variations-Datenassimilation ist eine Methode, welche versucht, die Theorie der optimalen Steuerung auf die Datemassimilation, also das Annähern eines Modells an observierte Parameter durch Steuerungsparameter, zu übertragen.
+Eingeführt von Talagrand und Le Dimet in \cite{dimet1986variational} findet diese Methode immer mehr Verwendung für reale Beispiele (z.B. \cite{korotaev2008retrieving,elbern20004d,broquet2009application}). Benutzt wird sie meist in atmosphärischen Modellen, um optimale Parameter zur numerischen Wettervorhersage zu finden. Auch in ozeanographischen Modellen findet diese Methode Anwendung.
 
 Ziel der 4-D Datenassimilation ist es durch Steuerungsparameter, wie etwa Anfangswerte zum Zeitpunkt $t_0$, den Abstand eines Modells gegenüber den in der Zeit gemessenen Observierungsparametern minimal werden zu lassen. 
 
@@ -10,9 +11,9 @@ Um diese Methode herzuleiten folgen wir der Herangehensweise von Talagrand in \c
  \frac{dx}{dt} = F(x)\quad \text{mit} \quad x(0) = x_0 \quad \text{und}\quad F:\R^n\to \R^n
 \end{equation}
   
-welche eine Gewöhnliche Differentialgleichung beschreibt. $x$ ist dabei die zeitabhängige Zustandsvariable aus dem Hilbertraum $\R^n$, welche die Entwicklung des Systems zu einem Zeitpunkt $t\in \R$ beschreibt. 
-$x_0 \in \R^n$ sei der Anfangswert, welcher gleichzeitig der Steuerungsparameter ist.
-Die Observierungsparameter $\xobs$ sind diskrete Werte oder Funktionen, welche Orts - und Zeitabhängig und über ein Intervall $[0,T]$ verteilt sind. Da $\xobs$  nicht zwangsweise im Zustandsraum $\Xstate$ lebt, wird eine Projektion $C:\Xstate\to \Xobs$ benötigt, welche $x$ aus $\Xstate$ in den Observierungsraum $\Xobs$ abbildet. Üblicherweise ist diese Funktion eine Auswertungsfunktion von $x$ an den Stellen $\tobs$.
+welche eine Gewöhnliche Differentialgleichung beschreibt. Dabei ist $x$ die zeitabhängige Zustandsvariable aus dem Hilbertraum $\R^n$, welche die Entwicklung des Systems zu einem Zeitpunkt $t\in \R$ beschreibt. 
+Der Anfangswert sei dabei $x_0 \in \R^n$, welcher gleichzeitig der Steuerungsparameter ist.
+Die Observierungsparameter $\xobs$ sind diskrete Werte oder Funktionen, welche orts - und zeitabhängig und über ein Intervall $[0,T]$ verteilt sind. Da $\xobs$  nicht zwangsweise im Zustandsraum $\Xstate$ lebt, wird eine Projektion $C:\Xstate\to \Xobs$ benötigt, welche $x$ aus $\Xstate$ in den Observierungsraum $\Xobs$ abbildet. Üblicherweise ist diese Funktion eine Auswertungsfunktion von $x$ an den Stellen $\tobs$.
 
 Als Kostenfunktional dient die $L^2$ - Norm der Differenz der Lösung $x$ von \eqref{eq:odemodel} zu $\xobs$ über ein gegebenes Zeitintervall $[0,T]$
 \begin{equation}
@@ -32,27 +33,27 @@ Man beachte, dass das Zielfunktional nur abhängig vom Anfangswert $x_0$ ist. Da
 gelöst wird. 
 In der Literatur ist dieses Problem auch als \textit{Bolza Problem} bekannt. Clarke gibt in seinem Buch \cite[S. 165 ff]{clarke1990optimization} eine Einführung in ein verallgemeinertes Problem, in dieser Arbeit werden wir uns auf das oben Diskutierte beschränken.
 
-Die Grundlage zur Minimierung des Kostenfunktionals ist zunächst die Lösungstheorie zu gewöhnlichen Differentialgleichungen.
+Die Grundlage zur Minimierung des Kostenfunktionals stellt zunächst die Lösungstheorie zu gewöhnlichen Differentialgleichungen dar.
 
 \section{Gewöhnliche Differentialgleichungen}
-Eine Gleichung der Form \eqref{eq:odemodel} wird eine \textit{Gewöhnliche Differentialgleichung erster Ordnung} genannt. 
+Eine Gleichung der Form \eqref{eq:odemodel} wird eine \textit{gewöhnliche Differentialgleichung erster Ordnung} genannt. 
 In der nachfolgend betrachteten Theorie sowie in der Implementation der Verfahren in dieser Arbeit werden ausschließlich autonome Gewöhnliche Differentialgleichungen erster Ordnung betrachtet, da sich sämtliche Gewöhnliche Differentialgleichungen in diese Form überführen lassen.
 Falls eine Differentialgleichung n-ter Ordnung der Form 
 \[
  \frac{d^n x}{dt^n}= F\left(t;x,\frac{dx}{dt},\ldots,\frac{d^{n-1} x}{dt^{n-1}}\right)
 \]
-mit $F$ differenzierbar, gegeben ist, ist wohlbekannt, dass sie sich durch Hinzufügen zusätzlicher Variablen in ein Differentialgleichungssystem erster Ordnung überführen lassen (\cite[S. 105]{arnold2001grundbegriffe}), mittels
+mit $F$ differenzierbar, gegeben ist, ist wohlbekannt, dass sie sich durch Hinzufügen zusätzlicher Variablen in ein Differentialgleichungssystem erster Ordnung mittels
 \[
  \dot x_0=t\quad \dot x_1 = x_2 \quad ,\ldots,\quad \dot x_{n-1} = x_n, \quad  \dot x_n = F(x_0;x_1,\ldots,x_{n-1})
 \]
+überführen lassen (\cite[S. 105]{arnold2001grundbegriffe}).
 Durch die Einführung einer weiteren Variablen $x_0 = t$ und Gleichung $\dot x_0=1$ lässt sich die gegebene ODE autonom, also die rechte Seite $F$ unabhängig von der Zeit $t$, schreiben.
 \subsection{Grundlagen}
-Die Existenz und Eindeutigkeit von Lösungen wird durch den Satz von Picard-Lindelöf beschrieben, der die Grundlage zur Lösungstheorie Gewöhnlicher Differentialgleichungen bildet.
+Die Existenz und Eindeutigkeit von Lösungen wird durch den Satz von Picard-Lindelöf (z.B.\cite{teschl2012ordinary}) beschrieben, der die Grundlage zur Lösungstheorie Gewöhnlicher Differentialgleichungen bildet.
 \begin{theorem}[Picard-Lindelöf]
 \label{thm:picard-lindeloeff}
- Sei $F\in C(U,\R^n)$, wobei $U$ eine offene Teilmenge von $\R^{n+1}$ ist und $(t_0,x_0)\in U$. Falls $F$ im zweiten Argument lokal Lipschitzstetig und gleichmäßig stetig im ersten Argument ist, dann existiert eine eindeutige lokale Lösung $\bar x(t)\in C^1(I)$ des Anfangswertproblems \eqref{eq:odemodel}, wobei $I$ ein Intervall um $t_0$ ist.
+ Sei $F\in C(U,\R^n)$, wobei $U$ eine offene Teilmenge von $\R^{n+1}$ und $(t_0,x_0)\in U$ ist. Falls $F$ im zweiten Argument lokal Lipschitzstetig und gleichmäßig stetig im ersten Argument ist, dann existiert eine eindeutige lokale Lösung $\bar x(t)\in C^1(I)$ des Anfangswertproblems \eqref{eq:odemodel}, wobei $I$ ein Intervall um $t_0$ ist.
 \end{theorem}
- Dieser Satz wird beispielsweise in \cite{teschl2012ordinary} bewiesen. 
 % 
 % Ein Spezialfall des Modells \eqref{eq:odemodel}, welche wir im Folgenden benötigen werden, sind die Matrix Differentialgleichungen, welche die Form
 % \[
@@ -76,22 +77,25 @@ Falls eine gewöhnliche Differentialgleichung keine stetige rechte Seite besitzt
 
 
 \subsection{Numerik gewöhnlicher Differentialgleichungen}
-In vielen Fällen lässt sich die Lösung eines Anfangswertproblems nicht oder nur sehr schwierig analytisch berechnen. Es ist daher sinnvoll, die Lösung numerisch zu approximieren. Da sie sich nicht in geschlossener Form aufschreiben lässt, sondern man die Werte nur an vorgegebenen diskreten Stellen erhält wird das Zeitintervall $[0,T]$ in $N+1$ diskrete Punkte
+In vielen Fällen lässt sich die Lösung eines Anfangswertproblems nicht oder nur sehr schwierig analytisch berechnen. Es ist daher sinnvoll, die Lösung numerisch zu approximieren. Da sie nicht in geschlossener Form darstellbar ist, sondern man die Werte nur an vorgegebenen diskreten Stellen erhält wird das Zeitintervall $[0,T]$ in $N+1$ diskrete Punkte
 \[
  0\equiv t_0<t_1<\ldots < t_N \equiv T
 \]
-zerlegt. Diese Zeitpunkte bilden ein Gitter $G_h \equiv \lbrace t_0,t_1,\ldots, t_N\rbrace $ auf dem die Schrittweiten $h_j= t_{j+1}-t_j$, $j=0,\ldots, N-1$ definiert sind. Im Rahmen dieser Arbeit werden nur äquidistante Gitter verwendet, d.h. es gilt $h_0=h_1 = \ldots = h_{N-1}$. 
-
+zerlegt. Diese Zeitpunkte bilden ein Gitter $G_h \equiv \lbrace t_0,t_1,\ldots, t_N\rbrace $ auf dem die Schrittweiten $h_j= t_{j+1}-t_j$, $j=0,\ldots, N-1$ definiert sind. Im Rahmen dieser Arbeit werden nur äquidistante Gitter verwendet, d.h. es gilt 
+\[
+h_0=h_1 = \ldots = h_{N-1} 
+\]
+ 
 Um nun numerische Approximationen der Lösung des Anfangswertproblemes zu erhalten, geht man von dessen Integraldarstellung 
 
 \[
  x(t_{i+1}) = x(t_{i-k+1}) + \int_{t_i-k+1}^{t_i+1} F(\tau,x(\tau))d\tau
 \]
-aus, um eine Quadraturformel (\cite[(1.55)]{hermann2004numerik}) durch Interpolation zu erhalten
+aus, um eine Quadraturformel durch Interpolation zu erhalten (\cite[(1.55)]{hermann2004numerik})
 \[
  x_{i+1} = x_{i-k+1} + \sum_{j=0}^k w_{ij} f(t_{i-j+1},x_{i-j+1})
 \]
-wobei die $w_{ij}$ durch das Verfahren vorgegeben sind. Falls $w_{i0}\neq 0$ wird von einem $k$-schrittigen \textit{impliziten Verfahren}, ansonsten von einem $k$-schrittigen \textit{expliziten Verfahren} gesprochen.
+wobei die Parameter $w_{ij}$ durch das Verfahren vorgegeben sind. Falls $w_{i0}\neq 0$ wird von einem $k$-schrittigen \textit{impliziten Verfahren}, für $w_{i0} = 0$ von einem $k$-schrittigen \textit{expliziten Verfahren} gesprochen.
 
 Für $k=1$ ergibt sich das sogenannte \textit{implizite} Einschrittverfahren, welches die Form
 \[
@@ -103,9 +107,9 @@ Ein Einschrittverfahren der Gestalt
 \[
  x_{i+1}^h = x_i^h + h\sum_{j=1}^m \beta_j k_j \quad \text{ mit } \quad k_j  = f(t_i+ \rho_ih, x_i^h + \sum_{l=1}^m \gamma_{jl} k_l ), \quad j=1,\ldots,m
 \]
-wird \textit{m- stufiges Runge Kutta Verfahren} genannt, mit $m\in \N$. Die Koeffizienten $\beta_j,\gamma_{jl}$ und $\rho_i$ sind geeignet gewählte, reelle Zahlen, die durch das Verfahren eindeutig gegeben sind. Diese Koeffizienten lassen sich in \textit{Butcher Tableaus} angegeben, welche dann ein Verfahren eindeutig beschreiben. Beispiele sind in Tabelle \ref{tab:rungekutta} gegeben.
+wird \textit{m- stufiges Runge Kutta Verfahren} genannt, mit $m\in \N$. Die Koeffizienten $\beta_j,\gamma_{jl}$ und $\rho_i$ sind geeignet gewählte, reelle Zahlen, die durch das Verfahren eindeutig gegeben sind. Diese Koeffizienten lassen sich in \textit{Butcher Tableaus} angegeben, welche dann ein Verfahren eindeutig beschreiben, wie beispielsweise in Abbildung \ref{tab:rungekutta} ersichtlich.
 
-\begin{table}[htdp]
+\begin{figure}[htdp]
  \centering
  \begin{tabular}{c c c c c}
 % \begin{tabular}{ c | ccc }
@@ -158,9 +162,9 @@ wird \textit{m- stufiges Runge Kutta Verfahren} genannt, mit $m\in \N$. Die Koef
 \\
  Allgemein & Expl. Euler & \specialcell{Expl.\\ Mittelpunkts-\\regel} & \specialcell{Impl.\\ Mittelpunkts-\\regel} & \specialcell{Trapez-\\regel}
 \end{tabular}
-\caption{Beispiele Runge Kutta Verfahren}
+\caption{Beispiele zu $m$-stufigen Runge Kutta Verfahren}
 \label{tab:rungekutta}
-\end{table}
+\end{figure}
 Bei der Lösung impliziter Verfahren müssen Gleichungssysteme gelöst werden, welche den Berechnungsaufwand pro Schritt erhöhen. Explizite Verfahren sind schneller zu berechnen, jedoch fehleranfälliger für steife Probleme und im allgemeinen nicht so genau wie implizite Methoden. Im folgenden werden wir für die Lösung von gewöhnlichen Differentialgleichungen die Implizite Mittelpunktsregel benutzen. 
 
 Durch das Lösen unseres Modells \eqref{eq:odemodel} mit einer der vorgestellten Methode lässt sich nun das Kostenfunktional $J(x_0)$ \eqref{eq:costfunctional} an einer Stelle $x_0$ berechnen. Das Ziel besteht nun darin, diese Funktion $J$ zu minimieren.
@@ -181,17 +185,17 @@ Ein Ableitungsbegriff auf Hilberträumen ist die sogenannte Gâteaux Ableitung (
   \gatdiff F(u;\psi) = \lim_{\tau \to 0} \frac{F(x+\tau \psi) - F(x)}{\tau} = \frac{d}{d\tau} F(u+\tau\psi)\biggr\rvert_{\tau = 0}\quad \forall \psi \in X
  \]
  falls der Grenzwert existiert. Existiert der Grenzwert für alle $\psi\in X$, dann heißt $F$ Gâteaux-Differenzierbar in $u$.
- Falls $X$ und $Y$ endlichdimensional sind, entspricht das Konzept der Gâteaux Ableitung der der Richtungsableitung.
+ Falls $X$ und $Y$ endlichdimensional sind, entspricht das Konzept der Gâteaux Ableitung der Richtungsableitung.
 \end{definition}
-Die folgende Definition der Adjungierten Operatoren und Proposition von Hilberträumen sind besonders nützlich für nachfolgende Betrachtungen.
+Die folgende Definition der adjungierten Operatoren und Proposition von Hilberträumen sind besonders nützlich für nachfolgende Betrachtungen.
 \begin{definition}[Adjungierte Operatoren]
 Sei $\Gil$ ein anderer Hilbertraum mit Innenprodukt $\langle \cdot,\cdot \rangle_\Gil$ und $L$ ein stetiger linearer Operator $L:\mathcal{G}\to \Hil$. Dann existiert ein eindeutiger stetiger linearer Operator $L^*:\Hil\to\Gil$, sodass für alle $u\in \Gil$ und $v\in \Hil$ gilt
 \begin{equation}
 \label{eq:adjointInnerProduct}
 \langle v,Lu\rangle_\Hil =  \langle L^*v,u \rangle_\Gil
 \end{equation}
-$L^*$ heißt der \textit{adjungierte Operator} von $L$ (vgl. \cite[Definition V.5.1]{werner2007funktionalanalysis}). Im Falle das $\Hil$ und $\Gil$ endlichdimensional und durch orthonormale Koordinaten beschrieben werden kann, ist bekannt, dass  $L^*$ gerade die transponierte Matrix von $L$ ist.
-% , da $\langle x,L^*y\rangle = \langle Lx,y\rangle =(Lx)^\tr y  = x^\tr L^\tr y= \langle x,L^\tr y\rangle  $
+$L^*$ heißt der \textit{adjungierte Operator} von $L$ (vgl. \cite[Definition V.5.1]{werner2007funktionalanalysis}). Im Falle, dass $\Hil$ und $\Gil$ endlichdimensional sind und durch orthonormale Koordinaten beschrieben werden können, ist bekannt, dass  $L^*$ gerade die transponierte Matrix von $L$ ist.
+%  , da $\langle x,L^*y\rangle = \langle Lx,y\rangle =(Lx)^\tr y  = x^\tr L^\tr y= \langle x,L^\tr y\rangle  $
 \end{definition}
 Die Gâteaux Ableitung einer differenzierbaren Funktion ergibt sich als Richtungsableitung (vgl. \cite[Example 9.2.4]{debnath2005hilbert})
 \begin{proposition}[Gâteaux Ableitung differenzierbarer Funktionen]
@@ -201,11 +205,11 @@ Sei $\Hil$ ein Hilbertraum mit Skalarprodukt $\langle \cdot,\cdot \rangle_\Hil$ 
  \label{eq:diffInnerProduct}
   \gatdiff J(v;\gatdiff v) = \langle \nabla_v J, \gatdiff v\rangle_\Hil
  \end{equation}
- $\nabla_v J$ ist hierbei der eindeutige Gradient von $J$ in Richtung $v$ an der Stelle $x$, welche zur Übersichtlichkeit weggelassen wurde. Wenn $\Hil$ endlichdimensional und durch orthonormale Koordinaten $v_i$ beschrieben ist, dann sind die Komponenten von $\nabla_v J$ gerade der Vektor der partiellen Ableitung von $J$ nach $v_i$, also $\partial J/\partial v_i$.
+ $\nabla_v J$ ist hierbei der eindeutige Gradient von $J$ in Richtung $v$ an der Stelle $x$, welche zur Übersichtlichkeit weggelassen wurde. Wenn $\Hil$ endlichdimensional und durch orthonormale Koordinaten $v_i$ beschrieben ist, dann sind die Komponenten von $\nabla_v J$ gerade die Vektoren der partiellen Ableitung von $J$ nach $v_i$, also $\partial J/\partial v_i$.
 \end{proposition}
 
 
-Seien $\Hil,~\Gil$ und $J$ wie in Proposition \ref{prop:adjoints} eingeführt. Betrachtet man jetzt eine Funktion $u:\Gil \to \Hil, ~u\mapsto v = G(u)$, G differenzierbar, so folgt, dass sich $J(v) = J(G(u))$ zu einer zusammengesetzte Funktion von $u$ ergibt. Nun ist 
+Seien $\Hil,~\Gil$ und $J$ wie in Proposition \ref{prop:adjoints} eingeführt. Betrachtet man jetzt eine Funktion $u:\Gil \to \Hil, ~u\mapsto v = G(u)$, G differenzierbar, so folgt, dass sich $J(v) = J(G(u))$ zu einer zusammengesetzte Funktion von $u$ ergibt. Nun gilt 
 \begin{equation}
 \label{eq:diffCompoundFunction}
 \gatdiff v = \gatdiff(G(u)) = G'(u)\gatdiff u
@@ -224,7 +228,7 @@ Die Gleichung \eqref{eq:adjointEssential} stellt die Basis für die Nutzung der 
 Um $\nabla_u J$ zu erhalten, muss zuerst $v = G(u)$ berechnet werden, danach $\nabla_v J$ und schlussendlich wieder $\nabla_u J$ durch \eqref{eq:adjointEssential}.
 
 \subsection{Berechnung des Gradienten}
-Um vorherige Betrachtungen auf die Ableitung des Zielfunktionals \eqref{eq:costfunctional} anwenden zu können wird die Gâteaux Ableitung des Kostenfunktionals \eqref{eq:costfunctional} zu einem Anfangswert $v$ gebildet
+Um vorherige Betrachtungen auf die Ableitung des Zielfunktionals \eqref{eq:costfunctional} anwenden zu können wird die Gâteaux Ableitung des Kostenfunktionals \eqref{eq:costfunctional} zu einem Anfangswert $v$ wie folgt gebildet
 \begin{equation}
 \label{eq:gatcost}
 \begin{aligned}
@@ -235,7 +239,7 @@ Um vorherige Betrachtungen auf die Ableitung des Zielfunktionals \eqref{eq:costf
 	    &= \int_0^T \langle \nabla_x H(x), \gatdiff x \rangle dt\\  
 \end{aligned}
 \end{equation}
-wobei $\nabla_x H(t)$ der Gradient von $H(x,t)$ ausgewertet an der Stelle $(x(t),t)$ und $\gatdiff x$ die Gâteaux-Ableitung von $x$, also eine Störung, beschreibt. Diese ist definiert als die Lösung von
+Dabei beschreibt $\nabla_x H(t)$ den Gradienten von $H(x,t)$ ausgewertet an der Stelle $(x(t),t)$ und $\gatdiff x$ die Gâteaux-Ableitung von $x$, also eine Störung. Diese ist definiert als die Lösung von
 \begin{equation}
 \label{eq:tlm}
 \begin{aligned}
@@ -245,13 +249,13 @@ wobei $\nabla_x H(t)$ der Gradient von $H(x,t)$ ausgewertet an der Stelle $(x(t)
 \end{aligned} 
 \end{equation}
 
-und wird als \textit{Tangent Linear Model} bezeichnet. $F'(t)$ ist der Operator, der durch differenzieren von $F(x,t)$ nach $x$ ausgewertet an $x(t)$ entsteht. Da die gewöhnliche Differentialgleichung \eqref{eq:tlm} homogen und linear ist, hängt ihre Lösung linear vom Anfangswert $v$ ab und es gilt
+und wird als \textit{Tangent Linear Model}\footnote{Da es für viele englische Begriffe nur eine unzureichende deutsche Übersetzung gibt, werden sie in dieser Arbeit nicht übersetzt, da man sie in der Literatur besser unter dem englischen Namen findet.} bezeichnet. $F'(t)$ ist der Operator, der durch differenzieren von $F(x,t)$ nach $x$ ausgewertet an $x(t)$ entsteht. Da die gewöhnliche Differentialgleichung \eqref{eq:tlm} homogen und linear ist, hängt ihre Lösung linear vom Anfangswert $v$ ab und es gilt
 \begin{equation}
 \label{eq:resolvent}
  \gatdiff x(t) = R(t,0)v
 \end{equation}
 
-$R(t,0)$ ein wohldefinierter linearer Operator. Dieser wird als \textit{State Transition Matrix} oder \textit{Resolvent} bezeichnet und wird ausführlich von Zadeh und Desoer in \cite[S. 339 ff.]{zadeh1976linear} beschrieben. Er besitzt die folgenden Eigenschaften
+Hierbei ist $R(t,0)$ ein wohldefinierter linearer Operator. Dieser wird als \textit{State Transition Matrix} oder \textit{Resolvent} bezeichnet und wird ausführlich von Zadeh und Desoer in \cite[S. 339 ff.]{zadeh1976linear} beschrieben. Er besitzt die folgenden Eigenschaften
 \begin{align}
   R(t,t) &= I \label{eq:resolventPropertiesA}\\
   \frac{\partial}{\partial t}R(t,t') &= F'(t)R(t,t') \text{ für alle } t,t>0\label{eq:resolventPropertiesB}
@@ -294,7 +298,7 @@ Für den Gradienten des Kostenfunktionals \eqref{eq:gradCostFunctional} entsteht
 \label{eq:gradCostFunctionalAdjoint}
  \nabla_v J = \int_0^T S(0,t) \nabla_x H(t) dt
 \end{equation}
-Um den Gradienten des Kostenfunktionals nun darstellen zu können benötigen wir die \textit{Inhomogene Adjungierte Gleichung} (oder auch \textit{inhomogenes adjungierte tangent linear model})
+Um den Gradienten des Kostenfunktionals nun darstellen zu können benötigen wir die \textit{inhomogene adjungierte Gleichung} (oder auch \textit{inhomogenes adjungierte tangent linear model})
 \begin{equation}
 \label{eq:inhAdjEquation}
 -d\gatdiff'x(t) = F'^*(t)\gatdiff'x - \nabla_x H(t)
@@ -305,14 +309,14 @@ welche durch die Lösung
  \gatdiff'x(t) = \int_t^{t_1} S(t,\tau)\nabla_x H(\tau)d\tau
 \end{equation}
 mit $\gatdiff x(t_1)=0$ beschrieben ist.
-Dass \eqref{eq:solutionInhAdjEquation} die Inhomomgene Adjungierte Gleichung \eqref{eq:inhAdjEquation} löst lässt sich mittels den Eigenschaften des Resolventen \eqref{eq:resolventPropertiesA} und \eqref{eq:resolventPropertiesB} zeigen. Durch Substituieren erhält man
+Dass \eqref{eq:solutionInhAdjEquation} die inhomomgene adjungierte Gleichung \eqref{eq:inhAdjEquation} löst lässt sich mittels den Eigenschaften des Resolventen \eqref{eq:resolventPropertiesA} und \eqref{eq:resolventPropertiesB} zeigen. Durch Substituieren erhält man
 \begin{equation*}
  \begin{aligned}
   \frac{d\gatdiff'x}{dt} &= \frac{d}{dt} \int_t^{t_1} S(t,\tau)\nabla_x H(\tau)d\tau \\
 			 &= \frac{d}{dt} \int_t^{t_1} G(t,\tau)d\tau 
 \end{aligned}
 \end{equation*}
-Durch ableiten nach $t$ und der verallgemeinerten Leibniz Integral Formel (\ref{eq:genLeibnizIntRule}) folgt
+Durch Ableiten nach $t$ und der verallgemeinerten Leibniz Integral Formel (\ref{eq:genLeibnizIntRule}) folgt
 \begin{equation*}
  \begin{aligned}
  \frac{d}{dt} \int_t^{t_1} G(t,\tau)d\tau  
@@ -332,14 +336,14 @@ Integration über $[t,t_1]$ liefert
 \[
  \gatdiff 'x(t) -  \gatdiff 'x(t_1)  = \int_t^{t_1} S(t,\tau) \nabla_x H(\tau) d\tau
 \]
-Mit $ \gatdiff 'x(t_1) = 0$ und mit \eqref{eq:gradCostFunctionalAdjoint} folgt, dass $\nabla_v J = \gatdiff'x(0)$. Das bedeutet, dass sich der Gradient des Zielfunktionals mithilfe einer Rückwärtsintegration des Adjungierten Modells berechnen lässt.
+Mit $ \gatdiff 'x(t_1) = 0$ und mit \eqref{eq:gradCostFunctionalAdjoint} folgt, dass $\nabla_v J = \gatdiff'x(0)$. Das bedeutet, dass sich der Gradient des Zielfunktionals mithilfe einer Rückwärtsintegration des adjungierten Modells berechnen lässt.
 Genauer werden die Schritte in Abbildung \ref{alg:genCostFunctionalPseudo} benötigt, um den Gradienten des Zielfunktionals \eqref{eq:costfunctional} zu berechnen.
 \begin{figure}
 \begin{framed}
  \begin{enumerate}
  \item Setze $v$ als Anfangswert des Modells \eqref{eq:odemodel} und löse dieses über das Intervall $[0,T]$, speichere berechnete Werte $x(t_i)$ ab\\
  ($0= t_0<~ t_1<\ldots<t_l=T$, $l\in \N$)
- \item Setze $\gatdiff 'x(T) = 0$, integriere die Inhomogene Adjungierte Gleichung \eqref{eq:inhAdjEquation} rückwärts in der Zeit von $T$ bis $0$, berechne zu den Zeitpunkten $t_i$ den Gradienten $F'^*(t_i)$ und $\nabla_x H(t_i)$ aus den gespeicherten Werten $x(t)$ aus Schritt 1.
+ \item Setze $\gatdiff 'x(T) = 0$, integriere die inhomogene adjungierte Gleichung \eqref{eq:inhAdjEquation} rückwärts in der Zeit von $T$ bis $0$, berechne zu den Zeitpunkten $t_i$ den Gradienten $F'^*(t_i)$ und $\nabla_x H(t_i)$ aus den gespeicherten Werten $x(t)$ aus Schritt 1.
  \item $\nabla_v J = \gatdiff 'x(t_0)$
 \end{enumerate}
 \end{framed}
@@ -367,7 +371,7 @@ Genauer werden die Schritte in Abbildung \ref{alg:genCostFunctionalPseudo} benö
 
 \section{Optimierungsmethoden}
 
-Nun, da ein numerischer Weg gefunden wurde, $\nabla_v J$ effizient zu berechnen, stellt die Optimierung des Zielfunktional die letzte Hürde dar, der wir uns annehmen müssen. Das Ausgangsproblem besteht darin, eine reellwertigen, differenzierbaren Funktion J
+Nun, da ein numerischer Weg gefunden wurde, $\nabla_v J$ effizient zu berechnen, stellt die Optimierung des Zielfunktional das letzte Problem dar, welchem wir uns annehmen müssen. Das Ausgangsproblem besteht darin, eine reellwertigen, differenzierbaren Funktion J
 \begin{equation}
 \label{eq:minProblem}
  \min_{x_0} J(x_0) 
@@ -390,7 +394,7 @@ Im folgenden sei vorausgesetzt, dass für ein $\tilde x\in D$ die \textit{Niveau
  und damit ist für $x\in D\backslash N(J,J(\tilde x))$: $J(x)>J(\tilde x)> J(\bar x)$. (vgl. \cite[Satz 1.2.2]{alt2002nichtlineare})
  
 
-Zur Charakerisierung von Lösungen von \eqref{eq:minProblem} ist folgender Satz über notwendige Bedingungen (vgl. \cite[vgl. Satz 3.1.1 ff.]{alt2002nichtlineare}) hilfreich:
+Zur Charakerisierung von Lösungen von des Problemes \eqref{eq:minProblem} ist der im folgenden erläuterte Satz über notwendige Bedingungen (vgl. \cite[vgl. Satz 3.1.1 ff.]{alt2002nichtlineare}) hilfreich:
 \begin{theorem}[Notwendige Bedingung erster Ordnung] 
 \label{thm:optnotbed}
  Die Zielfunktion $J$ sei in $x\in D$, $D\subset \R^n$ differenzierbar. Ist $\bar x$ lokales Minimum von \eqref{eq:minProblem}, dann gilt
@@ -402,14 +406,13 @@ Zur Charakerisierung von Lösungen von \eqref{eq:minProblem} ist folgender Satz 
   \nabla J(\bar x)  =0 \in \R^n
  \]
 \end{theorem}
- Den Beweis findet man ebenfalls in \cite[vgl. Satz 3.1.1 ff]{alt2002nichtlineare}.$\proofend$
 
 Dieses Resultat wird zur Konstruktion von Optimierungsverfahren, insbesondere Abstiegsverfahren, verwendet. 
-Grundlegend dafür ist die Erkenntnis, dass falls $J$ differenzierbar ist und eine Abstiegsrichtung $d\in \R^n$ mit 
+Grundlegend dafür ist die Erkenntnis, dass falls $J$ differenzierbar und eine Abstiegsrichtung $d\in \R^n$ mit 
 \[
 \nabla J(x)^\tr d<0 
 \]
-gegeben ist, es immer ein $\bar \sigma>0$ mit $J(x+\sigma d)< J(x)$ für alle $\sigma \in (0,\bar \sigma)$ existiert (\cite[vgl. Satz 4.1.1]{alt2002nichtlineare})
+gegeben ist, existiert immer ein $\bar \sigma>0$ mit $J(x+\sigma d)< J(x)$ für alle $\sigma \in (0,\bar \sigma)$ (\cite[vgl. Satz 4.1.1]{alt2002nichtlineare})
 
 
 %Bevor wir uns dieser annehmen, werden grundsätzliche Fragen zur Wahl der Suchrichtung und Schrittweite betrachtet. 
@@ -420,7 +423,7 @@ gegeben ist, es immer ein $\bar \sigma>0$ mit $J(x+\sigma d)< J(x)$ für alle $\
  Ein Vektor $d$ heißt Abstiegsrichtung von $J$ im Punkt $x$, wenn $\nabla J(x)^\tr d<0$. Beispielsweise wird im Verfahren des steilsten Abstiegs gerade $d=- \nabla J(x)$ als Abstiegsrichtung verwendet, da 
 \[
 \nabla J(x)^\tr d = \nabla J(x)^\tr (-\nabla J(x)) = - \|\nabla J(x)\|^2 <0                                                                                                                                                                                                                                                                        \]
-Ein allgemeines Abstiegsverfahren mit Schrittweitensteuerung wird ebenfalls in \cite[S. 69, Verfahren 4.1.4]{alt2002nichtlineare} gegeben
+Ein allgemeines Abstiegsverfahren mit Schrittweitensteuerung wird ebenfalls in \cite[S. 69, Verfahren 4.1.4]{alt2002nichtlineare} gegeben und ist in Abbildung \ref{alg:genSteepestDescent} beschrieben.
 \begin{figure}[H]
 \begin{framed}
  \begin{enumerate}
@@ -439,13 +442,13 @@ Ein allgemeines Abstiegsverfahren mit Schrittweitensteuerung wird ebenfalls in \
 \end{figure}
 
 \subsection{Effiziente Schrittweiten}
-Um unser Ziel, effiziente Schrittweiten zu bestimmen, näher zu kommen, müssen wir fordern, dass für die Folge $x^{(k)}$ mit jedem weiteren Schritt gegen einen stationären Punkt konvergiert, also dass  
+Um dem Ziel der Bestimmung effizienter Schrittweiten näher zu kommen, müssen wir fordern, dass für die Folge $x^{(k)}$ mit jedem weiteren Schritt gegen einen stationären Punkt konvergiert, also dass  
 \begin{equation}
 \label{eq:optstepsizegradtozero}
  \nabla f(x^{(k)})\to 0 \quad \text{für }k\to \infty
 \end{equation}
 gilt.
-Um dies zu erreichen wird das Prinzip des hinreichenden Abstiegs formuliert (\cite[Def. 4.4.2]{alt2002nichtlineare}):
+Um dies zu erreichen wird im Folgenden das Prinzip des hinreichenden Abstiegs formuliert (\cite[Def. 4.4.2]{alt2002nichtlineare}):
 \begin{definition}[Prinzip des hinreichenden Abstiegs]
 \label{def:sufficientdescent}
  Seien $x\in N(J,J(x^{(0)}))$ und $d\in \R^n$ mit $\nabla_u J(x)^\tr d<0$ gegeben. Eine Schrittweite $\sigma$ erfüllt das \textit{Prinzip des hinreichenden Abstiegs}, falls
@@ -469,7 +472,7 @@ mit einer von $x$ und $d$ unabhängigen Konstanten $c>0$ gilt.
 Die erste Bedingung stellt sicher, dass sich der neue Funktionswert $f(x+\sigma d)$ unterhalb der von $x$ in Abstiegsrichtung $d$ aufgespannten Geraden befindet. 
 Die zweite Bedingung sichert, dass die Schrittweite $\sigma$ in Bezug zu $\nabla J(x)^\tr d$ nicht zu schnell gegen $0$ geht.
 
-Falls die Voraussetzung \eqref{eq:niveauset} erfüllt ist und wir effiziente Schrittweiten benutzen ist 
+Falls die Voraussetzung \eqref{eq:niveauset} erfüllt ist und wir effiziente Schrittweiten benutzen ist
 \[
  \frac{\nabla f(x^{(k)})^\tr d^{(k)}}{\|d^{(k)}\|} \to 0 \quad \text{für }k\to \infty
 \]
@@ -477,27 +480,27 @@ erfüllt. Andersherum ist für $\nabla f(x^{(k)})^\tr d^{(k)}<0$
 \[
  0 \leftarrow \frac{\nabla f(x)^{(k)} d^{(k)}}{\|d\|} = \frac{\nabla f(x)^{(k)} d^{(k)}}{\|\nabla f(x^{(k)})\|\|d\|}\cdot \|\nabla f(x^{(k)})\| = \beta_k \|\nabla f(x^{(k)})\|
 \]
-für $\beta_k<c<0$ für eine Konstante $c$ erfüllt; damit folgt \eqref{eq:optstepsizegradtozero}. Suchrichtungen, für die diese Bedingung gelten, heißen \textit{gradientenbezogen} (\cite[Def. 4.4.4]{alt2002nichtlineare}).
+für $\beta_k<c<0$ für eine Konstante $c$ erfüllt. Damit folgt Bedingung \eqref{eq:optstepsizegradtozero}. Suchrichtungen, für die diese Bedingung gelten, heißen \textit{gradientenbezogen} (\cite[Def. 4.4.4]{alt2002nichtlineare}).
 
-Das heißt, falls $x\in N(f,f(x^{(0)}))$ und $d\in \R^n$ heißt die Richtung $d$ \textit{gradientenbezogen in x}, wenn
+Falls $x\in N(f,f(x^{(0)}))$ erfüllt ist, heißt die Richtung $d\in \R^n$ \textit{gradientenbezogen in x}, wenn
  \[
   -\nabla f(x)^\tr d\geq c_3\|\nabla f(x)\| \|d\|
  \]
 mit einer von $x$ und $d$ unabhängigen Konstante $c_3>0$.
 
-Die Richtung $d$ heißt \textit{streng gradientenbezogen in $x$}, wenn zusätzlicher 
+Die Richtung $d$ heißt \textit{streng gradientenbezogen in $x$}, wenn zusätzlich 
 \[
  c_4\|\nabla f(x)\| \geq \|d\| \geq \frac{1}{c_4}\|\nabla f(x)\| 
 \]
+gilt.
 
-
- Falls Bedingung \eqref{eq:niveauset} erfüllt ist, die Suchrichtungen aus dem allgemeinen Abstiegsverfahren \ref{alg:genSteepestDescent} gradientenbezogen in $x^{(k)}$ und die Schrittweiten $\sigma_k$ effizient sind und stoppt das Verfahren nicht nach endlich vielen Schritten, dann gilt $\nabla f(x^{(k)})\to 0$ für $k\to \infty$. Weiter hat die Folge $\{x^{(k)}\}$ mindestens einen Häufungspunkt und für jeden solchen Punkt $\tilde x$ gilt $\nabla f(\tilde x) = 0$ (\cite[Satz 4.4.9]{alt2002nichtlineare}).
+Falls die Bedingung \eqref{eq:niveauset} erfüllt ist, die Suchrichtungen aus dem allgemeinen Abstiegsverfahren \ref{alg:genSteepestDescent} gradientenbezogen in $x^{(k)}$ und die Schrittweiten $\sigma_k$ effizient sind und stoppt das Verfahren nicht nach endlich vielen Schritten, dann gilt $\nabla f(x^{(k)})\to 0$ für $k\to \infty$. Weiter hat die Folge $\{x^{(k)}\}$ mindestens einen Häufungspunkt und für jeden solchen Punkt $\tilde x$ gilt $\nabla f(\tilde x) = 0$ (\cite[Satz 4.4.9]{alt2002nichtlineare}).
 % TODO eindige Nullstelle oder mehrere Nullstellen?
 
 Falls zusätzlich $d$ eine streng gradientenbezogene Suchrichtung in $x^{(k)}$, die Schrittweitenfolge $\sigma_k$ beschränkt, die Menge 
 $$M = \{\tilde x\in N(f,f(x^{(0)}))|\nabla f(\tilde x)=0\}$$ endlich ist und das Verfahren nicht nach endlich vielen Schritten stoppt, dann konvergiert die Folge $\{x^{(k)}\}$ gegen eine Nullstelle von $\nabla f$.
 
-Hat $f$ genau einen stationären Punkt $\tilde x \in N(f,f(x^{(0)}))$ und das allgemeine Abstiegsverfahren nicht nach endlich vielen Schritten stoppt, konvergiert die Folge $\{x^{(k)}\}$ gegen $\tilde x$.
+Hat $f$ genau einen stationären Punkt $\tilde x \in N(f,f(x^{(0)}))$ und das allgemeine Abstiegsverfahren stoppt nicht nach endlich vielen Schritten,dann konvergiert die Folge $\{x^{(k)}\}$ gegen $\tilde x$.
  
 Eine Möglichkeit, die sich zur Schrittweitenbestimmung anbietet besteht darin, die Schrittweite durch Lösen eines eindimensionalen Optimierungsproblems
 \[
@@ -507,9 +510,9 @@ zu bestimmen. Ist $x\in N(J,J(x^{(0)}))$ und $d$ so gewählt, dass $\nabla J(x)^
 \[
  \sigma_E = -\frac{\nabla J(x)^\tr d}{d^\tr H d}
 \]
-Diese Nullstelle ist eindeutig, falls die Zielfunktion $J$ konvex ist. Für ein quadratisches Optimierungsproblem wird die exakte Schrittweite benutzt, in unserem Fall jedoch muss man sich mit einer Näherung zufrieden geben. 
+Diese Nullstelle ist eindeutig, falls die Zielfunktion $J$ konvex ist. Für ein quadratisches Optimierungsproblem wird die exakte Schrittweite benutzt. In unserem Fall muss man sich jedoch mit einer Näherung zufrieden geben, da die Konvexität des Kostenfunktionals nicht sichergestellt werden kann. 
  
-Motiviert aus dem Prinzip des hinreichenden Abstiegs aus Definition \ref{def:sufficientdescent} ergibt sich das Armijo Verfahren (\cite[Verfahren 4.5.4]{alt2002nichtlineare}), um eine effiziente Schrittweite $\sigma_A$ zu erhalten.   
+Motiviert aus dem Prinzip des hinreichenden Abstiegs aus Definition \ref{def:sufficientdescent} ergibt sich das Armijo Verfahren (\cite[Verfahren 4.5.4]{alt2002nichtlineare}), um eine effiziente Schrittweite $\sigma_A$ zu erhalten.
 % \begin{figure}[H]
 % \begin{framed}
 %  Gegeben seien Konstante $0<c_1<1$, $0<c_2$ und $0<\beta_1\leq \beta_2 <1$ unabhängig von $x$ und $d$.
@@ -542,7 +545,7 @@ welche den hinreichenden Abstieg liefert, die Schrittweite durch die Forderung
 \label{eq:wolfe2}
  \nabla f(x+\sigma d)^\tr d\geq \beta \nabla f(x)^\tr d
 \end{equation}
-mit $0<c_1<\beta<1$ nicht zu klein werden lässt. Das bedeutet, dass die Steigung an der potentiellen Stelle $x+\sigma d$ abnimmt, damit sichergestellt wird, dass wir uns einem Minimum nähern. 
+mit $0<c_1<\beta<1$ nicht zu klein werden lässt. Das bedeutet, dass die Steigung an der potentiellen Stelle $x+\sigma d$ abnimmt, damit sichergestellt wird, dass wir uns einem Minimum nähern, siehe Abbildung \ref{fig:powell}. 
 
 \begin{figure}
 \centering
@@ -550,7 +553,7 @@ mit $0<c_1<\beta<1$ nicht zu klein werden lässt. Das bedeutet, dass die Steigun
 \caption{Powell Schrittweitensteuerung}
 \label{fig:powell}
 \end{figure}
-Wenn diese beiden Forderungen, $x\in N(f,f(x^{(0)}))$ und $d\in R^n$ mit $\nabla f(x)^\tr d<0$ erfüllt sind und $0<\delta<\beta<1$,$\delta =c_1$, gegeben, dann existiert mindestens eine Schrittweite $\sigma_p$, sodass sie den beiden Abstiegskriterien \eqref{eq:armijo1} und \eqref{eq:wolfe2} genügt und für alle $\sigma_p$
+Wenn diese beiden Forderungen, $x\in N(f,f(x^{(0)}))$ und $d\in R^n$ mit $\nabla f(x)^\tr d<0$ erfüllt sind und $0<\delta<\beta<1$,$\delta =c_1$ gegeben, dann existiert mindestens eine Schrittweite $\sigma_p$, sodass sie den beiden Abstiegskriterien \eqref{eq:armijo1} und \eqref{eq:wolfe2} genügt und für alle $\sigma_p$
 \[
  \sigma_p \geq \frac{1-\beta}{L}\frac{\nabla f(x)^\tr d}{\|d\|^2}
 \]
@@ -567,7 +570,7 @@ Um diese beiden Bedingungen numerisch zu berechnen definiert man
  G_2(\sigma) &= \frac{\nabla f(x+\sigma d)^\tr d}{\nabla f(x)^\tr d}
  \end{aligned}
 \end{equation}
-und erhält das Wolfe - Powell Verfahren \ref{alg:wolfePowell}.
+und erhält das Wolfe - Powell Verfahren in Abbildung \ref{alg:wolfePowell}.
 
 \begin{figure}
 \begin{framed}
@@ -594,7 +597,7 @@ Vorgegeben seien die Konstanten $0<\delta<\beta<1$
 
 Für die endgültige Optimierung unseres Zielfunktionals $J$ haben wir eine notwendige Bedinung hergeleitet und daraus Verfahren zur Schrittweitensteuerung gewonnen. Als letzten Punkt müssen wir diese nur noch korrekt zusammen anwenden
 \subsection{Abstiegsverfahren}
-Das allgemeiner Algorithmus zur Optimierung unrestringierter Optimierungsprobleme wurde durch das allgemeine Abstiegsverfahren  \ref{alg:genSteepestDescent} gegeben. Die Abstiegsmethoden unterscheiden sich nun durch die Wahl einer geeigneten Suchrichtung. 
+Der allgemeine Algorithmus zur Optimierung unrestringierter Optimierungsprobleme wurde durch das allgemeine Abstiegsverfahren  \ref{alg:genSteepestDescent} gegeben. Die Abstiegsmethoden unterscheiden sich nun durch die Wahl einer geeigneten Suchrichtung. 
 Wählt man als Suchrichtung $d = -\nabla J(x^{(k)})$ so ergibt sich das \textit{Gradientenverfahren} oder \textit{Methode des steilsten Abstiegs}
 % \begin{figure}[H]
 % \begin{framed}
@@ -612,7 +615,7 @@ Sie besitzt eine lineare Konvergenzordnung, da für eine exakte Schrittweite $\s
 \[
  0 = \frac{\partial }{\partial \sigma} J(x^{(k)} + \sigma d^{(k)}) \Big|_{\sigma = \sigma_k} = \nabla J(x^{(k+1)})^\tr d^{(k)} = - \left( d^{k+1}\right)^\tr d^{(k)}
 \]
-es gilt also
+Daher gilt also
 \[
  d^{(k+1)}~\bot ~d^{k} ~ \forall k \in \N
 \]
@@ -646,7 +649,7 @@ Der Optimierungsprozess bei der Data Assimilation wird abgebrochen, falls einige
  \[
   |J(x_{k+1}) - J(x_{k})| < tol
  \]
-\item Änderung im der Zustandsvariable
+\item Änderung der Zustandsvariable
 \[
  \|x_{k+1} - x_{k}\|<tol
 \]
@@ -665,6 +668,6 @@ Der Optimierungsprozess bei der Data Assimilation wird abgebrochen, falls einige
 
 \section{Zusammenfassung}
 In den vorherigen Kapiteln wurde beschrieben, welche Schritte notwendig sind, um die variationelle Datenassimilation durchzuführen.
-Ziel ist es, das Minimierungsproblem \eqref{eq:bolzaProblem} zu lösen. Dazu wird auf das Kostenfunkional $J(x)$ ein Optimierungsverfahren angewandt, um ein Extremum zu finden. Um dies tun zu können benötigt man den Gradienten $\nabla J$, welcher durch die Rückwärtsintegration der  adjungierten Gleichung des Tangent Linear Models \eqref{eq:adjModel} berechnet wird. Die Integration der ODEs wird durch numerische Verfahren, in unserem Fall durch die implizite Mittelpunktsregel, siehe Tabelle \ref{tab:rungekutta}, bewerkstelligt. Der große Vorteil dieses Verfahrens ist, dass die Berechnung des Gradienten $\nabla J$ nur ein weniges Vielfaches der Zeit einer Funktionsauswertung von $J$ in Anspruch nimmt. 
+Ziel ist es, das Minimierungsproblem \eqref{eq:bolzaProblem} zu lösen. Dazu wird auf das Kostenfunkional $J(x)$ ein Optimierungsverfahren angewandt, um ein Extremum zu finden. Um dies tun zu können benötigt man den Gradienten $\nabla J$, welcher durch die Rückwärtsintegration der adjungierten Gleichung des Tangent Linear Models \eqref{eq:adjModel} berechnet wird. Die Integration der ODEs wird durch numerische Verfahren, in unserem Fall durch die implizite Mittelpunktsregel (siehe Tabelle \ref{tab:rungekutta}), bewerkstelligt. Der große Vorteil dieses Verfahrens liegt darin begründet, dass die Berechnung des Gradienten $\nabla J$ nur ein weniges Vielfaches der Zeit einer Funktionsauswertung von $J$ in Anspruch nimmt. 
 
 % Sämtliche Theorie, welche beschrieben wurde, gilt nur für den Fall, dass die rechte Seite der Evolutionsgleichung \eqref{eq:odemodel} glatt ist, also dass mindestens $F\in C^1(\R^n)$ gilt. Für den Fall, dass dem nicht so ist, werden im Folgenden Methoden vorgestellt, die versuchen, diese Unglattheiten mit in die Berechnung einzubeziehen.

@@ -78,7 +78,7 @@ Desweiteren stellt das \texttt{Plan-C} Objekt weitere Funktionen zur Verfügung:
 \end{description}
 
 \subsection{Verallgemeinerte Mittelpunktsregel}
-Die Implementierung der verallgemeinerten Mittelpunktregel in C++ wird analog dem Pseudocode aus \ref{alg:genMidpointRule} programmiert. Eingangsparameter ist ein Vektor der zeitdiskretisierten Zeitachse \texttt{t} und der Anfangswert \texttt{x0}. Zusätzlich kann man eine \texttt{verbose} Flag übergeben, welche mehr Log-Ausgaben zur Konsequenz hat, sowie den Toleranz Parameter \texttt{TOL}. Zurückgegeben wird die Lösung in Form einer Matrix \texttt{x}, wobei die Zeile \texttt{x.row(i)} zur Stützstelle \texttt{t(i)} gehört.
+Die Implementierung der verallgemeinerten Mittelpunktregel in C++ wird analog dem Pseudocode aus Prozedur \ref{alg:genMidpointRule} programmiert. Eingangsparameter ist ein Vektor der zeitdiskretisierten Zeitachse \texttt{t} und der Anfangswert \texttt{x0}. Zusätzlich kann man eine \texttt{verbose} Flag übergeben, welche mehr Log-Ausgaben zur Konsequenz hat, sowie den Toleranz Parameter \texttt{TOL}. Zurückgegeben wird die Lösung in Form einer Matrix \texttt{x}, wobei die Zeile \texttt{x.row(i)} zur Stützstelle \texttt{t(i)} gehört.
 \begin{lstlisting}[caption=Verallgemeinerte Mittelpunktsregel,label=lst:genMidpointRule]
  mat PlanC::solve_ode(const vec &t, const vec &x0, bool verbose, double TOL) {
   size_t N = t.n_elem;
