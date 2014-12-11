@@ -18,14 +18,14 @@ Unser Ziel ist es nun, ausgehend von der wohlbekannten Impliziten Mittelpunktsre
 \[
  x_n  = x_a + hF\left( \frac{x_n + x_a}{2}\right)
 \]
-die im vorherigen Kapitel hergeleitete stückweise Linearisierung zur Lösung von ODEs mit verketteter stückweise glatter rechter Seiten anzuwenden.
+die im vorherigen Kapitel hergeleitete stückweise Linearisierung zur Lösung von ODEs mit verkettet stückweise glatter rechter Seiten anzuwenden.
 Hierbei ist $x_n = x(h)$ und $x_a = x(0)$.
 
 Gegeben sei eine gewöhnliche Differentialgleichung
 \[
  \dot x = F(x(t))
 \]
-mit verkettetem stückweise glattem und global Lipschitzstetigem $F$. Mit dem Hauptsatz der Differential- und Integralrechnung folgt
+mit verkettet stückweise glattem und global lipschitzstetigem $F$. Mit dem Hauptsatz der Differential- und Integralrechnung folgt
 \[
  x_n - x_a = \int_0^h F(x(t)) \text{d}t
 \]
@@ -69,7 +69,7 @@ Damit ist die verallgemeinerte Implizite Mittelpunktsregel eine echte Verallgeme
 Griewank bewies in \cite[Prop.4]{monster} ihre Konvergenzeigenschaft
 \begin{theorem}[Konvergenz verallg. Impl. Mittelpunktsregel]
 \label{thm:convergenceGenMidpoint}
- Angenommen, $F$ sei eine verkettete stückweise glatte Funktion und Lipschitzstetig in einer offenen Umgebung $\mathcal D$ des Ursprungs $x_a =0$. Dann existiert eine obere Schranke $\bar h>0$, sodass für alle $h<\bar h$ die Funktion 
+ Angenommen, $F$ sei eine verkettet stückweise glatte Funktion und lipschitzstetig in einer offenen Umgebung $\mathcal D$ des Ursprungs $x_a =0$. Dann existiert eine obere Schranke $\bar h>0$, sodass für alle $h<\bar h$ die Funktion 
  \[
     hG(x) = h\int_{-\sfrac{1}{2}}^{\sfrac{1}{2}} F(\xo) + \Delta F(\xo;\tau (x_n - x_a))  \text{d}\tau
  \] 
@@ -447,7 +447,7 @@ Die letzte Gleichung von \eqref{eq:reorderedGenMidpointAlg} ist stückweise line
 \end{algorithm}
 
 
-Dieser Abschnnitt lieferte einen Überblick, wie gewöhnliche Differentialgleichungen mit Lipschitzstetiger rechten Seite mittels stückweiser Linearisierung behandelt werden können. Im folgenden wird die Methode der Romberg Extrapolation näher gebracht, welche für unsere Methoden gute Ergebnisse liefert.
+Dieser Abschnnitt lieferte einen Überblick, wie gewöhnliche Differentialgleichungen mit lipschitzstetiger rechten Seite mittels stückweiser Linearisierung behandelt werden können. Im folgenden wird die Methode der Romberg Extrapolation näher gebracht, welche für unsere Methoden gute Ergebnisse liefert.
 \section{Romberg Extrapolation}
 Der Grundgedanke der Romberg Extrapolation besteht darin, aus einem groben und einer feineren Diskretisierung eine Extrapolation zu berechnen, die bessere Näherungswerte für die eigentliche Lösung zulässt und schnellere Konvergenzgeschwindigkeiten unter gewissen Vorraussetzungen verspricht.
 
