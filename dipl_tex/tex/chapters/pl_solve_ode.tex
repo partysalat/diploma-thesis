@@ -19,7 +19,7 @@ Unser Ziel ist es nun, ausgehend von der wohlbekannten Impliziten Mittelpunktsre
  x_n  = x_a + hF\left( \frac{x_n + x_a}{2}\right)
 \]
 die im vorherigen Kapitel hergeleitete stückweise Linearisierung zur Lösung von ODEs mit verkettet stückweise glatter rechter Seiten anzuwenden.
-Hierbei ist $x_n = x(h)$ und $x_a = x(0)$.
+Hierbei gilt $x_n = x(h)$ und $x_a = x(0)$.
 
 Gegeben sei eine gewöhnliche Differentialgleichung
 \[
@@ -29,11 +29,11 @@ mit verkettet stückweise glattem und global lipschitzstetigem $F$. Mit dem Haup
 \[
  x_n - x_a = \int_0^h F(x(t)) \text{d}t
 \]
-und mit $t = \frac{h}{2} + \tau h$ als Substitution ergibt sich
+und mit der Substitution durch $t = \frac{h}{2} + \tau h$ ergibt sich
 \[
  x_n - x_a = h\int_{-\sfrac{1}{2}}^{\sfrac{1}{2}} F\left(x \left(\sfrac{h}{2} + \tau h\right)\right) \text{d}\tau
 \]
-Da das Integral in den Grenzen $-\sfrac{1}{2}$ und $\sfrac{1}{2}$ liegt, stellt $\sfrac{h}{2}$ den Mittelpunkt des Integrationsgebietes dar. Durch Approximation von $x(t)$ durch die Sekante $(\frac{1}{2} - \tau) x_a + (\frac{1}{2} + \tau) x_n$ folgt:
+Da das Integral in den Grenzen $-\sfrac{1}{2}$ und $\sfrac{1}{2}$ liegt, stellt $\sfrac{h}{2}$ den Mittelpunkt des Integrationsgebietes dar. Mittels Approximation von $x(t)$ durch die Sekante $(\frac{1}{2} - \tau) x_a + (\frac{1}{2} + \tau) x_n$ folgt:
 \[
  \begin{aligned}
  x_n - x_a & = h\int_{-\sfrac{1}{2}}^{\sfrac{1}{2}} F\left(\frac{x_a + x_n}{2} + \tau (x_n - x_a)\right) \text{d}\tau + \mathcal O(h^3)
@@ -49,9 +49,9 @@ die von Griewank in \cite[S.21 (14)]{monster} eingeführte verallgemeinerte Impl
  \label{eq:genMidpointRule}
 \end{equation}
 
-Da sowohl die Approximation durch Sekanten als auch der stückweisen Linearisierung einen Fehler von $\mathcal O(h^2)$ bzgl. der exakten Lösung $x(t)$ besitzen und das Integral $h$ als Multiplikator besitzt ergibt sich letztendlich ein Fehler dritter Ordnung.
+Da sowohl die Approximation durch Sekanten, als auch die stückweise Linearisierung einen Fehler von $\mathcal O(h^2)$ bzgl. der exakten Lösung $x(t)$ besitzen und zudem das Integral den Faktor $h$ besitzt ergibt sich letztendlich ein Fehler dritter Ordnung.
 
-Der Vorteil der Formel besteht darin, dass sie konsistent zur Impliziten Mittelpunktsregel ist. Falls $F$ nämlich glatt ist, so kommt die Auswertungsprozedur für $\Delta F(\xo;\tau (x_n - x_a))$ ohne die Regel \eqref{eq:absAdRule} aus und es gilt 
+Der Vorteil der Formel besteht darin, dass sie konsistent zur Impliziten Mittelpunktsregel ist. Falls $F$ glatt ist, so kommt die Auswertungsprozedur für $\Delta F(\xo;\tau (x_n - x_a))$ ohne die Regel \eqref{eq:absAdRule} aus und es gilt 
 \[
  \Delta F(\xo;\tau (x_n - x_a)) = F'(\xo) \tau (x_n - x_a)
 \]
@@ -78,10 +78,10 @@ Griewank bewies in \cite[Prop.4]{monster} ihre Konvergenzeigenschaft
  \[
   x_h - x(h) = \mathcal O(h^3)
  \]
-  wobei $x(t)$ die Gleichung $\dot x(t) = F(x(t))$ mit  $x(0)= 0$ löst.
+  wobei $x(t)$ die Lösung der Gleichung $\dot x(t) = F(x(t))$ mit  $x(0)= 0$ darstellt.
 \end{theorem}
 
-Für den von Boeck \cite{boeck14} hergeleiteten Algorithmus benötigen wir zum einen die Möglichkeit eine stückweise lineare Funktion möglichst genau in einem Intervall zu integrieren als auch ein Löser für Lineare Gleichungssysteme.
+Für den von Boeck \cite{boeck14} hergeleiteten Algorithmus zur verallgemeinerten Mittelpunktsregel benötigen wir zum einen die Möglichkeit eine stückweise lineare Funktion möglichst genau in einem Intervall zu integrieren, als auch ein Löser für lineare Gleichungssysteme.
 % Dies wird im nächsten Abschnitt behandelt.
 
 \section{Quadratur und Unfoldeded Newton}
@@ -89,7 +89,7 @@ Für den von Boeck \cite{boeck14} hergeleiteten Algorithmus benötigen wir zum e
 
 Die Aufgabe besteht nun darin, eine stückweise lineare Funktion $F:\R^n \to \R^m$ genau zu integrieren. Dazu sei die stückweise Linearisierung $F(\xo) + \Delta F(\xo,\Delta x)$ mit einer Richtung $\Delta x$ als Abs-Normal Form gegeben, wie sie in Abschnitt \ref{sec:absNormalForm} eingeführt wurde. 
 Für unser Problem ist es ausreichend, nur $\Delta F(\xo,\Delta x)$ zu betrachten, da $F(\xo)$ konstant ist.
-Nehmen wir an, das in dem Integrationsgebietes des Integrals
+Nehmen wir an, das in dem Integrationsgebiet des Integrals
 \begin{equation}
 \label{eq:quadInitialProblem}
  \int_0^{\sfrac{1}{2}} \Delta F(\xo,t\Delta x) \text{d}t
@@ -211,7 +211,7 @@ Die Menge der limiting Jacobians reduziert sich für unser stückweise lineares 
  \partial^L F(x) = \lbrace J_\sigma: x\in \bar P_\sigma \text{ mit }\sigma \text{ offen} \rbrace
 \]
 Das heißt, dass wir die Jacobimatrizen $J_\sigma$ eingeschränkt auf die Polyeder $P_\sigma$ der betrachten müssen.
-Für die explizite Darstellung dieser betrachten wir dazu die erste Zeile der Abs Normal Form
+Für die explizite Darstellung Dieser betrachten wir dazu die erste Zeile der Abs Normal Form
 \begin{align*}
 	z &= c+ Zx + L|z|
 \end{align*}
@@ -229,12 +229,12 @@ Umgestellt folgt, dass
 &\iff & z &= (I-L\Sigma)^{-1}(c+ Zx)\\
 \end{align*}
 Das Inverse von $(I-L\Sigma)$ ist wohldefiniert, da $\Sigma$ eine Diagonalmatrix, $L$ eine strikt untere Dreiecksmatrix und damit $(I-L\Sigma)$ invertierbar ist. 
-Aufgrund der strikt unteren Dreiecksstruktur von L ist die Matrix nilpotent vom Grade $\nu\leq s$, das bedeutet, dass die Neumannreihe konvergiert und insbesondere endlich ist
+Aufgrund der strikt unteren Dreiecksstruktur von L ist die Matrix nilpotent vom Grad $\nu\leq s$. Das bedeutet, dass die Neumannreihe konvergiert und insbesondere endlich ist
 \[
 (I-L\Sigma)^{-1} = I+L\Sigma + (L\Sigma)^2 + \ldots + (L\Sigma)^{\nu}
 \] 
 
-Offensichtlich ergibt sich im Fall mit \textit{switching depth} $\nu = 0$, dass $L=0$ und damit $(I-L\Sigma)^{-1} = I^{-1} = I$. Im \textit{simply switched}- Fall, $\nu=1$, ergibt sich immer noch, dass $(I-L\Sigma)^{-1} =I+L\Sigma$.
+Offensichtlich ergibt sich im Fall mit \textit{switching depth} $\nu = 0$, dass $L=0$ und damit $(I-L\Sigma)^{-1} = I^{-1} = I$. Im \textit{simply switched} Fall, $\nu=1$, ergibt sich immer noch, dass $(I-L\Sigma)^{-1} =I+L\Sigma$.
 Eingesetzt in die zweite Gleichung der Abs-Normal-Form ergibt
 \begin{align*}
 y &= b+Jx + Y|z|\\
@@ -244,7 +244,7 @@ y &= b + Y\Sigma(I-L\Sigma)^{-1}c+\underbrace{(J+Y\Sigma(I-L\Sigma)^{-1}Z)}_{J_\
 \end{align*}
 
 wobei gerade $J_\sigma$ der gesuchten Jacobimatrix von $F$ im Polyeder $P_\sigma$ entspricht. 
-Griewank et al. haben dieses Ergebnis in \cite[Proposition 2.2]{plan} zusammengefasst zu  
+Griewank et al. haben dieses Ergebnis zu folgendem Theorem \cite[Proposition 2.2]{plan} zusammengefasst   
 \begin{theorem}[Explizite Jacobimatrix Darstellung]
 Auf allen offenen Polyedern $P_\sigma$ kann $y$ direkt in Abhängigkeit von $x$ ausgedrückt werden als
 \begin{equation}
@@ -291,16 +291,16 @@ Ein wohlbekanntes Resultat von Qi und Sun in \cite{qi1993nonsmooth} stellt siche
 \label{eq:genNewtonIteration}
  x_n = x_a- A^{-1}F(x_a)\quad \text{mit } A \in \partial^LF(x_a)
 \end{equation}
-konvergiert für Startwerte $x_0$, welche hinreichend nah an der Lösung $x_*$ liegen und falls alle Elemente aus $\partial^L F(x_*)$ an der Stelle $x_*$ nichtsingulär sind. 
+für Startwerte $x_0$, welche hinreichend nah an der Lösung $x_*$ liegen, konvergiert, falls alle Elemente aus $\partial^L F(x_*)$ an der Stelle $x_*$ nichtsingulär sind. 
 Für unser gegebenes $F$ in Abs-Normal Form könnten wir den Startwert $x_0$ aus $\lbrace P_\sigma:x_*\in \bar P_\sigma \rbrace$, also aus der Menge der Polyeder, welche im Abschluss  $x_*$ enthalten, wählen. Damit würde die Newtoniteration \eqref{eq:genNewtonIteration} nach einem Schritt konvergieren. 
 
-Diese Polyeder jedoch zu finden gestaltet sich schwierig, da dieses Problem hohen kombinatorischen Aufwand bedeutet. 
+Diese Polyeder zu finden gestaltet sich jedoch schwierig, da dieses Problem hohen kombinatorischen Aufwand bedeutet. 
 Da wir $J_\sigma^{-1}$ für unsere Betrachtungen benötigen, wird angenomen, dass $J$, der glatte Teil der Ableitung unser Funktion $F$ nichtsingulär ist. Falls dem nicht so ist, nutzen wir die Identität
 \[
  v = | |v| + v| - |v | \quad \text{für } v\in\R
 \]
 um die singulären Einträge von $J$ auf die unglatten Teil der Abs-Normal Form zu verschieben.
-Griewank et al. beschreiben in \cite[Prop.5.2]{plan} die Bedingungen für globale Konvergenz:
+Griewank et al. beschreiben in \cite[Prop.5.2]{plan} die Bedingungen für globale Konvergenz.
 
 \begin{theorem}[Hinreichende Bedingungen für Konvergenz]
  Angenommen die Abs-Normal Form von $F$ besitzt einen invertierbaren glatten Teilmatrix $J$, $p\geq 1$ und dass
@@ -320,18 +320,18 @@ Falls $\det(J) \neq 0$ gilt, können wir das Schur Komplement definieren als
  \[
   S \equiv L -ZJ^{-1}Y \in \R^{s\times s}
  \]
-Damit lässt sich die zweite Gleichung der Abs-Normal Form nach $x$ auflösen, mit fixem $y=0$ folgt
+Damit lässt sich die zweite Gleichung der Abs-Normal Form nach $x$ auflösen. Mit fixem $y=0$ folgt
 \[
  \begin{aligned}
 		 && 0 &=  b+Jx + Y|z|   \\
  \iff && x = x(z) &=-J^{-1}(b+Y|z|)
  \end{aligned}
 \]
-in die erste Gleichung einsetzen und das Schurkomplement darauf anwenden. Es entsteht die Vektorfunktion $H(z)$
+Dies wird nun in die erste Gleichung eingesetzt und das Schurkomplement darauf angewendet. Es entsteht die Vektorfunktion $H(z)$
 \[
  H(z) = z - L|z| + ZJ^{-1}Y|z| = (I-S\Sigma)z = \hat c \equiv c-ZJ^{-1}b
  \]
-Für gegebenes $z$ können wir die obere Gleichung ebenfalls nach $z$ auflösen:
+Für ein gegebenes $z$ können wir die obere Gleichung ebenfalls nach $z$ auflösen:
 \[
 \begin{aligned}
 		 && z &= c+Zx + L|z|\\
@@ -342,10 +342,10 @@ Für gegebenes $z$ können wir die obere Gleichung ebenfalls nach $z$ auflösen:
 Den Zusammenhang zwischen dem komplementären Problem (CPL) $H(z) = \hat c$ und dem Ausgangsproblem $F(x) = 0$ stellt Griewank ebenfalls in \cite[Lemma 6.5.]{plan} dar
 
 \begin{theorem}
- Sei wie bisher $\det(J)\neq 0$. Ein Punkt $x_*\in \R^n$ ist eine Lösung des OPL $F(x)=0$ genau dann wenn er ein Fixpunkt von $x(z(x))$ ist, was wiederrum äquivalent dazu ist, dass $z_*=z(x_*)$ ein Fixpunkt von $z(x(z))$ ist und damit eine Lösung des CPL $H(z)=\hat c$.
+ Sei wie bisher $\det(J)\neq 0$. Ein Punkt $x_*\in \R^n$ ist eine Lösung des OPL $F(x)=0$ genau dann wenn er ein Fixpunkt von $x(z(x))$ ist. Dies ist wiederrum äquivalent dazu, dass $z_*=z(x_*)$ ein Fixpunkt von $z(x(z))$ und damit eine Lösung des CPL $H(z)=\hat c$ ist.
 \end{theorem}
 
-Das CPL System lässt sich als stückweise lineares, simply switched Problem auffassen mit der Abs-Normal Form
+Das CPL System lässt sich als stückweise lineares, simply switched Problem auffassen, welche die Abs-Normal Form
 \[
  \begin{bmatrix}
   z\\
@@ -367,13 +367,13 @@ Das CPL System lässt sich als stückweise lineares, simply switched Problem auf
   \Sigma z
  \end{bmatrix}
 \]
-welches in der Newton Iteration (\cite[S.20]{plan})
+besitzt. Daraus folgt die Newton Iteration (\cite[S.20]{plan})
 \begin{equation}
 \label{eq:unfoldedNewton}
  z_+ = (I-S\Sigma(z))^{-1}\hat c
 \end{equation}
-aufgeht und dessen Konvergenz für $\rho = \|S\|_p <\frac{1}{3}$ von Griewank in \cite[Prop. 7.3]{plan} bewiesen wurde. 
-Desweiteren kann gezeigt werden, dass $(I-\Sigma(z))$ ein verallgemeinerter Gradient von $H(z)$ ist, jedoch nicht zwangsweise eine limiting Jacobian.
+dessen Konvergenz für $\rho = \|S\|_p <\frac{1}{3}$ von Griewank in \cite[Prop. 7.3]{plan} bewiesen wurde. 
+Desweiteren kann gezeigt werden, dass $(I-\Sigma(z))$ ein verallgemeinerter Gradient von $H(z)$ ist. Jedoch ist dieser nicht zwangsweise eine limiting Jacobian.
  
 Eine allgemeinere Form der Systeme lässt sich durch Umstellen des Ursprungssystems erreichen. Stellen wir \eqref{eq:absNormalForm} nach $0$ um entsteht
  \begin{equation}
@@ -396,7 +396,7 @@ Eine allgemeinere Form der Systeme lässt sich durch Umstellen des Ursprungssyst
  \end{equation}
 welches wir Unfolded System (UPL) nennen. Dieses reduziert sich für die Werte $(x,z(x))$ zum OPL System und für die Werte $(x(z),z)$ zum CPL System.
 \section{Algorithmus}
-Nun können wir einen implementierbaren Algorithmus für die verallgemeinerte implizite Mittelpunktsregel angeben, da wir alle benötigten Verfahren eingeführt haben. Im folgenden, wie auch bisher, sei $\check x$ ein schon berechneter Punkt und $\hat x$ ein zu berechnender Punkt. $\xo$ sei der Entwicklungspunkt der stückweisen Linearisierung. Da $F(\xo)$ nicht von $t$ abhängt, kann die bereits hergeleiteten Regel umgestellt werden zu 
+Nun können wir einen implementierbaren Algorithmus für die verallgemeinerte implizite Mittelpunktsregel angeben, da wir alle benötigten Verfahren eingeführt haben. Im folgenden, wie auch bisher, sei $\check x$ ein bereits berechneter Punkt und $\hat x$ ein zu berechnender Punkt. $\xo$ sei der Entwicklungspunkt der stückweisen Linearisierung. Da $F(\xo)$ nicht von $t$ abhängt, kann die bereits hergeleiteten Regel umgestellt werden zu 
 \begin{equation}
 \label{eq:genMidpointAlg}
 \begin{aligned}
@@ -405,9 +405,9 @@ Nun können wir einen implementierbaren Algorithmus für die verallgemeinerte im
  \iff && \hat x - \check x - hF(\xo) & =r(\hat x,\check x)
 \end{aligned}
 \end{equation}
-Um $r$ zu berechnen, wird die Quadratur aus Prozedur \ref{alg:quad} auf $\Delta x = \hat x - \check x$ und $-\Delta x$ angewandt. Im Falle, dass $r=0$ ist, ist $F$ glatt im Integrationsintervall aufgrund von \eqref{eq:equivalenceGenImplMidpoint}.
+Um $r$ zu berechnen, wird die Quadratur aus Prozedur \ref{alg:quad} auf $\Delta x = \hat x - \check x$ und $-\Delta x$ angewendet. Im Falle, dass $r=0$ ist, ist $F$ glatt im Integrationsintervall aufgrund von \eqref{eq:equivalenceGenImplMidpoint}.
 
-Dazu wird $F(\xo)$ durch die stückweise Linearisierung $F(\xo)\approx F(\xoold)+\Delta F(\xoold;\xonew -\xoold )$ am neuen Basispunkt $\xo_{\text{new}}$ersetzt. 
+Dazu wird $F(\xo)$ durch die stückweise Linearisierung $F(\xo)\approx F(\xoold)+\Delta F(\xoold;\xonew -\xoold )$ am neuen Basispunkt $\xo_{\text{new}}$ ersetzt. 
 Wir wollen nun einen neuen Entwicklungspunkt $\xonew$ durch Fixpunktiteration finden, der die Gleichung \eqref{eq:genMidpointAlg} löst. 
 Es entsteht mit $\xo = \sfrac{1}{2} (\hat x + \check x) \iff \hat x = 2\xo - \check x$:
 \begin{equation}
@@ -459,7 +459,7 @@ gegeben die zu einer Folge ganzer Zahlen $0<n_0<n_1\ldots,<n_m$ gehört. Zu dies
 \[
  T_{i0} := T(h_i), \quad i=0,1,\ldots,m
 \]
-und ein damit ein Interpolationspolynom 
+und damit ein Interpolationspolynom 
 \[
  \tilde T_{mm}(h):= a_0 + a_1h^2 +\ldots + a_m h^{2m}
 \]
@@ -467,7 +467,7 @@ höchstens $m$-ten Grades in $h^2$ für das gilt
 \[
  \tilde T_{mm}(h_i) = T(h_i), \quad i=0,1,\ldots,m
 \]
-Der Wert $\tilde T_{mm}(0)$ stellt dann in der Regel ein guten Näherungswert für das gesuchte Integral dar. Dieser lässt sich mittels des Neville-Aitken Algorithmus \cite[(2.1.2)]{stoer1989numerische} wie folgt berechnen:
+Der Wert $\tilde T_{mm}(0)$ stellt dann in der Regel einen guten Näherungswert für das gesuchte Integral dar. Dieser lässt sich mittels des Neville-Aitken Algorithmus \cite[(2.1.2)]{stoer1989numerische} wie folgt berechnen:
 Für $i,k$ mit $1\leq k\leq i\leq m$ sei $\tilde T_{ik}(h)$ das Polynom vom Grad $\leq k$ in $h^2$ mit 
 \[
  \tilde T_{ik} = T(h_j),\quad j=i-k,i-k+1,\ldots,i
@@ -477,7 +477,7 @@ Für die extrapolierten Werte $T_{ik}:=\tilde T_{ik}(0)$ gilt
 \label{eq:rombergFormular}
   T_{ik} = T_{i,k-1}+\frac{T_{i,k-1}-T_{i-1,k-1}}{\left(\frac{h_{i-k}}{h_i}\right)^2-1}, \quad 1\leq k\leq i\leq m
 \end{equation}
-Diese Werte werden nach Tableau \ref{fig:rombergTableau} angeordnet und berechnet.
+Diese Werte werden gemäß dem Tableau in Abbildung \ref{fig:rombergTableau} angeordnet und berechnet.
 \begin{figure}[H]
 \centering
 \begin{tabular}{ l | c c c c c c c }
@@ -501,12 +501,12 @@ Dass die Romberg Extrapolation konvergiert wurde zum Beispiel in \cite{von1993sh
  \end{equation}
 \end{theorem}
 
-In den experimentellen Betrachtungen wird die Romberg Extrapolation für den Fall $m=1$ betrachtet mit verdoppelter Schrittweite, also $h_1=0.5\cdot h_0$, wodurch sich \eqref{eq:rombergFormular} vereinfacht zu
+In den experimentellen Betrachtungen wird die Romberg Extrapolation für den Fall $m=1$ mit verdoppelter Schrittweite, also $h_1=0.5\cdot h_0$, betrachtet, wodurch sich \eqref{eq:rombergFormular} vereinfacht zu
 \[
 \begin{aligned}
  T_{11} &= T_{10} + \frac{T_{10}-T_{00}}{2^2-1}\\
 	  &= \frac{4\cdot T_{10}-T_{00}}{3}
  \end{aligned}
 \]
-wobei mit einer quartischen Konvergenzordnung aufgrund von \eqref{eq:rombergConvergence} zu rechnen ist.
+Dabei ist mit einer quartischen Konvergenzordnung aufgrund von \eqref{eq:rombergConvergence} zu rechnen.
 

@@ -238,52 +238,52 @@ order=10
 
 [item:tex/chapters/adpl.tex]
 archive=true
-column=197
+column=23
 encoding=UTF-8
 highlight=LaTeX
-line=3
+line=309
 mode=LaTeX
 open=true
 order=0
 
 [item:tex/chapters/data_assimilation.tex]
 archive=true
-column=0
+column=13
 encoding=UTF-8
 highlight=LaTeX
-line=671
+line=55
 mode=LaTeX
 open=true
-order=8
+order=4
 
 [item:tex/chapters/experiments.tex]
 archive=true
-column=14
+column=0
 encoding=UTF-8
 highlight=LaTeX
-line=522
+line=0
 mode=LaTeX
 open=true
 order=3
 
 [item:tex/chapters/implementation.tex]
 archive=true
-column=105
+column=295
 encoding=UTF-8
 highlight=LaTeX
-line=80
+line=10
 mode=LaTeX
 open=true
-order=4
+order=7
 
 [item:tex/chapters/introduction.tex]
 archive=true
-column=35
+column=220
 encoding=UTF-8
 highlight=LaTeX
-line=7
+line=3
 mode=LaTeX
-open=true
+open=false
 order=7
 
 [item:tex/chapters/odes.tex]
@@ -308,23 +308,23 @@ order=5
 
 [item:tex/chapters/pl_data_assimilation.tex]
 archive=true
-column=0
+column=37
 encoding=UTF-8
 highlight=LaTeX
-line=0
-mode=LaTeX
-open=true
-order=5
-
-[item:tex/chapters/pl_solve_ode.tex]
-archive=true
-column=34
-encoding=UTF-8
-highlight=LaTeX
-line=413
+line=18
 mode=LaTeX
 open=true
 order=6
+
+[item:tex/chapters/pl_solve_ode.tex]
+archive=true
+column=11
+encoding=UTF-8
+highlight=LaTeX
+line=27
+mode=LaTeX
+open=true
+order=5
 
 [item:tex/chapters/titlepage.tex]
 archive=true
@@ -409,32 +409,32 @@ JumpList=
 ViMarks=.,0,14,[,0,14,],0,14
 
 [view-settings,view=0,item:tex/chapters/adpl.tex]
-CursorColumn=197
-CursorLine=3
+CursorColumn=23
+CursorLine=309
 JumpList=
-ViMarks=.,3,197,[,3,197,],3,197
+ViMarks=.,294,54,[,294,45,],294,54
 
 [view-settings,view=0,item:tex/chapters/data_assimilation.tex]
-CursorColumn=0
-CursorLine=671
+CursorColumn=13
+CursorLine=55
 JumpList=
-ViMarks=.,670,584,[,670,584,],670,584
+ViMarks=.,54,132,[,54,132,],54,138
 
 [view-settings,view=0,item:tex/chapters/experiments.tex]
-CursorColumn=14
-CursorLine=522
+CursorColumn=0
+CursorLine=0
 JumpList=
 ViMarks=.,144,263,[,144,263,],144,263
 
 [view-settings,view=0,item:tex/chapters/implementation.tex]
-CursorColumn=105
-CursorLine=80
+CursorColumn=295
+CursorLine=10
 JumpList=
 ViMarks=.,80,104,[,80,96,],80,104
 
 [view-settings,view=0,item:tex/chapters/introduction.tex]
-CursorColumn=35
-CursorLine=7
+CursorColumn=220
+CursorLine=3
 JumpList=
 ViMarks=.,7,34,[,7,22,],7,34
 
@@ -451,16 +451,16 @@ JumpList=
 ViMarks=.,7,129,[,7,112,],7,129
 
 [view-settings,view=0,item:tex/chapters/pl_data_assimilation.tex]
-CursorColumn=0
-CursorLine=0
+CursorColumn=37
+CursorLine=18
 JumpList=
-ViMarks=.,87,419,[,87,418,],87,419
+ViMarks=.,9,117,[,9,117,],9,117
 
 [view-settings,view=0,item:tex/chapters/pl_solve_ode.tex]
-CursorColumn=34
-CursorLine=413
+CursorColumn=11
+CursorLine=27
 JumpList=
-ViMarks=.,398,0,[,398,0,],398,0
+ViMarks=.,71,35,[,71,35,],71,35
 
 [view-settings,view=0,item:tex/chapters/titlepage.tex]
 CursorColumn=4

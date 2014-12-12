@@ -3,7 +3,7 @@
 % \makeatletter\@ifundefined{fromRoot}{\newcommand{\fromRoot}[1]{../../#1}}{}\makeatother
 % \begin{document}
 \chapter{Datenassimilierung mittels stückweiser Linearisierung}
-In diesem Abschnitt widmen wir uns der Aufgabe, das inhomogene adjungierte tangent linear model \eqref{eq:inhAdjEquation} zur verallgemeinerten Impliziten Mittelpunktsregel herzuleiten.
+In diesem Abschnitt widmen wir uns der Aufgabe, das inhomogene adjungierte tangent linear model \eqref{eq:inhAdjEquation} zur verallgemeinerten impliziten Mittelpunktsregel herzuleiten.
 
 \section{Adjoint Inclusion}
 \label{sec:adjointInclusion}
@@ -12,12 +12,12 @@ Angenommen die rechte Seite $F$ unserer Evolutionsgleichung \eqref{eq:odemodel} 
  \label{eq:adjInclusion}
  \frac{d \delta' x}{dt} =- \partial F(x)^*\delta'x + \nabla H(t)
 \end{equation}
-für den Gradienten eine mengenwertige Abbildung $\partial F(x)^*:\R^n\rightrightarrows \R^n$ und damit eine \textit{Differential Inclusion}.
+Damit ist der Gradient eine mengenwertige Abbildung $\partial F(x)^*:\R^n\rightrightarrows \R^n$ und folglich eine \textit{Differential Inclusion}.
 Dadurch ist es möglich, dass in der Zeitintegration Sprünge durch den verallgemeinerten Gradienten $\partial F(x)^*$ auftreten. Falls die Zeitintegration konvergiert, ist deswegen mit einer geringen Konvergenzordnung von ungefähr $\mathcal O(h)$ zu rechnen.
 % TODO: Konvergenzresultat?
 
 In der numerischen Berechnung muss der verallgemeinerte Gradient in eine Richtung $\Delta x$ betrachtet werden, sinnvollerweise in die Richtung des Inkrements der vorherigen Iteration $\Delta x_i = x_{i-1} - x_i$, falls wir uns in Iteration $i$ befinden, damit aus der Mengenwertigen Abbildung $ \partial F(x)^*$ ein Gradient ausgewählt wird. 
-Falls sich die Gerade $x_i + \Delta x$ auf einem Kink befindet, wie in Bild \ref{fig:adjValleyTracing} zu sehen, sprechen wir von einem so genannten \textit{valley tracing mode}, welcher von Khan und Barton in \cite{khan2014} ausführlich behandelt wird. 
+Falls sich die Gerade $x_i + \Delta x$ auf einem Kink befindet, wie in Abiildung \ref{fig:adjValleyTracing} zu sehen, sprechen wir von einem so genannten \textit{valley tracing mode}, welcher von Khan und Barton in \cite{khan2014} ausführlich behandelt wird. 
 \begin{figure}
 \centering
 \begin{minipage}[b]{0.49\linewidth}
@@ -34,7 +34,7 @@ Falls sich die Gerade $x_i + \Delta x$ auf einem Kink befindet, wie in Bild \ref
 \label{fig:adjValleyTracing}
 \end{figure}
 
-Eine mögliche Lösung des Problem stellt die Methode des \textit{Polynomial Escapes} dar.
+Eine mögliche Umgehung des Problem des valley tracing modes stellt die Methode des \textit{Polynomial Escapes} dar.
 \section{Polynomial Escape}
 %agenda:
 %brauche Richtung 
@@ -68,7 +68,7 @@ In diesem Fall haben wir keine Bouligandableitung mehr, da das errechnete $\Sigm
  \end{aligned}
  \label{eq:minComputationalGraphRepr}
 \end{equation}
-zu nutzen, wobei $\mathring c_{ij}$ die glatten Ableitungen zum Entwicklungspunkt $\xo$ bezeichnen, und damit den sogenannten \textit{polynomial escape} anzuwenden. In Abs Normal Form ist die obere Prozedur äquivalent dazu, die Ableitung der Abs-Normal Form 
+zu nutzen, wobei $\mathring c_{ij}$ die glatten Ableitungen zum Entwicklungspunkt $\xo$ bezeichnen und mit Hilfe Dieser den sogenannten \textit{polynomial escape} anzuwenden. In Abs Normal Form ist die obere Prozedur äquivalent dazu, die Ableitung der Abs-Normal Form 
 \begin{equation}
 \begin{aligned}
   \Delta z = Z\Delta x + L\Sigma \Delta z \\
@@ -85,7 +85,7 @@ Ein naheliegender Ansatz ist die Auswertungsprozedur \eqref{eq:jacAbsNormalForm}
 \[
  \sigma_i = \text{firstsign}(z_i,\nabla z_i^\tr\Delta x) = \sign(z_i+\Delta z_i)
 \]
-anzuwenden, wobei firstsign$(z,\Delta z)$ eines Vektors $z$ definiert ist als das Vorzeichen der ersten nicht verschwindenden Komponente des Vektors $z$, ansonsten wird sie zu $\Delta z$ gesetzt. Falls nun alle Werte $\sigma_i \neq 0$ sind, ist $J_\sigma$ eine Bouligandableitung der Funktion $F$ und ihrer stückweisen Linearisierung im Polyeder $P_\sigma$ auf dessen Abschluss der Auswertungspunkt $\xo$ liegt (\cite[S.]{monster}).
+anzuwenden. Hierbei ist firstsign$(z,\Delta z)$ eines Vektors $z$ definiert ist als das Vorzeichen der ersten nicht verschwindenden Komponente des Vektors $z$, ansonsten wird sie zu $\Delta z$ gesetzt. Falls nun alle Werte $\sigma_i \neq 0$ sind, ist $J_\sigma$ eine Bouligandableitung der Funktion $F$ und ihrer stückweisen Linearisierung im Polyeder $P_\sigma$ auf dessen Abschluss der Auswertungspunkt $\xo$ liegt (\cite[S.]{monster}).
 
 Der Ansatz um diesen Pfad zu konstruieren besteht darin, den Richtungsvektor $e_1 = \Delta x$ mit $n-1$ linear unabhängigen Vektoren $e_2,\ldots, e_n$ zu komplementieren, sodass sie eine nichtsinguläre Basismatrix $E\in \R^{n\times n}$ bilden.
 Das bedeutet, wir stellen das System linear unabhängiger Vektoren $\tilde E$, welche wir definieren als
@@ -97,7 +97,7 @@ Das bedeutet, wir stellen das System linear unabhängiger Vektoren $\tilde E$, w
   \vdots   & 0&I_{k-1}
  \end{pmatrix}
 \]
-wobei $\Delta x_k$ der Eintrag mit dem betragsmäßig größten, nicht verschwindenden Element ist und $I$ die Einheitsmatrix. Nun verschieben wir durch eine Permutationsmatrix $P$ den Vektor $\Delta x$ an die $k$-te Stelle der Matrix $\tilde E$
+Dabei ist $\Delta x_k$ der Eintrag mit dem betragsmäßig größten, nicht verschwindenden Element und $I$ die Einheitsmatrix. Nun verschieben wir durch eine Permutationsmatrix $P$ den Vektor $\Delta x$ an die $k$-te Stelle der Matrix $\tilde E$
 \[
 E = \tilde E \cdot P=
 \begin{pmatrix}
@@ -116,11 +116,11 @@ Diese Permutation ist numerisch von großer von Bedeutung. $E$ kann geschrieben 
 \[
   E = I + (\Delta x-e_k)\cdot e_k^\tr 
 \] 
-deren Inverse sich nach der \textit{Sherman-Morrison-Woodbury} Formel ergibt zu
+deren Inverse sich nach der \textit{Sherman-Morrison-Woodbury} Formel zu folgendem Ausdruck ergibt 
 \[
  E^{-1} = I + \frac{(\Delta x-e_k)\cdot e_k^\tr}{\Delta x_k}
 \]
-Da wir $\tilde E$ permutierten zu $E$, ist sichergestellt, dass das Inverse $E^{-1}$ die bestmögliche numerische Genauigkeit der Division behält.
+Da $\tilde E$ zu $E$ permutiert wurde, ist sichergestellt, dass das Inverse $E^{-1}$ die bestmögliche numerische Genauigkeit der Division behält.
 Die $\sigma_i$ erhalten wir nun lexikographisch, indem wir Prozedur \eqref{eq:jacAbsNormalForm} auf jeden Vektor aus $E$ anwenden mit 
 \[
   \sigma_i = \text{firstsign}(z_i,\nabla z_i^\tr\Delta x)
@@ -186,7 +186,7 @@ Der Algorithmus \ref{alg:polynomialEscape} zeigt die zur Berechnung benötigten 
 % Wie wir in (??) beobachtet haben, müssen wir das Adjungierte Modell rückwärts integrieren. Die Grundidee besteht darin, dass wir auf das Adjungierte Modell (??) der Datenassimilierung ebenfalls wieder die verallgemeinerte Mittelpunktsregel (??) anwenden. Daher, dass wir das Integral in Teilintervalle zerlegen können, berechnen wir die kritischen Multiplikatoren, springen von Kink zu Kink und berechnen auf diesen Teilintervalen den Gradienten unserer rechten Seite $F$.
 In diesem Abschnitt wollen wir die inhomogene adjungierte Differentialgleichung auf die verallgemeinerte Mittelpunktsregel anwenden.
 
-Falls wir den Gradienten des Kostenfunktionals mit der impliziten Mittelpunktsregel berechnen, so würden wir als Auswertungspunkt des Gradienten den Mittelpunkt $\xo$ benutzen. Wie im Bild \ref{fig:multipleKinksAdjoint}(a) zu erkennen ist, kann dies dazu führen, dass der Gradient keine sinnvolle Aussage der Steigung widerspiegelt. Im Rolling Stones Beispiel mündet dieses Problem beispielsweise in einem sehr verzerrten Gradienten (siehe Bild \ref{fig:rollingGrad}). Wir wollen nun die Eigenschaften der verallgemeinerten impliziten Mittelpunktsregel nutzen, um eine Art Mittelwert des Gradienten berechnen zu können, der an den Stellen zwischen den Kinks, wie im Bild \ref{fig:multipleKinksAdjoint}(b), ausgewertet und gewichtet summiert wird. 
+Falls wir den Gradienten des Kostenfunktionals mit der impliziten Mittelpunktsregel berechnen, so würden wir als Auswertungspunkt des Gradienten den Mittelpunkt $\xo$ benutzen. Wie in Abbildung \ref{fig:multipleKinksAdjoint}(a) zu erkennen ist, kann dies dazu führen, dass der Gradient keine sinnvolle Aussage der Steigung widerspiegelt. Im Rolling Stones Beispiel (\ref{sec:rollingStonesExample}) mündet dieses Problem beispielsweise in einem sehr verzerrten Gradienten (siehe Abbildung \ref{fig:rollingGrad}). Wir wollen nun die Eigenschaften der verallgemeinerten impliziten Mittelpunktsregel nutzen, um eine Art Mittelwert des Gradienten berechnen zu können, der an den Stellen zwischen den Kinks, wie in Abbildung \ref{fig:multipleKinksAdjoint}(b), ausgewertet und gewichtet summiert wird. 
 
 \begin{figure}
 \footnotesize
@@ -206,7 +206,7 @@ Falls wir den Gradienten des Kostenfunktionals mit der impliziten Mittelpunktsre
 \end{figure}
 
 
-Sei dazu $\tau$ der kritische Multiplikator zum nächsten Kink. $x_n$ und $x_a$ sind die jeweiligen iterierten Werte mit $\xo$ als deren Mittelpunkt und $\diff \xo$ als Differenz. Dann ergibt sich 
+Sei dazu $\tau$ der kritische Multiplikator zum nächsten Kink. $x_n$ und $x_a$ sind die jeweiligen iterierten Werte mit $\xo$ als deren Mittelpunkt und $\diff \xo$ als Differenz. Folglich ergibt sich 
 \begin{align*}
 \xo &= \frac{x_n+x_a}{2}\eq x_a = 2\xo - x_n\\
 \diff \xo &= \xo_n - \xo_a \eq \xo_n = \diff \xo + \xo_a\\
@@ -219,18 +219,18 @@ Die inhomogene adjungierte Differentialgleichung ergibt sich aus \eqref{eq:inhAd
 \label{eq:adjModel}
 \end{equation}
 
-Wenn wir nun die verallgemeinerte Mittelpunktsregel \eqref{eq:genMidpointRule} auf die Gleichung \eqref{eq:adjModel} anwenden, folgt
+Wenn nun die verallgemeinerte Mittelpunktsregel \eqref{eq:genMidpointRule} auf die Gleichung \eqref{eq:adjModel} angewendet wird, folgt
 \begin{align*}
 \xadj_n - \xadj_a &= h\cdot \int_{-0.5}^{0.5}\xo-\rxobs - \frac{\partial F(\xo,d)}{\partial x}^\tr \cdot \xadj\\
 									&= h\cdot \left[\xo-\rxobs - \int_{-0.5}^{0.5} \frac{\partial F(\xo ,d)}{\partial x}^\tr \cdot \xadj dt\right]\\
 \end{align*}
-Angenommen wir haben $l \in \mathbb{N}$ Kinks zwischen $x_n$ und $x_{a}$, wobei \[-0.5 = \tau_0 <\tau_1 <\ldots < \tau_l=0.5\] gilt, dann können wir durch die Additivität das Integral aufspalten, sodass wir über die Teilintervalle $[t_j,t_j+1], j=0,\ldots,l$ integrieren und unabhängige Variablen herausziehen können:
+Angenommen es existieren $l \in \mathbb{N}$ Kinks zwischen $x_n$ und $x_{a}$, wobei \[-0.5 = \tau_0 <\tau_1 <\ldots < \tau_l=0.5\] gilt, dann kann durch die Additivität das Integral aufgespalten werden, sodass wir über die Teilintervalle $[t_j,t_j+1], j=0,\ldots,l$ integrieren und unabhängige Variablen herausziehen können:
 \begin{align*}
 \xadj_n - \xadj_a &= h\cdot \left[ \xo-\rxobs - \sum_{i=1}^l \int_{\tau_{i-1}}^{\tau_{i}}\frac{\partial F(\xo+\tau_{i-1}d,d)}{\partial x}^\tr \cdot \xadj dt\right]\\
 									&= h\cdot \left[\xo -\rxobs - \sum_{i=1}^l \underbrace{\frac{\partial F(\xo+\tau_{i-1}d,d)}{\partial x}^\tr }_{A_i^\tr} \cdot \int_{\tau_{i-1}}^{\tau_{i}} \xadj dt\right]\\
 \end{align*}
 
-Nun wenden wir die stückweise Linearisierung auf $\xadj$ an. Es entsteht
+Nun wird die stückweise Linearisierung auf $\xadj$ angewendet. Es entsteht
 \allowdisplaybreaks
 \begin{align*}
 \xadj_n - \xadj_a &= h\cdot (\xo -\rxobs - \sum_{i=1}^l A_i^\tr \cdot \int_{\tau_{i-1}}^{\tau_{i}} \rxadj + t\diff \xadj dt)\\
