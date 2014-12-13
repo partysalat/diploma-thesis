@@ -10,7 +10,7 @@
 \tikzsetnextfilename{rolling_adjoint_eq}
 \begin{tikzpicture}
 \begin{axis}[
-	width=\linewidth,
+	width=10cm,
 	xlabel=Zeit $t$,
 	ylabel=$\dot{\bar x}$,
 	legend entries ={
