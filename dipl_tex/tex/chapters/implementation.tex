@@ -1,21 +1,21 @@
 \chapter{Implementierung}
 \section{Armadillo und OPENBlas}
 Zur Implementierung der theoretischen Ergebnisse der letzten Kapitel wurde die C++ Klasse \textit{Armadillo} verwendet. 
-Armadillo ist eine Template basierte C++ -Matrix-Vektor Bibliothek, welche ähnliche Syntax wie Matlab zulässt. Neben Matrix-Matrix oder Matrix-Vektor Multiplikationen liefert sie eigene LGS-Löser mit, bietet einfache Möglichkeiten Teilmatrizen zu extrahieren und unterstützt teilweise Sparse Matrizen. Armadillo ist unter der Webseite \url{http://arma.sourceforge.net}(abgerufen am 26. November 2014) erreichbar und steht unter der \textit{Mozilla Public License 2.0} (\url{https://www.mozilla.org/MPL/2.0/}) als Open Source Projekt zur Verfügung.
+Armadillo ist eine Template basierte C++ -Matrix-Vektor-Bibliothek, welche ähnliche Syntax wie Matlab zulässt. Neben Matrix-Matrix oder Matrix-Vektor Multiplikationen liefert sie eigene Lineare Gleichungssystemlöser mit, bietet einfache Möglichkeiten Teilmatrizen zu extrahieren und unterstützt teilweise Sparse Matrizen. Armadillo ist unter der Webseite \url{http://arma.sourceforge.net}(abgerufen am 26. November 2014) erreichbar und steht unter der \textit{Mozilla Public License 2.0} (\url{https://www.mozilla.org/MPL/2.0/}) als Open Source Projekt zur Verfügung.
 
 Desweiteren unterstützt Armadillo Multi Threaded Operationen durch die Abstrahierung des OpenBlas Interfaces (\url{http://www.openblas.net/}, abgerufen am 26. November 2014), wodurch nahtlos Armadillos eigene Routinen durch die von OpenBlas ersetzt werden und trotzdem der Vorteil der einfachen Nutzbarkeit beibehalten bleibt. OpenBlas ist eine auf Parallelität optimierte Version der bekannten Linearen Algebra Bibliothek BLAS (Basic Linear Algebra Subprograms, \url{http://www.netlib.org/blas}). OpenBlas steht unter der BSD Lizenz (\url{http://www.linfo.org/bsdlicense.html}) zur Nutzung bereit.
 
 \section{ADOL-C}
-ADOL-C ist ebenfalls ein Open Source Paket zur exakten automatischen Differentiation von C/C++ Programmen im Rahmen der Rechengenauigkeit. Im Mittelpunkt stehen dabei die \textit{aktiven Variablen}, welche die Initialisierungsvariablen darstellen. Diese werden mit einem eigenen Typ \texttt{adouble} initialisiert, welche eine Erweiterung der \texttt{double} Klasse darstellt. Mit diesen Werten wird die gewünschte Funktion, wie im Falle von \texttt{double}, zwischen den Aufrufen \texttt{trace\_on(tag)} und \texttt{trace\_off(tag)} ausgeführt und durch \textit{operator overloading} im gleichen Zuge die Ableitung bestimmt. Intern erzeugt ADOL-C ein Tape, welches den computational graph der Funktionsauswertung erstellt und auf das durch \texttt{tag} referenziert wird. Nach dieser Auswertung bietet ADOL-C verschiedene Methoden dieses Tape auszuwerten.
+ADOL-C ist ebenfalls ein Open Source Bibliothek zur exakten automatischen Differentiation von C/C++ Programmen im Rahmen der Rechengenauigkeit. Im Mittelpunkt stehen dabei die \textit{aktiven Variablen}, welche die Initialisierungsvariablen darstellen. Diese werden mit einem eigenen Typ \texttt{adouble} initialisiert, welche eine Erweiterung der \texttt{double} Klasse darstellt. Mit diesen Werten wird die gewünschte Funktion, wie im Falle von \texttt{double}, zwischen den Aufrufen \texttt{trace\_on(tag)} und \texttt{trace\_off(tag)} ausgeführt und durch \textit{operator overloading} im gleichen Zug die Ableitung bestimmt. Intern erzeugt ADOL-C ein Tape, das den computational graph der Funktionsauswertung erstellt, auf welches durch \texttt{tag} referenziert wird. Nach dieser Auswertung bietet ADOL-C verschiedene Methoden dieses Tape auszuwerten.
 
 ADOL-C wurde von Andreas Griewank erdacht und wird zurzeit in der Forschungsgruppe um Andrea Walther an der Universität Paderborn weiterentwickelt. Weitere Informationen zur Verwendung lassen sich in der Dokumentation \cite{walther2012getting} nachvollziehen. ADOL-C ist unter der \textit{Eclipse Public License 1.0} oder der \textit{GNU General Public License 2.0} in Projekten einsetzbar.
 
 \section{Plan-C}
 \label{sec:impl:planc}
-Sämtliche Versuche wurden mit Plan-C erstellt, einer C++ Bibliothek, welche im Rahmen der Diplomarbeit von Paul Boeck in \cite{boeck14} erarbeitet und dokumentiert wurde. Da im Rahmen der vorliegenden Arbeit rechenintensivere Beispiele betrachtet werden, wurde ein Fork dieser Bibliothek erstellt und Armadillo als Matrix - Vektor Bibliothek eingesetzt, um die allgemeine Performance zu steigern; dies bedeutet, die in Boecks Arbeit als Verbesserungsvorschlag gegebene Benutzung von Sparse Matrizen einzubauen und mehrerer Prozessorkerne durch Parallelisierung zu unterstützen.  Desweiteren wurde sie durch diverse Funktionen erweitert, damit sie die Datenassimilierung mittels stückweiser Linearisierung unterstützt. Eine kurze Dokumentation der wichtigsten Funktionen soll im Folgenden dargelegt werden. Das Interface zu Plan-C ist im Anhang \ref{sec:source} beschrieben.
+Sämtliche Versuche wurden mit Plan-C erstellt. Plan-C ist eine C++ Bibliothek, welche im Rahmen der Diplomarbeit von Paul Boeck in \cite{boeck14} erarbeitet und dokumentiert wurde. Da im Rahmen der vorliegenden Arbeit rechenintensivere Beispiele betrachtet werden, wurde ein Fork dieser Bibliothek erstellt und Armadillo als Matrix - Vektor Bibliothek eingesetzt, um die allgemeine Performance zu steigern. Dies bedeutet, die in Boecks Arbeit als Verbesserungsvorschlag gegebene Benutzung von Sparse Matrizen einzubauen und mehrerer Prozessorkerne durch Parallelisierung zu unterstützen.  Desweiteren wurde die ursprüngliche Plan-C Klasse durch diverse Funktionen erweitert, damit sie die Datenassimilierung mittels stückweiser Linearisierung unterstützt. Eine kurze Dokumentation der wichtigsten Funktionen soll im Folgenden dargelegt werden. Das Interface zu Plan-C ist im Anhang \ref{sec:source} beschrieben.
 
 \subsection{Abs-Normal Form}
-Plan-C ist eine C++ Klasse, die ein Objekt zur Verfügung stellt welches eine Abstraktion einer Funktion darstellt. Intern wird der Reverse Mode von \texttt{ADOL-C} benutzt, um zu einer gegebene Funktion seine Abs-Normal Form an einem gegebenen Entwicklungspunkt aufzustellen und mit ihr zu rechnen.
+Plan-C ist eine C++ Klasse, die ein Objekt zur Verfügung stellt, welche eine Abstraktion einer Funktion darstellt. Intern wird der Reverse Mode von \texttt{ADOL-C} benutzt, um zu einer gegebene Funktion die Abs-Normal Form an einem gegebenen Entwicklungspunkt aufzustellen und mit ihr zu rechnen.
 
 Um ein Plan-C Objekt zu erstellen kann man entweder direkt die Abs-Normal Form mit den Matrizen aus Gleichung  \eqref{eq:absNormalForm} 
 \begin{lstlisting}
@@ -25,12 +25,12 @@ oder eine Funktion \texttt{func} übergeben
 \begin{lstlisting}
  PlanC(size_t n,size_t m,vec xo, simple_function func, short tag);
 \end{lstlisting}
-\texttt{vec} und \texttt{mat} sind die Armadillo internen Klassen für Vektoren bzw. Matrizen, \texttt{n} und \texttt{m} sind die Dimensionen des Definitions-/Werteberech der Funktion \texttt{func} und \texttt{xo} ist der Entwicklungspunkt. \texttt{tag} gibt an, welches Tape von \texttt{ADOL-C} benutzt werden soll. 
+\texttt{vec} und \texttt{mat} sind die Armadillo internen Klassen für Vektoren bzw. Matrizen, während \texttt{n} und \texttt{m} die Dimensionen des Definitions-/Werteberech der Funktion \texttt{func} und \texttt{xo} den Entwicklungspunkt beschreibt. \texttt{tag} gibt an, welches Tape von \texttt{ADOL-C} benutzt werden soll. 
 Die Funktion \texttt{func} muss in der Form 
 \begin{lstlisting}
  void (simple_function*) (short tag, double* px, double* py);
 \end{lstlisting}
-initialisiert werden, damit \texttt{Plan-C} diese verarbeiten kann. \texttt{tag} ist wieder die Nummer des benutzten Tapes,  \texttt{px} ist ein Pointer auf die Eingabeparameter und \texttt{py} beschreibt die Rückgabewerte. 
+initialisiert werden, damit \texttt{Plan-C} diese verarbeiten kann. \texttt{tag} ist wieder die Nummer des benutzten Tapes,  \texttt{px} ein Pointer auf die Eingabeparameter und \texttt{py} beschreibt die Rückgabewerte. 
 Beispielsweise ist eine Funktion gegeben als
 \begin{lstlisting}[caption=Beispiel einer simple\_function,label=lst:simpleFunc]
  void func(short tag, double* px, double* py){
@@ -205,7 +205,7 @@ vec PlanC::jac_data_assimilation_pl(const vec &tState, const vec &x0, const vec 
   return (-1) * xc;
 }
 \end{lstlisting}
-wobei die Funktion \texttt{calc\_kink\_partial} genau den Algorithmus \ref{alg:kinkPartials} widerspiegelt.
+Die Funktion \texttt{calc\_kink\_partial} spiegelt genau den Algorithmus \ref{alg:kinkPartials} wider.
 \begin{lstlisting}[caption=Berechnung der gewichteten Ableitung, label=lst:kinkPartials]
 void PlanC::calc_kink_partial(vec xCheck, vec xHat,const vec &d, mat &A, mat &B) {
   vec xKink = xCheck;
@@ -238,8 +238,8 @@ Die Methode \texttt{gen\_jac(vec x,vec d,bool disableKinkPrediction)} berechnet 
 
 
 \subsection{Optimierung}
-Die Optimierungsmethode ist ebenfalls im \texttt{PlanC} Objekt untergebracht. Sie berechnet nun mittels BFGS Verfahren \ref{alg:bfgs} mit Wolfe-Powell Linesearchmethode \ref{alg:wolfePowell} das Minimum. 
-Als zu minimierende Funktion wird die Methode \texttt{cost\_functional\_data\_assimilation} verwendet, als erste Ableitung die Prozedur \texttt{jac\_data\_assimilation\_pl}.
+Die Optimierungsmethode ist ebenfalls im \texttt{PlanC} Objekt untergebracht. Sie berechnet nun mittels BFGS Verfahren \ref{alg:bfgs} mit Wolfe-Powell Linesearch \ref{alg:wolfePowell} das Minimum. 
+Als zu minimierende Funktion wird die Methode \texttt{cost\_functional\_data\_assimilation} verwendet und als erste Ableitung die Prozedur \texttt{jac\_data\_assimilation\_pl}.
 
 % \begin{lstlisting}
 % solve_data_assimilation_bfgs
