@@ -15,7 +15,7 @@ ADOL-C wurde von Andreas Griewank erdacht und wird zurzeit in der Forschungsgrup
 Sämtliche Versuche wurden mit Plan-C erstellt. Plan-C ist eine C++ Bibliothek, welche im Rahmen der Diplomarbeit von Paul Boeck in \cite{boeck14} erarbeitet und dokumentiert wurde. Da im Rahmen der vorliegenden Arbeit rechenintensivere Beispiele betrachtet werden, wurde ein Fork dieser Bibliothek erstellt und Armadillo als Matrix - Vektor Bibliothek eingesetzt, um die allgemeine Performance zu steigern. Dies bedeutet, die in Boecks Arbeit als Verbesserungsvorschlag gegebene Benutzung von Sparse Matrizen einzubauen und mehrerer Prozessorkerne durch Parallelisierung zu unterstützen.  Desweiteren wurde die ursprüngliche Plan-C Klasse durch diverse Funktionen erweitert, damit sie die Datenassimilierung mittels stückweiser Linearisierung unterstützt. Eine kurze Dokumentation der wichtigsten Funktionen soll im Folgenden dargelegt werden. Das Interface zu Plan-C ist im Anhang \ref{sec:source} beschrieben.
 
 \subsection{Abs-Normal Form}
-Plan-C ist eine C++ Klasse, die ein Objekt zur Verfügung stellt, welche eine Abstraktion einer Funktion darstellt. Intern wird der Reverse Mode von \texttt{ADOL-C} benutzt, um zu einer gegebene Funktion die Abs-Normal Form an einem gegebenen Entwicklungspunkt aufzustellen und mit ihr zu rechnen.
+Plan-C ist eine C++ Klasse, die ein Objekt zur Verfügung stellt, welche eine Abstraktion einer Funktion darstellt. Intern wird der Reverse Mode von \texttt{ADOL-C} benutzt, um zu einer gegebenen Funktion die Abs-Normal Form an einem gegebenen Entwicklungspunkt aufzustellen und mit ihr zu rechnen.
 
 Um ein Plan-C Objekt zu erstellen kann man entweder direkt die Abs-Normal Form mit den Matrizen aus Gleichung  \eqref{eq:absNormalForm} 
 \begin{lstlisting}
@@ -67,7 +67,7 @@ In \texttt{Plan-C} werden im Konstruktor folgende Methoden benutzt
 \begin{description}
  \item[\texttt{get\_num\_switches}] gibt die Menge der switching Variablen zurück
  \item[\texttt{zos\_an\_forward}] Analysiert das Tape und behält Ableitungen erster Ordnung, berechnet \texttt{z}
- \item[\texttt{fos\_an\_reverse}] Die Matrizen \texttt{Z,L,Y} und \texttt{J} werden aus dem Tape errechnet und zeilenweise zurückgegeben
+ \item[\texttt{fos\_an\_reverse}] Die Matrizen \texttt{Z,L,Y} und \texttt{J} werden aus dem Tape errechnet und zeilenweise zurückgegeben.
 \end{description}
 Mithilfe dieser drei Funktionen wird die Abs-Normal Form als Matrix-Repräsentation aufgestellt.
 Desweiteren stellt das \texttt{Plan-C} Objekt weitere Funktionen zur Verfügung:
@@ -127,7 +127,7 @@ mit $h_i = t_{i}-t_{i-1}$ und $i=1,\ldots,n-1$ lässt sich für mehrere Stützst
 \[
  T(f) =\frac{1}{2} \left(h_1 f(x_0) + h_{n-1} f(x_{n-1}) + \sum_{i=1}^{n-2} f(x_i)(h_i+h_{i+1})\right)
 \]
-Daraus ergibt sich analog der Algorithmus \ref{lst:costFunctionalAlg}. Die Eingabeparameter wird zum einen der Vektor \texttt{tState} übergeben, welcher die Stützstellen des ODE Lösers beschreibt, \texttt{xo} ist der auszuwertende Punkt, \texttt{tObs} die Stützstellen der Observierung, \texttt{xObs} die Observierungsparameter und die \texttt{verbose} Flag.
+Daraus ergibt sich analog der Algorithmus \ref{lst:costFunctionalAlg}. Als Eingabeparameter wird zum einen der Vektor \texttt{tState} übergeben, welcher die Stützstellen des ODE Lösers beschreibt, \texttt{xo} ist der auszuwertende Punkt, \texttt{tObs} die Stützstellen der Observierung, \texttt{xObs} die Observierungsparameter und die \texttt{verbose} Flag.
 \begin{lstlisting}[caption=Berechnung des Kostenfunktionals,label=lst:costFunctionalAlg]
 double PlanC::cost_functional_data_assimilation(const vec &tState, const vec &x0, const vec &tObs, const mat &xObs, bool verbose) {
   size_t N = tState.n_elem;
@@ -150,7 +150,7 @@ double PlanC::cost_functional_data_assimilation(const vec &tState, const vec &x0
   return 0.5 * 0.5*Jac;
 }
 \end{lstlisting}
-Die Methode \texttt{projState2ObsSpline} erstellt eine Spline Interpolation der Lösung \texttt{xState} und projeziert die interpolierten Werte auf die Stützstellen \texttt{tObs} des Observierungsraumes. In Gleichung \eqref{eq:costfunctional} ist dies identisch mit dem Projektionsoperator $C$. Falls \texttt{tObs} eine Teilmenge von \texttt{tState} ist, so ist $C$ tatsächlich eine Matrix. In dieser Arbeit ist die Anzahl der Stützstellen von \texttt{tState} immer größer oder gleich der Anzahl der Stellen der Observierungsparameter \texttt{tObs}. Denkbar wären auch der umgedrehte Fall.
+Die Methode \texttt{projState2ObsSpline} erstellt eine Spline Interpolation der Lösung \texttt{xState} und projeziert die interpolierten Werte auf die Stützstellen \texttt{tObs} des Observierungsraumes. In Gleichung \eqref{eq:costfunctional} ist dies identisch mit dem Projektionsoperator $C$. Falls \texttt{tObs} eine Teilmenge von \texttt{tState} ist, so ist $C$ tatsächlich eine Matrix. In dieser Arbeit ist die Anzahl der Stützstellen von \texttt{tState} immer größer oder gleich der Anzahl der Stellen der Observierungsparameter \texttt{tObs}. Denkbar wäre auch der umgedrehte Fall.
 
 \subsection{Adjungierte Mittelpunktsregel}
 Die Implementierung der adjungierten Mittelpunktsregel wird analog zu Algorithmus \ref{alg:jacDataAssimilation} durchgeführt. Eingabeparameter sind der Stützstellenvektor \texttt{tState}, der Entwicklungspunkt \texttt{x0}, die Observierungsparameterstützstellen \texttt{tObs}, die Observierungsparameter \texttt{xObs}, die Toleranz zur Lösung der ODE \texttt{TOL} und die \texttt{verbose} Flag.

@@ -143,7 +143,7 @@ Der kritische Multiplikator $\tau_*$ ergibt sich dann als das Minimum der errech
 \label{fig:findingKinks} 
 \end{figure}
 
-Nun, da wir die Stellen der $k$ Kinks ausrechnen könnne, teilen wir das Intervall $[0,\frac{1}{2}]$ in $k$-Abschnitte mit reellen Zahlen $0=\tau_0<\tau_1<\ldots<\tau_k = \sfrac{1}{2}$,  sodass
+Nun, da wir die Stellen der $k$ Kinks ausrechnen können, teilen wir das Intervall $[0,\frac{1}{2}]$ in $k$-Abschnitte mit reellen Zahlen $0=\tau_0<\tau_1<\ldots<\tau_k = \sfrac{1}{2}$,  sodass
 \[
  [0,\sfrac{1}{2}] = \bigcup_{i=0}^{k-1} [\tau_i,\tau_{i+1}]
 \]
@@ -295,11 +295,11 @@ für Startwerte $x_0$, welche hinreichend nah an der Lösung $x_*$ liegen, konve
 Für unser gegebenes $F$ in Abs-Normal Form könnten wir den Startwert $x_0$ aus $\lbrace P_\sigma:x_*\in \bar P_\sigma \rbrace$, also aus der Menge der Polyeder, welche im Abschluss  $x_*$ enthalten, wählen. Damit würde die Newtoniteration \eqref{eq:genNewtonIteration} nach einem Schritt konvergieren. 
 
 Diese Polyeder zu finden gestaltet sich jedoch schwierig, da dieses Problem hohen kombinatorischen Aufwand bedeutet. 
-Da wir $J_\sigma^{-1}$ für unsere Betrachtungen benötigen, wird angenomen, dass $J$, der glatte Teil der Ableitung unser Funktion $F$ nichtsingulär ist. Falls dem nicht so ist, nutzen wir die Identität
+Da wir $J_\sigma^{-1}$ für unsere Betrachtungen benötigen, wird angenomen, dass $J$, der glatte Teil der Ableitung unser Funktion $F$, nichtsingulär ist. Falls dem nicht so ist, nutzen wir die Identität
 \[
  v = | |v| + v| - |v | \quad \text{für } v\in\R
 \]
-um die singulären Einträge von $J$ auf die unglatten Teil der Abs-Normal Form zu verschieben.
+um die singulären Einträge von $J$ auf die unglatten Teile der Abs-Normal Form zu verschieben.
 Griewank et al. beschreiben in \cite[Prop.5.2]{plan} die Bedingungen für globale Konvergenz.
 
 \begin{theorem}[Hinreichende Bedingungen für Konvergenz]
@@ -311,7 +311,7 @@ Griewank et al. beschreiben in \cite[Prop.5.2]{plan} die Bedingungen für global
  \[
   \frac{\hat \rho}{(1-\hat \rho - \|L\|_p)(1-\|L\|_p)} < \frac{1}{2}
  \]
-Desweiteren sind beide, der Fehler der Lösung und die Residuen monoton reduziert bzgl. der $p$-Norm.
+Desweiteren sind beide, der Fehler der Lösung und die Residuen, monoton reduziert bzgl. der $p$-Norm.
 \end{theorem}
 
 \subsubsection{Komplementäres System}
@@ -396,7 +396,7 @@ Eine allgemeinere Form der Systeme lässt sich durch Umstellen des Ursprungssyst
  \end{equation}
 welches wir Unfolded System (UPL) nennen. Dieses reduziert sich für die Werte $(x,z(x))$ zum OPL System und für die Werte $(x(z),z)$ zum CPL System.
 \section{Algorithmus}
-Nun können wir einen implementierbaren Algorithmus für die verallgemeinerte implizite Mittelpunktsregel angeben, da wir alle benötigten Verfahren eingeführt haben. Im folgenden, wie auch bisher, sei $\check x$ ein bereits berechneter Punkt und $\hat x$ ein zu berechnender Punkt. $\xo$ sei der Entwicklungspunkt der stückweisen Linearisierung. Da $F(\xo)$ nicht von $t$ abhängt, kann die bereits hergeleiteten Regel umgestellt werden zu 
+Nun können wir einen implementierbaren Algorithmus für die verallgemeinerte implizite Mittelpunktsregel angeben, da wir alle benötigten Verfahren eingeführt haben. Im folgenden, wie auch bisher, sei $\check x$ ein bereits berechneter Punkt und $\hat x$ ein zu berechnender Punkt. $\xo$ sei der Entwicklungspunkt der stückweisen Linearisierung. Da $F(\xo)$ nicht von $t$ abhängt, kann die bereits hergeleitete Regel umgestellt werden zu 
 \begin{equation}
 \label{eq:genMidpointAlg}
 \begin{aligned}
@@ -455,7 +455,7 @@ Nach Stoer und Bulirsch in \cite{stoer1989numerische} sei dazu in einem Interval
 \[
  h_0 = \frac{b-a}{n_0},~ h_1 = \frac{h_0}{n_1},\ldots, h_m = \frac{h_0}{n_m}
 \]
-gegeben die zu einer Folge ganzer Zahlen $0<n_0<n_1\ldots,<n_m$ gehört. Zu diesen Schrittweiten bestimmt man die zugehörigen Trapezsummen
+gegeben, die zu einer Folge ganzer Zahlen $0<n_0<n_1\ldots,<n_m$ gehört. Zu diesen Schrittweiten bestimmt man die zugehörigen Trapezsummen
 \[
  T_{i0} := T(h_i), \quad i=0,1,\ldots,m
 \]
@@ -463,7 +463,7 @@ und damit ein Interpolationspolynom
 \[
  \tilde T_{mm}(h):= a_0 + a_1h^2 +\ldots + a_m h^{2m}
 \]
-höchstens $m$-ten Grades in $h^2$ für das gilt
+höchstens $m$-ten Grades in $h^2$ für das gilt:
 \[
  \tilde T_{mm}(h_i) = T(h_i), \quad i=0,1,\ldots,m
 \]
@@ -493,7 +493,7 @@ Diese Werte werden gemäß dem Tableau in Abbildung \ref{fig:rombergTableau} ang
 \label{fig:rombergTableau}
 \end{figure}
 
-Dass die Romberg Extrapolation konvergiert wurde zum Beispiel in \cite{von1993short} bewiesen 
+Dass die Romberg Extrapolation konvergiert, wurde zum Beispiel in \cite{von1993short} bewiesen 
 \begin{theorem}[Romberg Konvergenz]\label{thm:rombergConvergence}
  Die Funktion $f$ sei $2m+2$ mal stetig differenzierbar auf dem Intervall $[a,b]$ und weiterhin $N=2^mn$ mit $m,n\in \N$. Dann gilt
  \begin{equation}\label{eq:rombergConvergence}

@@ -114,7 +114,7 @@ und wird in Figur \ref{fig:rollingStonesSolution} gezeigt. Dabei sind die grau e
 
 Die in Theorem \ref{thm:convergenceGenMidpoint} vorhergesagte Konvergenzordnung von $\mathcal O(h^2)$ erfüllt die GIMP wie in Abbildung \ref{fig:rollingStonesConvergence} ersichtlich ist.
 Dass die IMP eine ebenso hohe Konvergenzrate besitzt, liegt darin begründet, dass sie im gegebenen Intervall nur $4$ mal pro $2\pi+4$ Periode Unglattheiten überquert, sonst jedoch normal konvergiert. Aufgrund dieser Unglattheiten entsteht für die IMP kein glatter Konvergenzgraph, sondern sie springt. Demgegenüber konvergiert die GIMP sehr stabil, da sie die Kinks der Funktion mit in ihre Berechnung einbezieht.
-Insbesondere wird der Fehler der GIMP mit zunehmender Zeit (siehe Fig. \ref{fig:rollingStonesEOT}(a)) nur in den nicht affinen Abschnitten größer, währenddessen in den affinen Abschnitten exakt gelöst werden kann. Der lokale Fehler der IMP erhöht sich jedoch ständig, bedingt durch die Kinks und der zu großen Schrittweite. Der allgemeine Fehler ist dadurch für die IMP größer im zeitlichen Verlauf, als der Fehler der GIMP (\ref{fig:rollingStonesEOT}(b)).
+Insbesondere wird der Fehler der GIMP mit zunehmender Zeit (siehe Fig. \ref{fig:rollingStonesEOT}(a)) nur in den nicht affinen Abschnitten größer, währenddessen in den affinen Abschnitten exakt gelöst wird. Der lokale Fehler der IMP erhöht sich jedoch ständig, bedingt durch die Kinks und der zu großen Schrittweite. Der allgemeine Fehler ist dadurch für die IMP größer im zeitlichen Verlauf, als der Fehler der GIMP (\ref{fig:rollingStonesEOT}(b)).
 
 Da sich der rollende Stein reibungslos in unserem System bewegt, muss die analytische Lösung die komplette Energie erhalten, d.h. die Summe der potentiellen und der kinetischen Energie $V(x) + \frac{1}{2}\dot x^2$ muss konstant sein. Die Abbildung \ref{fig:rollingStonesEnergyError} wurde mittels der summierten Variation der Energie 
 \begin{equation}
@@ -122,7 +122,7 @@ Da sich der rollende Stein reibungslos in unserem System bewegt, muss die analyt
  \label{eq:energyVariation}
 \end{equation}
 berechnet. Es ist deutlich zu erkennen, dass die Energie mit der GIMP deutlich besser erhalten bleibt als mit den klassischen Methoden, selbst für große Schrittweiten.
-Dadurch führt die in Figur \ref{fig:rollingStonesConvergenceRomberg} durchgeführte Romberg Extrapolation zu sehr guten Ergebnissen. Da der Konvergenzgraph der GIMP stabil ist, lässt sich eine gute Extrapolation mit Konvergenzen der Ordnung 3 bis 4 erreichen, wie in Theorem \ref{thm:rombergConvergence} vorhergesagt. Demgegebenüber besitzt die Extrapolation der IMP keine höhere Konvergenzordnung als die der IMP selbst.
+Dadurch führt die in Figur \ref{fig:rollingStonesConvergenceRomberg} durchgeführte Romberg Extrapolation zu sehr guten Ergebnissen. Da der Konvergenzgraph der GIMP stabil ist, lässt sich eine gute Extrapolation mit Konvergenzen der Ordnung 3 bis 4 erreichen, wie in Theorem \ref{thm:rombergConvergence} vorhergesagt. Demgegenüber besitzt die Extrapolation der IMP keine höhere Konvergenzordnung als die der IMP selbst.
 \begin{figure}[H]
 \footnotesize 
 \centering
@@ -142,9 +142,9 @@ Dadurch führt die in Figur \ref{fig:rollingStonesConvergenceRomberg} durchgefü
 \end{figure}
 
 \subsection{Gradient des Kostenfunktionals}
-Ähnliche Ergebnisse wie beim Lösen der ODE erwarten wir für die Integration des inhomogenen adjungierten Tangent Linear Models \eqref{eq:inhAdjEquation}. Falls nicht anders beschrieben, werden im Folgenden immer die exakte Lösung des Rolling Stones Beispiel \eqref{eq:analyticSolRolling} als Obervierungsparameter $x_{\text{Obs}}$ mit der selben Diskretisierung verwendet, wie bei der Vorwärtsintegration.
+Ähnliche Ergebnisse wie beim Lösen der ODE erwarten wir für die Integration des inhomogenen adjungierten tangent linear models \eqref{eq:inhAdjEquation}. Falls nicht anders beschrieben, werden im Folgenden immer die exakte Lösung des Rolling Stones Beispiel \eqref{eq:analyticSolRolling} als Obervierungsparameter $x_{\text{Obs}}$ mit der selben Diskretisierung verwendet, wie bei der Vorwärtsintegration.
 
-Beim Plot des Gradienten nach Anfangswerten, wie in Abbildung \ref{fig:rollingGrad}, ist zu erkennen, dass der Gradient, der mit der GIMP berechnet wurde, ebenfalls stabiler wirkt (Fig. \ref{fig:rollingGrad} (a)), als der Gradient berechnet mit der IMP (Fig. \ref{fig:rollingGrad} (b)). Desweiteren existieren im Letzteren vereinzelt hohe Sprünge, welche durch nicht einbezogene Kinks erklärt werden können (siehe Abbildung \ref{fig:multipleKinksAdjoint}). 
+Beim Plot des Gradienten nach Anfangswerten, wie in Abbildung \ref{fig:rollingGrad}, ist zu erkennen, dass der Gradient, berechnet mit der GIMP, ebenfalls stabiler wirkt (Fig. \ref{fig:rollingGrad} (a)), als der Gradient berechnet mit der IMP (Fig. \ref{fig:rollingGrad} (b)). Desweiteren existieren im Letzteren vereinzelt hohe Sprünge, welche durch nicht einbezogene Kinks erklärt werden können (siehe Abbildung \ref{fig:multipleKinksAdjoint}). 
 \begin{figure}[H]
 \footnotesize 
 \centering
@@ -180,7 +180,7 @@ Beim Plot des Gradienten nach Anfangswerten, wie in Abbildung \ref{fig:rollingGr
 \label{fig:rollingGrad}
 \end{figure}
 
-Abbildung \ref{fig:rolling_adjoint_eq} zeigt die rückwärts zu integrierende rechte Seite. Dabei sind für die Geschwindigkeit $\dot{\bar{x_2}}$, genau an den Übergängen zu den linearen Teilen der Funktion, Sprünge zu erkennen.
+Die Abbildung \ref{fig:rolling_adjoint_eq} zeigt die rückwärts zu integrierende rechte Seite. Dabei sind für die Geschwindigkeit $\dot{\bar{x_2}}$, genau an den Übergängen zu den linearen Teilen der Funktion, Sprünge zu erkennen.
 \begin{figure}[H]
 \centering
 \input{img/rolling_adjoint_eq.tikz}
@@ -226,7 +226,7 @@ Die zu minimierende Funktion, das Kostenfunktional $J$, ist in Abbildung \ref{fi
 \label{fig:rolling_costfunctional}
 \end{figure}
 
-Die Optimierung in diesem Beispiel wurden mit dem BFGS - Verfahren (siehe Algorithmus \ref{alg:bfgs}) durchgeführt. Dabei war in den Versuchen zu erkennen, dass die verallgemeinerte Methode, durch den glatteren Gradienten, zu einem besseren Konvergenzverhalten führt (Abbildung \ref{fig:rollingStonesOpt2}).
+Die Optimierung in diesem Beispiel wurde mit dem BFGS - Verfahren (siehe Algorithmus \ref{alg:bfgs}) durchgeführt. Dabei war in den Versuchen zu erkennen, dass die verallgemeinerte Methode, durch den glatteren Gradienten, zu einem besseren Konvergenzverhalten führt (Abbildung \ref{fig:rollingStonesOpt2}).
 
 Für bestimmte Anfangswerte divergiert die klassische Methode, wie in Abbildung \ref{fig:rollingStonesOpt1}, wohingegen die Optimierung über GIMP konvergiert. 
 
@@ -300,7 +300,7 @@ die Diode. Als Konstanten werden ähnliche Werte wie in echten Schaltkreisen ver
 \]
 Für den Anfangswert wird kein Strom angeschlossen, d.h. es gilt $x_1(0)  = x_2(0) = x_3(0) = 0$.
 
-Im Gegensatz zu dem Rolling Stones Beispiel lässt sich dieses Problem nicht in einer Abs-Normal Form darstellen, da es kein stückweise lineares Problem ist. Die in Theorem \ref{thm:quadrApproxPL} besagte Konvergenz zweiter Ordnung ist nun hier zu beachten, da sich das Modell nicht exakt Linearisieren lässt. Als weitere numerische Probleme stellen sich die kleinen Konstanten $L,C$ und $\beta$ und die kleine Schrittweite in einem Intervall von $[0, 10^{-8}]$ heraus. In der Lösung erhalten wir für die Ladung des Kondensators Größenordnungen von $10^{-13}$, welche an der Maschinengenauigkeit von $\approx 1.1\cdot 10^{-16}$ (double precision) grenzen.
+Im Gegensatz zu dem Rolling Stones Beispiel lässt sich dieses Problem nicht in einer Abs-Normal Form darstellen, da es kein stückweise lineares Problem ist. Die in Theorem \ref{thm:quadrApproxPL} besagte Konvergenz zweiter Ordnung ist nun hier zu beachten, da sich das Modell nicht exakt Linearisieren lässt. Als weitere numerische Probleme stellen sich die kleinen Konstanten $L,C$ und $\beta$ und die kleine Schrittweite in einem Intervall von $[0, 10^{-8}]$ heraus. In der Lösung erhalten wir für die Ladung des Kondensators Größenordnungen von $10^{-13}$, welche an die Maschinengenauigkeit von $\approx 1.1\cdot 10^{-16}$ (double precision) grenzen.
 
 \subsection{Lösen der ODE}
 \begin{figure}[H]
@@ -328,10 +328,10 @@ Die Lösung des Schaltkreises \eqref{eq:lcOde} wird in Abbildung \ref{fig:lc_sol
 \caption{Konvergenz LC Diode im Intervall $[0,1.5\cdot 10^{-8}]$ mit $x_0=(0,0,0)$}
 \label{fig:lcConvergence}
 \end{figure}
-Im Konvergenzgraph \ref{fig:lcConvergence} ist ein ähnliches Verhalten wie beim Rolling Stones Beispiel zu erkennen. Nachdem sich der Konvergenzgraph der GIMP bis ca. $5\cdot 10^2$ Schritten ähnlich wie die IMP verhält, konvergiert er stabil mit Ordnung 2, während die IMP bedingt durch die wenigen Kinks ebenfalls springt. Die explizite Mittelpunktsregel konvergiert unterhalb von $10^3$ Schritten nicht aufgrund der Steifheit des Problems.
-Es ist also von großer Bedeutung, dass unsere Methoden selbst für nicht stückweise affine Beispiele stabile Konvergenzresultate erzielen.
+Im Konvergenzgraph \ref{fig:lcConvergence} ist ein ähnliches Verhalten wie beim Rolling Stones Beispiel zu erkennen. Nachdem sich der Konvergenzgraph der GIMP bis ca. $5\cdot 10^2$ Schritten ähnlich wie die IMP verhält, konvergiert er stabil mit Ordnung 2, während die IMP, bedingt durch die wenigen Kinks, ebenfalls springt. Die explizite Mittelpunktsregel konvergiert unterhalb von $10^3$ Schritten nicht aufgrund der Steifheit des Problems.
+Es ist also von großer Bedeutung, dass unsere Methoden, selbst für nicht stückweise affine Beispiele, stabile Konvergenzresultate erzielen.
 
-Die Romberg Extrapolation gestaltet sich in diesem Beispiel schwierig. Zwar ist in Abbildung \ref{fig:lcRomberg} ein besseres Verhalten der Extrapolation für die GIMP zu erkennen, diese stößt jedoch an die Grenzen sobald sie sich der Maschinengenauigkeit nähert.  Die Konvergenzgeschwindigkeit betrug in diesem Beispiel nur $2.24$. Insbesondere im Abschnitt zwischen $2\cdot 10^{3}$ und $10^4$ ist jedoch eine deutlich exaktere Extrapolation der GIMP im Gegensatz zur Extrapolation der IMP zu beobachten. In diesem Intervall beträgt die Konvergenzgeschwindigkeit schon $3.89$. 
+Die Romberg Extrapolation gestaltet sich in diesem Beispiel schwierig. Zwar ist in Abbildung \ref{fig:lcRomberg} ein besseres Verhalten der Extrapolation für die GIMP zu erkennen, diese stößt jedoch an die Grenzen, sobald sie sich der Maschinengenauigkeit nähert.  Die Konvergenzgeschwindigkeit betrug in diesem Beispiel nur $2.24$. Insbesondere im Abschnitt zwischen $2\cdot 10^{3}$ und $10^4$ ist jedoch eine deutlich exaktere Extrapolation der GIMP im Gegensatz zur Extrapolation der IMP zu beobachten. In diesem Intervall beträgt die Konvergenzgeschwindigkeit schon $3.89$. 
 \begin{figure}[H]
 \footnotesize 
 \centering
@@ -411,7 +411,7 @@ Wie in Abbildung \ref{fig:lcAdjointConvergence} zu erkennen, konvergiert der Gra
 \label{fig:lcAdjointConvergence}
 \end{figure}
 
-Die Optimierungschritte über das Kostenfunktional, welche in Abbildung \ref{fig:lcOpt} gezeigt werden, verläuft mit der GIMP ebenfalls stabiler als mit der IMP. Man sieht, dass nach zirka fünf Schritten die Konvergenz zunimmt bis sie schließlich nach 19 Schritten konvergiert (\ref{fig:lcOpt}(a)). Die Berechnung mittes IMP konvergiert nicht so gleichmäßig wie die GIMP. Jedoch ist das Konvergenzverhalten abhängig vom initial gewählten Anfangswert. In Abbildung \ref{fig:lcOpt}(b) konvergieren die IMP und die GIMP fast gleich schnell für leicht variierte Anfangswerte.
+Die Optimierungschritte über das Kostenfunktional, welche in Abbildung \ref{fig:lcOpt} gezeigt werden, verläuft mit der GIMP ebenfalls stabiler als mit der IMP. Man sieht, dass nach zirka fünf Schritten die Konvergenz zunimmt bis sie schließlich nach 19 Schritten konvergiert (\ref{fig:lcOpt}(a)). Die Berechnung mittes IMP konvergiert nicht so gleichmäßig wie die GIMP. Jedoch ist das Konvergenzverhalten abhängig vom initial gewählten Anfangswert. In Abbildung \ref{fig:lcOpt}(b) konvergieren die IMP und die GIMP fast gleich schnell für variierte Anfangswerte.
 
 \begin{figure}[H]
 \footnotesize
@@ -434,7 +434,7 @@ Die Optimierungschritte über das Kostenfunktional, welche in Abbildung \ref{fig
 
 \section{Shallow Water Equation}
 % \subsection{Problemstellung}
-Bisher wurde die stückweise Linearisierung nur mit gewöhnlichen Differentialgleichungen durchgeführt. Somit ist es das Ziel dieses Beispieles, diese Methoden auf eine partielle Differentialgleichungen anzuwenden und mit ihr Data Assimilation durchführen.
+Bisher wurde die stückweise Linearisierung nur mit gewöhnlichen Differentialgleichungen durchgeführt. Somit ist es das Ziel dieses Beispieles, diese Methoden auf eine partielle Differentialgleichung anzuwenden und mit ihr Data Assimilation durchführen.
 
 Ein oft genutztes Beispiel, in dem Datenassimilierungsmethoden Anwendung finden ist die sogenannte Shallow Water Equation (vgl. \cite{zou,navon}). 
 Diese partiellen Differentialgleichungen gehören zur Klasse der Saint-Venan Systeme und beschreiben eine Strömung einer Flüssigkeit in einem Gebiet. Dabei werden diverse Nebenbedingungen wie Gravitationswellen, Bodenbegebenheit und Randgebiete berücksichtigt. Eingeführt wurden diese bereits vor über 140 Jahren von Saint-Venant \cite{saint1871theorie} und werden zur Simulation von Strömungen in Kanälen und Küstengebieten verwendet.
@@ -568,7 +568,7 @@ Falls die Zeitschritte der Integration zu groß werden und damit über eine Nach
   Eine numerische Methode kann nur dann konvergent sein, wenn der numerische Definitionsbereich der Abhängigkeiten dem wahren Definitionsbereich der Abhängigkeiten der PDE enthält, zumindest für $\Delta t, \Delta x\to 0$.
 \end{theorem*}
 
-Falls nun aber größere Schrittweiten benutzt werden müssen, oder man nur an der Lösung eines entfernten Zeitschrittes interessiert ist, werden in der Praxis implizite Verfahren benutzt, welche keiner CFL Bedingung unterliegen. Dies liegt darin begründet, dass bei der Lösung des linearen Gleichungssystems der numerische Definitionsbereich der Abhängigkeiten der gesamte Definitionsbereich ist, welcher durch das lineare Gleichungssystem aneinander gekoppelt wird. Falls in der Realität Observierungen benutzt werden, dessen zeitliche Messungen weit auseinander liegen, kommt man nicht umhin implizite Methoden zu nutzen.
+Falls nun aber größere Schrittweiten benutzt werden müssen, oder man nur an der Lösung eines entfernten Zeitschrittes interessiert ist, werden in der Praxis implizite Verfahren benutzt, welche keiner CFL Bedingung unterliegen. Dies liegt darin begründet, dass bei der Lösung des linearen Gleichungssystems der numerische Definitionsbereich der Abhängigkeiten der gesamte Definitionsbereich ist, welcher durch das lineare Gleichungssystem aneinander gekoppelt wird. Falls in der Realität Observierungen benutzt werden, dessen zeitliche Messungen weit auseinander liegen, kommt man nicht umhin, implizite Methoden zu nutzen.
 
 \subsection{Anfangswerte}
 \begin{figure}[H]
@@ -665,7 +665,7 @@ Es ist zu erkennen, dass in diesem Beispiel keine Verbesserung bzgl. des Energie
 \caption{SWE Adjungierte Gleichung mit $L=100,\Delta x=10,h = 0.1$ und $U_0^{(2)},k=1,\theta=2,x_{\text{obs}}=U_0^{(2)},k_{\text{obs}}=2$}
 \label{fig:sweAdjointEqRHS}
 \end{figure}
-Bei der Konvergenz des Gradienten in Abbildung \ref{fig:sweConvergenceAdjoint} ist für $\theta=1$ kein besseres Verhalten der GIMP gegenüber der IMP feststellbar. Falls $\theta=2$ gesetzt wird (Abbildung \ref{fig:sweConvergenceAdjoint1}), so ergibt sich zwar keine bessere Konvergenzordnung der GIMP, jedoch hat sie einen kleineren Fehler. 
+Bei der Konvergenz des Gradienten in Abbildung \ref{fig:sweConvergenceAdjoint} ist für $\theta=1$ kein besseres Verhalten der GIMP gegenüber der IMP feststellbar. Falls $\theta=2$ gesetzt wird (Abbildung \ref{fig:sweConvergenceAdjoint1}), ergibt sich zwar keine bessere Konvergenzordnung der GIMP, jedoch hat sie einen kleineren Fehler. 
 
 Mit $\theta\approx 2$ ist der Limiter am wenigsten dissipativ, d.h. es entstehen keine neuen lokalen Extrema durch die Diskretisierung, während für $\theta\approx 1$ eine nichtoszillatorische Natur der approximativen Lösung gesichert wird (\cite[Abschnitt 6]{kurganov2000new}).
 

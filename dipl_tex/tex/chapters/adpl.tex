@@ -62,7 +62,7 @@ Die Menge der limiting Jacobians $\partial^L F(x)$ beschreibt also die Menge der
 \subsection{Max-Min Repräsentation}
 \label{sec:maxMinRepresentiation}
 Scholtes definiert in \cite[S.19]{scholtes2012introduction} eine stückweise affine Funktion $f:\R^n\to \R^m$ als eine stetige Funktion, zu der eine endliche Menge affiner Funktionen $f_i(x)=A_ix+b_i$, $i=1,\ldots,k$ existiert, sodass für jedes $x\in \R^n$ die Inklusion $f\in\lbrace f_1(x),\ldots, f_k(x)\rbrace $ gilt und $f$ global stetig ist. Die affinen Funktionen $f_i$ werden \textit{Auswahlfunktionen} genannt. 
-Auswahlfunktionen für die $F(x) = F_i(x)$ an einem Punkt $x\in R^n$ gilt werden \textit{aktiv} genannt. Ist dies nicht der Fall, so wird sie als \textit{passiv} bezeichnet.
+Auswahlfunktionen für die $F(x) = F_i(x)$ an einem Punkt $x\in R^n$ gilt, werden \textit{aktiv} genannt. Ist dies nicht der Fall, so wird sie als \textit{passiv} bezeichnet.
 Scholtes bewies in \cite[Prop.2.2.2.]{scholtes2012introduction}, dass sich jede dieser stückweise affinen Funktionen als Verkettung der Funktionen max und min darstellen lässt.
 \begin{theorem}[Max-Min Repräsentation]
  Falls $f:\R^n\to \R^m$ eine stückweise affine Funktion mit affinen Auswahlfunktionen $f_1=A_1^\tr x+ A_1,\ldots,f_k=A_k^\tr x+ b_k$ ist, dann existiert eine endliche Anzahl von Indexmengen $M_1,\ldots,M_k\subseteq \lbrace 1,\ldots,k\rbrace$ sodass
@@ -90,7 +90,7 @@ Die Menge dieser konvexen Polyeder werden \textit{Polyhedrale Subdivision} von $
 \caption{Polyhedrale Subdivision}
 \label{fig:polyhedralSubdivision}
 \end{figure}
-Die Berührungskanten aus Punkt 4, bzw. ihrere höherdimensionalen Äquivalente werden als \textit{Kinks} bezeichnet. In Abbildung \ref{fig:polyhedralSubdivision} wird eine mögliche polyhedrale Subdivision gezeigt. Die $P_\sigma$ sind dabei die Polyeder in der Urbildmenge.
+Die Berührungskanten aus Punkt 4, bzw. ihre höherdimensionalen Äquivalente werden als \textit{Kinks} bezeichnet. In Abbildung \ref{fig:polyhedralSubdivision} wird eine mögliche polyhedrale Subdivision gezeigt. Die $P_\sigma$ sind dabei die Polyeder in der Urbildmenge.
 Scholtes zeigt in \cite[Prop. 2.2.3.]{scholtes2012introduction}, dass jede stückweise affine Funktion eine zugehörige Polyhedrale Subdivision besitzt.
 
 \subsection{Abs-Normal-Form}
@@ -126,7 +126,7 @@ wobei gilt:
 c\in \R^s, ~ Z\in \R^{s\times n},~ L\in\R^{s\times s}, ~ b\in\R^m, ~ J\in\R^{m\times n}, ~ Y\in \R^{m\times s} 
 \]
 % Die Vektoren $c$ und $b$ 
-$L$ muss offensichtlich die Form eine streng unteren Dreiecksmatrix besitzen, da sonst im Auswertungsgraph der Funktion $F$ Zyklen entstehen könnten. Die Zahl $s\in \N$ ist hierbei die Gesamtanzahl der $abs$ Aufrufe.
+$L$ muss offensichtlich die Form einer streng unteren Dreiecksmatrix besitzen, da sonst im Auswertungsgraph der Funktion $F$ Zyklen entstehen könnten. Die Zahl $s\in \N$ ist hierbei die Gesamtanzahl der $abs$ Aufrufe.
 \end{definition}
 Die kleinste ganze Zahl $\nu \leq s$ für die 
 \[
@@ -139,7 +139,7 @@ In der numerischen Praxis kommen Beispiele vor, bei denen eine hohe \textit{swit
 beschränken (\cite[S.3]{plan})
 
 
-Unsere Funktion $F$ ist linear, falls $\nu=s = 0$ und sie somit keine $abs$ Terme besitzt. Für den Fall $\nu=1$ heißt $F$ \textit{simply switched}
+Die Funktion $F$ ist linear, falls $\nu=s = 0$ und sie somit keine $abs$ Terme besitzt. Für den Fall $\nu=1$ heißt $F$ \textit{simply switched}
 \subsection{Verkettet stückweise glatte Funktionen}
 Ziel dieser Arbeit ist es, die Eigenschaften der Matrizen der Abs-Normal Formulierung für unsere Berechnungen zu nutzen.
 Dazu wollen wir die Klasse der \textit{composite piecewise smooth functions} (also verkettet stückweise glatte Funktionen) durch stückweise lineare Funktionen approximieren.
@@ -201,7 +201,7 @@ die stückweise lineare Richtungsfunktion $F(\xo + \Delta x) - F(\xo) = \abs(\xo
  \end{aligned}
 \end{equation}
 
-erweitert. Exemplarisch wird die Auswertungs mit der erweiterten Regel anhand der Beispielfunktion $\sin(|x_1\cdot x_2|+x_1)$ in Tabelle \ref{fig:computationalGraphTable} durchgeführt.
+erweitert. Exemplarisch wird die Auswertung mit der erweiterten Regel anhand der Beispielfunktion $\sin(|x_1\cdot x_2|+x_1)$ in Tabelle \ref{fig:computationalGraphTable} durchgeführt.
 \begin{figure}
 \centering
  \input{img/computational_graph.tikz}
@@ -254,7 +254,7 @@ und falls das Inkrement $\Delta x$ hinreichend klein ist, existiert eine Grenze 
  \[
   \Delta F(\xo;\Delta x) = F'(\xo;\Delta x)\text{ falls }\|\Delta x\|\leq \rho(\xo)
  \]
-gilt  (\cite[S.10 ff]{monster}). Das bedeutet, dass die Inkrementfunktion und die Bouligandableitung in einer Umgebung des Entwicklungspunkts $\xo$ übereinstimmen. Demnach gilt für die Inkrementfunktion $\Delta F$ ebenfalls die Kettenregel \eqref{eq:bouligandChainRule} in einer kleinen Umgebung von $\xo$. Desweiteren ist zu beachten, dass die Bouligandableitung durch \eqref{eq:improvedAbsAdRule} unstetig in Bezug zu $\xo$ mit fixem $\Delta x$ wird. 
+gilt  (\cite[S.10 ff]{monster}). Das bedeutet, dass die Inkrementfunktion und die Bouligandableitung in einer Umgebung des Entwicklungspunktes $\xo$ übereinstimmen. Demnach gilt für die Inkrementfunktion $\Delta F$ ebenfalls die Kettenregel \eqref{eq:bouligandChainRule} in einer kleinen Umgebung von $\xo$. Desweiteren ist zu beachten, dass die Bouligandableitung durch \eqref{eq:improvedAbsAdRule} unstetig in Bezug zu $\xo$ mit fixem $\Delta x$ wird. 
 
 Betrachtet man nun die Funktion $F(\xo)+\Delta F(\xo, x-\xo)$ so ergibt sich sogar eine Approximation der Ursprungsfunktion zweiter Ordnung im Abstand zum Ausgangspunkt, wie Griewank in \cite[Prop.1]{monster} zeigen konnte:
 

@@ -223,7 +223,7 @@ wobei $G'^*$ der adjungierte Operator von $G'$ beschreibt. Damit ist
 \label{eq:adjointEssential}
 \nabla_u J = G'^*\nabla_v J
 \end{equation} 
-Die Gleichung \eqref{eq:adjointEssential} stellt die Basis für die Nutzung der adjungierte Operatoren für die Datenassimilation dar. Sie bietet ein besonders effizienten Weg $\nabla_u J$ numerisch zu berechnen. Angewandt auf unser Problem wäre $u\mapsto v =G(u) $ eine Integration eines numerischen Modells. Aus einer Integrationsmethode, welche $G'^*w$ für ein gegebenes $w$ berechnen kann, kann nun aus $\nabla_v J$ mittels \eqref{eq:adjointEssential} einfach $\nabla_u J$ errechnet werden. 
+Die Gleichung \eqref{eq:adjointEssential} stellt die Basis für die Nutzung der adjungierte Operatoren für die Datenassimilation dar. Sie bietet einen besonders effizienten Weg $\nabla_u J$ numerisch zu berechnen. Angewandt auf unser Problem wäre $u\mapsto v =G(u) $ eine Integration eines numerischen Modells. Aus einer Integrationsmethode, welche $G'^*w$ für ein gegebenes $w$ berechnen kann, kann nun aus $\nabla_v J$ mittels \eqref{eq:adjointEssential} einfach $\nabla_u J$ errechnet werden. 
 % Wenn $J$ einfach gewählt wurde, lässt sich daraus $\nabla_v J$ ebenfalls einfach berechnen. 
 Um $\nabla_u J$ zu erhalten, muss zuerst $v = G(u)$ berechnet werden, danach $\nabla_v J$ und schlussendlich wieder $\nabla_u J$ durch \eqref{eq:adjointEssential}.
 
@@ -371,7 +371,7 @@ Genauer werden die Schritte in Abbildung \ref{alg:genCostFunctionalPseudo} benö
 
 \section{Optimierungsmethoden}
 
-Nun, da ein numerischer Weg gefunden wurde, $\nabla_v J$ effizient zu berechnen, stellt die Optimierung des Zielfunktional das letzte Problem dar, welchem wir uns annehmen müssen. Das Ausgangsproblem besteht darin, eine reellwertigen, differenzierbaren Funktion J
+Nun, da ein numerischer Weg gefunden wurde, $\nabla_v J$ effizient zu berechnen, stellt die Optimierung des Zielfunktional das letzte Problem dar, welchem wir uns annehmen müssen. Das Ausgangsproblem besteht darin, eine reellwertige, differenzierbare Funktion J
 \begin{equation}
 \label{eq:minProblem}
  \min_{x_0} J(x_0) 
@@ -619,7 +619,7 @@ Daher gilt also
 \[
  d^{(k+1)}~\bot ~d^{k} ~ \forall k \in \N
 \]
-Ein verbesserte Wahl der Suchrichtung $d$ bietet das BFGS-Verfahren (\cite[Verfahren 4.8.11]{alt2002nichtlineare})
+Eine verbesserte Wahl der Suchrichtung $d$ bietet das BFGS-Verfahren (\cite[Verfahren 4.8.11]{alt2002nichtlineare})
 \begin{figure}[H]
 \begin{framed}
 \begin{enumerate}
