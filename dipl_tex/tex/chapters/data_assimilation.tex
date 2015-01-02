@@ -1,6 +1,6 @@
 \chapter{Datenassimilation}
 \section{Problemstellung}
-Die 4-D Variations-Datenassimilation ist eine Methode, welche versucht, die Theorie der optimalen Steuerung auf die Datemassimilation, also das Annähern eines Modells an observierte Parameter durch Steuerungsparameter, zu übertragen.
+Die 4-D Variations-Datenassimilation ist eine Methode, welche versucht, die Theorie der optimalen Steuerung auf die Datenassimilation, also das Annähern eines Modells an observierte Parameter durch Steuerungsparameter, zu übertragen.
 Eingeführt von Talagrand und Le Dimet in \cite{dimet1986variational} findet diese Methode immer mehr Verwendung für reale Beispiele (z.B. \cite{korotaev2008retrieving,elbern20004d,broquet2009application}). Benutzt wird sie meist in atmosphärischen Modellen, um optimale Parameter zur numerischen Wettervorhersage zu finden. Auch in ozeanographischen Modellen findet diese Methode Anwendung.
 
 Ziel der 4-D Datenassimilation ist es durch Steuerungsparameter, wie etwa Anfangswerte zum Zeitpunkt $t_0$, den Abstand eines Modells gegenüber den in der Zeit gemessenen Observierungsparametern minimal werden zu lassen. 
@@ -11,15 +11,17 @@ Um diese Methode herzuleiten folgen wir der Herangehensweise von Talagrand in \c
  \frac{dx}{dt} = F(x)\quad \text{mit} \quad x(0) = x_0 \quad \text{und}\quad F:\R^n\to \R^n
 \end{equation}
   
-welche eine Gewöhnliche Differentialgleichung beschreibt. Dabei ist $x$ die zeitabhängige Zustandsvariable aus dem Hilbertraum $\R^n$, welche die Entwicklung des Systems zu einem Zeitpunkt $t\in \R$ beschreibt. 
+welche eine gewöhnliche Differentialgleichung beschreibt. Dabei ist $x$ die zeitabhängige Zustandsvariable aus dem Hilbertraum $\R^n$, welche die Entwicklung des Systems zu einem Zeitpunkt $t\in \R$ beschreibt. 
 Der Anfangswert sei dabei $x_0 \in \R^n$, welcher gleichzeitig der Steuerungsparameter ist.
 Die Observierungsparameter $\xobs$ sind diskrete Werte oder Funktionen, welche orts - und zeitabhängig und über ein Intervall $[0,T]$ verteilt sind. Da $\xobs$  nicht zwangsweise im Zustandsraum $\Xstate$ lebt, wird eine Projektion $C:\Xstate\to \Xobs$ benötigt, welche $x$ aus $\Xstate$ in den Observierungsraum $\Xobs$ abbildet. Üblicherweise ist diese Funktion eine Auswertungsfunktion von $x$ an den Stellen $\tobs$.
 
 Als Kostenfunktional dient die $L^2$ - Norm der Differenz der Lösung $x$ von \eqref{eq:odemodel} zu $\xobs$ über ein gegebenes Zeitintervall $[0,T]$
 \begin{equation}
 \label{eq:costfunctional}
- J(x_0) = \frac{1}{2}\int_0^T H(x(t),t)dt= \frac{1}{2}\int_0^T \|C\cdot x(V)-\xobs\|^2dt
+J(x_0) \coloneqq \frac{1}{2}\int_0^T H(x(t),t)dt = \frac{1}{2}\int_0^T \|C\cdot x(t)-\xobs\|^2dt
+% J(x_0) = \frac{1}{2}\int_0^T H(x(t),t)dt \text{ mit }H(x(t),t) \coloneqq  \|C\cdot x(V)-\xobs\|^2
 \end{equation}
+% mit $H(x(t),t) \coloneqq  \|C\cdot x(V)-\xobs\|^2$
 Die skalarwertige Funktion $J$ ist damit jene Funktion, die das Maß zwischen der Lösung $x$ und den Observierungsparametern $\xobs$ darstellt.
 Man beachte, dass das Zielfunktional nur abhängig vom Anfangswert $x_0$ ist. Das Ziel besteht darin, $x_0 = x_0^*$ zu finden, sodass das unrestringierte Optimierungsproblem
 \begin{equation}
@@ -37,8 +39,8 @@ Die Grundlage zur Minimierung des Kostenfunktionals stellt zunächst die Lösung
 
 \section{Gewöhnliche Differentialgleichungen}
 Eine Gleichung der Form \eqref{eq:odemodel} wird eine \textit{gewöhnliche Differentialgleichung erster Ordnung} genannt. 
-In der nachfolgend betrachteten Theorie sowie in der Implementation der Verfahren in dieser Arbeit werden ausschließlich autonome Gewöhnliche Differentialgleichungen erster Ordnung betrachtet, da sich sämtliche Gewöhnliche Differentialgleichungen in diese Form überführen lassen.
-Falls eine Differentialgleichung n-ter Ordnung der Form 
+In der nachfolgend betrachteten Theorie sowie in der Implementation der Verfahren in dieser Arbeit werden ausschließlich autonome gewöhnliche Differentialgleichungen erster Ordnung betrachtet, da sich sämtliche gewöhnliche Differentialgleichungen in diese Form überführen lassen.
+Falls eine Differentialgleichung $n$-ter Ordnung der Form 
 \[
  \frac{d^n x}{dt^n}= F\left(t;x,\frac{dx}{dt},\ldots,\frac{d^{n-1} x}{dt^{n-1}}\right)
 \]
@@ -49,10 +51,10 @@ mit $F$ differenzierbar, gegeben ist, ist wohlbekannt, dass sie sich durch Hinzu
 überführen lassen (\cite[S. 105]{arnold2001grundbegriffe}).
 Durch die Einführung einer weiteren Variablen $x_0 = t$ und Gleichung $\dot x_0=1$ lässt sich die gegebene ODE autonom, also die rechte Seite $F$ unabhängig von der Zeit $t$, schreiben.
 \subsection{Grundlagen}
-Die Existenz und Eindeutigkeit von Lösungen wird durch den Satz von Picard-Lindelöf (z.B.\cite{teschl2012ordinary}) beschrieben, der die Grundlage zur Lösungstheorie Gewöhnlicher Differentialgleichungen bildet.
+Die Existenz und Eindeutigkeit von Lösungen wird durch den Satz von Picard-Lindelöf (z.B.\cite{teschl2012ordinary}) beschrieben, der die Grundlage zur Lösungstheorie gewöhnlicher Differentialgleichungen bildet.
 \begin{theorem}[Picard-Lindelöf]
 \label{thm:picard-lindeloeff}
- Sei $F\in C(U,\R^n)$, wobei $U$ eine offene Teilmenge von $\R^{n+1}$ und $(t_0,x_0)\in U$ ist. Falls $F$ im zweiten Argument lokal lipschitzstetig und gleichmäßig stetig im ersten Argument ist, dann existiert eine eindeutige lokale Lösung $\bar x(t)\in C^1(I)$ des Anfangswertproblems \eqref{eq:odemodel}, wobei $I$ ein Intervall um $t_0$ ist.
+ Sei $F\in \CC(U,\R^n)$, wobei $U$ eine offene Teilmenge von $\R^{n+1}$ und $(t_0,x_0)\in U$ ist. Falls $F$ im zweiten Argument lokal lipschitzstetig und gleichmäßig stetig im ersten Argument ist, dann existiert eine eindeutige lokale Lösung $\bar x(t)\in C^1(I)$ des Anfangswertproblems \eqref{eq:odemodel}, wobei $I$ ein Intervall um $t_0$ ist.
 \end{theorem}
 % 
 % Ein Spezialfall des Modells \eqref{eq:odemodel}, welche wir im Folgenden benötigen werden, sind die Matrix Differentialgleichungen, welche die Form
@@ -65,7 +67,7 @@ Die Existenz und Eindeutigkeit von Lösungen wird durch den Satz von Picard-Lind
 % \[
 %  \dot x \in F(t,x)
 % \]
-Falls eine gewöhnliche Differentialgleichung keine stetige rechte Seite besitzt, kann trotzdem eine Aussage zur Existenz einer Lösung getroffen werden. Filippov beschreibt in \cite{filippov1971existence} die Existenz einer Lösung für Multifunktionen $F(x):\mathcal D \rightrightarrows R^n$ falls diese jedoch \textit{oberhalbstetig} sind. 
+Falls eine gewöhnliche Differentialgleichung keine stetige rechte Seite besitzt, kann trotzdem eine Aussage zur Existenz einer Lösung getroffen werden. Filippov beschreibt in \cite{filippov1971existence} die Existenz einer Lösung für Multifunktionen $F(x):\mathcal D \rightrightarrows \R^n$ falls diese  \textit{oberhalbstetig} sind. 
 \begin{theorem}[Filippov]
  Sei U wie in \ref{thm:picard-lindeloeff} gegeben und $D\subset U$. Sei $F:D\rightrightarrows \R^n$ eine mengenwertige Abbildung. Für alle Punkte der Region $D$ sei $F(t,x)$ eine nichtleere beschränkte abgeschlossene Menge. Desweiteren sei $F(t,x)$ oberhalbstetig, also für alle $(t,x)\in D$ und alle $\varepsilon>0$ existiert ein $\delta = \delta(\varepsilon,t,x)>0$, sodass für alle Punkte $(t',x')$ der $\delta$- Umgebung von $(t,x)$ die Menge $F(t',x')$ in der $\varepsilon$-Umgebung der Menge $F(t,x)$ liegt.
  Wenn nun $F(t,x)$ überall konvex ist, dann besitzt die Differentialinklusion
@@ -89,7 +91,7 @@ h_0=h_1 = \ldots = h_{N-1}
 Um nun numerische Approximationen der Lösung des Anfangswertproblemes zu erhalten, geht man von dessen Integraldarstellung 
 
 \[
- x(t_{i+1}) = x(t_{i-k+1}) + \int_{t_i-k+1}^{t_i+1} F(\tau,x(\tau))d\tau
+ x(t_{i+1}) = x(t_{i-k+1}) + \int_{t_{i-k+1}}^{t_{i+1}} F(\tau,x(\tau))d\tau
 \]
 aus, um eine Quadraturformel durch Interpolation zu erhalten (\cite[(1.55)]{hermann2004numerik})
 \[
@@ -107,8 +109,9 @@ Ein Einschrittverfahren der Gestalt
 \[
  x_{i+1}^h = x_i^h + h\sum_{j=1}^m \beta_j k_j \quad \text{ mit } \quad k_j  = f(t_i+ \rho_ih, x_i^h + \sum_{l=1}^m \gamma_{jl} k_l ), \quad j=1,\ldots,m
 \]
-wird \textit{m- stufiges Runge Kutta Verfahren} genannt, mit $m\in \N$. Die Koeffizienten $\beta_j,\gamma_{jl}$ und $\rho_i$ sind geeignet gewählte, reelle Zahlen, die durch das Verfahren eindeutig gegeben sind. Diese Koeffizienten lassen sich in \textit{Butcher Tableaus} angegeben, welche dann ein Verfahren eindeutig beschreiben, wie beispielsweise in Abbildung \ref{tab:rungekutta} ersichtlich.
+wird \textit{$m$-stufiges Runge Kutta Verfahren} genannt, mit $m\in \N$. Die Koeffizienten $\beta_j,\gamma_{jl}$ und $\rho_i$ sind geeignet gewählte, reelle Zahlen, die durch das Verfahren eindeutig gegeben sind. Diese Koeffizienten lassen sich in \textit{Butcher Tableaus} angegeben, welche dann ein Verfahren eindeutig beschreiben, wie beispielsweise in Abbildung \ref{tab:rungekutta} ersichtlich.
 
+\renewcommand{\arraystretch}{1.2}
 \begin{figure}[htdp]
  \centering
  \begin{tabular}{c c c c c}
@@ -165,7 +168,7 @@ wird \textit{m- stufiges Runge Kutta Verfahren} genannt, mit $m\in \N$. Die Koef
 \caption{Beispiele zu $m$-stufigen Runge Kutta Verfahren}
 \label{tab:rungekutta}
 \end{figure}
-Bei der Lösung impliziter Verfahren müssen Gleichungssysteme gelöst werden, welche den Berechnungsaufwand pro Schritt erhöhen. Explizite Verfahren sind schneller zu berechnen, jedoch fehleranfälliger für steife Probleme und im allgemeinen nicht so genau wie implizite Methoden. Im folgenden werden wir für die Lösung von gewöhnlichen Differentialgleichungen die Implizite Mittelpunktsregel benutzen. 
+Bei der Lösung impliziter Verfahren müssen Gleichungssysteme gelöst werden, welche den Berechnungsaufwand pro Schritt erhöhen. Explizite Verfahren sind schneller zu berechnen, jedoch fehleranfälliger für steife Probleme und im allgemeinen nicht so genau wie implizite Methoden. Im folgenden werden wir für die Lösung von gewöhnlichen Differentialgleichungen die implizite Mittelpunktsregel benutzen. 
 
 Durch das Lösen unseres Modells \eqref{eq:odemodel} mit einer der vorgestellten Methode lässt sich nun das Kostenfunktional $J(x_0)$ \eqref{eq:costfunctional} an einer Stelle $x_0$ berechnen. Das Ziel besteht nun darin, diese Funktion $J$ zu minimieren.
 Bei den Optimierungsmethoden, welche wir betrachten, benötigt man den Gradienten von $J$.
@@ -180,7 +183,7 @@ Für die folgenden Betrachtungen sind Hilberträume von besonderer Wichtigkeit. 
 Ein Hilbertraum ist ein reller oder komplexer Vektorraum mit einem Skalarprodukt, der bzgl. der vom Skalarprodukt induzierten Norm vollständig ist. Da $\R$ vollständig ist, ist jeder endlichdimensionale Vektorraum versehen mit einem Skalarprodukt vollständig. In der numerischen Praxis sind damit sämtliche folgenden Schritte valide. 
 Ein Ableitungsbegriff auf Hilberträumen ist die sogenannte Gâteaux Ableitung (z.B.\cite[]{lindenstrauss2003frechet}).
 \begin{definition}[Gâteaux Ableitung]
- Seien $X$ und $Y$ Banachräume, $U \subset X$ offen und $F:X\to Y$. Das Gâteaux Differential $\gatdiff F(u;\psi)$ von F an $u\in U$ in Richtung $\psi\in X$ ist definiert als
+ Seien $X$ und $Y$ Banachräume, $U \subset X$ offen und $F:X\to Y$. Das Gâteaux Differential $\gatdiff F(u;\psi)$ von $F$ an $u\in U$ in Richtung $\psi\in X$ ist definiert als
  \[
   \gatdiff F(u;\psi) = \lim_{\tau \to 0} \frac{F(x+\tau \psi) - F(x)}{\tau} = \frac{d}{d\tau} F(u+\tau\psi)\biggr\rvert_{\tau = 0}\quad \forall \psi \in X
  \]
