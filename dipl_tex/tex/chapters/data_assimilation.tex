@@ -180,39 +180,39 @@ Für höhere Dimensionen ist die Bestimmung dieses Gradienten jedoch auf klassis
 Eine allgemeine Einführung zur Theorie von adjungierten Gleichungen wurde beispielsweise von Cacuci \cite{cacuci1981sensitivity} gegeben, während Talagrand in \cite{talagrand1987variational} adjungierte Operatoren auf Hilberträume einschränkt und mit Diesen die Datenassimilation einführt.
 Für die folgenden Betrachtungen sind Hilberträume von besonderer Wichtigkeit. Sämtliche Lösungstheorie sowohl bei gewöhnlichen als auch bei partiellen Differentialgleichungen basieren auf den speziellen Eigenschaften dieser Räume.
 
-Ein Hilbertraum ist ein reller oder komplexer Vektorraum mit einem Skalarprodukt, der bzgl. der vom Skalarprodukt induzierten Norm vollständig ist. Da $\R$ vollständig ist, ist jeder endlichdimensionale Vektorraum versehen mit einem Skalarprodukt vollständig. In der numerischen Praxis sind damit sämtliche folgenden Schritte valide. 
+Ein Hilbertraum ist ein reller oder komplexer Vektorraum mit einem Skalarprodukt, der bzgl. der vom Skalarprodukt induzierten Norm vollständig ist. Da $\R$ vollständig ist, ist jeder endlichdimensionale Vektorraum über $\R$, versehen mit dem Standardskalarprodukt, vollständig. In der numerischen Praxis sind damit sämtliche folgenden Schritte valide. 
 Ein Ableitungsbegriff auf Hilberträumen ist die sogenannte Gâteaux Ableitung (z.B.\cite[]{lindenstrauss2003frechet}).
 \begin{definition}[Gâteaux Ableitung]
  Seien $X$ und $Y$ Banachräume, $U \subset X$ offen und $F:X\to Y$. Das Gâteaux Differential $\gatdiff F(u;\psi)$ von $F$ an $u\in U$ in Richtung $\psi\in X$ ist definiert als
  \[
   \gatdiff F(u;\psi) = \lim_{\tau \to 0} \frac{F(x+\tau \psi) - F(x)}{\tau} = \frac{d}{d\tau} F(u+\tau\psi)\biggr\rvert_{\tau = 0}\quad \forall \psi \in X
  \]
- falls der Grenzwert existiert. Existiert der Grenzwert für alle $\psi\in X$, dann heißt $F$ Gâteaux-Differenzierbar in $u$.
+ falls der Grenzwert existiert. Existiert der Grenzwert für alle $\psi\in X$, dann heißt $F$ Gâteaux-differenzierbar in $u$.
  Falls $X$ und $Y$ endlichdimensional sind, entspricht das Konzept der Gâteaux Ableitung der Richtungsableitung.
 \end{definition}
 Die folgende Definition der adjungierten Operatoren und Proposition von Hilberträumen sind besonders nützlich für nachfolgende Betrachtungen.
-\begin{definition}[Adjungierte Operatoren]
-Sei $\Gil$ ein anderer Hilbertraum mit Innenprodukt $\langle \cdot,\cdot \rangle_\Gil$ und $L$ ein stetiger linearer Operator $L:\mathcal{G}\to \Hil$. Dann existiert ein eindeutiger stetiger linearer Operator $L^*:\Hil\to\Gil$, sodass für alle $u\in \Gil$ und $v\in \Hil$ gilt
+\begin{definition}[Adjungierte Operatoren]\label{def:adjointOperators}
+Sei $\Gil$ ein anderer Hilbertraum mit Skalarprodukt $\langle \cdot,\cdot \rangle_\Gil$ und $L$ ein stetiger linearer Operator $L:\mathcal{G}\to \Hil$. Dann existiert ein eindeutiger stetiger linearer Operator $L^*:\Hil\to\Gil$, sodass für alle $u\in \Gil$ und $v\in \Hil$ gilt
 \begin{equation}
 \label{eq:adjointInnerProduct}
-\langle v,Lu\rangle_\Hil =  \langle L^*v,u \rangle_\Gil
+\langle v,Lu\rangle_\Hil =  \langle L^*v,u \rangle_\Gil.
 \end{equation}
 $L^*$ heißt der \textit{adjungierte Operator} von $L$ (vgl. \cite[Definition V.5.1]{werner2007funktionalanalysis}). Im Falle, dass $\Hil$ und $\Gil$ endlichdimensional sind und durch orthonormale Koordinaten beschrieben werden können, ist bekannt, dass  $L^*$ gerade die transponierte Matrix von $L$ ist.
 %  , da $\langle x,L^*y\rangle = \langle Lx,y\rangle =(Lx)^\tr y  = x^\tr L^\tr y= \langle x,L^\tr y\rangle  $
 \end{definition}
-Die Gâteaux Ableitung einer differenzierbaren Funktion ergibt sich als Richtungsableitung (vgl. \cite[Example 9.2.4]{debnath2005hilbert})
+Die Gâteaux Ableitung einer differenzierbaren Funktion ergibt sich als Richtungsableitung (vgl. \cite[Example 9.2.4]{debnath2005hilbert}).
 \begin{proposition}[Gâteaux Ableitung differenzierbarer Funktionen]
 \label{prop:adjoints}
 Sei $\Hil$ ein Hilbertraum mit Skalarprodukt $\langle \cdot,\cdot \rangle_\Hil$ und $v:\Hil \to \R,~ v\mapsto J(v)$ eine einmal stetig differenzierbare skalare Funktion definiert auf $\Hil$. Das Gâteaux Differential $\gatdiff J$ von $J$ kann an jedem Punkt von $\Hil$ über das Gâteaux Differential $\gatdiff v$ von $v$ ausgedrückt werden als
  \begin{equation}
  \label{eq:diffInnerProduct}
-  \gatdiff J(v;\gatdiff v) = \langle \nabla_v J, \gatdiff v\rangle_\Hil
+  \gatdiff J(v;\gatdiff v) = \langle \nabla_v J, \gatdiff v\rangle_\Hil.
  \end{equation}
  $\nabla_v J$ ist hierbei der eindeutige Gradient von $J$ in Richtung $v$ an der Stelle $x$, welche zur Übersichtlichkeit weggelassen wurde. Wenn $\Hil$ endlichdimensional und durch orthonormale Koordinaten $v_i$ beschrieben ist, dann sind die Komponenten von $\nabla_v J$ gerade die Vektoren der partiellen Ableitung von $J$ nach $v_i$, also $\partial J/\partial v_i$.
 \end{proposition}
 
 
-Seien $\Hil,~\Gil$ und $J$ wie in Proposition \ref{prop:adjoints} eingeführt. Betrachtet man jetzt eine Funktion $u:\Gil \to \Hil, ~u\mapsto v = G(u)$, G differenzierbar, so folgt, dass sich $J(v) = J(G(u))$ zu einer zusammengesetzte Funktion von $u$ ergibt. Nun gilt 
+Seien $\Hil,~\Gil$ und $J$ wie in Proposition \ref{prop:adjoints} bzw. Definition \ref{def:adjointOperators} eingeführt. Betrachtet man jetzt eine Funktion $u:\Gil \to \Hil, ~u\mapsto v = G(u)$, G differenzierbar, so folgt, dass sich $J(v) = J(G(u))$ zu einer zusammengesetzte Funktion von $u$ ergibt. Nun gilt 
 \begin{equation}
 \label{eq:diffCompoundFunction}
 \gatdiff v = \gatdiff(G(u)) = G'(u)\gatdiff u
@@ -239,10 +239,10 @@ Um vorherige Betrachtungen auf die Ableitung des Zielfunktionals \eqref{eq:costf
 	    &= \lim_{\tau\to 0} \frac{1}{\tau}\int_0^T \int_0^1 \frac{d}{ds}H(x+s\tau\gatdiff x) ~ds~ dt\\
 	    &= \lim_{\tau\to 0} \int_0^T \int_0^1 \nabla_x H(x+s\tau\gatdiff x)\cdot \frac{\tau \gatdiff x}{\tau} ~ds ~dt\\
 	    &= \int_0^T \nabla_x H(x)\cdot \gatdiff x~ dt\\
-	    &= \int_0^T \langle \nabla_x H(x), \gatdiff x \rangle dt\\  
+	    &= \int_0^T \langle \nabla_x H(x), \gatdiff x \rangle dt .\\  
 \end{aligned}
 \end{equation}
-Dabei beschreibt $\nabla_x H(t)$ den Gradienten von $H(x,t)$ ausgewertet an der Stelle $(x(t),t)$ und $\gatdiff x$ die Gâteaux-Ableitung von $x$, also eine Störung. Diese ist definiert als die Lösung von
+Dabei beschreibt $\nabla_x H(t)$ den Gradienten von $H(x,t)$ ausgewertet an der Stelle $(x(t),t)$ und $\gatdiff x$ die Gâteaux Ableitung von $x$, also eine Störung. Diese ist definiert als die Lösung von
 \begin{equation}
 \label{eq:tlm}
 \begin{aligned}
@@ -255,16 +255,16 @@ Dabei beschreibt $\nabla_x H(t)$ den Gradienten von $H(x,t)$ ausgewertet an der 
 und wird als \textit{Tangent Linear Model}\footnote{Da es für viele englische Begriffe nur eine unzureichende deutsche Übersetzung gibt, werden sie in dieser Arbeit nicht übersetzt, da man sie in der Literatur besser unter dem englischen Namen findet.} bezeichnet. $F'(t)$ ist der Operator, der durch differenzieren von $F(x,t)$ nach $x$ ausgewertet an $x(t)$ entsteht. Da die gewöhnliche Differentialgleichung \eqref{eq:tlm} homogen und linear ist, hängt ihre Lösung linear vom Anfangswert $v$ ab und es gilt
 \begin{equation}
 \label{eq:resolvent}
- \gatdiff x(t) = R(t,0)v
+ \gatdiff x(t) = R(t,0)v.
 \end{equation}
 
 Hierbei ist $R(t,0)$ ein wohldefinierter linearer Operator. Dieser wird als \textit{State Transition Matrix} oder \textit{Resolvent} bezeichnet und wird ausführlich von Zadeh und Desoer in \cite[S. 339 ff.]{zadeh1976linear} beschrieben. Er besitzt die folgenden Eigenschaften
 \begin{align}
   R(t,t) &= I \label{eq:resolventPropertiesA}\\
-  \frac{\partial}{\partial t}R(t,t') &= F'(t)R(t,t') \text{ für alle } t,t>0\label{eq:resolventPropertiesB}
+  \frac{\partial}{\partial t}R(t,t') &= F'(t)R(t,t') \text{ für alle } t,t'>0\label{eq:resolventPropertiesB}
 \end{align}
 welche ebenfalls in \cite[S. 339 Theorem 4]{zadeh1976linear} eingeführt und bewiesen werden.
-Nun kann das Differential des Kostenfunktionals \eqref{eq:gatcost} mittels des Resolventen \eqref{eq:resolvent} und deren adjungiertem Operator $R^*(t,0)$ umgeschrieben werden zu
+Nun kann das Differential des Kostenfunktionals \eqref{eq:gatcost} mittels des Resolventen \eqref{eq:resolvent} und dessen adjungiertem Operator $R^*(t,0)$ umgeschrieben werden zu
 \begin{equation*}
 \begin{aligned}
  \gatdiff J &= \int_0^T \langle \nabla_x H(t), R(t,0)v\rangle dt \\
@@ -301,7 +301,7 @@ Für den Gradienten des Kostenfunktionals \eqref{eq:gradCostFunctional} entsteht
 \label{eq:gradCostFunctionalAdjoint}
  \nabla_v J = \int_0^T S(0,t) \nabla_x H(t) dt
 \end{equation}
-Um den Gradienten des Kostenfunktionals nun darstellen zu können benötigen wir die \textit{inhomogene adjungierte Gleichung} (oder auch \textit{inhomogenes adjungierte tangent linear model})
+Um den Gradienten des Kostenfunktionals nun darstellen zu können, benötigen wir die \textit{inhomogene adjungierte Gleichung} (oder auch \textit{inhomogenes adjungierte Tangent Linear Model})
 \begin{equation}
 \label{eq:inhAdjEquation}
 -d\gatdiff'x(t) = F'^*(t)\gatdiff'x - \nabla_x H(t)
@@ -312,7 +312,7 @@ welche durch die Lösung
  \gatdiff'x(t) = \int_t^{t_1} S(t,\tau)\nabla_x H(\tau)d\tau
 \end{equation}
 mit $\gatdiff x(t_1)=0$ beschrieben ist.
-Dass \eqref{eq:solutionInhAdjEquation} die inhomomgene adjungierte Gleichung \eqref{eq:inhAdjEquation} löst lässt sich mittels den Eigenschaften des Resolventen \eqref{eq:resolventPropertiesA} und \eqref{eq:resolventPropertiesB} zeigen. Durch Substituieren erhält man
+Dass \eqref{eq:solutionInhAdjEquation} die inhomomgene adjungierte Gleichung \eqref{eq:inhAdjEquation} löst, lässt sich mittels der Eigenschaften des Resolventen \eqref{eq:resolventPropertiesA} und \eqref{eq:resolventPropertiesB} zeigen. Durch Substituieren erhält man
 \begin{equation*}
  \begin{aligned}
   \frac{d\gatdiff'x}{dt} &= \frac{d}{dt} \int_t^{t_1} S(t,\tau)\nabla_x H(\tau)d\tau \\
@@ -323,9 +323,9 @@ Durch Ableiten nach $t$ und der verallgemeinerten Leibniz Integral Formel (\ref{
 \begin{equation*}
  \begin{aligned}
  \frac{d}{dt} \int_t^{t_1} G(t,\tau)d\tau  
-			 &\overset{\eqref{eq:genLeibnizIntRule}}= G(t,t_1)\cdot 0 - G(t,t) + \int_t^{t_1} \frac{d}{dt}G(t,\tau) d\tau \\
+			 &\overset{\mathclap{\eqref{eq:genLeibnizIntRule}}}= G(t,t_1)\cdot 0 - G(t,t) + \int_t^{t_1} \frac{d}{dt}G(t,\tau) d\tau \\
 			 &= -S(t,t)\nabla_x H(t) + \int_t^{t_1} \frac{d}{dt}S(t,\tau)\nabla_x H(\tau) d\tau \\
-			 &\overset{\eqref{eq:resolventPropertiesA},\eqref{eq:resolventPropertiesB}}= -\nabla_x H(t) + \int_t^{t_1} F'^*(t)S(t,\tau)\nabla_x H(\tau) d\tau \\
+			 & \overset{\mathllap{\eqref{eq:resolventPropertiesA}, \eqref{eq:resolventPropertiesB}}}= -\nabla_x H(t) + \int_t^{t_1} F'^*(t)S(t,\tau)\nabla_x H(\tau) d\tau \\
 			  &= -\nabla_x H(t) +F'^*(t) \int_t^{t_1} S(t,\tau)\nabla_x H(\tau) d\tau \\
 			 &= -\nabla_x H(t) +F'^*(t) \gatdiff 'x(t) \\
  \end{aligned}
@@ -345,7 +345,7 @@ Genauer werden die Schritte in Abbildung \ref{alg:genCostFunctionalPseudo} benö
 \begin{framed}
  \begin{enumerate}
  \item Setze $v$ als Anfangswert des Modells \eqref{eq:odemodel} und löse dieses über das Intervall $[0,T]$, speichere berechnete Werte $x(t_i)$ ab\\
- ($0= t_0<~ t_1<\ldots<t_l=T$, $l\in \N$)
+ ($0= t_0<~ t_1<\ldots<t_N=T$, $N\in \N$)
  \item Setze $\gatdiff 'x(T) = 0$, integriere die inhomogene adjungierte Gleichung \eqref{eq:inhAdjEquation} rückwärts in der Zeit von $T$ bis $0$, berechne zu den Zeitpunkten $t_i$ den Gradienten $F'^*(t_i)$ und $\nabla_x H(t_i)$ aus den gespeicherten Werten $x(t)$ aus Schritt 1.
  \item $\nabla_v J = \gatdiff 'x(t_0)$
 \end{enumerate}
@@ -374,7 +374,7 @@ Genauer werden die Schritte in Abbildung \ref{alg:genCostFunctionalPseudo} benö
 
 \section{Optimierungsmethoden}
 
-Nun, da ein numerischer Weg gefunden wurde, $\nabla_v J$ effizient zu berechnen, stellt die Optimierung des Zielfunktional das letzte Problem dar, welchem wir uns annehmen müssen. Das Ausgangsproblem besteht darin, eine reellwertige, differenzierbare Funktion J
+Nun, da ein numerischer Weg gefunden wurde, $\nabla_v J$ effizient zu berechnen, stellt die Optimierung des Zielfunktional das letzte Problem dar, welchem wir uns annehmen müssen. Das Ausgangsproblem besteht darin, eine reellwertige, differenzierbare Funktion $J$
 \begin{equation}
 \label{eq:minProblem}
  \min_{x_0} J(x_0) 
@@ -382,7 +382,7 @@ Nun, da ein numerischer Weg gefunden wurde, $\nabla_v J$ effizient zu berechnen,
 zu minimieren. Dies ist ein unrestringiertes Optimierungsproblem. 
 
 \subsection{Grundlagen}
-Im folgenden sei vorausgesetzt, dass für ein $\tilde x\in D$ die \textit{Niveaumenge}
+Im Folgenden sei vorausgesetzt, dass für ein $\tilde x\in D$ die \textit{Niveaumenge}
  \begin{equation}
  \label{eq:niveauset}
   N(J,J(\tilde x)) = \left\{ x\in D \vert J(x)\leq J(\tilde x)\right\}
