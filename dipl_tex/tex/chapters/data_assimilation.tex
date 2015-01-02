@@ -397,16 +397,16 @@ Im Folgenden sei vorausgesetzt, dass für ein $\tilde x\in D$ die \textit{Niveau
  und damit ist für $x\in D\backslash N(J,J(\tilde x))$: $J(x)>J(\tilde x)> J(\bar x)$. (vgl. \cite[Satz 1.2.2]{alt2002nichtlineare})
  
 
-Zur Charakerisierung von Lösungen von des Problemes \eqref{eq:minProblem} ist der im folgenden erläuterte Satz über notwendige Bedingungen (vgl. \cite[vgl. Satz 3.1.1 ff.]{alt2002nichtlineare}) hilfreich:
+Zur Charakerisierung von Lösungen des Problems \eqref{eq:minProblem} ist der im Folgenden erläuterte Satz über notwendige Bedingungen (vgl. \cite[vgl. Satz 3.1.1 ff.]{alt2002nichtlineare}) hilfreich:
 \begin{theorem}[Notwendige Bedingung erster Ordnung] 
 \label{thm:optnotbed}
  Die Zielfunktion $J$ sei in $x\in D$, $D\subset \R^n$ differenzierbar. Ist $\bar x$ lokales Minimum von \eqref{eq:minProblem}, dann gilt
  \[
   \nabla J(\bar x)^\tr d \geq 0 \quad \forall d\in \R^n
  \]
- Wenn $d\in \R^n$ ist $(-d)\in \R^n$ und damit $\nabla J(\bar x)^\tr (-d) =  - \nabla J(\bar x)^\tr d  \geq 0$. Es folgt also
+ Für $-d\in \R^n$ ist $\nabla J(\bar x)^\tr (-d) =  - \nabla J(\bar x)^\tr d  \geq 0$. Es folgt also
  \[
-  \nabla J(\bar x)  =0 \in \R^n
+  \nabla J(\bar x)  =0 \in \R^n.
  \]
 \end{theorem}
 
@@ -415,7 +415,7 @@ Grundlegend dafür ist die Erkenntnis, dass falls $J$ differenzierbar und eine A
 \[
 \nabla J(x)^\tr d<0 
 \]
-gegeben ist, existiert immer ein $\bar \sigma>0$ mit $J(x+\sigma d)< J(x)$ für alle $\sigma \in (0,\bar \sigma)$ (\cite[vgl. Satz 4.1.1]{alt2002nichtlineare})
+gegeben ist, existiert immer ein $\bar \sigma>0$ mit $J(x+\sigma d)< J(x)$ für alle $\sigma \in (0,\bar \sigma)$ (\cite[vgl. Satz 4.1.1]{alt2002nichtlineare}).
 
 
 %Bevor wir uns dieser annehmen, werden grundsätzliche Fragen zur Wahl der Suchrichtung und Schrittweite betrachtet. 
@@ -434,7 +434,7 @@ Ein allgemeines Abstiegsverfahren mit Schrittweitensteuerung wird ebenfalls in \
   \item Ist $\nabla f(x^{(k)})=0_n$: Stopp
   \item Berechne eine Abstiegsrichtung $d^{(k)}$ und eine Schrittweite $\sigma_k>0$, so dass
   \[
-   f(x^{(k)} + \sigma_k d^{(k)} < f(x^{(k)}))
+   f(x^{(k)} + \sigma_k d^{(k)}) < f(x^{(k)})
   \]
   ist und setze $x^{(k+1)} = x^{(k)}+\sigma_k d^{(k)}$
   \item Setze $k:=k+1$ und gehe zu 2.
@@ -468,42 +468,42 @@ Um dies zu erreichen wird im Folgenden das Prinzip des hinreichenden Abstiegs fo
 
 mit von $x$ und $d$ unabhängigen Konstanten $c_1>0$, $c_2>0$ gilt. Eine Schrittweite $\sigma$ heißt \textit{effizient}, falls
 \[
- f(x+\sigma d) \leq f(x) - c\left( \frac{\nabla J(x)^\tr d}{\|d\|}\right)^2
+ f(x+\sigma d) \leq J(x) - c\left( \frac{\nabla J(x)^\tr d}{\|d\|}\right)^2
 \]
 mit einer von $x$ und $d$ unabhängigen Konstanten $c>0$ gilt.
 \end{definition}
-Die erste Bedingung stellt sicher, dass sich der neue Funktionswert $f(x+\sigma d)$ unterhalb der von $x$ in Abstiegsrichtung $d$ aufgespannten Geraden befindet. 
+Die erste Bedingung stellt sicher, dass sich der neue Funktionswert $J(x+\sigma d)$ unterhalb der Funktionswerte der von $x$ in Abstiegsrichtung $d$ aufgespannten Geraden befindet. 
 Die zweite Bedingung sichert, dass die Schrittweite $\sigma$ in Bezug zu $\nabla J(x)^\tr d$ nicht zu schnell gegen $0$ geht.
 
-Falls die Voraussetzung \eqref{eq:niveauset} erfüllt ist und wir effiziente Schrittweiten benutzen ist
+Falls die Voraussetzung, dass die Niveaumenge \eqref{eq:niveauset} kompakt ist und wir effiziente Schrittweiten benutzen, ist
 \[
- \frac{\nabla f(x^{(k)})^\tr d^{(k)}}{\|d^{(k)}\|} \to 0 \quad \text{für }k\to \infty
+ \frac{\nabla J(x^{(k)})^\tr d^{(k)}}{\|d^{(k)}\|} \to 0 \quad \text{für }k\to \infty
 \]
-erfüllt. Andersherum ist für $\nabla f(x^{(k)})^\tr d^{(k)}<0$
+erfüllt. Andersherum ist für $\nabla J(x^{(k)})^\tr d^{(k)}<0$
 \[
- 0 \leftarrow \frac{\nabla f(x)^{(k)} d^{(k)}}{\|d\|} = \frac{\nabla f(x)^{(k)} d^{(k)}}{\|\nabla f(x^{(k)})\|\|d\|}\cdot \|\nabla f(x^{(k)})\| = \beta_k \|\nabla f(x^{(k)})\|
+ 0 \leftarrow \frac{\nabla J(x)^{(k)} d^{(k)}}{\|d\|} = \frac{\nabla J(x)^{(k)} d^{(k)}}{\|\nabla J(x^{(k)})\|\|d\|}\cdot \|\nabla J(x^{(k)})\| = \beta_k \|\nabla J(x^{(k)})\|
 \]
 für $\beta_k<c<0$ für eine Konstante $c$ erfüllt. Damit folgt Bedingung \eqref{eq:optstepsizegradtozero}. Suchrichtungen, für die diese Bedingung gelten, heißen \textit{gradientenbezogen} (\cite[Def. 4.4.4]{alt2002nichtlineare}).
 
-Falls $x\in N(f,f(x^{(0)}))$ erfüllt ist, heißt die Richtung $d\in \R^n$ \textit{gradientenbezogen in x}, wenn
+Falls $x\in N(J,J(x^{(0)}))$ erfüllt ist, heißt die Richtung $d\in \R^n$ \textit{gradientenbezogen in $x$}, wenn
  \[
-  -\nabla f(x)^\tr d\geq c_3\|\nabla f(x)\| \|d\|
+  -\nabla J(x)^\tr d\geq c_3\|\nabla J(x)\| \|d\|
  \]
 mit einer von $x$ und $d$ unabhängigen Konstante $c_3>0$.
 
 Die Richtung $d$ heißt \textit{streng gradientenbezogen in $x$}, wenn zusätzlich 
 \[
- c_4\|\nabla f(x)\| \geq \|d\| \geq \frac{1}{c_4}\|\nabla f(x)\| 
+ c_4\|\nabla J(x)\| \geq \|d\| \geq \frac{1}{c_4}\|\nabla J(x)\| 
 \]
 gilt.
 
-Falls die Bedingung \eqref{eq:niveauset} erfüllt ist, die Suchrichtungen aus dem allgemeinen Abstiegsverfahren \ref{alg:genSteepestDescent} gradientenbezogen in $x^{(k)}$ und die Schrittweiten $\sigma_k$ effizient sind und stoppt das Verfahren nicht nach endlich vielen Schritten, dann gilt $\nabla f(x^{(k)})\to 0$ für $k\to \infty$. Weiter hat die Folge $\{x^{(k)}\}$ mindestens einen Häufungspunkt und für jeden solchen Punkt $\tilde x$ gilt $\nabla f(\tilde x) = 0$ (\cite[Satz 4.4.9]{alt2002nichtlineare}).
+Falls die Bedingung \eqref{eq:niveauset} erfüllt ist, die Suchrichtungen aus dem allgemeinen Abstiegsverfahren \ref{alg:genSteepestDescent} gradientenbezogen in $x^{(k)}$ und die Schrittweiten $\sigma_k$ effizient sind und stoppt das Verfahren nicht nach endlich vielen Schritten, dann gilt $\nabla J(x^{(k)})\to 0$ für $k\to \infty$. Weiter hat die Folge $\{x^{(k)}\}$ mindestens einen Häufungspunkt und für jeden solchen Punkt $\tilde x$ gilt $\nabla J(\tilde x) = 0$ (\cite[Satz 4.4.9]{alt2002nichtlineare}).
 % TODO eindige Nullstelle oder mehrere Nullstellen?
 
 Falls zusätzlich $d$ eine streng gradientenbezogene Suchrichtung in $x^{(k)}$, die Schrittweitenfolge $\sigma_k$ beschränkt, die Menge 
-$$M = \{\tilde x\in N(f,f(x^{(0)}))|\nabla f(\tilde x)=0\}$$ endlich ist und das Verfahren nicht nach endlich vielen Schritten stoppt, dann konvergiert die Folge $\{x^{(k)}\}$ gegen eine Nullstelle von $\nabla f$.
+$$M = \{\tilde x\in N(J,J(x^{(0)}))|\nabla J(\tilde x)=0\}$$ endlich ist und das Verfahren nicht nach endlich vielen Schritten stoppt, dann konvergiert die Folge $\{x^{(k)}\}$ gegen eine Nullstelle von $\nabla J$.
 
-Hat $f$ genau einen stationären Punkt $\tilde x \in N(f,f(x^{(0)}))$ und das allgemeine Abstiegsverfahren stoppt nicht nach endlich vielen Schritten,dann konvergiert die Folge $\{x^{(k)}\}$ gegen $\tilde x$.
+Hat $J$ genau einen stationären Punkt $\tilde x \in N(J,J(x^{(0)}))$ und das allgemeine Abstiegsverfahren stoppt nicht nach endlich vielen Schritten,dann konvergiert die Folge $\{x^{(k)}\}$ gegen $\tilde x$.
  
 Eine Möglichkeit, die sich zur Schrittweitenbestimmung anbietet besteht darin, die Schrittweite durch Lösen eines eindimensionalen Optimierungsproblems
 \[
@@ -540,13 +540,13 @@ Den Beweis der Konvergenz ist in  \cite[Satz 4.5.5]{alt2002nichtlineare} dargele
 
 Ein weiteres Verfahren stellt die sogenannte \textit{Wolfe Powell Methode} dar, welche zusätzlich zu der Bedingung \eqref{eq:armijo1}
 \begin{equation}
- f(x+\sigma d) \leq f(x) + c_1\sigma \nabla f(x)^\tr d
+ J(x+\sigma d) \leq J(x) + c_1\sigma \nabla J(x)^\tr d
 \end{equation}
 
 welche den hinreichenden Abstieg liefert, die Schrittweite durch die Forderung
 \begin{equation}
 \label{eq:wolfe2}
- \nabla f(x+\sigma d)^\tr d\geq \beta \nabla f(x)^\tr d
+ \nabla J(x+\sigma d)^\tr d\geq \beta \nabla J(x)^\tr d
 \end{equation}
 mit $0<c_1<\beta<1$ nicht zu klein werden lässt. Das bedeutet, dass die Steigung an der potentiellen Stelle $x+\sigma d$ abnimmt, damit sichergestellt wird, dass wir uns einem Minimum nähern, siehe Abbildung \ref{fig:powell}. 
 
@@ -556,9 +556,9 @@ mit $0<c_1<\beta<1$ nicht zu klein werden lässt. Das bedeutet, dass die Steigun
 \caption{Powell Schrittweitensteuerung}
 \label{fig:powell}
 \end{figure}
-Wenn diese beiden Forderungen, $x\in N(f,f(x^{(0)}))$ und $d\in R^n$ mit $\nabla f(x)^\tr d<0$ erfüllt sind und $0<\delta<\beta<1$,$\delta =c_1$ gegeben, dann existiert mindestens eine Schrittweite $\sigma_p$, sodass sie den beiden Abstiegskriterien \eqref{eq:armijo1} und \eqref{eq:wolfe2} genügt und für alle $\sigma_p$
+Wenn diese beiden Forderungen, $x\in N(J,J(x^{(0)}))$ und $d\in R^n$ mit $\nabla J(x)^\tr d<0$ erfüllt sind und $0<\delta<\beta<1$,$\delta =c_1$ gegeben, dann existiert mindestens eine Schrittweite $\sigma_p$, sodass sie den beiden Abstiegskriterien \eqref{eq:armijo1} und \eqref{eq:wolfe2} genügt und für alle $\sigma_p$
 \[
- \sigma_p \geq \frac{1-\beta}{L}\frac{\nabla f(x)^\tr d}{\|d\|^2}
+ \sigma_p \geq \frac{1-\beta}{L}\frac{\nabla J(x)^\tr d}{\|d\|^2}
 \]
 gilt (\cite[Satz 4.5.8.]{alt2002nichtlineare}).
 
@@ -568,9 +568,9 @@ Um diese beiden Bedingungen numerisch zu berechnen definiert man
  G_1(\sigma)&=
  \begin{cases}
  1,& \sigma=0\\
- \frac{f(x+\sigma d)-f(x)}{\sigma \nabla f(x)^\tr d}, & \text{sonst}
+ \frac{J(x+\sigma d)-J(x)}{\sigma \nabla J(x)^\tr d}, & \text{sonst}
  \end{cases} \\
- G_2(\sigma) &= \frac{\nabla f(x+\sigma d)^\tr d}{\nabla f(x)^\tr d}
+ G_2(\sigma) &= \frac{\nabla J(x+\sigma d)^\tr d}{\nabla J(x)^\tr d}
  \end{aligned}
 \end{equation}
 und erhält das Wolfe - Powell Verfahren in Abbildung \ref{alg:wolfePowell}.
