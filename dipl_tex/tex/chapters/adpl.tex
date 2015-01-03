@@ -1,15 +1,15 @@
-\chapter{AD und Behandlung von Unglattheiten}
+\chapter{AD und Behandlung von Unglätten}
  Sämtliche Betrachtungen, welche wir bis jetzt geführt haben, setzen voraus, dass die rechte Seite $F$ unseres Modells \eqref{eq:odemodel} hinreichend glatt definiert ist, d.h. dass mindestens $F\in C^1(\R^n)$ gilt, damit wir sie anwenden können. 
 
-In diesem Kapitel werden Lösungen geführt, welche es ermöglichen, vorherige Betrachtungen auf stückweise lineare\footnote{In dieser Arbeit nutzen wir \glqq linear\grqq~synonym zu \glqq affin\grqq~(oder \glqq polyhedral\grqq), da sich jede affine Funktion in eine lineare Funktion  transformieren lässt. Sie entsprechen den Begriffen, welche bei Griewank \cite{monster} und Scholtes \cite{scholtes2012introduction} verwendet werden.}
+In diesem Kapitel werden Lösungen vorgestellt, welche es ermöglichen, vorherige Betrachtungen auf stückweise lineare\footnote{In dieser Arbeit nutzen wir \glqq linear\grqq~synonym zu \glqq affin\grqq~(oder \glqq polyhedral\grqq), da sich jede affine Funktion in eine lineare Funktion  transformieren lässt. Sie entsprechen den Begriffen, welche bei Griewank \cite{monster} und Scholtes \cite{scholtes2012introduction} verwendet werden.}
 Funktionen
 % , bzw. lokal Lipschitzstetige Funktionen $F$ 
 anzuwenden. Desweiteren wird eine kurze Einführung im Automatischen Differenzieren gegeben, welches so erweitert wird, dass es auf verkettet stückweise lineare Funktionen angewendet werden kann.
 \section{Verallgemeinerte Gradienten}
 Da wir im späteren Verlauf der Arbeit spezielle unglatte Funktionen betrachten wollen, muss zunächst geklärt werden, wie ein möglicher Ableitungsbegriff aussieht und welche Eigenschaften für diesen gelten.
 
-Deshalb betrachten wir zuallererst die Klasse der lokal lipschitzstetigen Funktionen. Eine Funktion $F$ ist \textit{lokal lipschitzstetig}, falls eine Umgebung $V\subseteq U$ zu einem $x\in U$ existiert, sodass $F$ eingeschränkt auf diese Umgebung $V$ lipschitzstetig ist.
-Es stellt sich heraus, dass diese Funktionenklasse fast überall differenzierbar ist \cite[S.216 ff]{federer1969geometric}
+Deshalb betrachten wir zuallererst die Klasse der lokal lipschitzstetigen Funktionen. Eine Funktion $F$ ist \textit{lokal lipschitzstetig} in $x\in U$, falls eine Umgebung $V\subseteq U$ zu diesem $x$ existiert, sodass $F$ eingeschränkt auf diese Umgebung $V$ lipschitzstetig ist.
+Es stellt sich heraus, dass die Elemente der Funktionenklasse fast überall differenzierbar sind \cite[S.216 ff]{federer1969geometric}.
 \begin{theorem}[Rademacher]
 \label{thm:rademacher}
  Sei $F:\R^n\to \R^m$ lokal lipschitzstetig auf einer Menge $\mathcal D\subseteq \R^n$. Dann existiert die Fréchet Ableitung 
@@ -32,12 +32,12 @@ existiert. $F'(x_0;d)$ heißt hierbei die Richtungsableitung von $F$ in $x_0$ in
 Eine Funktion, welche sowohl lokal lipschitzstetig als auch richtungsdifferenzierbar ist wird Bouligand differenzierbar oder B-differenzierbar genannt (\cite[Def.3.1.2]{scholtes2012introduction}). 
 \end{definition}
 
- Anders ausgedrückt bedeutet dies, dass die Funktion lokal lipschitzstetig und die Funktion $G(x) = F(x)+F'(x_0;x-x_0)$ eine Approximation erster Ordnung der Funktion $F$ sein muss. $F'(x_0;\cdot)$ heißt hierbei \textit{B-Derivative} oder Bouligandableitung.
+ Anders ausgedrückt bedeutet dies, dass die Funktion lokal lipschitzstetig und die Funktion $G(x) = F(x)+F'(x_0;x-x_0)$ eine Approximation erster Ordnung der Funktion $F$ sein muss. $F'(x_0;\cdot)$ heißt hierbei \textit{B-Derivative} oder Bouligand Ableitung.
 
-Für die Bouligandableitung gelten alle Differentiationsregeln wie für die Fréchetableitung \cite[Cor.3.1.1.]{scholtes2012introduction}. Dies gilt insbesondere für die Kettenregel \cite[Thm. 3.1.1.]{scholtes2012introduction}
+Für die Bouligand Ableitung gelten alle Differentiationsregeln wie für die Fréchet Ableitung \cite[Cor.3.1.1.]{scholtes2012introduction}. Dies gilt insbesondere für die Kettenregel \cite[Thm. 3.1.1.]{scholtes2012introduction}
 \begin{equation}
  \label{eq:bouligandChainRule}
- (F\circ G)'(x_0;d) = F'(G(x_0);G'(x_0;d)) 
+ (F\circ G)'(x_0;d) = F'(G(x_0);G'(x_0;d)). 
 \end{equation}
 
 Ein weiterer allgemeiner gefasster Ableitungsbegriff ist die Clarke Ableitung \cite[Def. 2.6.1.]{clarke1990optimization}, welche mengenwertige Funktionen als Ableitungen zulässt.
@@ -49,7 +49,7 @@ Ein weiterer allgemeiner gefasster Ableitungsbegriff ist die Clarke Ableitung \c
  \end{align}
 %  mit "conv als konvexe Hülle.
 \end{definition}
-Die Menge der limiting Jacobians $\partial^L F(x)$ beschreibt also die Menge der geeigneten Fréchetableitungen in der Umgebung von Auswertungspunkt. Die Clarke Ableitung $\partial F(x)$ ist die konvexe Hülle darüber.
+Die Menge der limiting Jacobians $\partial^L F(x)$ beschreibt also die Menge der geeigneten Fréchet Ableitungen in der Umgebung von Auswertungspunkt. Die Clarke Ableitung $\partial F(x)$ ist die konvexe Hülle darüber.
 
 % Eine Funktion $F:U\subseteq \R^n\to \R^m$ heißt lipschitzstetig, wenn eine Konstante $L$ existiert, sodass für alle $x,y\in U$ gilt
 % \[
@@ -62,26 +62,26 @@ Die Menge der limiting Jacobians $\partial^L F(x)$ beschreibt also die Menge der
 \subsection{Max-Min Repräsentation}
 \label{sec:maxMinRepresentiation}
 Scholtes definiert in \cite[S.19]{scholtes2012introduction} eine stückweise affine Funktion $f:\R^n\to \R^m$ als eine stetige Funktion, zu der eine endliche Menge affiner Funktionen $f_i(x)=A_ix+b_i$, $i=1,\ldots,k$ existiert, sodass für jedes $x\in \R^n$ die Inklusion $f\in\lbrace f_1(x),\ldots, f_k(x)\rbrace $ gilt und $f$ global stetig ist. Die affinen Funktionen $f_i$ werden \textit{Auswahlfunktionen} genannt. 
-Auswahlfunktionen für die $F(x) = F_i(x)$ an einem Punkt $x\in R^n$ gilt, werden \textit{aktiv} genannt. Ist dies nicht der Fall, so wird sie als \textit{passiv} bezeichnet.
+Auswahlfunktionen für die $F(x) = F_i(x)$ an einem Punkt $x\in \R^n$ gilt, werden \textit{aktiv} genannt. Ist dies nicht der Fall, so werden sie als \textit{passiv} bezeichnet.
 Scholtes bewies in \cite[Prop.2.2.2.]{scholtes2012introduction}, dass sich jede dieser stückweise affinen Funktionen als Verkettung der Funktionen max und min darstellen lässt.
 \begin{theorem}[Max-Min Repräsentation]
- Falls $f:\R^n\to \R^m$ eine stückweise affine Funktion mit affinen Auswahlfunktionen $f_1=A_1^\tr x+ A_1,\ldots,f_k=A_k^\tr x+ b_k$ ist, dann existiert eine endliche Anzahl von Indexmengen $M_1,\ldots,M_k\subseteq \lbrace 1,\ldots,k\rbrace$ sodass
+ Falls $f:\R^n\to \R^m$ eine stückweise affine Funktion mit affinen Auswahlfunktionen $f_1=A_1^\tr x+ b_1,\ldots,f_k=A_k^\tr x+ b_k$ ist, dann existiert eine endliche Anzahl von Indexmengen $M_1,\ldots,M_k\subseteq \lbrace 1,\ldots,k\rbrace$, sodass
  \begin{equation}
  \label{eq:maxMinRepresentiation}
-  f(x) = \max_{1\leq i\leq l} \min_{j\in M_i} a_i^\tr x + b_i
+  f(x) = \max_{1\leq i\leq l} \min_{j\in M_i} a_j^\tr x + b_j
  \end{equation}
  
 \end{theorem}
-In der Theorie hat diese Repräsentation viele Vorteile. In der Praxis stellt es sich jedoch als aufwändig heraus, eine Max-Min Repräsentation zu einer gegebenen stückweise affinen Funktion zu finden. Desweiteren ist sie offensichtlich nicht eindeutig. Falls eine Repräsentation gefunden wurde ist es numerisch sinnvoll, eine minimale Verschachtelungstiefe zu erreichen, d.h. möglichst wenig $min$/$max$ Aufrufe miteinander zu verschachteln. 
+In der Theorie hat diese Repräsentation viele Vorteile. In der Praxis stellt es sich jedoch als aufwändig heraus, eine Max-Min Repräsentation zu einer gegebenen stückweise affinen Funktion zu finden. Desweiteren ist sie offensichtlich nicht eindeutig. Falls eine Repräsentation gefunden wurde, ist es numerisch sinnvoll, eine minimale Verschachtelungstiefe zu erreichen, d.h. möglichst wenig $min$/$max$ Aufrufe miteinander zu verschachteln. 
 % Diese zu reduzieren gestaltet sich im Allgemeinen ebenfalls schwierig.
 
-Eine andere Art der Darstellung, welche in der polyhedralen Natur der stückweise lineare Funktionen liegt, wird durch eine endliche Menge von Teilmengen $\Sigma\subset \R^n$ definiert, auf denen die stückweise affine Funktion mit ihren Auswahlfunktionen übereinstimmt. Es lässt sich zeigen, dass sich diese Menge in konvexe Polyeder zerlegen lässt, so dass ihre Auswahlfunktionen auf einem oder mehreren Polyeder oder Schnittmengen mehrerer Polyeder aktiv sind \cite[S.23 ff.]{scholtes2012introduction}.
+Eine andere Art der Darstellung, welche in der polyhedralen Natur der stückweise lineare Funktionen liegt, wird durch eine endliche Menge von Teilmengen $\Sigma\subset \R^n$ definiert, auf denen die stückweise affine Funktion mit ihren Auswahlfunktionen übereinstimmt. Es lässt sich zeigen, dass sich diese Menge in konvexe Polyeder zerlegen lässt, sodass ihre Auswahlfunktionen auf einem oder mehreren Polyeder, oder Schnittmengen mehrerer Polyeder aktiv sind \cite[S.23 ff.]{scholtes2012introduction}.
  Eine Menge $P\subseteq \R^n$ wird Polyeder genannt, falls eine $m\times n$ - Matrix $A$ und ein $m$-dimensionaler Vektor $b$ existiert, sodass $P = \lbrace x\in \R^n ~|~ Ax\leq b \rbrace$. 
 Die Menge dieser konvexen Polyeder werden \textit{Polyhedrale Subdivision} von $\R^n$ zur Funktion $f$ genannt. Das heißt, dass $\Sigma$ eine Polyhedrale Subdivision von $P \subseteq \R^n$ ist, falls
 \begin{enumerate}
- \item jedes Polyeder $P_\sigma \in \Sigma$ eine Teilmenge von $\R^n$ ist.
- \item die Dimension der Polyeder aus $\Sigma$ mit der Dimension von $\R^n$ übereinstimmt.
- \item die Vereinigung aller Polyeder von $\Sigma$ den Raum $\R^n$ überdeckt.
+ \item jedes Polyeder $P_\sigma \in \Sigma$ eine Teilmenge von $\R^n$ ist,
+ \item die Dimension der Polyeder aus $\Sigma$ mit der Dimension von $\R^n$ übereinstimmt,
+ \item die Vereinigung aller Polyeder von $\Sigma$ den Raum $\R^n$ überdeckt,
  \item jeweils zwei Polyeder von $\Sigma$ sind entweder disjunkt oder berühren sich nur an ihren Kanten.
 \end{enumerate}
 \begin{figure}[H]
@@ -100,9 +100,9 @@ Da sich $max$ und $min$ als
 \[
 \max(a,b) = \frac{1}{2}(a+b + |a-b|)\quad \text{und} \quad \min(a,b) = \frac{1}{2}(a+b - |a-b|)
 \]
-darstellen lassen, können alle $max$ und $min$ - Funktionsaufrufe als $s\geq 0$ Aufrufe der $|z_i|$ Funktion behandelt werden. Die Argumente $z_i$ heißen hierbei \textit{switching-Variablen}. Jede switching Variable $z_i$ beschreibt für sich genommen bereits eine stückweise lineare Funktion, welche wiederrum die Funktionen $|z_j|, ~j<i$, aufrufen. Desweiteren existieren Variablen $x_k, ~k\leq n$, welche unabhängig von $abs$ sind. Diese Abhängigkeiten lassen sich in der \textit{Abs Normal Form} beschreiben, welche von Griewank et. al. in \cite{plan} eingeführt wurde:
-\begin{definition}[Abs Normal Form]
- Eine stückweise lineare Funktion $F:\R^n\to \R^m$ mit $F(x) = y$ ist in \textit{Abs Normal Form}, falls sie sich darstellen lässt als
+darstellen lassen, können alle $max$ und $min$ - Funktionsaufrufe als $s\geq 0$ Aufrufe der $|z_i|$ Funktion behandelt werden. Die Argumente $z_i$ heißen hierbei \textit{switching Variablen}. Jede switching Variable $z_i$ beschreibt für sich genommen bereits eine stückweise lineare Funktion, welche wiederrum die Funktionen $|z_j|, ~j<i$, aufrufen. Desweiteren existieren Variablen $x_k, ~k\leq n$, welche unabhängig von $\abs$ sind. Diese Abhängigkeiten lassen sich in der \textit{Abs-Normal Form} beschreiben, welche von Griewank et. al. in \cite{plan} eingeführt wurde:
+\begin{definition}[Abs-Normal Form]
+ Eine stückweise lineare Funktion $F:\R^n\to \R^m$ mit $F(x) = y$ ist in \textit{Abs-Normal Form}, falls sie sich darstellen lässt als
  \begin{equation}
 \label{eq:absNormalForm}
   \begin{bmatrix}
@@ -126,25 +126,25 @@ wobei gilt:
 c\in \R^s, ~ Z\in \R^{s\times n},~ L\in\R^{s\times s}, ~ b\in\R^m, ~ J\in\R^{m\times n}, ~ Y\in \R^{m\times s} 
 \]
 % Die Vektoren $c$ und $b$ 
-$L$ muss offensichtlich die Form einer streng unteren Dreiecksmatrix besitzen, da sonst im Auswertungsgraph der Funktion $F$ Zyklen entstehen könnten. Die Zahl $s\in \N$ ist hierbei die Gesamtanzahl der $abs$ Aufrufe.
+$L$ muss offensichtlich die Form einer streng unteren Dreiecksmatrix besitzen, da sonst im Auswertungsgraph der Funktion $F$ Zyklen entstehen könnten. Die Zahl $s\in \N$ ist hierbei die Gesamtanzahl der $\abs$ Aufrufe.
 \end{definition}
 Die kleinste ganze Zahl $\nu \leq s$ für die 
 \[
  L^\nu =0
 \]
 ist, wird Verschachtelungstiefe oder \textit{switching depth} genannt. 
-In der numerischen Praxis kommen Beispiele vor, bei denen eine hohe \textit{switching depth} auftreten kann, beispielsweise bei Flux Limitern bei ortsdiskretisierten PDEs, welche wir im Beispiel (siehe Kapitel \ref{sec:fvmFluxEigen}) zur Shallow Water Equation benutzen. Griewank erläutert in \cite{monster}, dass eine große switching depth zu numerischen Instabilitäten führen kann und man daher versuchen soll, diese möglichst gering zu halten, um zudem auch die kombinatorische Komplexität der Matrizen $Z$, $L$ und $Y$ zu minimieren. Tatsächlich lässt sich die switching depth $\nu$ der Abs-Normal Repräsentation für eine stückweise lineare Abbildung $F:\R^n\to\R^m$ durch 
+In der numerischen Praxis kommen Beispiele vor, bei denen eine hohe \textit{switching depth} auftreten kann, beispielsweise bei Flux Limitern bei ortsdiskretisierten PDEs, welche wir im Beispiel (siehe Kapitel \ref{sec:fvmFluxEigen}) zur Shallow Water Equation benutzen. Griewank erläutert in \cite{monster}, dass eine große switching depth zu numerischen Instabilitäten führen kann und man daher versuchen soll, diese möglichst gering zu halten, um auch die kombinatorische Komplexität der Matrizen $Z$, $L$ und $Y$ zu minimieren. Tatsächlich lässt sich die switching depth $\nu$ der Abs-Normal Repräsentation für eine stückweise lineare Abbildung $F:\R^n\to\R^m$ durch 
 \[
 \nu \leq \bar \nu(n) = 2n-1                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            \]
 beschränken (\cite[S.3]{plan})
 
 
-Die Funktion $F$ ist linear, falls $\nu=s = 0$ und sie somit keine $abs$ Terme besitzt. Für den Fall $\nu=1$ heißt $F$ \textit{simply switched}
+Die Funktion $F$ ist linear, falls $\nu=s = 0$ und sie somit keine $\abs$ Terme besitzt. Für den Fall $\nu=1$ heißt $F$ \textit{simply switched}.
 \subsection{Verkettet stückweise glatte Funktionen}
 Ziel dieser Arbeit ist es, die Eigenschaften der Matrizen der Abs-Normal Formulierung für unsere Berechnungen zu nutzen.
 Dazu wollen wir die Klasse der \textit{composite piecewise smooth functions} (also verkettet stückweise glatte Funktionen) durch stückweise lineare Funktionen approximieren.
-Die Klasse der verkettet stückweise glatten Funktionen kann als Erweiterung der stückweisen affinen Funktionen betrachtet werden. Sie bestehen aus $C^{1,1}$ Auswahlfunktionen, welche durch wenige unglatte Operationen $max$, $min$ und $abs$ stetig verknüpft sind.
-Scholtes nennt solche Funktionen stückweise differenzierbar, falls  zusätzlich die unglatten Operationen höchstens abzählbar oft auf dem $\R^n$ jedoch nur endlich oft auf dem beschränkten Gebiet $U$ auftreteten. Damit ist jede verkettet stückweise glatte Funktionen stückweise differenzierbar und damit lokal lipschitzstetig \cite[Cor. 4.1.1.]{scholtes2012introduction}. Dies wiederrum impliziert, dass solche Funktionen ebenfalls Bouligand differenzierbar sind.
+Die Klasse der verkettet stückweise glatten Funktionen kann als Erweiterung der stückweise affinen Funktionen betrachtet werden. Sie bestehen aus $C^{1,1}$ Auswahlfunktionen, welche durch wenige unglatte Operationen $max$, $min$ und $abs$ stetig verknüpft sind.
+Scholtes nennt solche Funktionen stückweise differenzierbar, falls  zusätzlich die unglatten Operationen höchstens abzählbar oft auf dem $\R^n$, jedoch nur endlich oft auf dem beschränkten Gebiet $U$ auftreteten. Damit ist jede verkettet stückweise glatte Funktionen stückweise differenzierbar und damit lokal lipschitzstetig \cite[Cor. 4.1.1.]{scholtes2012introduction}. Dies wiederrum impliziert, dass solche Funktionen ebenfalls Bouligand differenzierbar sind.
 
 Die grundsätzliche Idee besteht nun darin, die Auswahlfunktionen durch Tangenten anzunähern und sie wieder durch Anwendung der $abs$ Funktion zu verbinden, sodass eine stückweise Linearisierung der Ursprungsfunktion entsteht. Für diese gelten besondere Eigenschaften, welche in den nachfolgenden Kapiteln sukzessive angewendet werden.
 
@@ -158,13 +158,13 @@ Um eine vektorwertige Funktion $F:\mathcal D \subset \R^n\to \R^m$ mittels Autom
 Zum Auswerten einer programmierten Funktion führt der Compiler eine sogenannte \textit{Three-Part Evaluation Procedure} durch, d.h. er speichert die unabhängigen Eingangsvariablen $x\in \R^n$ in internen Variablen $(v_{1-n},\ldots,v_{-1})$ ab, führt $l-m$ Berechnungsschritte $(v_1,\ldots, v_{l-m})$ aus und gibt die abhängigen Variablen $(v_{l-m+1},\ldots,v_l)$ zurück. Diese Berechnungen lassen sich durch einen \textit{Computational Graph} visualisieren, wie dies in Abbildung \ref{fig:computationalGraph} für das Beispiel $F(x) = \sin(|x_1\cdot x_2|+x_1)$ durchgeführt wurde. 
 Die \textit{Elementarfunktionen} $\lbrace \phi_i \rbrace_{i\in I}$ werden nacheinander in der richtigen Reihenfolge ausgeführt, welche durch die Halbordnung $\prec$ definiert ist, sodass wir für jedes $v_i$ mit $i>0$ und Argumenten $v_j$, $j<i$ schreiben können
 \[
- v_i = \phi_i(v_j)_{j\prec i}
+ v_i = \phi_i(v_j)_{j\prec i}.
 \]
 
 Um nun die erste Ableitung einer Funktion zu bestimmen, müssen wir jede ihrer Elementarfunktionen ableiten und sie mit der Kettenregel wieder zusammenfügen. Falls am Punkt $\xo$ die Ableitung in Richtung eines Inkrements $\Delta x = x- \xo $ ausgewertet werden soll, dann erhalten wir eine tangentiale Approximation der Ableitung unter Nutzung des Funktionswertes $\vo_i = v_i(\xo)$ mittels 
 \begin{equation}
 \label{eq:plApproximation}
-v_i(\xo - \Delta x) -\vo \approx \Delta v_i \equiv \Delta v_i(\Delta x) 
+v_i(\xo - \Delta x) -\vo \approx \Delta v_i \equiv \Delta v_i(\Delta x).
 \end{equation}
 Für alle $\phi_i$ wird angenommen, dass sie differenzierbar in einer für uns hinreichenden Umgebung sind. Dann werden die tangentialen Linearisierungen
 \begin{equation}
@@ -190,10 +190,10 @@ Automatisches Differenzieren wurde bisher nur für Elementarfunktionen benutzt, 
 
 
 \section{Stückweise Linearisierung}
-Wie zuvor bereits erwähnt liegt unser Ziel nun darin, verkettet stückweise glatte Funktionen zu approximieren. Eine verkettet stückweise glatte Funktion besteht nur aus $C^{1,1}$ Elementarfunktionen $\phi_i$ und $abs$ Aufrufen. Diese Klasse von Funktionen sind häufig in klassischen Problemfeldern zu finden.
+Wie zuvor bereits erwähnt liegt unser Ziel nun darin, verkettet stückweise glatte Funktionen zu approximieren. Eine verkettet stückweise glatte Funktion besteht nur aus $C^{1,1}$ Elementarfunktionen $\phi_i$ und $\abs$ Aufrufen. Diese Klasse von Funktionen ist häufig in klassischen Problemfeldern zu finden.
 
-In den AD-Regeln der bisherigen Tangentenlinearisierungen \eqref{eq:stdAdRules} werden $abs$-Terme nicht betrachtet. Um diese zu erweitern wird
-die stückweise lineare Richtungsfunktion $F(\xo + \Delta x) - F(\xo) = \abs(\xo+\Delta x) - abs(x)$ benutzt und damit \eqref{eq:stdAdRules} um die Regel
+In den AD-Regeln der bisherigen Tangentenlinearisierungen \eqref{eq:stdAdRules} werden $\abs$-Terme nicht betrachtet. Um diese zu erweitern wird
+die stückweise lineare Richtungsfunktion $F(\xo + \Delta x) - F(\xo) = \abs(\xo+\Delta x) - \abs(x)$ benutzt und damit \eqref{eq:stdAdRules} um die Regel
 \begin{equation}
 \label{eq:absAdRule}
 \begin{aligned}
@@ -223,17 +223,17 @@ erweitert. Exemplarisch wird die Auswertung mit der erweiterten Regel anhand der
 \caption{Three Part Evaluation Procedure für $F(x) = \sin(|x_1\cdot x_2|+x_1)$ an der Stelle $\xo = (-2,1)$ in Richtung $\Delta x = (1,-1)$}
 \label{fig:computationalGraphTable}
 \end{figure}
-Für eine Auswertungsprozedur unter Berücksichtigung der erweiterten Regel \eqref{eq:absAdRule} ergibt sich für $\Delta y$ \cite[S.9]{monster} die Inkrementfunktion.
+Für eine Auswertungsprozedur unter Berücksichtigung der erweiterten Regel \eqref{eq:absAdRule} ergibt sich für $\Delta y$ (\cite[S.9]{monster}) die Inkrementfunktion.
 \begin{definition}[Inkrementfunktion]
 \label{def:incrementFunction}
-Gegeben sei eine verkettet stückweise glatte Funktion $F:\R^n\to\R^m$ mit $s>0$ Abs- Aufrufen. Für eine offene Umgebung $\mathcal D$ einer abgeschlossenen konvexen Definitionsmenge $\mathcal K \subset \R^n$, einem fixen $x\in \mathcal D$, einem Entwicklungspunkt $\xo$ und einer Richtung $\Delta x = x-\xo$ heißt 
+Gegeben sei eine verkettet stückweise glatte Funktion $F:\R^n\to\R^m$ mit $s>0$ abs- Aufrufen. Für eine offene Umgebung $\mathcal D$ einer abgeschlossenen konvexen Definitionsmenge $\mathcal K \subset \R^n$, einem fixen $x\in \mathcal D$, einem Entwicklungspunkt $\xo$ und einer Richtung $\Delta x = x-\xo$ heißt 
 \[
-\Delta y = \Delta y (\Delta x) = \Delta F(\xo,\Delta x):\R^n \to \R^m
+\Delta y = \Delta y (\Delta x) = \Delta F(\xo;\Delta x):\R^n \to \R^m
 \]
 die stückweise lineare und stetige \textit{Inkrementfunktion}.
 \end{definition}
 
-Für stückweise differenzierbare Funktionen ist die Bouligandableitung $F'(\xo;\Delta x)$ stückweise linear und positiv homogen, d.h. es gilt $F'(\xo;\alpha \Delta x) = \alpha F(\xo;\Delta x), \alpha\geq 0$, was die Inkrementfunktion jedoch nicht ist  (siehe \ref{sec:bouligandAndIncrement}).
+Für stückweise differenzierbare Funktionen ist die Bouligand Ableitung $F'(\xo;\Delta x)$ stückweise linear und positiv homogen, d.h. es gilt $F'(\xo;\alpha \Delta x) = \alpha F(\xo;\Delta x), \alpha\geq 0$, was die Inkrementfunktion jedoch nicht ist  (siehe \ref{sec:bouligandAndIncrement}).
 Tauscht man \eqref{eq:absAdRule} durch die Vorschrift
 \begin{equation}
  \label{eq:improvedAbsAdRule}
@@ -254,19 +254,19 @@ und falls das Inkrement $\Delta x$ hinreichend klein ist, existiert eine Grenze 
  \[
   \Delta F(\xo;\Delta x) = F'(\xo;\Delta x)\text{ falls }\|\Delta x\|\leq \rho(\xo)
  \]
-gilt  (\cite[S.10 ff]{monster}). Das bedeutet, dass die Inkrementfunktion und die Bouligandableitung in einer Umgebung des Entwicklungspunktes $\xo$ übereinstimmen. Demnach gilt für die Inkrementfunktion $\Delta F$ ebenfalls die Kettenregel \eqref{eq:bouligandChainRule} in einer kleinen Umgebung von $\xo$. Desweiteren ist zu beachten, dass die Bouligandableitung durch \eqref{eq:improvedAbsAdRule} unstetig in Bezug zu $\xo$ mit fixem $\Delta x$ wird. 
+gilt  (\cite[S.10 ff]{monster}). Das bedeutet, dass die Inkrementfunktion und die Bouligand Ableitung in einer Umgebung des Entwicklungspunktes $\xo$ übereinstimmen. Demnach gilt für die Inkrementfunktion $\Delta F$ ebenfalls die Kettenregel \eqref{eq:bouligandChainRule} in einer kleinen Umgebung von $\xo$. Desweiteren ist zu beachten, dass die Bouligand Ableitung durch \eqref{eq:improvedAbsAdRule} unstetig in Bezug zu $\xo$ mit fixem $\Delta x$ wird. 
 
 Betrachtet man nun die Funktion $F(\xo)+\Delta F(\xo, x-\xo)$ so ergibt sich sogar eine Approximation der Ursprungsfunktion zweiter Ordnung im Abstand zum Ausgangspunkt, wie Griewank in \cite[Prop.1]{monster} zeigen konnte:
 
-\begin{theorem}[Quadratische Approx. und lipschitzstetigkeit]
+\begin{theorem}[Quadratische Approx. und Lipschitzstetigkeit]
 \label{thm:quadrApproxPL}
  Sei $F$ eine verkettet stückweise glatte, lipschitzstetige, differenzierbare Funktion auf einer offenen Umgebung $\mathcal D$ einer abgeschlossenen konvexen Definitionsmenge $\mathcal K \subset \R^n$. Dann existiert eine Konstante $\gamma$, sodass für alle Paare $\xo,x\in \mathcal K$
  \[
-  \|F(x) - F(\xo) - \Delta F(\xo;x-\xo)\| \leq \gamma \|x-\xo\|^2
+  \|F(x) - F(\xo) - \Delta F(\xo;x-\xo)\| \leq \gamma \|x-\xo\|^2.
  \]
  Desweiteren gilt für jedes Paar $\tilde x,\xo\in \mathcal K, \Delta x\in \R^n$ und einer Konstanten $\tilde\gamma$
  \[
-  \frac{\|\Delta F(\tilde x;\Delta x) - \Delta F(\xo;\Delta x)\|}{1+\|\Delta x\|}\leq \tilde \gamma \|\tilde x - \xo\|
+  \frac{\|\Delta F(\tilde x;\Delta x) - \Delta F(\xo;\Delta x)\|}{1+\|\Delta x\|}\leq \tilde \gamma \|\tilde x - \xo\|.
  \]
 \end{theorem}
 Da sich das Inkrement, also die Ableitung an der Stelle $\xo$ genau berechnen lässt, ist $F(\xo)+\Delta F(\xo, x-\xo)$ also eine Tangente. Die stückweise Linearisierung, welche diese Tangente benutzt wird von Griewank auch als \textit{tangent mode} bezeichnet. 
@@ -285,16 +285,16 @@ Der Signaturvektor, welcher als
 \[
  \sigma = \sigma(\Delta x) \in \lbrace -1,0,1\rbrace^s
 \]
-definiert ist, beschreibt den Weg des computational graphs bei der Auswertung der Inkrementfunktion, d.h. durch jeden $abs$ Aufruf wird beispielsweise durch Vorzeichenwechsel definiert, dass ein Kink überquert wurde. Die Mengen 
+definiert ist, beschreibt den Weg des computational graphs bei der Auswertung der Inkrementfunktion, d.h. durch jeden $\abs$ Aufruf wird beispielsweise durch Vorzeichenwechsel definiert, dass ein Kink überquert wurde. Die Mengen 
 \[
  P_\sigma = \lbrace \Delta x \in \R^n:\sigma(\Delta x) = \sigma \rbrace
 \]
 sind relativ offen und konvexe Polyeder in $\R^n$, welche paarweise disjunkt sind und den kompletten $\R^n$ aufspannen.
 Die polyhedrale Dekomposition der Auswertungsprozedur ist dabei eindeutig durch diesen Signaturvektor definiert.
 
-Unser stückweise Lineares Modell besitzt die folgenden Eigenschaften
+Unser stückweise lineares Modell besitzt die folgenden Eigenschaften
 \cite[Prop. 2]{monster}
-\begin{theorem}[Stückweise Lineares Modell]
+\begin{theorem}[Stückweise lineares Modell]
  \begin{enumerate}
   \item An jedem $\xo\in \mathcal D$ ist die Funktion $\Delta F(\xo;\Delta x)$ definiert für alle $\Delta x\in \R^n$.
   \item $\R^n$ ist die disjunkte Vereinigung relativ offener Mengen konvexer Polyeder $P_\sigma$ für $\sigma \in \lbrace -1,0,1\rbrace$

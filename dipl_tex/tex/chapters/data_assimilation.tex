@@ -431,10 +431,10 @@ Ein allgemeines Abstiegsverfahren mit Schrittweitensteuerung wird ebenfalls in \
 \begin{framed}
  \begin{enumerate}
   \item Wähle einen Startpunkt $x^{(0)}\in \R^n$ und setze $k:=0$
-  \item Ist $\nabla f(x^{(k)})=0_n$: Stopp
+  \item Ist $\nabla J(x^{(k)})=0_n$: Stopp
   \item Berechne eine Abstiegsrichtung $d^{(k)}$ und eine Schrittweite $\sigma_k>0$, so dass
   \[
-   f(x^{(k)} + \sigma_k d^{(k)}) < f(x^{(k)})
+   J(x^{(k)} + \sigma_k d^{(k)}) < J(x^{(k)})
   \]
   ist und setze $x^{(k+1)} = x^{(k)}+\sigma_k d^{(k)}$
   \item Setze $k:=k+1$ und gehe zu 2.
@@ -448,7 +448,7 @@ Ein allgemeines Abstiegsverfahren mit Schrittweitensteuerung wird ebenfalls in \
 Um dem Ziel der Bestimmung effizienter Schrittweiten näher zu kommen, müssen wir fordern, dass für die Folge $x^{(k)}$ mit jedem weiteren Schritt gegen einen stationären Punkt konvergiert, also dass  
 \begin{equation}
 \label{eq:optstepsizegradtozero}
- \nabla f(x^{(k)})\to 0 \quad \text{für }k\to \infty
+ \nabla J(x^{(k)})\to 0 \quad \text{für }k\to \infty
 \end{equation}
 gilt.
 Um dies zu erreichen wird im Folgenden das Prinzip des hinreichenden Abstiegs formuliert (\cite[Def. 4.4.2]{alt2002nichtlineare}):
@@ -457,7 +457,7 @@ Um dies zu erreichen wird im Folgenden das Prinzip des hinreichenden Abstiegs fo
  Seien $x\in N(J,J(x^{(0)}))$ und $d\in \R^n$ mit $\nabla_u J(x)^\tr d<0$ gegeben. Eine Schrittweite $\sigma$ erfüllt das \textit{Prinzip des hinreichenden Abstiegs}, falls
  \begin{equation}
  \label{eq:armijo1}
-  f(x+\sigma d) \leq f(x) + c_1\sigma \nabla f(x)^\tr d
+  J(x+\sigma d) \leq J(x) + c_1\sigma \nabla J(x)^\tr d
  \end{equation}
  und 
  \begin{equation}
@@ -468,7 +468,7 @@ Um dies zu erreichen wird im Folgenden das Prinzip des hinreichenden Abstiegs fo
 
 mit von $x$ und $d$ unabhängigen Konstanten $c_1>0$, $c_2>0$ gilt. Eine Schrittweite $\sigma$ heißt \textit{effizient}, falls
 \[
- f(x+\sigma d) \leq J(x) - c\left( \frac{\nabla J(x)^\tr d}{\|d\|}\right)^2
+ J(x+\sigma d) \leq J(x) - c\left( \frac{\nabla J(x)^\tr d}{\|d\|}\right)^2
 \]
 mit einer von $x$ und $d$ unabhängigen Konstanten $c>0$ gilt.
 \end{definition}
@@ -503,9 +503,9 @@ Falls die Bedingung \eqref{eq:niveauset} erfüllt ist, die Suchrichtungen aus de
 Falls zusätzlich $d$ eine streng gradientenbezogene Suchrichtung in $x^{(k)}$, die Schrittweitenfolge $\sigma_k$ beschränkt, die Menge 
 $$M = \{\tilde x\in N(J,J(x^{(0)}))|\nabla J(\tilde x)=0\}$$ endlich ist und das Verfahren nicht nach endlich vielen Schritten stoppt, dann konvergiert die Folge $\{x^{(k)}\}$ gegen eine Nullstelle von $\nabla J$.
 
-Hat $J$ genau einen stationären Punkt $\tilde x \in N(J,J(x^{(0)}))$ und das allgemeine Abstiegsverfahren stoppt nicht nach endlich vielen Schritten,dann konvergiert die Folge $\{x^{(k)}\}$ gegen $\tilde x$.
+Hat $J$ genau einen stationären Punkt $\tilde x \in N(J,J(x^{(0)}))$ und das allgemeine Abstiegsverfahren stoppt nicht nach endlich vielen Schritten, dann konvergiert die Folge $\{x^{(k)}\}$ gegen $\tilde x$.
  
-Eine Möglichkeit, die sich zur Schrittweitenbestimmung anbietet besteht darin, die Schrittweite durch Lösen eines eindimensionalen Optimierungsproblems
+Eine Möglichkeit, die sich zur Schrittweitenbestimmung anbietet, besteht darin, die Schrittweite durch Lösen des eindimensionalen Optimierungsproblems
 \[
  \min_{s\geq 0} J(x+sd)
 \]
@@ -556,7 +556,7 @@ mit $0<c_1<\beta<1$ nicht zu klein werden lässt. Das bedeutet, dass die Steigun
 \caption{Powell Schrittweitensteuerung}
 \label{fig:powell}
 \end{figure}
-Wenn diese beiden Forderungen, $x\in N(J,J(x^{(0)}))$ und $d\in R^n$ mit $\nabla J(x)^\tr d<0$ erfüllt sind und $0<\delta<\beta<1$,$\delta =c_1$ gegeben, dann existiert mindestens eine Schrittweite $\sigma_p$, sodass sie den beiden Abstiegskriterien \eqref{eq:armijo1} und \eqref{eq:wolfe2} genügt und für alle $\sigma_p$
+Wenn diese beiden Forderungen, $x\in N(J,J(x^{(0)}))$ und $d\in R^n$ mit $\nabla J(x)^\tr d<0$ erfüllt sind und $0<\delta<\beta<1$, $\delta =c_1$ gegeben, dann existiert mindestens eine Schrittweite $\sigma_p$, sodass sie den beiden Abstiegskriterien \eqref{eq:armijo1} und \eqref{eq:wolfe2} genügt und für alle $\sigma_p$
 \[
  \sigma_p \geq \frac{1-\beta}{L}\frac{\nabla J(x)^\tr d}{\|d\|^2}
 \]
@@ -577,24 +577,24 @@ und erhält das Wolfe - Powell Verfahren in Abbildung \ref{alg:wolfePowell}.
 
 \begin{figure}
 \begin{framed}
-Vorgegeben seien die Konstanten $0<\delta<\beta<1$
+Vorgegeben seien die Konstanten $0<\delta<\beta<1$.
  \begin{enumerate}
-  \item Wähle eine Start-Schrittweite $\sigma_0$ und setze $j:=0$
+  \item Wähle eine Start-Schrittweite $\sigma_0$ und setze $j:=0$.
   \begin{enumerate}
-   \item Ist $G_1(\sigma_0)\geq \delta$ und $G_2(\sigma_0)\leq \beta$, dann setze $\sigma_p=\sigma_0$ und Stoppe das Verfahren
-   \item Ist $G_1(\sigma_0)\geq \delta$ und $G_2(\sigma_0)> \beta$, dann setze $a_0=\sigma_0$ und $b_0=2^l\sigma_0$, mit minimalem $l\in \N_0$, sodass $G_1(b_0)<\delta$, gehe zu 2)
-   \item Ist $G_1(\sigma_0)\leq \delta$, dann setze $b_0=\sigma_0$ und $a_0=2^{-l}\sigma_0$ mit minimalem $l\in \N$, sodass $G_1(a_0)\geq\delta$ und $G_2(a_0)>\beta$, gehe zu 2)
+   \item Ist $G_1(\sigma_0)\geq \delta$ und $G_2(\sigma_0)\leq \beta$, dann setze $\sigma_p=\sigma_0$ und stoppe das Verfahren.
+   \item Ist $G_1(\sigma_0)\geq \delta$ und $G_2(\sigma_0)> \beta$, dann setze $a_0=\sigma_0$ und $b_0=2^l\sigma_0$, mit minimalem $l\in \N_0$, sodass $G_1(b_0)<\delta$, gehe zu 2).
+   \item Ist $G_1(\sigma_0)\leq \delta$, dann setze $b_0=\sigma_0$ und $a_0=2^{-l}\sigma_0$ mit minimalem $l\in \N$, sodass $G_1(a_0)\geq\delta$ und $G_2(a_0)>\beta$, gehe zu 2).
   \end{enumerate}
-  \item Berechne den Intervallmittelpunkt $\sigma_j = 0.5\cdot (a_j+b_j)$
+  \item Berechne den Intervallmittelpunkt $\sigma_j = 0.5\cdot (a_j+b_j)$.
   \begin{enumerate}
-    \item Ist $G_1(\sigma_j)\geq \delta$ und $G_2(\sigma_j)\leq \beta$, dann setze $\sigma_p=\sigma_j$ und Stoppe das Verfahren
-    \item Ist $G_1(\sigma_j)\geq \delta$ und $G_2(\sigma_j)> \beta$, dann setze $a_{j+1}=\sigma_j$ und $b_{j+1}=b_j$, gehe zu 3)
-    \item Ist $G_1(\sigma_0)\leq \delta$, dann setze $a_{j+1}=a_j$ und $b_{j+1}=\sigma_j$, gehe zu 3)
+    \item Ist $G_1(\sigma_j)\geq \delta$ und $G_2(\sigma_j)\leq \beta$, dann setze $\sigma_p=\sigma_j$ und stoppe das Verfahren.
+    \item Ist $G_1(\sigma_j)\geq \delta$ und $G_2(\sigma_j)> \beta$, dann setze $a_{j+1}=\sigma_j$ und $b_{j+1}=b_j$, gehe zu 3).
+    \item Ist $G_1(\sigma_0)\leq \delta$, dann setze $a_{j+1}=a_j$ und $b_{j+1}=\sigma_j$, gehe zu 3).
   \end{enumerate}
-  \item Setze $j:=j+1$, gehe zu 2)
+  \item Setze $j:=j+1$, gehe zu 2).
  \end{enumerate}
 \end{framed}
-\caption{Wolfe Powell Verfahren zur Schrittweitensteuerung}
+\caption{Wolfe-Powell Verfahren zur Schrittweitensteuerung}
 \label{alg:wolfePowell}
 \end{figure}
 
@@ -622,19 +622,19 @@ Daher gilt also
 \[
  d^{(k+1)}~\bot ~d^{k} ~ \forall k \in \N
 \]
-Eine verbesserte Wahl der Suchrichtung $d$ bietet das BFGS-Verfahren (\cite[Verfahren 4.8.11]{alt2002nichtlineare})
+Eine verbesserte Wahl der Suchrichtung $d$ bietet das BFGS-Verfahren (\cite[Verfahren 4.8.11]{alt2002nichtlineare}).
 \begin{figure}[H]
 \begin{framed}
 \begin{enumerate}
- \item Wähle Anfangspunkt $x^{(0)}$, eine symmetrisch positiv definite Matrix $A^{(0)}$ und setze $k:=0$
- \item Überprüfe $\nabla J(x^{(k)}) == 0$?: Stopp
+ \item Wähle Anfangspunkt $x^{(0)}$, eine symmetrisch positiv definite Matrix $A^{(0)}$ und setze $k:=0$.
+ \item Überprüfe $\nabla J(x^{(k)}) = 0$?: Stopp
  \item Berechne $d^{(k)} = -\left( A^{(k)} \right)^{-1} \nabla J(x^{(k)})$, wähle eine effiziente Schrittweite $\sigma_k$, berechne 
  \[
  \begin{aligned}
   x^{(k+1)} &= x^{(k)} + \sigma_k d^{(k)}, \\ s^{(k)} &= x^{(k+1)} - x^{(k)},\\ y^{(k)} &= \nabla J(x^{(k+1)})- \nabla J(x^{(k)})
  \end{aligned}
  \]
- \item Setze $k:= k+1$ und gehe zu 2.
+ \item Setze $k:= k+1$ und gehe zu 2).
 \end{enumerate} 
 \end{framed}
  \caption{BFGS - Verfahren}
@@ -646,23 +646,23 @@ Wobei die Matrix $A$ durch die BFGS-Updateformel
 \]
 errechnet wird.
 \subsubsection{Abbruchbedingungen}
-Der Optimierungsprozess bei der Data Assimilation wird abgebrochen, falls einige der folgenden Kriterien zu einer gegebenen Toleranz \texttt{tol} erfüllt sind
+Der Optimierungsprozess bei der Datenassimilation wird abgebrochen, falls eine der folgenden Kriterien zu einer gegebenen Toleranz \texttt{tol} erfüllt sind
 \begin{itemize}
  \item Änderung der Funktion zwischen zwei Iterierten
  \[
-  |J(x_{k+1}) - J(x_{k})| < tol
+  |J(x_{k+1}) - J(x_{k})| < \texttt{tol}
  \]
 \item Änderung der Zustandsvariable
 \[
- \|x_{k+1} - x_{k}\|<tol
+ \|x_{k+1} - x_{k}\|<\texttt{tol}
 \]
 \item Die Norm des Gradienten
 \[
- \|\nabla J(x_k)\|<tol
+ \|\nabla J(x_k)\|<\texttt{tol}
 \]
 \item Das Verhältnis des Gradienten am Anfangs und am jetzigen Wert
 \[
- \frac{\|\nabla J(x_k)\| }{\|\nabla J(x_0)\|}<tol
+ \frac{\|\nabla J(x_k)\| }{\|\nabla J(x_0)\|}<\texttt{tol}
 \]
 
 
@@ -671,6 +671,6 @@ Der Optimierungsprozess bei der Data Assimilation wird abgebrochen, falls einige
 
 \section{Zusammenfassung}
 In den vorherigen Kapiteln wurde beschrieben, welche Schritte notwendig sind, um die variationelle Datenassimilation durchzuführen.
-Ziel ist es, das Minimierungsproblem \eqref{eq:bolzaProblem} zu lösen. Dazu wird auf das Kostenfunkional $J(x)$ ein Optimierungsverfahren angewandt, um ein Extremum zu finden. Um dies tun zu können benötigt man den Gradienten $\nabla J$, welcher durch die Rückwärtsintegration der adjungierten Gleichung des Tangent Linear Models \eqref{eq:adjModel} berechnet wird. Die Integration der ODEs wird durch numerische Verfahren, in unserem Fall durch die implizite Mittelpunktsregel (siehe Tabelle \ref{tab:rungekutta}), bewerkstelligt. Der große Vorteil dieses Verfahrens liegt darin begründet, dass die Berechnung des Gradienten $\nabla J$ nur ein weniges Vielfaches der Zeit einer Funktionsauswertung von $J$ in Anspruch nimmt. 
+Ziel ist es, das Minimierungsproblem \eqref{eq:bolzaProblem} zu lösen. Dazu wird auf das Kostenfunktional $J(x)$ ein Optimierungsverfahren angewandt, um ein Extremum zu finden. Um dies tun zu können benötigt man den Gradienten $\nabla J$, welcher durch die Rückwärtsintegration der adjungierten Gleichung des Tangent Linear Models \eqref{eq:adjModel} berechnet wird. Die Integration der ODEs wird durch numerische Verfahren, in unserem Fall durch die implizite Mittelpunktsregel (siehe Tabelle \ref{tab:rungekutta}), bewerkstelligt. Der große Vorteil dieses Verfahrens liegt darin begründet, dass die Berechnung des Gradienten $\nabla J$ nur ein weniges Vielfaches der Zeit einer Funktionsauswertung von $J$ in Anspruch nimmt. 
 
 % Sämtliche Theorie, welche beschrieben wurde, gilt nur für den Fall, dass die rechte Seite der Evolutionsgleichung \eqref{eq:odemodel} glatt ist, also dass mindestens $F\in C^1(\R^n)$ gilt. Für den Fall, dass dem nicht so ist, werden im Folgenden Methoden vorgestellt, die versuchen, diese Unglattheiten mit in die Berechnung einzubeziehen.
