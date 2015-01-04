@@ -14,7 +14,7 @@
 
 \section{Verallgemeinerte Mittelpunktsregel}
 
-Unser Ziel ist es nun, ausgehend von der wohlbekannten Impliziten Mittelpunktsregel
+Unser Ziel ist es nun, ausgehend von der wohlbekannten impliziten Mittelpunktsregel
 \[
  x_n  = x_a + hF\left( \frac{x_n + x_a}{2}\right)
 \]
@@ -31,41 +31,41 @@ mit verkettet stückweise glattem und global lipschitzstetigem $F$. Mit dem Haup
 \]
 und mit der Substitution durch $t = \frac{h}{2} + \tau h$ ergibt sich
 \[
- x_n - x_a = h\int_{-\sfrac{1}{2}}^{\sfrac{1}{2}} F\left(x \left(\sfrac{h}{2} + \tau h\right)\right) \text{d}\tau
+ x_n - x_a = h\int_{-\frac{1}{2}}^{\sfrac{1}{2}} F\left(x \left(\sfrac{h}{2} + \tau h\right)\right) \text{d}\tau.
 \]
-Da das Integral in den Grenzen $-\sfrac{1}{2}$ und $\sfrac{1}{2}$ liegt, stellt $\sfrac{h}{2}$ den Mittelpunkt des Integrationsgebietes dar. Mittels Approximation von $x(t)$ durch die Sekante $(\frac{1}{2} - \tau) x_a + (\frac{1}{2} + \tau) x_n$ folgt:
+Da das Integral in den Grenzen $-\sfrac{1}{2}$ und $\sfrac{1}{2}$ liegt, stellt $\sfrac{h}{2}$ den Mittelpunkt des Integrationsgebietes dar. Mittels Approximation von $x(t)$ durch die Sekante $(\sfrac{1}{2} - \tau) x_a + (\sfrac{1}{2} + \tau) x_n$ folgt:
 \[
  \begin{aligned}
- x_n - x_a & = h\int_{-\sfrac{1}{2}}^{\sfrac{1}{2}} F\left(\frac{x_a + x_n}{2} + \tau (x_n - x_a)\right) \text{d}\tau + \mathcal O(h^3)
+ x_n - x_a & = h\int_{-\sfrac{1}{2}}^{\sfrac{1}{2}} F\left(\frac{x_a + x_n}{2} + \tau (x_n - x_a)\right) \text{d}\tau + \mathcal O(h^3).
  \end{aligned}
 \]
-Nun schätzen wir die rechte Seite $F(\ldots)$ durch seine stückweise Linearisierung ab und erhalten schließlich
+Nun schätzen wir die rechte Seite $F(\ldots)$ durch seine stückweise Linearisierung ab und erhalten schließlich mit $\xo = \sfrac{1}{2}(x_n+x_a)$
 \[
  x_n -  x_a = h\int_{-\sfrac{1}{2}}^{\sfrac{1}{2}} F(\xo) + \Delta F(\xo;\tau (x_n - x_a))  \text{d}\tau + \mathcal O(h^3)
 \]
-die von Griewank in \cite[S.21 (14)]{monster} eingeführte verallgemeinerte Implizite Mittelpunktsregel
+die von Griewank in \cite[S.21 (14)]{monster} eingeführte verallgemeinerte implizite Mittelpunktsregel
 \begin{equation}
- x_n -  x_a = h\int_{-\sfrac{1}{2}}^{\sfrac{1}{2}} F(\xo) + \Delta F(\xo;\tau (x_n - x_a))  \text{d}\tau
+ x_n -  x_a = h\int_{-\sfrac{1}{2}}^{\sfrac{1}{2}} F(\xo) + \Delta F(\xo;\tau (x_n - x_a))  \text{d}\tau.
  \label{eq:genMidpointRule}
 \end{equation}
 
 Da sowohl die Approximation durch Sekanten, als auch die stückweise Linearisierung einen Fehler von $\mathcal O(h^2)$ bzgl. der exakten Lösung $x(t)$ besitzen und zudem das Integral den Faktor $h$ besitzt ergibt sich letztendlich ein Fehler dritter Ordnung.
 
-Der Vorteil der Formel besteht darin, dass sie konsistent zur Impliziten Mittelpunktsregel ist. Falls $F$ glatt ist, so kommt die Auswertungsprozedur für $\Delta F(\xo;\tau (x_n - x_a))$ ohne die Regel \eqref{eq:absAdRule} aus und es gilt 
+Der Vorteil der Formel besteht darin, dass sie konsistent zur impliziten Mittelpunktsregel ist. Falls $F$ glatt ist, so kommt die Auswertungsprozedur für $\Delta F(\xo;\tau (x_n - x_a))$ ohne die Regel \eqref{eq:absAdRule} aus und es gilt 
 \[
- \Delta F(\xo;\tau (x_n - x_a)) = F'(\xo) \tau (x_n - x_a)
+ \Delta F(\xo;\tau (x_n - x_a)) = F'(\xo) \tau (x_n - x_a).
 \]
 Das bedeutet, dass
 \begin{equation}
 \begin{aligned}
    x_n -  x_a &= h\int_{-\sfrac{1}{2}}^{\sfrac{1}{2}} F(\xo) + \Delta F(\xo;\tau (x_n - x_a))  \text{d}\tau\\
 		    &= h\int_{-\sfrac{1}{2}}^{\sfrac{1}{2}} F(\xo) + F'(\xo)\tau (x_n - x_a))  \text{d}\tau\\
-		    &= h F(\xo)
+		    &= h F(\xo).
 \end{aligned}
 \label{eq:equivalenceGenImplMidpoint}
 \end{equation}
 
-Damit ist die verallgemeinerte Implizite Mittelpunktsregel eine echte Verallgemeinerung der bekannten Impliziten Mittelpunktsregel. 
+Damit ist die verallgemeinerte implizite Mittelpunktsregel eine echte Verallgemeinerung der bekannten impliziten Mittelpunktsregel. 
 Griewank bewies in \cite[Prop.4]{monster} ihre Konvergenzeigenschaft
 \begin{theorem}[Konvergenz verallg. Impl. Mittelpunktsregel]
 \label{thm:convergenceGenMidpoint}
@@ -81,7 +81,7 @@ Griewank bewies in \cite[Prop.4]{monster} ihre Konvergenzeigenschaft
   wobei $x(t)$ die Lösung der Gleichung $\dot x(t) = F(x(t))$ mit  $x(0)= 0$ darstellt.
 \end{theorem}
 
-Für den von Boeck \cite{boeck14} hergeleiteten Algorithmus zur verallgemeinerten Mittelpunktsregel benötigen wir zum einen die Möglichkeit eine stückweise lineare Funktion möglichst genau in einem Intervall zu integrieren, als auch ein Löser für lineare Gleichungssysteme.
+Für den von Boeck \cite{boeck14} hergeleiteten Algorithmus zur verallgemeinerten Mittelpunktsregel benötigen wir zum einen die Möglichkeit eine stückweise lineare Funktion möglichst genau in einem Intervall zu integrieren, als auch einen Löser für lineare Gleichungssysteme.
 % Dies wird im nächsten Abschnitt behandelt.
 
 \section{Quadratur und Unfoldeded Newton}
@@ -94,10 +94,10 @@ Nehmen wir an, das in dem Integrationsgebiet des Integrals
 \label{eq:quadInitialProblem}
  \int_0^{\sfrac{1}{2}} \Delta F(\xo,t\Delta x) \text{d}t
 \end{equation}
-$k$ Kinks des Integranten vorhanden sind. 
+$k$ Kinks des Integranten vorhanden sind, wie in Abbildung \ref{fig:quadrature} ersichtlich. 
 %Kink Berechnung
-Um diese Kinks aus der Abs-Normal Form zu berechnen, werden die switching Variablen $z_j$, $j=1,\dots,s$ aus der Abs-Normal Form betrachtet. Wie bereits in Kapitel \ref{sec:absNormalForm} erwähnt sind diese Werte für sich genommen stückweise affine Funktionen, an deren Nullstellen ein Kink auftritt,
-d.h. an ihren Nullstellen findet ein Vorzeichenwechsel statt. Um zu wissen, wie weit wir von einem Punkt $\xo$ in Richtung $\Delta x$ gehen können bis wir solch eine Nullstelle erreichen, wollen wir diese \textit{kritischen Multiplikatoren} $\tau_j$, $j=1,\ldots, s$ berechnen. 
+Um diese Kinks aus der Abs-Normal Form zu berechnen, werden die switching Variablen $z_j$, $j=1,\ldots,s$ aus der Abs-Normal Form betrachtet. Wie bereits in Kapitel \ref{sec:absNormalForm} erwähnt sind diese Werte für sich genommen stückweise affine Funktionen, an deren Nullstellen ein Kink auftritt,
+d.h. an ihren Nullstellen findet ein Vorzeichenwechsel statt. Um zu wissen, wie weit wir von einem Punkt $\xo$ in Richtung $\Delta x$ gehen können bis wir solch eine Nullstelle erreichen, wollen wir diese \textit{kritischen Multiplikatoren} $\tau_j$, $j=1,\ldots, s$ berechnen. Diese beschreiben den Faktor $\tau$ in Richtung $\Delta x$ bis zum nächsten Kink. 
 %Quadraturbeschreibung blub
 \begin{figure}[H]
 \centering
@@ -131,7 +131,7 @@ Der kritische Multiplikator $\tau_*$ ergibt sich dann als das Minimum der errech
 \[
  \tau_* = \min \begin{cases}
 		\frac{1}{2}\\
-		\inf_j\lbrace -\frac{z_j}{\dot z_j}~ \vert ~ \dot z_j \cdot z_j <0 \rbrace
+		\inf_j\lbrace -\frac{z_j}{\dot z_j}~ \vert ~ \dot z_j \cdot z_j <0 \rbrace.
 	       \end{cases}
 \]
 
@@ -145,13 +145,13 @@ Der kritische Multiplikator $\tau_*$ ergibt sich dann als das Minimum der errech
 
 Nun, da wir die Stellen der $k$ Kinks ausrechnen können, teilen wir das Intervall $[0,\frac{1}{2}]$ in $k$-Abschnitte mit reellen Zahlen $0=\tau_0<\tau_1<\ldots<\tau_k = \sfrac{1}{2}$,  sodass
 \[
- [0,\sfrac{1}{2}] = \bigcup_{i=0}^{k-1} [\tau_i,\tau_{i+1}]
+ [0,\frac{1}{2}] = \bigcup_{i=0}^{k-1} [\tau_i,\tau_{i+1}]
 \]
 damit wir das Integral zerlegen können in Teilintegrale
 \[
- \int_0^{\sfrac{1}{2}} \Delta F(\xo,t\Delta x) \text{d}t = \sum_{i=0}^{k-1} \int_\tau^{\sfrac{1}{2}} \Delta F(\xo,t\Delta x) \text{d}t
+ \int_0^{\sfrac{1}{2}} \Delta F(\xo,t\Delta x) \text{d}t = \sum_{i=0}^{k-1} \int_{\tau_{i-1}}^{\tau_{i}} \Delta F(\xo,t\Delta x) \text{d}t
 \]
-Mit $y_i = \Delta F(\xo;\tau_i \Delta x)$ und $F$ stückweise linear folgt, dass sich die Quadratur \ref{eq:quadInitialProblem} zu
+Mit $y_i = \Delta F(\xo;\tau_i \Delta x)$ und $F$ stückweise linear folgt, dass sich die Quadratur \eqref{eq:quadInitialProblem} zu
 \begin{equation}
 \begin{aligned}
  \int_{\tau_{i-1}}^{\tau_i} \Delta F(\xo;t\Delta x) \text{d}t &= \int_{\tau_{i-1}}^{\tau_i}\left[ y_i+ \frac{y_{i+1}-y_i}{\tau_{i+1}-\tau_i}(t-\tau_i) \right] \text{d}t \\
@@ -169,11 +169,11 @@ Mit dem Algorithmus in Prozedur \ref{alg:quad} kann nun die Quadratur für stüc
 \Function{integrate}{$\Delta x$} 
   \State {$x \gets 0$}
   \State {$z \gets$ calculate\_z($x$)}
-  \State {$dy_{old} \gets$ eval($z,x$)}
+  \State {$dy_{\text{old}} \gets$ eval($z,x$)}
   \State {quadResult $\gets 0$}
   \State {$\tau$ $\gets 0$}
   \Repeat 
-    \State {$\tau_{new} \gets \frac{1}{2}$}
+    \State {$\tau_{\text{new}} \gets \frac{1}{2}$}
     \For{$i\gets 0,\ldots,s-1$}
       \State{ $\dot z = \sum_{i=0}^{n} Z_{ij}\cdot \Delta x_j + \sum_{i=0}^s L_{ij}\Sigma \dot z_j$}
       \If{$-\frac{z_i}{\dot z_i} \in [0,\tau_{\text{new}}]$}
@@ -194,7 +194,7 @@ Mit dem Algorithmus in Prozedur \ref{alg:quad} kann nun die Quadratur für stüc
     \State{$dy \gets$ eval($z,x$)}
     \State{quadResult $\gets$ quadResult + $\sfrac{\taunew}{2}(dy_{\text{old}}+ dy)$}
     \State{$dy_{\text{old}} \gets dy$}
-  \Until{$\tau > \sfrac{1}{2}$}
+  \Until{$\tau \geq \sfrac{1}{2}$}
 \EndFunction
 \end{algorithmic}
 \caption{Quadratur stückweise linearer Funktionen}
@@ -208,14 +208,14 @@ Zum Lösen eines Gleichungssystems mit einem Newtonverfahren benötigt man den G
 % Aus der Abs-Normal Form können wir diese Richtungsableitung bestimmen.
 Die Menge der limiting Jacobians reduziert sich für unser stückweise lineares Modell zu 
 \[
- \partial^L F(x) = \lbrace J_\sigma: x\in \bar P_\sigma \text{ mit }\sigma \text{ offen} \rbrace
+ \partial^L F(x) = \lbrace J_\sigma: x\in \bar P_\sigma \text{ mit }\sigma \text{ offen} \rbrace.
 \]
-Das heißt, dass wir die Jacobimatrizen $J_\sigma$ eingeschränkt auf die Polyeder $P_\sigma$ der betrachten müssen.
-Für die explizite Darstellung Dieser betrachten wir dazu die erste Zeile der Abs-Normal Form
+Das heißt, dass wir die Jacobimatrizen $J_\sigma$ eingeschränkt auf die Polyeder $P_\sigma$ der zugrunde liegenden Abs-Normal Form betrachten müssen.
+Für die explizite Darstellung Dieser betrachten wir die erste Zeile der Abs-Normal Form
 \begin{align*}
 	z &= c+ Zx + L|z|
 \end{align*}
-Wenn wir uns innerhalb eines Polyeders befinden, sind die Vorzeichen von $z$ eindeutig bestimmt, es ergibt sich also  
+Wenn wir uns innerhalb eines Polyeders befinden, sind die Vorzeichen von $z$ eindeutig bestimmt und fixiert. Es ergibt sich also  
 \begin{align*}
 |z| = \Sigma z~ \text{ für }~\Sigma_{ii} =\case{
 \text{sign}(z_i) & z_i\neq 0\\
@@ -226,9 +226,9 @@ Umgestellt folgt, dass
 \begin{align*}
 &&z &= c+ Zx + L\Sigma z\\
 &\iff & (I-L\Sigma)z &= c+ Zx \\
-&\iff & z &= (I-L\Sigma)^{-1}(c+ Zx)\\
+&\iff & z &= (I-L\Sigma)^{-1}(c+ Zx).
 \end{align*}
-Das Inverse von $(I-L\Sigma)$ ist wohldefiniert, da $\Sigma$ eine Diagonalmatrix, $L$ eine strikt untere Dreiecksmatrix und damit $(I-L\Sigma)$ invertierbar ist. 
+Die Inverse von $(I-L\Sigma)$ ist wohldefiniert, da $\Sigma$ eine Diagonalmatrix, $L$ eine strikt untere Dreiecksmatrix und damit $(I-L\Sigma)$ invertierbar ist. 
 Aufgrund der strikt unteren Dreiecksstruktur von L ist die Matrix nilpotent vom Grad $\nu\leq s$. Das bedeutet, dass die Neumannreihe konvergiert und insbesondere endlich ist
 \[
 (I-L\Sigma)^{-1} = I+L\Sigma + (L\Sigma)^2 + \ldots + (L\Sigma)^{\nu}
@@ -303,31 +303,31 @@ um die singulären Einträge von $J$ auf die unglatten Teile der Abs-Normal Form
 Griewank et al. beschreiben in \cite[Prop.5.2]{plan} die Bedingungen für globale Konvergenz.
 
 \begin{theorem}[Hinreichende Bedingungen für Konvergenz]
- Angenommen die Abs-Normal Form von $F$ besitzt einen invertierbaren glatten Teilmatrix $J$, $p\geq 1$ und dass
+ Angenommen, die Abs-Normal Form von $F$ besitzt eine invertierbare glatte Teilmatrix $J$, $p\geq 1$ und dass
  \[
   \hat \rho \equiv \| J^{-1}Y \|_p \|Z\|_p < 1 - \|L\|_p
  \]
- Dann konvergiert die verallgemeinerte Newtoniteration in endlich vielen Schritten von jedem $x_0$ zur einer eindeutigen Lösung $x_*$ falls
+ Dann konvergiert die verallgemeinerte Newtoniteration \eqref{eq:genNewtonIteration} mit $A=J_\sigma$ in endlich vielen Schritten von jedem $x_0$ zur einer eindeutigen Lösung $x_*$ falls
  \[
   \frac{\hat \rho}{(1-\hat \rho - \|L\|_p)(1-\|L\|_p)} < \frac{1}{2}
  \]
-Desweiteren sind beide, der Fehler der Lösung und die Residuen, monoton reduziert bzgl. der $p$-Norm.
+Desweiteren ist der Fehler der Lösung und die Residuen, monoton reduziert bzgl. der $p$-Norm.
 \end{theorem}
 
 \subsubsection{Komplementäres System}
 
-Falls $\det(J) \neq 0$ gilt, können wir das Schur Komplement definieren als 
+Falls $\det(J) \neq 0$ gilt, können wir das Schurkomplement definieren als 
  \[
   S \equiv L -ZJ^{-1}Y \in \R^{s\times s}
  \]
-Damit lässt sich die zweite Gleichung der Abs-Normal Form nach $x$ auflösen. Mit fixem $y=0$ folgt
+Damit lässt sich die zweite Zeile der Abs-Normal Form nach $x$ auflösen. Mit fixem $y=0$ folgt
 \[
  \begin{aligned}
 		 && 0 &=  b+Jx + Y|z|   \\
  \iff && x = x(z) &=-J^{-1}(b+Y|z|)
  \end{aligned}
 \]
-Dies wird nun in die erste Gleichung eingesetzt und das Schurkomplement darauf angewendet. Es entsteht die Vektorfunktion $H(z)$
+Dies wird nun in die erste Zeile der Abs-Normal Form eingesetzt und das Schurkomplement darauf angewendet. Es entsteht die Vektorfunktion $H(z)$
 \[
  H(z) = z - L|z| + ZJ^{-1}Y|z| = (I-S\Sigma)z = \hat c \equiv c-ZJ^{-1}b
  \]
@@ -339,10 +339,10 @@ Für ein gegebenes $z$ können wir die obere Gleichung ebenfalls nach $z$ auflö
  \Rightarrow && z = z(x) &= G^{-1}(c+Zx)\quad \text{mit }G(z)\equiv z-L|z|
 \end{aligned} 
 \]
-Den Zusammenhang zwischen dem komplementären Problem (CPL) $H(z) = \hat c$ und dem Ausgangsproblem $F(x) = 0$ stellt Griewank ebenfalls in \cite[Lemma 6.5.]{plan} dar
+Den Zusammenhang zwischen dem komplementären Problem (CPL) $H(z) = \hat c$ und dem Ausgangsproblem $F(x) = 0$ stellt Griewank ebenfalls in \cite[Lemma 6.5.]{plan} dar.
 
 \begin{theorem}
- Sei wie bisher $\det(J)\neq 0$. Ein Punkt $x_*\in \R^n$ ist eine Lösung des OPL $F(x)=0$ genau dann wenn er ein Fixpunkt von $x(z(x))$ ist. Dies ist wiederrum äquivalent dazu, dass $z_*=z(x_*)$ ein Fixpunkt von $z(x(z))$ und damit eine Lösung des CPL $H(z)=\hat c$ ist.
+ Sei wie bisher $\det(J)\neq 0$. Ein Punkt $x_*\in \R^n$ ist eine Lösung des OPL $F(x)=0$ genau dann, wenn er ein Fixpunkt von $x(z(x))$ ist. Dies ist wiederrum äquivalent dazu, dass $z_*=z(x_*)$ ein Fixpunkt von $z(x(z))$ und damit eine Lösung des CPL $H(z)=\hat c$ ist.
 \end{theorem}
 
 Das CPL System lässt sich als stückweise lineares, simply switched Problem auffassen, welche die Abs-Normal Form
@@ -373,9 +373,9 @@ besitzt. Daraus folgt die Newton Iteration (\cite[S.20]{plan})
  z_+ = (I-S\Sigma(z))^{-1}\hat c
 \end{equation}
 dessen Konvergenz für $\rho = \|S\|_p <\frac{1}{3}$ von Griewank in \cite[Prop. 7.3]{plan} bewiesen wurde. 
-Desweiteren kann gezeigt werden, dass $(I-\Sigma(z))$ ein verallgemeinerter Gradient von $H(z)$ ist. Jedoch ist dieser nicht zwangsweise eine limiting Jacobian.
+Desweiteren kann gezeigt werden, dass $(I-\Sigma(z))$ ein verallgemeinerter Gradient von $H(z)$ ist. Jedoch ist dieser nicht unbedingt ein limiting Jacobian.
  
-Eine allgemeinere Form der Systeme lässt sich durch Umstellen des Ursprungssystems erreichen. Stellen wir \eqref{eq:absNormalForm} nach $0$ um entsteht
+Eine allgemeinere Form der Systeme lässt sich durch Umstellen des Ursprungssystems erreichen. Lösen wir \eqref{eq:absNormalForm} nach $0$ auf entsteht
  \begin{equation}
 \label{eq:UPL}
   \begin{bmatrix}
@@ -396,26 +396,26 @@ Eine allgemeinere Form der Systeme lässt sich durch Umstellen des Ursprungssyst
  \end{equation}
 welches wir Unfolded System (UPL) nennen. Dieses reduziert sich für die Werte $(x,z(x))$ zum OPL System und für die Werte $(x(z),z)$ zum CPL System.
 \section{Algorithmus}
-Nun können wir einen implementierbaren Algorithmus für die verallgemeinerte implizite Mittelpunktsregel angeben, da wir alle benötigten Verfahren eingeführt haben. Im folgenden, wie auch bisher, sei $\check x$ ein bereits berechneter Punkt und $\hat x$ ein zu berechnender Punkt. $\xo$ sei der Entwicklungspunkt der stückweisen Linearisierung. Da $F(\xo)$ nicht von $t$ abhängt, kann die bereits hergeleitete Regel umgestellt werden zu 
+Nun können wir einen implementierbaren Algorithmus für die verallgemeinerte implizite Mittelpunktsregel angeben, da wir alle benötigten Verfahren eingeführt haben. Im folgenden, wie auch bisher, sei $x_a$ ein bereits berechneter Punkt und $ x_n$ ein zu berechnender Punkt. $\xo$ sei der Entwicklungspunkt der stückweisen Linearisierung. Da $F(\xo)$ nicht von $t$ abhängt, kann die bereits hergeleitete Regel umgestellt werden zu 
 \begin{equation}
 \label{eq:genMidpointAlg}
 \begin{aligned}
- && \hat x - \check x &= h\int_{-\sfrac{1}{2}}^{\sfrac{1}{2}}F(\xo)+ \Delta F(\xo;t(\hat x - \check x)) \\
- \iff && \hat x - \check x - hF(\xo) & =\underbrace{h \int_{-\sfrac{1}{2}}^{\sfrac{1}{2}} \Delta F(\xo;t(\hat x - \check x))}_{r} \\
- \iff && \hat x - \check x - hF(\xo) & =r(\hat x,\check x)
+ &&  x_n -  x_a &= h\int_{-\sfrac{1}{2}}^{\sfrac{1}{2}}F(\xo)+ \Delta F(\xo;t(x_n - x_a)) \\
+ \iff && x_n - x_a - hF(\xo) & =\underbrace{h \int_{-\sfrac{1}{2}}^{\sfrac{1}{2}} \Delta F(\xo;t(x_n - x_a))}_{r} \\
+ \iff && x_n - x_a - hF(\xo) & =r(x_n,x_a)
 \end{aligned}
 \end{equation}
-Um $r$ zu berechnen, wird die Quadratur aus Prozedur \ref{alg:quad} auf $\Delta x = \hat x - \check x$ und $-\Delta x$ angewendet. Im Falle, dass $r=0$ ist, ist $F$ glatt im Integrationsintervall aufgrund von \eqref{eq:equivalenceGenImplMidpoint}.
+Um $r$ zu berechnen, wird die Quadratur aus Prozedur \ref{alg:quad} auf $\Delta x = x_n - x_a$ und $-\Delta x$ angewendet. Im Falle, dass $r=0$ ist, ist $F$ glatt im Integrationsintervall aufgrund von \eqref{eq:equivalenceGenImplMidpoint}.
 
-Dazu wird $F(\xo)$ durch die stückweise Linearisierung $F(\xo)\approx F(\xoold)+\Delta F(\xoold;\xonew -\xoold )$ am neuen Basispunkt $\xo_{\text{new}}$ ersetzt. 
+Dazu wird $F(\xo)$ durch die stückweise Linearisierung $F(\xo)\approx F(\xoold)+\Delta F(\xoold;\xonew -\xoold )$ am neuen Basispunkt $\xonew$ ersetzt. 
 Wir wollen nun einen neuen Entwicklungspunkt $\xonew$ durch Fixpunktiteration finden, der die Gleichung \eqref{eq:genMidpointAlg} löst. 
-Es entsteht mit $\xo = \sfrac{1}{2} (\hat x + \check x) \iff \hat x = 2\xo - \check x$:
+Es entsteht mit $\xo = \sfrac{1}{2} (x_n + x_a) \iff x_n = 2\xo - x_a$:
 \begin{equation}
 \label{eq:reorderedGenMidpointAlg}
  \begin{aligned}
-		 && \hat x_{\text{new}} - \check x - h (F(\xoold) +\Delta F(\xoold,\xonew - \xoold) &= r(\hat x_{\text{old}},\check x)\\
- \iff && 2\xonew - 2\check x - h (F(\xoold) +\Delta F(\xoold,\xonew - \xoold) &= r(\hat x_{\text{old}},\check x)\\
- \iff && 2\xonew -  h (F(\xoold) +\Delta F(\xoold,\xonew - \xoold) &= r(\hat x_{\text{old}},\check x) + 2\check x
+		 && x_n^{\text{(new)}} - x_a - h (F(\xoold) +\Delta F(\xoold,\xonew - \xoold) &= r(x_n^{\text{(old)}},x_a)\\
+ \iff && 2\xonew - 2x_a - h (F(\xoold) +\Delta F(\xoold,\xonew - \xoold) &= r(x_n^{\text{(old)}},x_a)\\
+ \iff && 2\xonew -  h (F(\xoold) +\Delta F(\xoold,\xonew - \xoold) &= r(x_n^{\text{(old)}},x_a)\\&&&\quad + 2x_a
  \end{aligned}
 \end{equation}
 Die letzte Gleichung von \eqref{eq:reorderedGenMidpointAlg} ist stückweise linear und kann mit dem Unfolded Newton \eqref{eq:unfoldedNewton} gelöst werden. Der entstehende Algorithmus gestaltet sich damit zu Algorithmus \ref{alg:genMidpointRule}
@@ -426,21 +426,21 @@ Die letzte Gleichung von \eqref{eq:reorderedGenMidpointAlg} ist stückweise line
 \begin{algorithmic}\label{alg:solveOde}
 \Function{PlanC::solve\_ode}{$vec~ t,vec ~x_0,double ~TOL$} 
   \State{$N \gets t.length$}
-  \State{$\check x \gets x_0$}
+  \State{$x_a \gets x_0$}
   \For{$k\gets 0$ to $N$}
-    \State{$\xo \gets \check x + \sfrac{h}{2}F(\check x)$}
+    \State{$\xo \gets x_a + \sfrac{h}{2}F(x_a)$}
     \Repeat
       \State{$F(\xo)+ \Delta F(\xo,\cdot) \gets$ Update}
-      \State{$r\gets h\int_{-\sfrac{1}{2}}^{\sfrac{1}{2}} \Delta F(\xo;t(2\xo - 2\check x))$ dt}
-%       \State{$\xo\gets $Solve($2\xonew - h (F(\xonew)+\Delta F(\xonew;\xonew - \xoold)) = r(\check x_{\text{old}},\check x)+2\check x$)}
+      \State{$r\gets h\int_{-\sfrac{1}{2}}^{\sfrac{1}{2}} \Delta F(\xo;t(2\xo - 2x_a))$ dt}
+%       \State{$\xo\gets $Solve($2\xonew - h (F(\xonew)+\Delta F(\xonew;\xonew - \xoold)) = r(x_a_{\text{old}},x_a)+2x_a$)}
       \State{\begin{varwidth}[t]{\linewidth}
       $\xo\gets $Solve(\par
         \hskip\algorithmicindent  $2\xonew - h (F(\xonew)+\Delta F(\xonew;\xonew - \xoold)) = $ \par
-        \hskip\algorithmicindent $r(\check x_{\text{old}},\check x)+2\check x)$\par
+        \hskip\algorithmicindent $r(x_a^{\text{(old)}},x_a)+2x_a)$\par
       \end{varwidth}}
-      \State{$\hat x = 2\xo - \check x$}
-    \Until $\|\hat x - \check x-r -h F(\xo)\| < TOL$
-    \State{$\check x\gets 2\xo - \check x = \hat x$}
+      \State{$x_n = 2\xo - x_a$}
+    \Until $\|x_n - x_a-r -h F(\xo)\| < TOL$
+    \State{$x_a\gets  x_n $}
   \EndFor
 \EndFunction
 \end{algorithmic}
@@ -508,5 +508,5 @@ In den experimentellen Betrachtungen wird die Romberg Extrapolation für den Fal
 	  &= \frac{4\cdot T_{10}-T_{00}}{3}
  \end{aligned}
 \]
-Dabei ist mit einer quartischen Konvergenzordnung aufgrund von \eqref{eq:rombergConvergence} zu rechnen.
+Dabei ist mit einer Konvergenzordnung von $\mathcal O(h_0^5)$ aufgrund von \eqref{eq:rombergConvergence} für $m=1$ zu rechnen.
 
