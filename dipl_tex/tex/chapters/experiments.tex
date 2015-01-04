@@ -24,7 +24,7 @@ Es behandelt eine sich reibungslos bewegende Kugel auf einer konvexen Parabel, i
 \label{fig:rollingStonesSolution}
 \end{minipage}
 \end{figure}
-Figur \ref{fig:rollingStones} zeigt die Rampe
+Abbildung \ref{fig:rollingStones} zeigt die Rampe
 \[
  V(z) = \left(\frac{(1+z)^2}{2}\right)\chi_{(-\infty,-1]} + \left(\frac{(1-z)^2}{2}\right)\chi_{[1,\infty)} ,
  ~ \chi_{[a,b)}(z) = 
@@ -67,7 +67,7 @@ J = \begin{pmatrix}
  Y = \begin{pmatrix}
       0 & 0\\
       -0.5  & 0.5
-     \end{pmatrix}
+     \end{pmatrix}.
 \]
 Der Rest wird passend zur Dimension zu $0$ gesetzt. Für das Rolling Stones Beispiel lässt sich eine analytische Lösung zur ODE \eqref{eq:rolling_stones} für den Anfangswert $x_0=(1,1)$ angeben. Sie ist $2\pi+4$ periodisch, hat die Form
 \begin{equation}
@@ -79,7 +79,7 @@ Der Rest wird passend zur Dimension zu $0$ gesetzt. Für das Rolling Stones Beis
         \end{cases}
 \label{eq:analyticSolRolling}
 \end{equation}
-und wird in Figur \ref{fig:rollingStonesSolution} gezeigt. Dabei sind die grau eingezeichneten Bereiche linear.
+und wird in Abbildung \ref{fig:rollingStonesSolution} gezeigt. Dabei sind die grau eingezeichneten Bereiche linear.
 
 \subsection{Lösen der ODE}
 % Die Konvergenz der verallgemeinerten impliziten Mittelpunktsregel 
@@ -122,7 +122,7 @@ Da sich der rollende Stein reibungslos in unserem System bewegt, muss die analyt
  \label{eq:energyVariation}
 \end{equation}
 berechnet. Es ist deutlich zu erkennen, dass die Energie mit der GIMP deutlich besser erhalten bleibt als mit den klassischen Methoden, selbst für große Schrittweiten.
-Dadurch führt die in Figur \ref{fig:rollingStonesConvergenceRomberg} durchgeführte Romberg Extrapolation zu sehr guten Ergebnissen. Da der Konvergenzgraph der GIMP stabil ist, lässt sich eine gute Extrapolation mit Konvergenzen der Ordnung 3 bis 4 erreichen, wie in Theorem \ref{thm:rombergConvergence} vorhergesagt. Demgegenüber besitzt die Extrapolation der IMP keine höhere Konvergenzordnung als die der IMP selbst.
+Dadurch führt die in Abbildung \ref{fig:rollingStonesConvergenceRomberg} durchgeführte Romberg Extrapolation zu sehr guten Ergebnissen. Da der Konvergenzgraph der GIMP stabil ist, lässt sich eine gute Extrapolation mit Konvergenzen der Ordnung 3 bis 4 erreichen, wie in Theorem \ref{thm:rombergConvergence} vorhergesagt. Demgebenüber besitzt die Extrapolation der IMP keine höhere Konvergenzordnung als die der IMP selbst.
 \begin{figure}[H]
 \footnotesize 
 \centering
@@ -142,7 +142,7 @@ Dadurch führt die in Figur \ref{fig:rollingStonesConvergenceRomberg} durchgefü
 \end{figure}
 
 \subsection{Gradient des Kostenfunktionals}
-Ähnliche Ergebnisse wie beim Lösen der ODE erwarten wir für die Integration des inhomogenen adjungierten tangent linear models \eqref{eq:inhAdjEquation}. Falls nicht anders beschrieben, werden im Folgenden immer die exakte Lösung des Rolling Stones Beispiel \eqref{eq:analyticSolRolling} als Obervierungsparameter $x_{\text{Obs}}$ mit der selben Diskretisierung verwendet, wie bei der Vorwärtsintegration.
+Ähnliche Ergebnisse wie beim Lösen der ODE erwarten wir für die Integration des inhomogenen adjungierten tangent linear models \eqref{eq:inhAdjEquation}. Falls nicht anders beschrieben, werden im Folgenden immer die exakte Lösung des Rolling Stones Beispiel \eqref{eq:analyticSolRolling} als Obervierungsparameter $x_{\text{obs}}$ mit der selben Diskretisierung verwendet, wie bei der Vorwärtsintegration.
 
 Beim Plot des Gradienten nach Anfangswerten, wie in Abbildung \ref{fig:rollingGrad}, ist zu erkennen, dass der Gradient, berechnet mit der GIMP, ebenfalls stabiler wirkt (Fig. \ref{fig:rollingGrad} (a)), als der Gradient berechnet mit der IMP (Fig. \ref{fig:rollingGrad} (b)). Desweiteren existieren im Letzteren vereinzelt hohe Sprünge, welche durch nicht einbezogene Kinks erklärt werden können (siehe Abbildung \ref{fig:multipleKinksAdjoint}). 
 \begin{figure}[H]
@@ -189,7 +189,7 @@ Die Abbildung \ref{fig:rolling_adjoint_eq} zeigt die rückwärts zu integrierend
 \end{figure}
 
 
-Abbildung \ref{fig:rollingStonesAdjoint}(a) stellt die Konvergenz mit einer Funktion als Observierungsparameter dar. Das bedeutet, dass in jeder Verfeinerung ebenfalls die Observierungsparameter verfeinert wurden also $t_{\text{state}} = t_{\text{Obs}}$. Diskrete Observierungsparameter wurden bei Figur \ref{fig:rollingStonesAdjoint}(b) benutzt, sie blieben also bei jeder Verfeinerung des Gitters konstant. Die aus der GIMP berechneten Werte wurden mit einem Projektionsoperator vom Zustandsraum $X_{\text{State}}$ in den Raum der Observierungen $X_{\text{Obs}}$ projeziert, danach deren Differenz gebildet und wieder zurück nach $X_{\text{State}}$ projeziert.
+Abbildung \ref{fig:rollingStonesAdjoint}(a) stellt die Konvergenz mit einer Funktion als Observierungsparameter dar. Das bedeutet, dass in jeder Verfeinerung ebenfalls die Observierungsparameter verfeinert wurden also $t_{\text{state}} = t_{\text{obs}}$. Diskrete Observierungsparameter wurden bei Abbildung \ref{fig:rollingStonesAdjoint}(b) benutzt, sie blieben also bei jeder Verfeinerung des Gitters konstant. Die aus der GIMP berechneten Werte wurden mit einem Projektionsoperator vom Zustandsraum $X_{\text{State}}$ in den Raum der Observierungen $X_{\text{obs}}$ projeziert, danach deren Differenz gebildet und wieder zurück nach $X_{\text{State}}$ projeziert.
 Die Konvergenzplots \ref{fig:rollingStonesAdjoint} ergeben ähnliche Robustheitsresultate wie bei der Vorwärtsintegration. 
 Jedoch fällt die in Kapitel \ref{sec:adjointInclusion} vorhergesagte lineare Konvergenz aller Methoden auf, welche durch die Sprünge der rechten Seite erklärt werden kann.
 % Die lineare Konvergenz der beiden Plots liefert 
@@ -230,7 +230,7 @@ Die Optimierung in diesem Beispiel wurde mit dem BFGS - Verfahren (siehe Algorit
 
 Für bestimmte Anfangswerte divergiert die klassische Methode, wie in Abbildung \ref{fig:rollingStonesOpt1}, wohingegen die Optimierung über GIMP konvergiert. 
 
-Zusammenfassend ergibt sich für das Rolling Stones Beispiel ein insgesamt besseres Verhalten der verallgemeinerten Methoden im Gegensatz zu den Klassischen.
+Zusammenfassend ergibt sich für das Rolling Stones Beispiel ein insgesamt besseres Verhalten der verallgemeinerten Methoden im Gegensatz zu den klassischen Methoden.
 \begin{figure}[H]
 \footnotesize
 \centering
@@ -265,7 +265,7 @@ Zusammenfassend ergibt sich für das Rolling Stones Beispiel ein insgesamt besse
 
 
 \section{LC-Diode}
-Das nächste Beispiel hat mehr Nähe zu praktischen Themengebieten. In \cite{boeck2014experiments} eingeführt, betrachten wir einen LC-Schaltkreis in welchem wir den Widerstand durch eine Diode ausgewechselt haben. Dies sorgt für Unglätten in unseren Systemgleichungen. In Abbildung \ref{fig:lcDiode} ist eine schematische Darstellung des Problems dargestellt. 
+Das nächste Beispiel hat mehr Nähe zu praktischen Themengebieten. Eingeführt in \cite{boeck2014experiments}, betrachten wir einen LC-Schaltkreis in welchem wir den Widerstand durch eine Diode ausgewechselt haben. Dies sorgt für Unglätten in unseren Systemgleichungen. In Abbildung \ref{fig:lcDiode} ist eine schematische Darstellung des Problems dargestellt. 
 \begin{figure}[H]
 \centering
 \input{img/lc_circuit.tikz}
@@ -300,7 +300,7 @@ die Diode. Als Konstanten werden ähnliche Werte wie in echten Schaltkreisen ver
 \]
 Für den Anfangswert wird kein Strom angeschlossen, d.h. es gilt $x_1(0)  = x_2(0) = x_3(0) = 0$.
 
-Im Gegensatz zu dem Rolling Stones Beispiel lässt sich dieses Problem nicht in einer Abs-Normal Form darstellen, da es kein stückweise lineares Problem ist. Die in Theorem \ref{thm:quadrApproxPL} besagte Konvergenz zweiter Ordnung ist nun hier zu beachten, da sich das Modell nicht exakt Linearisieren lässt. Als weitere numerische Probleme stellen sich die kleinen Konstanten $L,C$ und $\beta$ und die kleine Schrittweite in einem Intervall von $[0, 10^{-8}]$ heraus. In der Lösung erhalten wir für die Ladung des Kondensators Größenordnungen von $10^{-13}$, welche an die Maschinengenauigkeit von $\approx 1.1\cdot 10^{-16}$ (double precision) grenzen.
+Im Gegensatz zu dem Rolling Stones Beispiel lässt sich dieses Problem nicht in einer Abs-Normal Form darstellen, da es kein stückweise lineares Problem ist. Die in Theorem \ref{thm:quadrApproxPL} besagte Konvergenz zweiter Ordnung ist nun hier zu beachten, da sich das Modell nicht exakt Linearisieren lässt. Als weitere numerische Probleme stellen sich die kleinen Konstanten $L,C$ und $\beta$ und die kleine Schrittweite in einem Intervall von $[0, 10^{-8}]$ heraus. In der Lösung erhalten wir für die Ladung des Kondensators Größenordnungen von $10^{-13}$, welche an die Maschinengenauigkeit von $\approx 10^{-16}$ (double precision) grenzen.
 
 \subsection{Lösen der ODE}
 \begin{figure}[H]
@@ -392,7 +392,7 @@ Beim Fehler über die Zeit in Abbildung \ref{fig:lcErrorOverTime} ist zu erkenne
 In diesem Abschnitt werden wir die Lösung im Intervall $[0,10^{-8}]$ mit den Anfangswerten $x_0=(0,0,0)$ als Observierungsparameter benutzen. Da wir keine analytische Lösung berechnen können, wird eine Lösung mit einer erheblich exakteren Schrittweite ($4N$) als Vergleichswert verwendet.
 
 Die rechte Seite des inhomogene adjungierten tangent linear models (\ref{fig:lcAdjointEqRHS}) besitzt in der zweiten Komponente Werte unterhalb der Maschinengenauigkeit. Demgegebenüber hat $\dot{\bar{x_3}}$ relativ große Werte.
-Wie in Abbildung \ref{fig:lcAdjointConvergence} zu erkennen, konvergiert der Gradient bei der LC-Diode mit einer deutlich höheren Ordnung als im Rolling Stones Beispiel. Mit glatten Observierungsparametern ist der mit der GIMP berechnete Gradient von Anfang an zwei Größenordnungen genauer (Abbildung \ref{fig:lcAdjointConvergence}(b)), als im Fall der Berechnung des Gradienten mit der IMP. Da die adjungierte rechte Seite (Abbildung \ref{fig:lcAdjointEqRHS}) fast keine Sprünge aufweist, ist die Konvergenz zweiter Ordnung zu erwarten.
+Wie in Abbildung \ref{fig:lcAdjointConvergence} zu erkennen, konvergiert der Gradient bei der LC-Diode mit einer deutlich höheren Ordnung als im Rolling Stones Beispiel. Mit glatten Observierungsparametern ist der mit der GIMP berechnete Gradient von Anfang an um zwei Größenordnungen genauer (Abbildung \ref{fig:lcAdjointConvergence}(b)), als im Fall der Berechnung des Gradienten mit der IMP. Da die adjungierte rechte Seite (Abbildung \ref{fig:lcAdjointEqRHS}) fast keine Sprünge aufweist, ist diese Konvergenz zweiter Ordnung zu erwarten.
 \begin{figure}[H]
 \footnotesize 
 \centering
@@ -427,17 +427,17 @@ Die Optimierungschritte über das Kostenfunktional, welche in Abbildung \ref{fig
 \input{img/lc_opt2_convergence.tikz}
 \caption*{(b) $x_0=(0,10^{-11},5\cdot 10^{-7})$}
 \end{minipage}
-\caption{LC Diode Data Assimilation Optimierung auf dem Intervall $I = [0,10^{-8}], N=512$}
+\caption{LC Diode Datenassimilation Optimierung auf dem Intervall $I = [0,10^{-8}], N=512$}
 \label{fig:lcOpt}
 \end{figure}
 
 
 \section{Shallow Water Equation}
 % \subsection{Problemstellung}
-Bisher wurde die stückweise Linearisierung nur mit gewöhnlichen Differentialgleichungen durchgeführt. Somit ist es das Ziel dieses Beispieles, diese Methoden auf eine partielle Differentialgleichung anzuwenden und mit ihr Data Assimilation durchführen.
+Bisher wurde die stückweise Linearisierung nur mit gewöhnlichen Differentialgleichungen durchgeführt. Somit ist es das Ziel dieses Beispieles, diese Methoden auf eine partielle Differentialgleichung anzuwenden und mit ihr Datenassimilation durchführen.
 
 Ein oft genutztes Beispiel, in dem Datenassimilierungsmethoden Anwendung finden ist die sogenannte Shallow Water Equation (vgl. \cite{zou,navon}). 
-Diese partiellen Differentialgleichungen gehören zur Klasse der Saint-Venan Systeme und beschreiben eine Strömung einer Flüssigkeit in einem Gebiet. Dabei werden diverse Nebenbedingungen wie Gravitationswellen, Bodenbegebenheit und Randgebiete berücksichtigt. Eingeführt wurden diese bereits vor über 140 Jahren von Saint-Venant \cite{saint1871theorie} und werden zur Simulation von Strömungen in Kanälen und Küstengebieten verwendet.
+Diese partiellen Differentialgleichungen gehören zur Klasse der Saint-Venan Systeme und beschreiben eine Strömung einer Flüssigkeit in einem Gebiet. Dabei werden diverse Nebenbedingungen wie Gravitationswellen, Bodenbegebenheit und das Randgebiet berücksichtigt. Eingeführt wurden diese bereits vor über 140 Jahren von Saint-Venant \cite{saint1871theorie} und werden zur Simulation von Strömungen in Kanälen und Küstengebieten verwendet.
 
 Im einfachsten eindimensionalen Fall ergibt sich das Saint-Venan System zu 
 \begin{equation}
@@ -456,7 +456,7 @@ Eine interessante Eigenschaft dieser Gleichung ist, dass sie glatte stationäre 
 \]
 erfüllen und unglatte stationäre Lösungen zulassen. Eine stationäre Lösung ist beispielsweise der "ruhende See"
 \[
- u=0, \quad h=\text{const}
+ u=0, \quad h=\text{const}.
 \]
 Methoden, die diese Lösungen erhalten werden als ausgeglichen (well balanced) bezeichnet. Falls die Höhe des Systems $h \approx 0 $, sich also einem \textit{dry state} nähert, kann sie durch numerische Ungenauigkeiten kleiner Null werden, sodass die Berechnung abbricht, da die Eigenwerte der Jacobimatrix von \eqref{eq:swe} die Form $u\pm \sqrt{gh}$ haben.
 
@@ -489,10 +489,10 @@ den Mittelwert der Erhaltungsgrößen der j-ten Zelle beschreibt. Der numerische
 \[
 \begin{aligned}
  H_{j+\sfrac{1}{2}}(t) =& \frac{a^+_{j+\sfrac{1}{2}}F(U^-_{j+\sfrac{1}{2}}) - a^-_{j+\sfrac{1}{2}}F(U^+_{j+\sfrac{1}{2}})}{a^+_{j+\sfrac{1}{2}} -a^-_{j+\sfrac{1}{2}}} \\
- & +\frac{a^+_{j+\sfrac{1}{2}} \cdot a^-_{j+\sfrac{1}{2}}}{a^+_{j+\sfrac{1}{2}} -a^-_{j+\sfrac{1}{2}}}\left[U^+_{j+\sfrac{1}{2}} - U^-_{j+\sfrac{1}{2}}\right]
+ & +\frac{a^+_{j+\sfrac{1}{2}} \cdot a^-_{j+\sfrac{1}{2}}}{a^+_{j+\sfrac{1}{2}} -a^-_{j+\sfrac{1}{2}}}\left[U^+_{j+\sfrac{1}{2}} - U^-_{j+\sfrac{1}{2}}\right].
 \end{aligned}
  \]
-Währenddessen $F$  die eigentliche rechte Seite der PDE beschreibt
+Währenddessen $F$  die rechte Seite der PDE beschreibt
 \[
  F(U) := \left( hu, \frac{(hu)^2}{h}  +\frac{g}{2} h^2 \right)^\tr
 \]
@@ -501,7 +501,7 @@ $U^\pm_{j+\sfrac{1}{2}}$ sind die linken/rechten Seiten einer stückweise linear
  U^\pm_{j+\sfrac{1}{2}} = U_{j+\sfrac{1}{2} \pm \sfrac{1}{2}} + \frac{\Delta x}{2} \left(U_x\right)_{j+\sfrac{1}{2}\pm\sfrac{1}{2}}
 \]
 Die numerischen Ableitungen $(U_x)_j$ stellen die komponentenweisen Approximationen von $U_x(x_j ,t)$ dar, welche durch nichtlineare \textit{Flux Limiter} berechnet werden. 
-Ansonsten kann oszillatorischen Verhalten in der Lösung aufgrund von unstetigem Verhalten der Lösung und deren Approximation auftreten (\cite[Abschnitt 6.6]{leveque2002finite}).
+Ansonsten kann oszillatorisches Verhalten in der Lösung aufgrund von unstetigem Verhalten der Lösung und deren Approximation auftreten (\cite[Abschnitt 6.6]{leveque2002finite}).
 Der verallgemeinerte MinMod Flux Limiter, welcher auch von Kurganov (\cite[(4.9)]{kurganov2000new}) benutzt wird, wurde in der Implementierung verwendet und hat die Form
 \[
  \left(U_x\right) = \text{minmod}\left(\theta \frac{\bar U_j- \bar U_{j-1}}{\Delta x},\frac{\bar U_{j+1}- \bar U_{j-1}}{2\Delta x},\theta\frac{ \bar U_{j+1}- \bar U_{j}}{\Delta x}  \right), \quad \theta \in [1,2]
@@ -530,7 +530,7 @@ Die rechts/linksseitigen lokalen Geschwindigkeiten $a^\pm_{j+\sfrac{1}{2}}$ werd
  \end{aligned}
 \]
 mit \begin{equation}
-u=\frac{h(hu)}{h^2 + \varepsilon}
+u=\frac{h(hu)}{h^2 + \varepsilon}.
 \label{eq:sweHuToU}
     \end{equation}
 In den numerischen Experimenten ist $\varepsilon = \sfrac{1}{\Delta x^4}$ gewählt.
@@ -558,7 +558,7 @@ In den numerischen Experimenten ist $\varepsilon = \sfrac{1}{\Delta x^4}$ gewäh
 \end{figure}
 
 
-Die Berechnung der Eigenwerte und der Ableitungen über den MinMod Limiter bringen Unglattheiten auf die rechten Seite von Gleichung \eqref{eq:swe}.  Der verallgemeinerte MinMod hat die switching depth $\nu = 3$ und erzeugt dadurch Knicke im computational graph. Gleiches gilt für die Eigenwertberechnung, welche eine switching depth von $\nu = 2$ erzeugt. Diese hohe switching depth führt in den Ergebnissen, wie in Abschnitt \ref{sec:absNormalForm} beschrieben, zu einer hohen Komplexität der Abs-Normal Form und numerischen Instabilitäten. In Abbildung \ref{fig:sweGrad} ist die rechte Seite in der Zeit abgebildet. Man kann erkennen, dass Knicke auf der rechten Seite vorhanden sind. Diese treten auf, falls eine flache in eine steile Steigung übergeht und vice versa. Ebenso ist das oszillatorische Verhalten an den Knicken zu erkennen, welche zu Fehlern in der Zeitintegration mit klassichen Methoden führen.
+Die Berechnung der Eigenwerte und der Ableitungen über den MinMod Limiter bringen Unglattheiten auf die rechten Seite von Gleichung \eqref{eq:swe}.  Der verallgemeinerte MinMod hat die switching depth $\nu = 3$ und erzeugt dadurch Knicke im computational graph. Gleiches gilt für die Eigenwertberechnung, welche eine switching depth von $\nu = 2$ erzeugt. Diese hohe switching depth führt in den Ergebnissen, wie in Abschnitt \ref{sec:absNormalForm} beschrieben, zu einer hohen Komplexität der Abs-Normal Form und numerischen Instabilitäten. In Abbildung \ref{fig:sweGrad} ist die rechte Seite in der Zeit abgebildet. Man kann erkennen, dass Knicke auf der rechten Seite vorhanden sind. Diese treten auf, falls eine flache in eine steile Steigung übergeht und umgekehrt. Ebenso ist das oszillatorische Verhalten an den Knicken zu erkennen, welches zu Fehlern in der Zeitintegration mit klassichen Methoden führt.
 
 \subsection{CFL Bedingung}
 Bei der Wahl der Methode zur Zeitintegration wird in der Praxis zwischen expliziten und impliziten Verfahren abgewägt. Dabei kommen Explizite Verfahren besonders dort zum Einsatz, wo eine Lösung mit möglichst kleinen Schritten benötigt wird. Für diesen Fall werden sogenannte higher order strong stability preserving (SSP) Runge Kutta Methoden verwendet, wozu auch das explizite Euler Verfahren gehört (\cite{gottlieb2003strong}). Dazu werden Anforderungen an die Koeffizienten des Runge Kutta Verfahrens gestellt, sodass sie sich prinzipiell aus einfachen Euler Schritten zusammensetzen und ihre Konvergenzeigenschaft auf die des Expliziten Euler Verfahrens zurückgeführt werden kann (\cite[Lemma 1.1]{gottlieb2003strong}). Explizite Verfahren besitzen den Vorteil, dass bei der Berechnung kein lineares Gleichungssystem gelöst werden muss, welches unter Umständen sehr groß sein kann und daher zu einem höheren Rechenaufwand führt.
@@ -568,7 +568,7 @@ Falls die Zeitschritte der Integration zu groß werden und damit über eine Nach
   Eine numerische Methode kann nur dann konvergent sein, wenn der numerische Definitionsbereich der Abhängigkeiten dem wahren Definitionsbereich der Abhängigkeiten der PDE enthält, zumindest für $\Delta t, \Delta x\to 0$.
 \end{theorem*}
 
-Falls nun aber größere Schrittweiten benutzt werden müssen, oder man nur an der Lösung eines entfernten Zeitschrittes interessiert ist, werden in der Praxis implizite Verfahren benutzt, welche keiner CFL Bedingung unterliegen. Dies liegt darin begründet, dass bei der Lösung des linearen Gleichungssystems der numerische Definitionsbereich der Abhängigkeiten der gesamte Definitionsbereich ist, welcher durch das lineare Gleichungssystem aneinander gekoppelt wird. Falls in der Realität Observierungen benutzt werden, dessen zeitliche Messungen weit auseinander liegen, kommt man nicht umhin, implizite Methoden zu nutzen.
+Falls nun aber größere Schrittweiten benutzt werden müssen, oder man nur an der Lösung eines entfernten Zeitschrittes interessiert ist, werden in der Praxis implizite Verfahren benutzt, welche keiner CFL Bedingung unterliegen. Dies liegt darin begründet, dass bei der Lösung des linearen Gleichungssystems der numerische Definitionsbereich der Abhängigkeiten der gesamte Definitionsbereich ist, d.h dass jedes Volumen mit den Anderen durch ein lineares Gleichungssystem gekoppelt ist. Falls in der Realität Observierungen benutzt werden, deren zeitliche Messungen weit auseinander liegen, kommt man nicht umhin, implizite Methoden zu nutzen.
 
 \subsection{Anfangswerte}
 \begin{figure}[H]
@@ -594,7 +594,7 @@ Die benutzten Anfangswerte $U_0 = (h_0,(hu)_0)$ sind in Abbildung \ref{fig:sweIn
  h_0^{(2)}(x)= \sin\left( \frac{2\pi k\cdot x}{L}\right) + 1.5 &&(hu)_0^{(2)}(x) = \cos\left( \frac{2\pi k\cdot x}{L}\right) + 1  && \text{(Schwingung)}
 \end{aligned}
 \]
-Wobei $\mathcal N(\mu, \sigma^2)$ die Normalverteilung mit Erwartungswert $\mu$, Varianz $\sigma^2$ und Multiplikator $n$ ist. Falls $U_0^{(2)}$ gewählt wurde ist mit $k\in \R$ die Periode definiert. 
+Wobei $\mathcal N(\mu, \sigma^2)$ die Normalverteilung mit Erwartungswert $\mu$, Varianz $\sigma^2$ und Multiplikator $n$ ist. Falls $U_0^{(2)}$ gewählt wurde, ist mit $k\in \R$ die Periode definiert. 
 \subsection{Lösen der ODE}
 Auch bei der Shallow Water Equation erhalten wir eine Konvergenz von $\mathcal O(\hat h^2)$, mit $\hat h$ als Schrittweite. Wie in Abbildung \ref{fig:sweConvergence} ersichtlich, ist der Konvergenzgraph sehr stabil gegenüber der IMP, wobei letztere stark springt.
 Im Falle einer Schrittweite von $1.6\cdot 10^2$ divergiert die implizite Mittelpunktsregel, wobei die GIMP konvergiert. 
@@ -614,7 +614,7 @@ Die Romberg Extrapolation (Abbildung \ref{fig:sweConvergenceRomberg}) konvergier
 \caption{Konvergenz SWE Romberg im Intervall $I = [0,50], L=100, \Delta x=10$ mit $U_0^{(1)},\theta=1$}
 \label{fig:sweConvergenceRomberg}
 \end{figure}
-Dass die GIMP eine bessere Integration liefert ist auch in Abbildung \ref{fig:sweErrorOverTime} ersichtlich, in dem der Fehler über die Zeit geplottet wurde. Während die GIMP anfangs schlechter integriert, besitzt sie, über einen längeren Zeitraum betrachtet, einen deutlich geringeren Fehler im Gegensatz zu den anderen Methoden.
+Dass die GIMP eine bessere Integration liefert ist auch in Abbildung \ref{fig:sweErrorOverTime} ersichtlich, in dem der Fehler über die Zeit geplottet wurde. Während die GIMP anfangs schlechter integriert, besitzt sie, über einen längeren Zeitraum betrachtet, einen deutlich geringeren Fehler als die anderen Methoden.
 
 \begin{figure}
 \footnotesize
@@ -634,7 +634,7 @@ Dass die GIMP eine bessere Integration liefert ist auch in Abbildung \ref{fig:sw
 \caption{SWE Fehler über Zeit mit $L=200,\Delta x=10,h = 1$ und $U_0^{(2)},k=2,\theta=1$}
 \label{fig:sweErrorOverTime}
 \end{figure}
-Da wir in unserem System periodische Randbedingungen haben und keine Reibung auftritt, müssen die Summe der potentiellen und kinetischen Energie konstant sein. Nun können wir den Energieverlust über die Zeit mittels der Formel \eqref{eq:energyVariation} berechnen. Dabei wird die Höhe $h$ als potentielle und $\frac{1}{2}u^2$ als kinetische Energie betrachtet, wobei $u$ sich aus Formel \eqref{eq:sweHuToU} ergibt. Es entsteht (für $\hat h$ als Schrittweite)
+Da wir in unserem System periodische Randbedingungen haben und keine Reibung auftritt, muss die Summe der potentiellen und kinetischen Energie konstant sein. Nun können wir den Energieverlust über die Zeit mittels der Formel \eqref{eq:energyVariation} berechnen. Dabei wird die Höhe $h$ als potentielle und $\frac{1}{2}u^2$ als kinetische Energie betrachtet, wobei $u$ sich aus Formel \eqref{eq:sweHuToU} ergibt. Es entsteht (für $\hat h$ als Schrittweite)
 \[
  \hat h \left[\sum_{l=0}^{T/\hat h} \left( h_l + \frac{1}{2} u_l^2 - \left(h_0 + \frac{1}{2} u_0^2\right)\right)^2\right]^{\sfrac{1}{2}}
 \]
@@ -687,7 +687,7 @@ Die schlechte Konvergenzordnung der Verfahren ist nicht verwunderlich, da die re
 \input{img/swe_convergence_adjoint_smooth.tikz}
 \caption*{(b) Summiert}
 \end{minipage}
-\caption{SWE Konvergenz von $\nabla J$ mit $L=50,\Delta x=10$, $x_0=U_0^{(2)},k=0.5$, $x_{\text{Obs}} = U_0^{(2)}, k=2$ und $\theta=1$}
+\caption{SWE Konvergenz von $\nabla J$ mit $L=50,\Delta x=10$, $x_0=U_0^{(2)},k=0.5$, $x_{\text{obs}} = U_0^{(2)}, k=2$ und $\theta=1$}
 \label{fig:sweConvergenceAdjoint}
 % \end{figure}
 % 
@@ -707,7 +707,7 @@ Die schlechte Konvergenzordnung der Verfahren ist nicht verwunderlich, da die re
 \input{img/swe_convergence_adjoint_smooth1.tikz}
 \caption*{(b) Glatte Observierung}
 \end{minipage}
-\caption{SWE Konvergenz von $\nabla J$ mit $L=50,\Delta x=10$, $x_0=U_0^{(2)},k=0.5$, $x_{\text{Obs}} = U_0^{(2)}, k=2$ und $\theta=2$}
+\caption{SWE Konvergenz von $\nabla J$ mit $L=50,\Delta x=10$, $x_0=U_0^{(2)},k=0.5$, $x_{\text{obs}} = U_0^{(2)}, k=2$ und $\theta=2$}
 \label{fig:sweConvergenceAdjoint1}
 \end{figure}
 
@@ -717,7 +717,7 @@ In Abbildung \ref{fig:sweConvergenceOpt} ist das Konvergenzresultat für eine Op
 \begin{figure}[H]
 \centering
 \input{img/swe_convergence_opt.tikz}
-\caption{SWE Konvergenz Optimierung mit Parametern $L=100,\Delta x=10$, $x_0=U_0^{(2)},k=0.5$, $x_{\text{Obs}} = U_0^{(2)}, k=1$ und $\theta=2$}
+\caption{SWE Konvergenz Optimierung mit Parametern $L=100,\Delta x=10$, $x_0=U_0^{(2)},k=0.5$, $x_{\text{obs}} = U_0^{(2)}, k=1$ und $\theta=2$}
 \label{fig:sweConvergenceOpt}
 \end{figure}
 
@@ -734,7 +734,7 @@ In Abbildung \ref{fig:sweConvergenceOpt} ist das Konvergenzresultat für eine Op
 \input{img/swe_opt_initial_values_hu.tikz}
 \caption*{(b) $hu$}
 \end{minipage}
-\caption{SWE Rekonstruktion der Anfangswerte mit $L=100,\Delta x=10$, $x_0=U_0^{(2)},k=0.5$, $x_{\text{Obs}} = U_0^{(2)}, k=1$ und $\theta=2$}
+\caption{SWE Rekonstruktion der Anfangswerte mit $L=100,\Delta x=10$, $x_0=U_0^{(2)},k=0.5$, $x_{\text{obs}} = U_0^{(2)}, k=1$ und $\theta=2$}
 \label{fig:sweOptInitValues}
 \end{figure}
 

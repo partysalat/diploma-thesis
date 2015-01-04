@@ -119,7 +119,7 @@ Die Implementierung der verallgemeinerten Mittelpunktregel in C++ wird analog de
 Die Methode \texttt{integrate} ist die Implementierung der Prozedur \ref{alg:quad} und \texttt{scale\_shift} erstellt eine verschobenes \texttt{Plan-C} Objekt, welches für die stückweise lineare Newton Prozedur \ref{eq:unfoldedNewton} verwendet wird.
 \subsection{Berechnung des Kostenfunktionals}\label{sec:implementation:costfunctional}
 % \subsection{Projektionsoperator}
-Die Berechnung des Kostenfunktionals \eqref{eq:costfunctional} ist prinzipiell die Berechnung der $L^2$- Norm der Differenz der Observierungsparameter mit den errechneten Werten. Zur Implementierung wird zuerst die Lösung des Systems an der Stelle \texttt{x0} errechnet und danach mittels der Trapezregel die $L^2$-Norm berechnet. Die Trapezregel 
+Die Berechnung des Kostenfunktionals \eqref{eq:costfunctional} ist prinzipiell die Berechnung der $L^2$- Norm der Differenz der Observierungsparameter mit den errechneten Werten. Zur Implementierung wird zuerst die Lösung des Systems an der Stelle \texttt{x0} errechnet und danach mittels der Trapezregel die $L^2$- Norm berechnet. Die Trapezregel 
 \[
  T_i(f) = h_i \frac{f(x_{i+1})+f(x_i)}{2}
 \]
