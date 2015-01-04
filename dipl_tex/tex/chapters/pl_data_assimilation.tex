@@ -3,20 +3,20 @@
 % \makeatletter\@ifundefined{fromRoot}{\newcommand{\fromRoot}[1]{../../#1}}{}\makeatother
 % \begin{document}
 \chapter{Datenassimilierung mittels stückweiser Linearisierung}
-In diesem Abschnitt widmen wir uns der Aufgabe, das inhomogene adjungierte tangent linear model \eqref{eq:inhAdjEquation} zur verallgemeinerten impliziten Mittelpunktsregel herzuleiten.
+In diesem Abschnitt widmen wir uns der Aufgabe, das inhomogene adjungierte Tangent Linear Model \eqref{eq:inhAdjEquation} zur verallgemeinerten impliziten Mittelpunktsregel herzuleiten.
 
 \section{Adjoint Inclusion}
 \label{sec:adjointInclusion}
 Angenommen die rechte Seite $F$ unserer Evolutionsgleichung \eqref{eq:odemodel} sei eine verkettet stückweise glatte Funktion. Dann behält die inhomogene adjungierte Gleichung \eqref{eq:inhAdjEquation} für die glatten Bereiche von $F$ ihre Gültigkeit. An den Nullstellen der switching Variablen $z$ erhalten wir jedoch
 \begin{equation}
  \label{eq:adjInclusion}
- \frac{d \delta' x}{dt} =- \partial F(x)^*\delta'x + \nabla H(t)
+ \frac{d \delta' x}{dt} \in- \partial F(x)^*\delta'x + \nabla H(t)
 \end{equation}
-Damit ist der Gradient eine mengenwertige Abbildung $\partial F(x)^*:\R^n\rightrightarrows \R^n$ und folglich eine \textit{Differential Inclusion}.
-Dadurch ist es möglich, dass in der Zeitintegration Sprünge durch den verallgemeinerten Gradienten $\partial F(x)^*$ auftreten. Falls die Zeitintegration konvergiert, ist deswegen mit einer geringen Konvergenzordnung von ungefähr $\mathcal O(h)$ zu rechnen.
+Damit ist der Gradient eine mengenwertige Abbildung $\partial F(x)^*:\R^n\rightrightarrows \R^n$ und folglich ist \eqref{eq:adjInclusion} eine \textit{Differential Inclusion}.
+Dadurch ist es möglich, dass in der Zeitintegration Sprünge durch den verallgemeinerten Gradienten $\partial F(x)^*$ auftreten. Falls die Zeitintegration konvergiert, ist deswegen mit einer geringen Konvergenzordnung von $\mathcal O(h)$ zu rechnen.
 % TODO: Konvergenzresultat?
 
-In der numerischen Berechnung muss der verallgemeinerte Gradient in eine Richtung $\Delta x$ betrachtet werden, sinnvollerweise in die Richtung des Inkrements der vorherigen Iteration $\Delta x_i = x_{i-1} - x_i$, falls wir uns in Iteration $i$ befinden, damit aus der Mengenwertigen Abbildung $ \partial F(x)^*$ ein Gradient ausgewählt wird. 
+In der numerischen Berechnung muss der verallgemeinerte Gradient in eine Richtung $\Delta x$ betrachtet werden, sinnvollerweise in die Richtung des Inkrements der vorherigen Iteration $\Delta x_i = x_{i-1} - x_i$, falls wir uns in Iteration $i$ befinden, damit aus der mengenwertigen Abbildung $ \partial F(x)^*$ ein Gradient ausgewählt wird. 
 Falls sich die Gerade $x_i + \Delta x$ auf einem Kink befindet, wie in Abiildung \ref{fig:adjValleyTracing} zu sehen, sprechen wir von einem so genannten \textit{valley tracing mode}, welcher von Khan und Barton in \cite{khan2014} ausführlich behandelt wird. 
 \begin{figure}
 \centering
@@ -34,7 +34,7 @@ Falls sich die Gerade $x_i + \Delta x$ auf einem Kink befindet, wie in Abiildung
 \label{fig:adjValleyTracing}
 \end{figure}
 
-Eine mögliche Umgehung des Problems des valley tracing modes stellt die Methode des \textit{Polynomial Escapes} dar.
+Eine mögliche Umgehung des Problems des valley tracing modes stellt die Methode des \textit{polynomial escapes} dar.
 \section{Polynomial Escape}
 %agenda:
 %brauche Richtung 
@@ -85,9 +85,9 @@ Ein naheliegender Ansatz ist die Auswertungsprozedur \eqref{eq:jacAbsNormalForm}
 \[
  \sigma_i = \text{firstsign}(z_i,\nabla z_i^\tr\Delta x) = \sign(z_i+\Delta z_i)
 \]
-anzuwenden. Hierbei ist firstsign$(z,\Delta z)$ eines Vektors $z$ definiert ist als das Vorzeichen der ersten nicht verschwindenden Komponente des Vektors $z$, ansonsten wird sie zu $\Delta z$ gesetzt. Falls nun alle Werte $\sigma_i \neq 0$ sind, ist $J_\sigma$ eine Bouligandableitung der Funktion $F$ und ihrer stückweisen Linearisierung im Polyeder $P_\sigma$ auf dessen Abschluss der Auswertungspunkt $\xo$ liegt (\cite[S.]{monster}).
+anzuwenden. Hierbei ist firstsign$(z,\Delta z)$ eines Vektors $z$ definiert ist als das Vorzeichen der ersten nicht verschwindenden Komponente des Vektors $z$, ansonsten wird firstsign$(z,\Delta z)$ zu $\Delta z$ gesetzt. Falls nun alle Werte $\sigma_i \neq 0$ sind, ist $J_\sigma$ eine Bouligandableitung der Funktion $F$ und ihrer stückweisen Linearisierung im Polyeder $P_\sigma$ auf dessen Abschluss der Auswertungspunkt $\xo$ liegt (\cite[S.30]{monster}).
 
-Der Ansatz diesen Pfad zu konstruieren besteht darin, den Richtungsvektor $e_1 = \Delta x$ mit $n-1$ linear unabhängigen Vektoren $e_2,\ldots, e_n$ zu komplementieren, sodass sie eine nichtsinguläre Basismatrix $E\in \R^{n\times n}$ bilden.
+Der Ansatz, um diesen Pfad zu konstruieren, besteht darin, den Richtungsvektor $e_1 = \Delta x$ mit $n-1$ linear unabhängigen Vektoren $e_2,\ldots, e_n$ zu komplementieren, sodass sie eine nichtsinguläre Basismatrix $E\in \R^{n\times n}$ bilden.
 Das bedeutet, wir stellen das System linear unabhängiger Vektoren $\tilde E$, welche wir definieren als
 \[
 \tilde E = 
@@ -184,9 +184,9 @@ Der Algorithmus \ref{alg:polynomialEscape} zeigt die zur Berechnung benötigten 
 \section{Adjungierte verallgemeinerte Mittelpunktsregel}
 
 % Wie wir in (??) beobachtet haben, müssen wir das Adjungierte Modell rückwärts integrieren. Die Grundidee besteht darin, dass wir auf das Adjungierte Modell (??) der Datenassimilierung ebenfalls wieder die verallgemeinerte Mittelpunktsregel (??) anwenden. Daher, dass wir das Integral in Teilintervalle zerlegen können, berechnen wir die kritischen Multiplikatoren, springen von Kink zu Kink und berechnen auf diesen Teilintervalen den Gradienten unserer rechten Seite $F$.
-In diesem Abschnitt wollen wir die inhomogene adjungierte Differentialgleichung auf die verallgemeinerte Mittelpunktsregel anwenden.
+In diesem Abschnitt wollen wir die verallgemeinerte Mittelpunktsregel auf die inhomogene adjungierte Differentialgleichung anwenden.
 
-Falls wir den Gradienten des Kostenfunktionals mit der impliziten Mittelpunktsregel berechnen, so würden wir als Auswertungspunkt des Gradienten den Mittelpunkt $\xo$ benutzen. Wie in Abbildung \ref{fig:multipleKinksAdjoint}(a) zu erkennen ist, kann dies dazu führen, dass der Gradient keine sinnvolle Aussage der Steigung widerspiegelt. Im Rolling Stones Beispiel (\ref{sec:rollingStonesExample}) mündet dieses Problem beispielsweise in einem sehr verzerrten Gradienten (siehe Abbildung \ref{fig:rollingGrad}). Wir wollen nun die Eigenschaften der verallgemeinerten impliziten Mittelpunktsregel nutzen, um eine Art Mittelwert des Gradienten berechnen zu können, der an den Stellen zwischen den Kinks, wie in Abbildung \ref{fig:multipleKinksAdjoint}(b), ausgewertet und gewichtet summiert wird. 
+Falls wir den Gradienten des Kostenfunktionals mit der impliziten Mittelpunktsregel berechnen, so würden wir als Auswertungspunkt des Gradienten den Mittelpunkt $\xo$ benutzen. Wie in Abbildung \ref{fig:multipleKinksAdjoint}(a) zu erkennen ist, kann dies dazu führen, dass der Gradient keine sinnvolle Aussage der Steigung widerspiegelt, da der Gradient nur an der Intervallmitte berechnet wird. Im Rolling Stones Beispiel (\ref{sec:rollingStonesExample}) mündet dieses Problem beispielsweise in einem sehr verzerrten Gradienten (siehe Abbildung \ref{fig:rollingGrad}). Wir wollen nun die Eigenschaften der verallgemeinerten impliziten Mittelpunktsregel nutzen, um eine Art Mittelwert des Gradienten berechnen zu können, der an den Stellen zwischen den Kinks, wie in Abbildung \ref{fig:multipleKinksAdjoint}(b), ausgewertet und gewichtet summiert wird. 
 
 \begin{figure}
 \footnotesize
@@ -201,7 +201,7 @@ Falls wir den Gradienten des Kostenfunktionals mit der impliziten Mittelpunktsre
 \input{img/multiple_kinks_adjoint_new.tikz}
 \caption*{(b) Verallgemeinerte implizite Mittelpunktsregel}
 \end{minipage}
-\caption{Punkte $\xo$ der Gradientberechnung in der Adjungierten Gleichung}
+\caption{Punkte $\xo$ der Gradientberechnung in der adjungierten Gleichung}
 \label{fig:multipleKinksAdjoint}
 \end{figure}
 
@@ -209,13 +209,12 @@ Falls wir den Gradienten des Kostenfunktionals mit der impliziten Mittelpunktsre
 Sei dazu $\tau$ der kritische Multiplikator zum nächsten Kink. $x_n$ und $x_a$ sind die jeweiligen iterierten Werte mit $\xo$ als deren Mittelpunkt und $\diff \xo$ als Differenz. Folglich ergibt sich 
 \begin{align*}
 \xo &= \frac{x_n+x_a}{2}\eq x_a = 2\xo - x_n\\
-\diff \xo &= \xo_n - \xo_a \eq \xo_n = \diff \xo + \xo_a\\
+\diff \xadj &= \xadj_n - \xadj_a \eq \xadj_n = \diff \xadj + \xadj_a\\
 x_n - x_a &= 2x_n - 2\xo\\
-\diff \tau_j&=\tau_j-\tau_{j-1}
 \end{align*}
 Die inhomogene adjungierte Differentialgleichung ergibt sich aus \eqref{eq:inhAdjEquation} mit adjungierter Variable $\xadj := \gatdiff x$ zu
 \begin{equation}
-\dot{\xadj} = x - x_{obs} - \frac{\partial F(x,d)}{\partial x}^\tr \cdot \xadj
+\dot{\xadj} = x - x_{\text{obs}} - \frac{\partial F(x,d)}{\partial x}^\tr \cdot \xadj.
 \label{eq:adjModel}
 \end{equation}
 
@@ -224,45 +223,45 @@ Wenn nun die verallgemeinerte Mittelpunktsregel \eqref{eq:genMidpointRule} auf d
 \xadj_n - \xadj_a &= h\cdot \int_{-0.5}^{0.5}\xo-\rxobs - \frac{\partial F(\xo,d)}{\partial x}^\tr \cdot \xadj\\
 									&= h\cdot \left[\xo-\rxobs - \int_{-0.5}^{0.5} \frac{\partial F(\xo ,d)}{\partial x}^\tr \cdot \xadj dt\right]\\
 \end{align*}
-Angenommen es existieren $l \in \mathbb{N}$ Kinks zwischen $x_n$ und $x_{a}$, wobei \[-0.5 = \tau_0 <\tau_1 <\ldots < \tau_l=0.5\] gilt, dann kann durch die Additivität das Integral aufgespalten werden, sodass wir über die Teilintervalle $[t_j,t_j+1], j=0,\ldots,l$ integrieren und unabhängige Variablen herausziehen können:
+Angenommen es existieren $N \in \mathbb{N}$ Kinks zwischen $x_n$ und $x_{a}$, wobei \[-0.5 = \tau_0 <\tau_1 <\ldots < \tau_l=0.5\] gilt, dann kann durch die Additivität das Integral aufgespalten werden, sodass wir über die Teilintervalle $[\tau_j,\tau_j+1],~ j=0,\ldots,N$ integrieren und unabhängige Variablen herausziehen können:
 \begin{align*}
-\xadj_n - \xadj_a &= h\cdot \left[ \xo-\rxobs - \sum_{i=1}^l \int_{\tau_{i-1}}^{\tau_{i}}\frac{\partial F(\xo+\tau_{i-1}d,d)}{\partial x}^\tr \cdot \xadj dt\right]\\
-									&= h\cdot \left[\xo -\rxobs - \sum_{i=1}^l \underbrace{\frac{\partial F(\xo+\tau_{i-1}d,d)}{\partial x}^\tr }_{A_i^\tr} \cdot \int_{\tau_{i-1}}^{\tau_{i}} \xadj dt\right]\\
+\xadj_n - \xadj_a &= h\cdot \left[ \xo-\rxobs - \sum_{i=1}^N \int_{\tau_{i-1}}^{\tau_{i}}\frac{\partial F(\xo+\tau_{i-1}d,d)}{\partial x}^\tr \cdot \xadj dt\right]\\
+									&= h\cdot \left[\xo -\rxobs - \sum_{i=1}^N \underbrace{\frac{\partial F(\xo+\tau_{i-1}d,d)}{\partial x}^\tr }_{A_i^\tr} \cdot \int_{\tau_{i-1}}^{\tau_{i}} \xadj dt\right]\\
 \end{align*}
 
-Nun wird die stückweise Linearisierung auf $\xadj$ angewendet. Es entsteht
+Nun wird die stückweise Linearisierung auf $\xadj$ angewendet. Es entsteht mit $\diff \tau_j=\tau_j-\tau_{j-1}$ und $\mathring \tau_j=\frac{1}{2}(\tau_j+\tau_{j-1})$ die folgende Umformung
 \allowdisplaybreaks
 \begin{align*}
-\xadj_n - \xadj_a &= h\cdot (\xo -\rxobs - \sum_{i=1}^l A_i^\tr \cdot \int_{\tau_{i-1}}^{\tau_{i}} \rxadj + t\diff \xadj dt)\\
-		  &= h\cdot \left[\xo -\rxobs - \sum_{i=1}^l A_i^\tr \cdot \left[t\rxadj + \frac{t^2}{2}\diff \xadj \right]_{\tau_{i-1}}^{\tau_i} \right]\\
-		  &= h\cdot \left[\xo -\rxobs - \sum_{i=1}^l A_i^\tr \cdot \left( (\tau_i - \tau_{i-1})\cdot \rxadj + \frac{1}{2}\diff \xadj \cdot(\tau_i^2-\tau_{i-1}^2) \right)\right]\\
-		  &= h\cdot \left[\xo -\rxobs - \sum_{i=1}^l A_i^\tr \cdot \left(\diff \tau_i\cdot \rxadj +  \diff \tau_i \frac{1}{2}\cdot(\tau_i+\tau_{i-1})\cdot \diff \xadj \right)\right]\\
-		  &= h\cdot \left[\xo -\rxobs - \sum_{i=1}^l A_i^\tr \cdot \left( \diff \tau_i\cdot \rxadj +  \diff \tau_i \rtau_i \diff \xadj \right)\right]
+\xadj_n - \xadj_a &= h\cdot \left[\xo -\rxobs - \sum_{i=1}^N A_i^\tr \cdot \int_{\tau_{i-1}}^{\tau_{i}} \rxadj + t\diff \xadj dt\right]\\
+		  &= h\cdot \left[\xo -\rxobs - \sum_{i=1}^N A_i^\tr \cdot \left[t\rxadj + \frac{t^2}{2}\diff \xadj \right]_{\tau_{i-1}}^{\tau_i} \right]\\
+		  &= h\cdot \left[\xo -\rxobs - \sum_{i=1}^N A_i^\tr \cdot \left( (\tau_i - \tau_{i-1})\cdot \rxadj + \frac{1}{2}\diff \xadj \cdot(\tau_i^2-\tau_{i-1}^2) \right)\right]\\
+		  &= h\cdot \left[\xo -\rxobs - \sum_{i=1}^N A_i^\tr \cdot \left(\diff \tau_i\cdot \rxadj +  \diff \tau_i \frac{1}{2}\cdot(\tau_i+\tau_{i-1})\cdot \diff \xadj \right)\right]\\
+		  &= h\cdot \left[\xo -\rxobs - \sum_{i=1}^N A_i^\tr \cdot \left( \diff \tau_i\cdot \rxadj +  \diff \tau_i \rtau_i \diff \xadj \right)\right]
 \end{align*}
 
 Mit $\rxadj =\frac{1}{2}(\xadj_n + \xadj_a) $ und $\diff \xadj =\xadj_n - \xadj_a $ ergibt sich
 \allowdisplaybreaks
 \begin{align*}
-\xadj_n - \xadj_a &= h\cdot \left[\xo -\rxobs - \sum_{i=1}^l A_i^\tr \cdot \left( \diff \tau_i\cdot \frac{\xadj_n + \xadj_a}{2} +  \diff \tau_i \rtau_i (\xadj_n - \xadj_a) \right)\right]\\
+\xadj_n - \xadj_a &= h\cdot \left[\xo -\rxobs - \sum_{i=1}^N A_i^\tr \cdot \left( \diff \tau_i\cdot \frac{\xadj_n + \xadj_a}{2} +  \diff \tau_i \rtau_i (\xadj_n - \xadj_a) \right)\right]\\
  &= h\cdot \left(\xo -\rxobs\right) \\
- &\quad-h\left[\sum_{i=1}^l A_i^\tr \cdot \left( \left(\frac{1}{2} \diff \tau_i +\diff \tau_i \rtau_i\right) \cdot \xadj_n  +  \left(\frac{1}{2}\diff \tau_i-\diff \tau_i \rtau_i\right) \cdot \xadj_a \right)\right]\\
+ &\quad-h\left[\sum_{i=1}^N A_i^\tr \cdot \left( \left(\frac{1}{2} \diff \tau_i +\diff \tau_i \rtau_i\right) \cdot \xadj_n  +  \left(\frac{1}{2}\diff \tau_i-\diff \tau_i \rtau_i\right) \cdot \xadj_a \right)\right]\\
  &= h\cdot \left(\xo -\rxobs \right)\\
- &\quad-h \left[\left( \sum_{i=1}^l A_i^\tr \left(\frac{1}{2} \diff \tau_i +\diff \tau_i \rtau_i\right) \cdot \xadj_n  + \sum_{i=1}^l A_i^\tr  \left(\frac{1}{2}\diff \tau_i-\diff \tau_i \rtau_i\right) \cdot \xadj_a \right)\right]\\
+ &\quad-h \left[\left( \sum_{i=1}^N A_i^\tr \left(\frac{1}{2} \diff \tau_i +\diff \tau_i \rtau_i\right) \cdot \xadj_n  + \sum_{i=1}^N A_i^\tr  \left(\frac{1}{2}\diff \tau_i-\diff \tau_i \rtau_i\right) \cdot \xadj_a \right)\right]\\
 \end{align*}
  
 Durch Umsortierung erhalten wir
 \begin{equation}
 \label{eq:genMidpointAdjoint}
 \begin{aligned}
-&& \left[I +h\sum_{i=1}^l A_i^\tr \left(\frac{1}{2} \diff \tau_i +\diff \tau_i \rtau_i\right) \right]\xadj_n &= 
+&& \left[I +h\sum_{i=1}^N A_i^\tr \left(\frac{1}{2} \diff \tau_i +\diff \tau_i \rtau_i\right) \right]\xadj_n &= 
 \begin{aligned}[t]
-&\left[I - h\sum_{i=1}^l A_i^\tr  \left(\frac{1}{2}\diff \tau_i-\diff \tau_i \rtau_i\right)\right]\xadj_a \\
+&\left[I - h\sum_{i=1}^N A_i^\tr  \left(\frac{1}{2}\diff \tau_i-\diff \tau_i \rtau_i\right)\right]\xadj_a \\
 & +h (\xo -\rxobs)
 \end{aligned}\\
 \iff&& \left[I +\frac{h}{2} \bar{A}^\tr +h\hat{A}^\tr\right]\xadj_n &= \left[I - \frac{h}{2}\bar{A}^\tr + h\hat{A}^\tr\right]\xadj_a  +h (\xo -\rxobs)\\
 \end{aligned}
 \end{equation}
-mit $\bar{A}^\tr = \sum_{i=1}^l A_i^\tr \diff \tau_i $ und $\hat{A}^\tr = \sum_{i=1}^l A_i^\tr \diff \tau_i \rtau_i$.
+mit $\bar{A}^\tr = \sum_{i=1}^N A_i^\tr \diff \tau_i $ und $\hat{A}^\tr = \sum_{i=1}^N A_i^\tr \diff \tau_i \rtau_i$.
 Als Algorithmus ergibt sich folglich Prozedur 4, welche die Berechnung von $\bar A$ und $\hat A$ durchführt, als auch Prozedur 5, welche das erstellte Gleichungssystem löst.
  \begin{algorithm}[H]
  \algrenewcommand{\algorithmiccomment}[1]{\hfill{\scriptsize #1}}
@@ -294,18 +293,18 @@ Als Algorithmus ergibt sich folglich Prozedur 4, welche die Berechnung von $\bar
  \label{alg:jacDataAssimilation}
  \begin{algorithmic}[1]
 %  \Require $x_{0},t_0,T, h,x_{Obs}, TOL$
- \Function{jac\_data\_assimilation}{$x_{0},t_0,T, h,x_{Obs}, TOL$}
+ \Function{jac\_data\_assimilation}{$x_{0},t_0,T, h,x_{\text{obs}}, TOL$}
  \State $N = \ceilS{\frac{t_0 - T}{h}}$
  \State $\hat{\bar{x}} \gets 0$ \Comment{Setze Anfangswert}
  \State $x \gets  \Call{solveODE}{x_0,t_0, T,h, TOL};$\Comment{Löse ODE in Vorwärtsrichtung}
  \For{$k\gets$ N-1 to $1$} \Comment{Zeitschritt rückwärts}
  	%\State $\rx \gets \cx - \frac h2 F(\cx)$ \Comment{initialization by half Euler}
  	\State $\rx \gets 0.5(x_k + x_{k-1})$ \Comment{Berechne Mittelpunkt}
- 	\State $\pl_{\rx} F \gets \Call{Update}{}$ \Comment{Berechne neue Linearisierung am Mittelpunkt $\rx$}
+ 	\State $F(\rx) +\Delta F(\rx;\cdot) \gets$ \Call{Update}{} \Comment{Berechne neue Linearisierung am Mittelpunkt $\rx$}
  	\State $\Delta x \gets x_{k-1}-x_k$\Comment{Berechne neue Richtung}
  	\State $[\bar{A},\hat{A}] \gets \Call{calc\_kink\_partials}{x_k,x_{k-1},\Delta x}$  \Comment{Berechne $\partial F$ zwischen jedem Kink}
  	%\Until{$\|\hx - \cx - r - h F(\rx)\|$} < TOL
- 	\State $\check{\bar{x}} \gets \Call{Solve}{( I-\frac{h}{2}\bar{A}^\tr + h \hat{A}^\tr)\check{\bar{x}}  = (I+\frac{h}{2}\bar{A}^\tr + h\hat{A}^\tr)\hat{\bar{x}}- h(\rx-\rx_{Obs})}$
+ 	\State $\check{\bar{x}} \gets \Call{Solve}{( I-\frac{h}{2}\bar{A}^\tr + h \hat{A}^\tr)\check{\bar{x}}  = (I+\frac{h}{2}\bar{A}^\tr + h\hat{A}^\tr)\hat{\bar{x}}- h(\rx-\rx_{\text{obs}})}$
  \EndFor
  \State \Return $-\check{\bar{x}}$
  \EndFunction
