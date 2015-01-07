@@ -13,9 +13,38 @@ Angenommen die rechte Seite $F$ unserer Evolutionsgleichung \eqref{eq:odemodel} 
  \frac{d \delta' x}{dt} \in- \partial F(x)^*\delta'x + \nabla H(t)
 \end{equation}
 Damit ist der Gradient eine mengenwertige Abbildung $\partial F(x)^*:\R^n\rightrightarrows \R^n$ und folglich ist \eqref{eq:adjInclusion} eine \textit{Differential Inclusion}.
-Dadurch ist es möglich, dass in der Zeitintegration Sprünge durch den verallgemeinerten Gradienten $\partial F(x)^*$ auftreten. Falls die Zeitintegration konvergiert, ist deswegen mit einer geringen Konvergenzordnung von $\mathcal O(h)$ zu rechnen.
-% TODO: Konvergenzresultat?
 
+Gegeben sei beispielsweise die gewöhnliche Differentialgleichung
+\[
+ \xdot = |x|
+\]
+deren Lösung in Abbildung in \ref{fig:babyExampleSol} gegeben ist.
+
+
+\begin{figure}
+\footnotesize
+\begin{minipage}[b]{0.49\linewidth}
+% \begin{minipage}[t][3cm][t]{5cm}
+\centering
+\input{img/baby_solution.tikz}
+\caption{Trajektorie von $\xdot=|x|$ mit diversen Anfangswerten}
+\label{fig:babyExampleSol}
+\end{minipage}
+%  \quad 
+\begin{minipage}[b]{0.49\linewidth}
+% \begin{minipage}[t][3cm][t]{5cm}
+\centering
+\input{img/swe_error_over_time_all.tikz}
+\caption*{(b) Summiert}
+\end{minipage}
+
+\end{figure}
+
+% Baby Example
+
+
+Dadurch ist es möglich, dass in der Zeitintegration Sprünge durch den verallgemeinerten Gradienten $\partial F(x)^*$ auftreten. Falls die Zeitintegration konvergiert, ist deswegen mit einer geringen Konvergenzordnung von $\mathcal O(h)$ zu rechnen.
+\section{Valley Tracing Mode}
 In der numerischen Berechnung muss der verallgemeinerte Gradient in eine Richtung $\Delta x$ betrachtet werden, sinnvollerweise in die Richtung des Inkrements der vorherigen Iteration $\Delta x_i = x_{i-1} - x_i$, falls wir uns in Iteration $i$ befinden, damit aus der mengenwertigen Abbildung $ \partial F(x)^*$ ein Gradient ausgewählt wird. 
 Falls sich die Gerade $x_i + \Delta x$ auf einem Kink befindet, wie in Abiildung \ref{fig:adjValleyTracing} zu sehen, sprechen wir von einem so genannten \textit{valley tracing mode}, welcher von Khan und Barton in \cite{khan2014} ausführlich behandelt wird. 
 \begin{figure}
@@ -337,4 +366,13 @@ Dies entspricht der verallgemeinerten impliziten Mittelpunktsregel \eqref{eq:gen
 
  
 \section{Optimierung}
- Zur Zeit der Erstellung dieser Arbeit konnte keine sinnvolle Verbesserung der Optimierung des Kostenfunktionals gefunden werden. Es wird daher das BFGS Verfahren benutzt, welches nach Zou und Navon in \cite{zou1993numerical} gute Ergebnisse für die 4-D Datenassimilierung liefert. 
+Die Optimierung des Kostenfunktionals kann sich unter Umständen schwierig gestalten. In Abbildung \ref{fig:babyCostGrad} wurde das Beispiel aus Abschnitt \ref{sec:adjointInclusion} aufgegriffen und das Kostenfunktional und dessen Gradient für das Beispiel $\xdot = |x|$ geplottet. 
+\begin{figure}[H]
+\centering
+\input{img/baby_grad_cost.tikz}
+\caption{Kostenfunktional und Gradient für $\xdot = |x|,\xobs=1$}
+\label{fig:babyCostGrad}
+\end{figure}
+Zu sehen ist, dass für $x_0=0$ der Gradient des Kostenfunktionals einen Sprung aufweist. Dies ist ein sehr einfaches Beispiel. Es verdeutlicht jedoch, dass wir im Extremfall nur über Subgradienten optimieren können und diese Optimierung eine sehr langsame Konvergenzgeschwindigkeit aufweist. Alt hat dazu in seinem Buch ... TODO: REFERENZ ZU ALT
+
+Zur Zeit der Erstellung dieser Arbeit konnte keine sinnvolle Verbesserung der Optimierung des Kostenfunktionals gefunden werden. Es wird daher das BFGS Verfahren benutzt, welches nach Zou und Navon in \cite{zou1993numerical} gute Ergebnisse für die 4-D Datenassimilierung liefert. 

@@ -1,0 +1,23 @@
+\documentclass{standalone}
+\usepackage{pgfplots,pgfplotstable}
+\IfStandalone{
+	\usepackage{pgfplots,pgfplotstable}
+	\usetikzlibrary{external}
+	\newcommand{\fromRoot}[1]{../#1}
+}{%
+}
+\begin{document}
+\tikzsetnextfilename{baby_solution}
+\begin{tikzpicture}
+\begin{axis}[
+	width=\linewidth,
+	legend entries ={$x(t)$},
+ 	xlabel=$t$,
+ 	ylabel=$x$
+]
+  \foreach \ind in {0,2,...,39}{
+    \addplot[mark=none,very thin,blue] table[x index=0,y index=1] {\fromRoot img/data/baby_solution/sol\ind.dat};
+  }
+\end{axis}
+\end{tikzpicture}
+\end{document}

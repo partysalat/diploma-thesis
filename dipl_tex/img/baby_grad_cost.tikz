@@ -1,0 +1,24 @@
+\documentclass{standalone}
+\usepackage{pgfplots,pgfplotstable}
+\IfStandalone{
+	\usepackage{pgfplots,pgfplotstable}
+	\usetikzlibrary{external}
+	\newcommand{\fromRoot}[1]{../#1}
+}{%
+}
+\begin{document}
+\tikzsetnextfilename{baby_grad_cost}
+\begin{tikzpicture}
+\begin{axis}[
+	width=9cm,
+	legend entries ={$J(x_0)$,$\nabla J(x_0)$},
+ 	xlabel=$x_0$,
+ 	ylabel=$J$
+]
+  
+    \addplot[mark=none,very thin,blue] table[x index=0,y index=2] {\fromRoot img/data/baby_cost_grad.dat};
+  \addplot[mark=none,very thin,green] table[x index=0,y index=1] {\fromRoot img/data/baby_cost_grad.dat};
+ 
+\end{axis}
+\end{tikzpicture}
+\end{document}
