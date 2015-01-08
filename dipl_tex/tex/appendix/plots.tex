@@ -1,7 +1,78 @@
 \chapter{Plots}
-\section{Rolling Stones}
+ In Abschnitt \ref{ch:experiments} wurden möglichst aussagekräftige Plots dargestellt. Jene, die weniger sichtbare Ergebnisse lieferten sind zur besseren Vergleichbarkeit in diesem Anhang untergebracht.
+% \section{Rolling Stones}
 
 
-\section{LC-Diode}
+% \section{LC-Diode}
 
 \section{Shallow Water Equation}
+\begin{figure}[H]
+\centering
+\input{img_appendix/swe_convergence1.tikz}
+\caption{Konvergenz SWE im Intervall $I = [0,50], L=100, \Delta x=10$ mit $U_0^{(2)},k=2,\theta=1$}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\input{img_appendix/swe_convergence1_romberg.tikz}
+\caption{Konvergenz SWE im Intervall $I = [0,50], L=100, \Delta x=10$ mit $U_0^{(2)},k=2,\theta=1$}
+\end{figure}
+
+
+
+\begin{figure}[H]
+\footnotesize
+\begin{minipage}[b]{0.49\linewidth}
+% \begin{minipage}[t][3cm][t]{5cm}
+\centering
+\input{img_appendix/swe_error_over_time1.tikz}
+\caption*{(a) Am Zeitpunk $t$}
+\end{minipage}
+%  \quad 
+\begin{minipage}[b]{0.49\linewidth}
+% \begin{minipage}[t][3cm][t]{5cm}
+\centering
+\input{img_appendix/swe_error_over_time_all1.tikz}
+\caption*{(b) Summiert}
+\end{minipage}
+\caption{SWE Fehler über Zeit mit $I=[0,300], L=100, \Delta x=10, h = 1$ und $U_0^{(1)},n=10,\theta=1$}
+\end{figure}
+
+\begin{figure}
+\footnotesize
+\begin{minipage}[b]{0.49\linewidth}
+% \begin{minipage}[t][3cm][t]{5cm}
+\centering
+\input{img_appendix/swe_convergence_adjoint_discrete_theta1.tikz}
+\caption*{(a) diskrete Observierung}
+\end{minipage}
+%  \quad 
+\begin{minipage}[b]{0.49\linewidth}
+% \begin{minipage}[t][3cm][t]{5cm}
+\centering
+\input{img_appendix/swe_convergence_adjoint_smooth_theta1.tikz}
+\caption*{(b) Glatte Observierung}
+\end{minipage}
+\caption{SWE Konvergenz von $\nabla J$ mit $I=[0,50],L=50,\Delta x=10$, $x_0=U_0^{(1)},n=10$, $x_{\text{obs}} = U_0^{(1)}, n=20$ und $\theta=1$}
+% \end{figure}
+% 
+% \begin{figure}
+% \footnotesize
+\quad\\[0.3cm]
+\begin{minipage}[b]{0.49\linewidth}
+% \begin{minipage}[t][3cm][t]{5cm}
+\centering
+\input{img_appendix/swe_convergence_adjoint_discrete_theta2.tikz}
+\caption*{(a) Diskrete Observierung}
+\end{minipage}
+%  \quad 
+\begin{minipage}[b]{0.49\linewidth}
+% \begin{minipage}[t][3cm][t]{5cm}
+\centering
+\input{img_appendix/swe_convergence_adjoint_smooth_theta2.tikz}
+\caption*{(b) Glatte Observierung}
+\end{minipage}
+\caption{SWE Konvergenz von $\nabla J$ mit $I=[0,50],L=50,\Delta x=10$, $x_0=U_0^{(1)},n=10$, $x_{\text{obs}} = U_0^{(1)}, n=20$ und $\theta=2$}
+\end{figure}
+
+

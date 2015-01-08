@@ -43,7 +43,9 @@ deren Lösung in Abbildung in \ref{fig:babyExampleSol} gegeben ist.
 \caption{Inhomogene adjungierte Gleichung für $N=100, h=0.01, t_0=0, \xobs = 1$ und diverse Anfangswerte mit $x_0\in [-1,1]$}
 \label{fig:babyExampleAdjEq}
 \end{figure}
-Deren inhomogene adjungierte Gleichung, welche in Abbildung \ref{fig:babyExampleAdjEq}(a) geplottet wurde, weist an der Stelle $t = 1$ und im Intervall $t\in[0,0.01]$ Sprünge auf, die durch die unglatte Stellen in der Lösung (Abbildung \ref{fig:babyExampleAdjEq}(b)) erklärt werden. An diesen Stellen ist die adjungierte Gleichung durch den verallgemeinerten Gradienten $\partial F(x)^*$ eine Inklusion, sodass sie eventuell keine eindeutige Lösung mehr besitzt.  Bei der Anwendung numerischer Verfahren genau diese unglatten Stellen zu treffen und keine eindeutige Lösung zu erhalten, tritt mit Wahrscheinlichkeit $0$ auf und wurde in den Experimenten in Kapitel \ref{ch:experiments} nicht beobachtet. Offenbar ist das errechnete $\nabla J$ ein eindeutiger Gradient des Kostenfunktionals $J$.
+Deren inhomogene adjungierte Gleichung, welche in Abbildung \ref{fig:babyExampleAdjEq}(a) geplottet wurde, weist an der Stelle $t = 1$ und im Intervall $t\in[0,0.01]$ Sprünge auf, die durch die unglatte Stellen in der Lösung (Abbildung \ref{fig:babyExampleAdjEq}(b)) erklärt werden. An diesen Stellen ist die adjungierte Gleichung durch den verallgemeinerten Gradienten $\partial F(x)^*$ eine Inklusion, sodass sie eventuell keine eindeutige Lösung mehr besitzt.  Bei der Anwendung numerischer Verfahren genau diese unglatten Stellen zu treffen und keine eindeutige Lösung zu erhalten, tritt mit Wahrscheinlichkeit $0$ auf und wurde in den Experimenten in Kapitel \ref{ch:experiments} nicht beobachtet.
+% Selbst für extreme Beispiele, wie in Abbildung \ref{} bei den Experimenten,  
+Offenbar ist das errechnete $\nabla J$ ein eindeutiger Gradient des Kostenfunktionals $J$.
 
 Falls die Zeitintegration der adjungierten Gleichung konvergiert, was in den Experimenten durchweg der Fall war, ist aber, aufgrund der Sprünge, mit einer geringen Konvergenzordnung von $\mathcal O(h)$ zu rechnen.
 \section{Valley Tracing Mode}

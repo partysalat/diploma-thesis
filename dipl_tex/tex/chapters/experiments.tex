@@ -604,14 +604,14 @@ Die Romberg Extrapolation (Abbildung \ref{fig:sweConvergenceRomberg}) konvergier
 \begin{figure}
 \centering
 \input{img/swe_convergence.tikz}
-\caption{Konvergenz SWE im Intervall $I = [0,50], L=50, \Delta x=10$ mit $U_0^{(1)},\theta=1$}
+\caption{Konvergenz SWE im Intervall $I = [0,50], L=50, \Delta x=10$ mit $U_0^{(1)},n=10,\theta=1$}
 \label{fig:sweConvergence}
 \end{figure}
 
 \begin{figure}
 \centering
 \input{img/swe_convergence_romberg.tikz}
-\caption{Konvergenz SWE Romberg im Intervall $I = [0,50], L=100, \Delta x=10$ mit $U_0^{(1)},\theta=1$}
+\caption{Konvergenz SWE Romberg im Intervall $I = [0,50], L=100, \Delta x=10$ mit $U_0^{(1)},n=10,\theta=1$}
 \label{fig:sweConvergenceRomberg}
 \end{figure}
 Dass die GIMP eine bessere Integration liefert ist auch in Abbildung \ref{fig:sweErrorOverTime} ersichtlich, in dem der Fehler über die Zeit geplottet wurde. Während die GIMP anfangs schlechter integriert, besitzt sie, über einen längeren Zeitraum betrachtet, einen deutlich geringeren Fehler als die anderen Methoden.
@@ -631,7 +631,7 @@ Dass die GIMP eine bessere Integration liefert ist auch in Abbildung \ref{fig:sw
 \input{img/swe_error_over_time_all.tikz}
 \caption*{(b) Summiert}
 \end{minipage}
-\caption{SWE Fehler über Zeit mit $L=200,\Delta x=10,h = 1$ und $U_0^{(2)},k=2,\theta=1$}
+\caption{SWE Fehler über Zeit mit $I=[0,300], L=100, \Delta x=10, h = 1$ und $U_0^{(2)},k=2,\theta=1$}
 \label{fig:sweErrorOverTime}
 \end{figure}
 Da wir in unserem System periodische Randbedingungen haben und keine Reibung auftritt, muss die Summe der potentiellen und kinetischen Energie konstant sein. Nun können wir den Energieverlust über die Zeit mittels der Formel \eqref{eq:energyVariation} berechnen. Dabei wird die Höhe $h$ als potentielle und $\frac{1}{2}u^2$ als kinetische Energie betrachtet, wobei $u$ sich aus Formel \eqref{eq:sweHuToU} ergibt. Es entsteht (für $\hat h$ als Schrittweite)
@@ -678,16 +678,16 @@ Die schlechte Konvergenzordnung der Verfahren ist nicht verwunderlich, da die re
 % \begin{minipage}[t][3cm][t]{5cm}
 \centering
 \input{img/swe_convergence_adjoint_discrete.tikz}
-\caption*{(a) Am Zeitpunk $t$}
+\caption*{(a) Diskrete Observierung}
 \end{minipage}
 %  \quad 
 \begin{minipage}[b]{0.49\linewidth}
 % \begin{minipage}[t][3cm][t]{5cm}
 \centering
 \input{img/swe_convergence_adjoint_smooth.tikz}
-\caption*{(b) Summiert}
+\caption*{(b) Glatte Observierung}
 \end{minipage}
-\caption{SWE Konvergenz von $\nabla J$ mit $L=50,\Delta x=10$, $x_0=U_0^{(2)},k=0.5$, $x_{\text{obs}} = U_0^{(2)}, k=2$ und $\theta=1$}
+\caption{SWE Konvergenz von $\nabla J$ mit $I=[0,50],L=50,\Delta x=10$, $x_0=U_0^{(2)},k=0.5$, $x_{\text{obs}} = U_0^{(2)}, k=2$ und $\theta=1$}
 \label{fig:sweConvergenceAdjoint}
 % \end{figure}
 % 
@@ -707,7 +707,7 @@ Die schlechte Konvergenzordnung der Verfahren ist nicht verwunderlich, da die re
 \input{img/swe_convergence_adjoint_smooth1.tikz}
 \caption*{(b) Glatte Observierung}
 \end{minipage}
-\caption{SWE Konvergenz von $\nabla J$ mit $L=50,\Delta x=10$, $x_0=U_0^{(2)},k=0.5$, $x_{\text{obs}} = U_0^{(2)}, k=2$ und $\theta=2$}
+\caption{SWE Konvergenz von $\nabla J$ mit $I=[0,50],L=50,\Delta x=10$, $x_0=U_0^{(2)},k=0.5$, $x_{\text{obs}} = U_0^{(2)}, k=2$ und $\theta=2$}
 \label{fig:sweConvergenceAdjoint1}
 \end{figure}
 
@@ -717,7 +717,7 @@ In Abbildung \ref{fig:sweConvergenceOpt} ist das Konvergenzresultat für eine Op
 \begin{figure}[H]
 \centering
 \input{img/swe_convergence_opt.tikz}
-\caption{SWE Konvergenz Optimierung mit Parametern $L=100,\Delta x=10$, $x_0=U_0^{(2)},k=0.5$, $x_{\text{obs}} = U_0^{(2)}, k=1$ und $\theta=2$}
+\caption{SWE Konvergenz Optimierung mit Parametern $I=[0,100],L=100,\Delta x=10$, $x_0=U_0^{(2)},k=0.5$, $x_{\text{obs}} = U_0^{(2)}, k=1$ und $\theta=2$}
 \label{fig:sweConvergenceOpt}
 \end{figure}
 
@@ -734,7 +734,7 @@ In Abbildung \ref{fig:sweConvergenceOpt} ist das Konvergenzresultat für eine Op
 \input{img/swe_opt_initial_values_hu.tikz}
 \caption*{(b) $hu$}
 \end{minipage}
-\caption{SWE Rekonstruktion der Anfangswerte mit $L=100,\Delta x=10$, $x_0=U_0^{(2)},k=0.5$, $x_{\text{obs}} = U_0^{(2)}, k=1$ und $\theta=2$}
+\caption{SWE Rekonstruktion der Anfangswerte mit $I=[0,100],L=100,\Delta x=10$, $x_0=U_0^{(2)},k=0.5$, $x_{\text{obs}} = U_0^{(2)}, k=1$ und $\theta=2$}
 \label{fig:sweOptInitValues}
 \end{figure}
 

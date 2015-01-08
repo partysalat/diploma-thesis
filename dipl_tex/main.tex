@@ -49,6 +49,12 @@
 
 \pagenumbering{roman}
   \include{tex/chapters/titlepage}
+  \cleardoublepage
+\tableofcontents
+
+\addcontentsline{toc}{section}{Darstellungsverzeichnis}
+\renewcommand*\listfigurename{Darstellungsverzeichnis}
+\listoffigures
 
 \cleardoublepage
 \pagenumbering{arabic}

@@ -1,0 +1,43 @@
+\documentclass{standalone}
+\IfStandalone{
+	\usepackage{pgfplots,pgfplotstable}
+	\usetikzlibrary{external}
+	\newcommand{\fromRoot}[1]{../#1}
+}{%
+}
+\begin{document}
+\tikzsetnextfilename{swe_convergence_adjoint_discrete_theta_1}
+\begin{tikzpicture}
+\begin{loglogaxis}[
+	width=\linewidth,
+	xlabel=Anzahl der Freiheitsgrade $N$,
+	ylabel=Fehler zu $\nabla J$,
+	legend entries ={Expl. MP,
+	IMP,
+	GIMP 
+	},
+% 	ymax=3E-5,
+	legend style={at={(0.5,1.0)},anchor=south},
+	legend columns=2
+]
+	\addplot[mark=none,red,very thin] table[x index=0,y index=2] {\fromRoot img_appendix/data/swe_convergence_adjoint_discrete_theta1.dat};%expl midpoint
+ 	\addplot[mark=none,green,very thin] table[x index=0,y index=3] {\fromRoot img_appendix/data/swe_convergence_adjoint_discrete_theta1.dat};%impl midpoint
+	\addplot[mark=none,blue,very thin] table[x index=0,y index=1] {\fromRoot img_appendix/data/swe_convergence_adjoint_discrete_theta1.dat};%gen midpoint
+
+	\addplot[mark=none,very thin,gray, yshift=-20pt] 
+		table[y={create col/linear regression={x=t,y=a}}] {\fromRoot img_appendix/data/swe_convergence_adjoint_discrete_theta1.dat}
+		  coordinate [pos=0.2] (A)
+		  coordinate [pos=0.3] (B)
+		;
+	% save the slope parameter:
+	\pgfmathparse{-\pgfplotstableregressiona}	
+	\pgfmathsetmacro{\slope}{\pgfmathresult}
+	
+	% draw the opposite and adjacent sides
+	% of the triangle
+	\draw[very thin,gray] (B) -| (A)
+	node [pos=0.2,anchor=north]
+	{\pgfmathprintnumber{\slope}};
+\end{loglogaxis}
+\end{tikzpicture}
+\end{document}
