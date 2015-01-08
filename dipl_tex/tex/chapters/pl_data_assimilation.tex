@@ -20,30 +20,32 @@ Gegeben sei beispielsweise die gewöhnliche Differentialgleichung
 \]
 deren Lösung in Abbildung in \ref{fig:babyExampleSol} gegeben ist.
 
-
-\begin{figure}
+\begin{figure}[H]
 \footnotesize
+\centering
+\input{img/baby_solution.tikz}
+\caption{Trajektorien von $\xdot=|x|$ mit diversen Anfangswerten}
+\label{fig:babyExampleSol}
+\quad\\[0.3cm]
 \begin{minipage}[b]{0.49\linewidth}
 % \begin{minipage}[t][3cm][t]{5cm}
 \centering
-\input{img/baby_solution.tikz}
-\caption{Trajektorie von $\xdot=|x|$ mit diversen Anfangswerten}
-\label{fig:babyExampleSol}
+\input{img/baby_jac.tikz}
+\caption*{(a) adjungierte Gleichung $\dot{\bar x}(t)$}
 \end{minipage}
 %  \quad 
 \begin{minipage}[b]{0.49\linewidth}
 % \begin{minipage}[t][3cm][t]{5cm}
 \centering
-\input{img/swe_error_over_time_all.tikz}
-\caption*{(b) Summiert}
+\input{img/baby_jac_solution.tikz}
+\caption*{(b) Trajektorien von $\bar x(t)$}
 \end{minipage}
-
+\caption{Inhomogene adjungierte Gleichung für $N=100, h=0.01, t_0=0, \xobs = 1$ und diverse Anfangswerte mit $x_0\in [-1,1]$}
+\label{fig:babyExampleAdjEq}
 \end{figure}
+Deren inhomogene adjungierte Gleichung, welche in Abbildung \ref{fig:babyExampleAdjEq}(a) geplottet wurde, weist an der Stelle $t = 1$ und im Intervall $t\in[0,0.01]$ Sprünge auf, die durch die unglatte Stellen in der Lösung (Abbildung \ref{fig:babyExampleAdjEq}(b)) erklärt werden. An diesen Stellen ist die adjungierte Gleichung durch den verallgemeinerten Gradienten $\partial F(x)^*$ eine Inklusion, sodass sie eventuell keine eindeutige Lösung mehr besitzt.  Bei der Anwendung numerischer Verfahren genau diese unglatten Stellen zu treffen und keine eindeutige Lösung zu erhalten, tritt mit Wahrscheinlichkeit $0$ auf und wurde in den Experimenten in Kapitel \ref{ch:experiments} nicht beobachtet. Offenbar ist das errechnete $\nabla J$ ein eindeutiger Gradient des Kostenfunktionals $J$.
 
-% Baby Example
-
-
-Dadurch ist es möglich, dass in der Zeitintegration Sprünge durch den verallgemeinerten Gradienten $\partial F(x)^*$ auftreten. Falls die Zeitintegration konvergiert, ist deswegen mit einer geringen Konvergenzordnung von $\mathcal O(h)$ zu rechnen.
+Falls die Zeitintegration der adjungierten Gleichung konvergiert, was in den Experimenten durchweg der Fall war, ist aber, aufgrund der Sprünge, mit einer geringen Konvergenzordnung von $\mathcal O(h)$ zu rechnen.
 \section{Valley Tracing Mode}
 In der numerischen Berechnung muss der verallgemeinerte Gradient in eine Richtung $\Delta x$ betrachtet werden, sinnvollerweise in die Richtung des Inkrements der vorherigen Iteration $\Delta x_i = x_{i-1} - x_i$, falls wir uns in Iteration $i$ befinden, damit aus der mengenwertigen Abbildung $ \partial F(x)^*$ ein Gradient ausgewählt wird. 
 Falls sich die Gerade $x_i + \Delta x$ auf einem Kink befindet, wie in Abiildung \ref{fig:adjValleyTracing} zu sehen, sprechen wir von einem so genannten \textit{valley tracing mode}, welcher von Khan und Barton in \cite{khan2014} ausführlich behandelt wird. 

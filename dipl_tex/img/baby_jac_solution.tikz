@@ -1,0 +1,23 @@
+\documentclass{standalone}
+\usepackage{pgfplots,pgfplotstable}
+\IfStandalone{
+	\usepackage{pgfplots,pgfplotstable}
+	\usetikzlibrary{external}
+	\newcommand{\fromRoot}[1]{../#1}
+}{%
+}
+\begin{document}
+\tikzsetnextfilename{baby_jac_solution}
+\begin{tikzpicture}
+\begin{axis}[
+	width=\linewidth,
+	legend entries ={$\bar x(t)$},
+ 	xlabel=$t$,
+ 	ylabel=$\bar x$
+]
+  \foreach \ind in {0,20,...,199}{
+    \addplot[mark=none,very thin,green] table[x index=0,y index=1] {\fromRoot img/data/baby_jac_solution/jac\ind.dat};
+  }
+\end{axis}
+\end{tikzpicture}
+\end{document}

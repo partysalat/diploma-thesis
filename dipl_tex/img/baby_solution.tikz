@@ -10,7 +10,7 @@
 \tikzsetnextfilename{baby_solution}
 \begin{tikzpicture}
 \begin{axis}[
-	width=\linewidth,
+	width=6cm,
 	legend entries ={$x(t)$},
  	xlabel=$t$,
  	ylabel=$x$
