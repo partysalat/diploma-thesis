@@ -375,6 +375,6 @@ Die Optimierung des Kostenfunktionals kann sich unter Umständen schwierig gesta
 \caption{Kostenfunktional und Gradient für $\xdot = |x|,\xobs=1$}
 \label{fig:babyCostGrad}
 \end{figure}
-Zu sehen ist, dass für $x_0=0$ der Gradient des Kostenfunktionals einen Sprung aufweist. Dies ist ein sehr einfaches Beispiel. Es verdeutlicht jedoch, dass wir im Extremfall nur über Subgradienten optimieren können und diese Optimierung eine sehr langsame Konvergenzgeschwindigkeit aufweist. Alt hat dazu in seinem Buch ... TODO: REFERENZ ZU ALT
+Zu sehen ist, dass für $x_0=0$ der Gradient des Kostenfunktionals einen Sprung aufweist. Dies ist ein sehr einfaches Beispiel. Es verdeutlicht jedoch, dass wir im Extremfall nur über Subgradienten optimieren können und diese Optimierung eine sehr langsame Konvergenzgeschwindigkeit aufweist. Alt hat dazu in seinem Buch \cite{alt2004numerische} bewiesen, dass beispielsweise das Subgradientenverfahren allgemein schlechter als linear konvergiert (\cite[S.79]{alt2004numerische}).
 
 Zur Zeit der Erstellung dieser Arbeit konnte keine sinnvolle Verbesserung der Optimierung des Kostenfunktionals gefunden werden. Es wird daher das BFGS Verfahren benutzt, welches nach Zou und Navon in \cite{zou1993numerical} gute Ergebnisse für die 4-D Datenassimilierung liefert. 
