@@ -16,9 +16,11 @@ Damit ist der Gradient eine mengenwertige Abbildung $\partial F(x)^*:\R^n\rightr
 
 Gegeben sei beispielsweise die gewöhnliche Differentialgleichung
 \[
- \xdot = |x|
+\begin{aligned}
+ \xdot = |x|,&& x(0)=x_0,&& x_0\in\R
+ \end{aligned}
 \]
-deren Lösung in Abbildung in \ref{fig:babyExampleSol} gegeben ist.
+deren Lösung in Abbildung in \ref{fig:babyExampleSol}
 
 \begin{figure}[H]
 \footnotesize
@@ -26,26 +28,82 @@ deren Lösung in Abbildung in \ref{fig:babyExampleSol} gegeben ist.
 \input{img/baby_solution.tikz}
 \caption{Trajektorien von $\xdot=|x|$ mit diversen Anfangswerten}
 \label{fig:babyExampleSol}
-\quad\\[0.3cm]
+% \quad\\[0.3cm]
+% \begin{minipage}[b]{0.49\linewidth}
+% % \begin{minipage}[t][3cm][t]{5cm}
+% \centering
+% \input{img/baby_jac.tikz}
+% \caption*{(a) adjungierte Gleichung $\dot{\bar x}(t)$}
+% \end{minipage}
+% %  \quad 
+% \begin{minipage}[b]{0.49\linewidth}
+% % \begin{minipage}[t][3cm][t]{5cm}
+% \centering
+% \input{img/baby_jac_solution.tikz}
+% \caption*{(b) Trajektorien von $\bar x(t)$}
+% \end{minipage}
+% \caption{Inhomogene adjungierte Gleichung für $N=100, h=0.01, t_0=0, \xobs = 1$ und diverse Anfangswerte mit $x_0\in [-1,1]$}
+% \label{fig:babyExampleAdjEq}
+\end{figure}
+
+und analytisch gegeben ist mit 
+\[
+ \begin{aligned}
+  x(t) &= x_0 e^t &x_0>0\\
+  x(t) &= x_0 e^{-t} &x_0<0.\\
+  x(t) &= 0 &x_0\to 0.\\
+ \end{aligned}
+\]
+Die Ableitung der rechten Seite $\partial F(x)$ ist eine mengenwertige Funktion folgender Form
+\[
+\partial F(x) = \begin{cases}
+          1 & x>0\\
+         -1 &x<0\\
+          [-1,1] & x=0
+         \end{cases}
+\]
+Für $\xobs = 0$ und $C=I$ ergibt sich das adjungierte Tangent Linear Model zu
+\[
+ \begin{aligned}
+  \dot \xadj(t)  &= \partial F(x(t)) \xadj(t) - x(t) \\ 
+ \end{aligned}
+\]
+und damit 
+\[
+ \begin{aligned}
+  x_0>0: &&  \dot \xadj(t)  &= \partial F(x_0e^t) \xadj(t) - x_0e^t \\ 
+  x_0<0: &&  \dot \xadj(t)  &= \partial F(x_0e^{-t}) \xadj(t) - x_0e^{-t} \\ 
+  x_0\to 0:&& \dot \xadj(t)  &\in \partial F(0) \xadj(t). \\ 
+ \end{aligned}
+\]
+Das adjungierte Tangent Linear Model ist demnach für $x_0=0$ eine Differential Inclusion.
+
+\begin{figure}[H]
+\footnotesize
+\centering
 \begin{minipage}[b]{0.49\linewidth}
 % \begin{minipage}[t][3cm][t]{5cm}
 \centering
 \input{img/baby_jac.tikz}
-\caption*{(a) adjungierte Gleichung $\dot{\bar x}(t)$}
+\caption*{(a) adjungierte Gleichung $x_0=10^{-15}$}
 \end{minipage}
 %  \quad 
 \begin{minipage}[b]{0.49\linewidth}
 % \begin{minipage}[t][3cm][t]{5cm}
 \centering
-\input{img/baby_jac_solution.tikz}
-\caption*{(b) Trajektorien von $\bar x(t)$}
+\input{img/baby_jac_minus.tikz}
+\caption*{(b) adjungierte Gleichung $x_0=-10^{-15}$}
 \end{minipage}
-\caption{Inhomogene adjungierte Gleichung für $N=100, h=0.01, t_0=0, \xobs = 1$ und diverse Anfangswerte mit $x_0\in [-1,1]$}
+\caption{Auswirkung kleiner Abweichungen im Anfangswert an Unglätten auf die adjungierte Gleichung ($I=[0,100], \xobs = 0$)}
 \label{fig:babyExampleAdjEq}
 \end{figure}
-Deren inhomogene adjungierte Gleichung, welche in Abbildung \ref{fig:babyExampleAdjEq}(a) geplottet wurde, weist an der Stelle $t = 1$ und im Intervall $t\in[0,0.01]$ Sprünge auf, die durch die unglatte Stellen in der Lösung (Abbildung \ref{fig:babyExampleAdjEq}(b)) erklärt werden. An diesen Stellen ist die adjungierte Gleichung durch den verallgemeinerten Gradienten $\partial F(x)^*$ eine Inklusion, sodass sie eventuell keine eindeutige Lösung mehr besitzt. 
 
-In der numerischen Berechnung muss deshalb der verallgemeinerte Gradient in eine Richtung $\Delta x$ betrachtet werden, sinnvollerweise in die Richtung des Inkrements der vorherigen Iteration $\Delta x_i = x_{i-1} - x_i$, falls wir uns in Iteration $i$ befinden, damit aus der mengenwertigen Abbildung $ \partial F(x)^*$ ein Gradient ausgewählt wird. 
+Dieser Punkt kann numerisch problematisch werden, falls durch Rundungsfehler oder rechnerische Ungenauigkeiten nicht genau der exakte Punkt getroffen wird, sondern sich in einer Umgebung um $x_0$ befindet. Dann kann es geschehen, dass der Wert des Gradienten des Kostenfunktionals nicht eindeutig ist, wie beispielsweise in Abbildung \ref{fig:babyExampleAdjEq}.
+
+% ie errechneten Werte für den Gradienten des Kostenfunktionals für kleine Umgebungen 
+% Deren inhomogene adjungierte Gleichung, welche in Abbildung \ref{fig:babyExampleAdjEq}(a) geplottet wurde, weist an der Stelle $t = 1$ und im Intervall $t\in[0,0.01]$ Sprünge auf, die durch die unglatte Stellen in der Lösung (Abbildung \ref{fig:babyExampleAdjEq}(b)) erklärt werden. An diesen Stellen ist die adjungierte Gleichung durch den verallgemeinerten Gradienten $\partial F(x)^*$ eine Inklusion, sodass sie eventuell keine eindeutige Lösung mehr besitzt. 
+
+In der numerischen Berechnung der Lösung des adjungierten Modells muss der verallgemeinerte Gradient in eine Richtung $\Delta x$ betrachtet werden, sinnvollerweise in die Richtung des Inkrements der vorherigen Iteration $\Delta x_i = x_{i-1} - x_i$, falls wir uns in Iteration $i$ befinden, damit aus der mengenwertigen Abbildung $ \partial F(x)^*$ ein Gradient ausgewählt wird. 
 Falls sich nun die Gerade $x_i + \Delta x$ auf einem Kink befindet, wie in Abbildung \ref{fig:adjValleyTracing} zu sehen, sprechen wir von einem so genannten \textit{valley tracing mode}, welcher von Khan und Barton in \cite{khan2014} ausführlich behandelt wird. Ist dies der Fall, so ist Gleichung \ref{eq:adjInclusion} nicht nur punktweise, sondern auf einem Intervall eine Differential Inclusion.
 \begin{figure}
 \centering

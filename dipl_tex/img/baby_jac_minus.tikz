@@ -7,7 +7,7 @@
 }{%
 }
 \begin{document}
-\tikzsetnextfilename{baby_jac}
+\tikzsetnextfilename{baby_jac_minus}
 \begin{tikzpicture}
 \begin{axis}[
 	width=\linewidth,
@@ -18,8 +18,8 @@
 %   \foreach \ind in {0,20,...,199}{
 %     \addplot[mark=none,very thin,blue] table[x index=0,y index=1] {\fromRoot img/data/baby_jac/jac\ind.dat};
 %   }
-\addplot[mark=none,very thin,blue] table[x index=0,y index=1] {\fromRoot img/data/baby_jac/jacplus.dat};
-% \addplot[mark=none,very thin,blue] table[x index=0,y index=1] {\fromRoot img/data/baby_jac/jacminus.dat};
+% \addplot[mark=none,very thin,blue] table[x index=0,y index=1] {\fromRoot img/data/baby_jac/jacplus.dat};
+\addplot[mark=none,very thin,blue] table[x index=0,y index=1] {\fromRoot img/data/baby_jac/jacminus.dat};
 \end{axis}
 \end{tikzpicture}
 \end{document}
