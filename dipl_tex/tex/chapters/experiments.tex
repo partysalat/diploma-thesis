@@ -273,7 +273,7 @@ Das nächste Beispiel hat mehr Nähe zu praktischen Themengebieten. Eingeführt 
 \label{fig:lcDiode}
 \end{figure}
 Das beschreibende System hat die Form
-\[
+\begin{equation}
  \begin{pmatrix}
   \dot x_1\\
   \dot x_2\\
@@ -285,7 +285,8 @@ Das beschreibende System hat die Form
   x_3\\
   -\left(x_2-CV(x_1) + g(Cx_3)\right)\frac{1}{LC}
  \end{pmatrix}
-\]
+ \label{eq:lcDiodeSystemSimple}
+\end{equation}
 wobei $x_1$ die Zeit, $x_2$ die Ladung des Kondensators $C$ und $x_3$ die elektrische Stromstärke des Gesamtsystems bezeichnet. Die Spannungsquelle wird mittels $V(t)=\sin(\omega t)$ simuliert und $g(z)$ modelliert mittels der stückweisen linearen Funktion 
 \begin{equation}
  g(z) = \frac{z+|z|}{2\alpha} + \frac{z-|z|}{2\beta}  = \begin{cases}
@@ -386,13 +387,42 @@ Beim Fehler über die Zeit in Abbildung \ref{fig:lcErrorOverTime} ist zu erkenne
 \input{img/lc_adjoint_eq1.tikz}
 \caption*{(b) $\dot{\overline{x_3}}$}
 \end{minipage}
-\caption{LC Adjungierte Gleichung mit $x_0=(0,0,10^{-13})$}
+\caption{LC Adjungierte Gleichung mit $x_0=(0,0,0),I=[0,10^{-8}]$}
 \label{fig:lcAdjointEqRHS}
 \end{figure}
-In diesem Abschnitt werden wir die Lösung im Intervall $[0,10^{-8}]$ mit den Anfangswerten $x_0=(0,0,0)$ als Observierungsparameter benutzen. Da wir keine analytische Lösung berechnen können, wird eine Lösung mit einer erheblich exakteren Schrittweite ($4N$) als Vergleichswert verwendet.
 
-Die rechte Seite des inhomogene adjungierten tangent linear models (\ref{fig:lcAdjointEqRHS}) besitzt in der zweiten Komponente Werte unterhalb der Maschinengenauigkeit. Demgegebenüber hat $\dot{\bar{x_3}}$ relativ große Werte.
-Wie in Abbildung \ref{fig:lcAdjointConvergence} zu erkennen, konvergiert der Gradient bei der LC-Diode mit einer deutlich höheren Ordnung als im Rolling Stones Beispiel. Mit glatten Observierungsparametern ist der mit der GIMP berechnete Gradient von Anfang an um zwei Größenordnungen genauer (Abbildung \ref{fig:lcAdjointConvergence}(b)), als im Fall der Berechnung des Gradienten mit der IMP. Da die adjungierte rechte Seite (Abbildung \ref{fig:lcAdjointEqRHS}) fast keine Sprünge aufweist, ist diese Konvergenz zweiter Ordnung zu erwarten.
+% In diesem Abschnitt werden wir die Lösung im Intervall $[0,10^{-8}]$ mit den Anfangswerten $x_0=(0,0,0)$ als Observierungsparameter benutzen. Da wir keine analytische Lösung berechnen können, wird eine Lösung mit einer erheblich exakteren Schrittweite ($4N$) als Vergleichswert verwendet.
+
+In diesem Abschnitt sollen die Konstanten $\alpha$ und $\beta$ anhand von Observierungen von $x_1,x_2$ und $x_3$ mittels Datenassimilation berechnet werden. Dazu wird Gleichung \eqref{eq:lcDiodeSystemSimple} um die beiden Variablen $\dot \alpha = 0$ und $\dot \beta = 0$ erweitert zu
+\begin{equation}
+ \begin{pmatrix}
+  \dot x_1\\
+  \dot x_2\\
+  \dot x_3\\
+  \dot \alpha\\
+  \dot \beta\\
+ \end{pmatrix}
+ = 
+ \begin{pmatrix}
+  1\\
+  x_3\\
+  -\left(x_2-CV(x_1) + g(Cx_3)\right)\frac{1}{LC}\\
+  0\\
+  0
+ \end{pmatrix}.
+ \label{eq:lcDiodeSystemExtended}
+\end{equation}
+Als Projektionsoperator $C$ wird die Matrix 
+\[C=
+ \begin{pmatrix}
+  1 &0 &0 &0 &0  \\
+  0 &1 &0 &0 &0  \\
+  0 &0 &1 &0 &0  \\
+ \end{pmatrix}
+\]
+verwendet, welche die Werte $\alpha$ und $\beta$ ausblendet. Als Observierungsparameter wird, falls nicht anders beschrieben, die möglichst exakte Lösung ($4N$-Freiheitsgrade) zu den Anfangswerten $\xobs = (0,0,0,1,10^{-6})$ verwendet, welche danach mittels $C$ projeziert wird. 
+
+Die rechte Seite des inhomogenen adjungierten Tangent Linear Models (\ref{fig:lcAdjointEqRHS}) besitzt in der zweiten Komponente  $\dot{\bar{x_2}}$ Werte nahe der Maschinengenauigkeit. Demgegebenüber hat $\dot{\bar{x_3}}$ sehr große Werte.
 \begin{figure}[H]
 \footnotesize 
 \centering
@@ -407,29 +437,65 @@ Wie in Abbildung \ref{fig:lcAdjointConvergence} zu erkennen, konvergiert der Gra
 \input{img/lc_convergence_adjoint_smooth.tikz}
 \caption*{(b) Glatte Observierung}
 \end{minipage}
-\caption{LC Diode Konvergenz $\nabla J(x_0)$, \\$I=[0,10^{-8}],x_0=(0,0,10^{-13})$}
-\label{fig:lcAdjointConvergence}
-\end{figure}
-
-Die Optimierungschritte über das Kostenfunktional, welche in Abbildung \ref{fig:lcOpt} gezeigt werden, verläuft mit der GIMP ebenfalls stabiler als mit der IMP. Man sieht, dass nach zirka fünf Schritten die Konvergenz zunimmt bis sie schließlich nach 19 Schritten konvergiert (\ref{fig:lcOpt}(a)). Die Berechnung mittes IMP konvergiert nicht so gleichmäßig wie die GIMP. Jedoch ist das Konvergenzverhalten abhängig vom initial gewählten Anfangswert. In Abbildung \ref{fig:lcOpt}(b) konvergieren die IMP und die GIMP fast gleich schnell für variierte Anfangswerte.
-
-\begin{figure}[H]
-\footnotesize
-\centering
 \begin{minipage}[b]{0.49\linewidth}
 % \begin{minipage}[t][3cm][t]{5cm}
-\input{img/lc_opt1_convergence.tikz}
-\caption*{(a) $x_0=(0,10^{-10},3\cdot 10^{-8})$}
+\input{img/lc_convergence_adjoint_discrete_rom.tikz}
+\caption*{(c) Diskrete Observierung Romberg}
 \end{minipage}
 % \quad
 \begin{minipage}[b]{0.49\linewidth}
 % \begin{minipage}[t][3cm][t]{5cm}
-\input{img/lc_opt2_convergence.tikz}
-\caption*{(b) $x_0=(0,10^{-11},5\cdot 10^{-7})$}
+\input{img/lc_convergence_adjoint_smooth_rom.tikz}
+\caption*{(d) Glatte Observierung Romberg}
 \end{minipage}
-\caption{LC Diode Datenassimilation Optimierung auf dem Intervall $I = [0,10^{-8}], N=512$}
-\label{fig:lcOpt}
+
+\caption{LC Diode Konvergenz $\nabla J(x_0)$, \\$I=[0,10^{-8}],x_0=(0,0,0,2,10^{-5}) $}
+\label{fig:lcAdjointConvergence}
 \end{figure}
+
+Die Konvergenz der adjungierten Gleichung fällt bei der GIMP deutlich besser aus, als im Rolling Stones Beispiel. Sie konvergiert nahezu quadratisch, sowohl für diskrete (Abbildung \ref{fig:lcAdjointConvergence}(a)) als auch für glatte Observierungen (Abbildung \ref{fig:lcAdjointConvergence}(b)). Demgegenüber besitzt die IMP nur eine knapp lineare Konvergenzordnung.
+Mit der Romberg Extrapolation erhält man sogar für die GIMP eine verbesserte Konvergenzordnung, die jedoch erst ab einem Freiheitsgrad von $5\cdot 10^{3}$ einen genaueren Wert liefert (Abbildung \ref{fig:lcAdjointConvergence}(c,d))
+
+
+% Die rechte Seite des inhomogene adjungierten tangent linear models (\ref{fig:lcAdjointEqRHS}) besitzt in der zweiten Komponente Werte unterhalb der Maschinengenauigkeit. Demgegebenüber hat $\dot{\bar{x_3}}$ relativ große Werte.
+% Wie in Abbildung \ref{fig:lcAdjointConvergence} zu erkennen, konvergiert der Gradient bei der LC-Diode mit einer deutlich höheren Ordnung als im Rolling Stones Beispiel. Mit glatten Observierungsparametern ist der mit der GIMP berechnete Gradient von Anfang an um zwei Größenordnungen genauer (Abbildung \ref{fig:lcAdjointConvergence}(b)), als im Fall der Berechnung des Gradienten mit der IMP. Da die adjungierte rechte Seite (Abbildung \ref{fig:lcAdjointEqRHS}) fast keine Sprünge aufweist, ist diese Konvergenz zweiter Ordnung zu erwarten.
+% \begin{figure}[H]
+% \footnotesize 
+% \centering
+% \begin{minipage}[b]{0.49\linewidth}
+% % \begin{minipage}[t][3cm][t]{5cm}
+% \input{img/lc_convergence_adjoint_discrete.tikz}
+% \caption*{(a) Diskrete Observierung}
+% \end{minipage}
+% % \quad
+% \begin{minipage}[b]{0.49\linewidth}
+% % \begin{minipage}[t][3cm][t]{5cm}
+% \input{img/lc_convergence_adjoint_smooth.tikz}
+% \caption*{(b) Glatte Observierung}
+% \end{minipage}
+% \caption{LC Diode Konvergenz $\nabla J(x_0)$, \\$I=[0,10^{-8}],x_0=(0,0,10^{-13})$}
+% \label{fig:lcAdjointConvergence}
+% \end{figure}
+% 
+% Die Optimierungschritte über das Kostenfunktional, welche in Abbildung \ref{fig:lcOpt} gezeigt werden, verläuft mit der GIMP ebenfalls stabiler als mit der IMP. Man sieht, dass nach zirka fünf Schritten die Konvergenz zunimmt bis sie schließlich nach 19 Schritten konvergiert (\ref{fig:lcOpt}(a)). Die Berechnung mittes IMP konvergiert nicht so gleichmäßig wie die GIMP. Jedoch ist das Konvergenzverhalten abhängig vom initial gewählten Anfangswert. In Abbildung \ref{fig:lcOpt}(b) konvergieren die IMP und die GIMP fast gleich schnell für variierte Anfangswerte.
+% 
+% \begin{figure}[H]
+% \footnotesize
+% \centering
+% \begin{minipage}[b]{0.49\linewidth}
+% % \begin{minipage}[t][3cm][t]{5cm}
+% \input{img/lc_opt1_convergence.tikz}
+% \caption*{(a) $x_0=(0,10^{-10},3\cdot 10^{-8})$}
+% \end{minipage}
+% % \quad
+% \begin{minipage}[b]{0.49\linewidth}
+% % \begin{minipage}[t][3cm][t]{5cm}
+% \input{img/lc_opt2_convergence.tikz}
+% \caption*{(b) $x_0=(0,10^{-11},5\cdot 10^{-7})$}
+% \end{minipage}
+% \caption{LC Diode Datenassimilation Optimierung auf dem Intervall $I = [0,10^{-8}], N=512$}
+% \label{fig:lcOpt}
+% \end{figure}
 
 
 \section{Shallow Water Equation}

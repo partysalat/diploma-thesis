@@ -231,7 +231,7 @@ Der Algorithmus \ref{alg:polynomialEscape} zeigt die zur Berechnung benötigten 
  \Function{gen\_jac}{$x,\Delta x$}
  	\State $k \gets \max_i\lbrace i~|~\Delta x_i\rbrace$
  	\State $z \gets $calculate\_z($x$)
- 	\For{$i=1\ldots n$}\Comment{Berechnung von $\nabla z$}
+ 	\For{$i=1\ldots s$}\Comment{Berechnung von $\nabla z$}
 	  \State $\sigma_i\gets \sign(z_i)$ 
 	  \State $\nabla z_{i,1} = Z.row(i)\cdot \Delta x$\Comment{Berechne $Z\Delta x$}
 	  \State $\nabla z_{i,j+1} = Z.row(i)\cdot e_j$, für $j=1,\ldots,k-1$
@@ -247,7 +247,7 @@ Der Algorithmus \ref{alg:polynomialEscape} zeigt die zur Berechnung benötigten 
 	  \State $\nabla y_{i,1} = J.row(i)\cdot \Delta x$\Comment{Berechne $J\Delta x$}
 	  \State $\nabla y_{i,j+1} = J.row(i)\cdot e_j$, für $j=1,\ldots,k-1$
 	  \State $\nabla y_{i,j} = J.row(i)\cdot e_j$, für $j=k+1,\ldots, n$
-	  \State $\nabla y.row(i) \mathrel{+}= Y_{i,j}\cdot \sigma_j\cdot \nabla z.row(j)$ für $j=1,\ldots, n$\Comment{Berechne $Y\nabla z$}
+	  \State $\nabla y.row(i) \mathrel{+}= Y_{i,j}\cdot \sigma_j\cdot \nabla z.row(j)$ für $j=1,\ldots, s$\Comment{Berechne $Y\nabla z$}
 	\EndFor
 	\For{$j=1\ldots n$}\Comment{Berechnung von $J_\sigma^E\cdot E^{-1}$}
 	  \State $\tilde J_{i,j} =\nabla y_{j,i+1}$für $i=1,\ldots,k-1$
