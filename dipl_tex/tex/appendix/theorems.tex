@@ -103,6 +103,47 @@ Für die Inkrementfunktion $\Delta F(x,\cdot)$ gilt dies nicht mit der Regel \re
  &\neq \alpha (\abs(\vo_j+ \Delta v_j) - \vo_i) \\
  \end{aligned}
 \]
+\section{Ableitung des Integranten des Kostenfunktionals}\label{sec:adjIntegrandCostfunctional}
+Die Ableitung von 
+\[
+H(x) = \|Cx -\xobs\|^2
+\]
+ergibt sich zu
+\[
+ \nabla_x H(x) = C^\tr(Cx -\xobs)
+\]
+da 
+\[
+\begin{aligned}
+H(x) &= \|Cx -\xobs\|^2\\
+     &= (Cx -\xobs)^\tr(Cx -\xobs)\\
+     &= ((Cx)^\tr -\xobs^\tr)(Cx -\xobs)\\
+     &= ((Cx)^\tr Cx -x^\tr C^\tr \xobs - \xobs^\tr Cx + y^\tr y)\\
+\end{aligned}
+\]
+Da für ein Skalar $a^\tr = a$ und $x^\tr C^\tr \xobs$ skalar ist, gilt 
+\[
+ x^\tr C^\tr \xobs =(x^\tr C^\tr \xobs)^\tr =  \xobs^\tr Cx
+\]
+und es folgt
+\[
+\begin{aligned}
+H(x) &= (Cx)^\tr Cx -2 x^\tr C^\tr \xobs + y^\tr y\\
+\end{aligned}
+\]
+
+Mit der Produktregel für den Ausdruck
+\[
+ \nabla_x ((Cx)^\tr Cx) = C^\tr Cx + C^\tr Cx = 2\cdot C^\tr Cx 
+ \]
+folgt dann 
+\[
+\begin{aligned}
+ \nabla_x H &= 2\cdot C^\tr Cx -2\cdot C^\tr \xobs\\
+	    &= 2\cdot C^\tr (Cx - \xobs)
+\end{aligned}
+\]
+\qed
 
 % \section{Verallgemeinerter MinMod Flux Limiter}
 % Der verallgemeinerte MinMod lautet

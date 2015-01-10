@@ -22,7 +22,7 @@ J(x_0) \coloneqq \frac{1}{2}\int_0^T H(x(t),t)dt = \frac{1}{2}\int_0^T \|C\cdot 
 % J(x_0) = \frac{1}{2}\int_0^T H(x(t),t)dt \text{ mit }H(x(t),t) \coloneqq  \|C\cdot x(V)-\xobs\|^2
 \end{equation}
 % mit $H(x(t),t) \coloneqq  \|C\cdot x(V)-\xobs\|^2$
-Die skalarwertige Funktion $J$ ist damit jene Funktion, die das Maß zwischen der Lösung $x$ und den Observierungsparametern $\xobs$ darstellt.
+mit $\|\cdot \|$ als euklidische Norm. Die skalarwertige Funktion $J$ ist damit jene Funktion, die das Maß zwischen der Lösung $x$ und den Observierungsparametern $\xobs$ darstellt.
 Man beachte, dass das Zielfunktional nur abhängig vom Anfangswert $x_0$ ist. Das Ziel besteht darin, $x_0 = x_0^*$ zu finden, sodass das unrestringierte Optimierungsproblem
 \begin{equation}
 \label{eq:bolzaProblem}
@@ -231,7 +231,14 @@ Die Gleichung \eqref{eq:adjointEssential} stellt die Basis für die Nutzung der 
 Um $\nabla_u J$ zu erhalten, muss zuerst $v = G(u)$ berechnet werden, danach $\nabla_v J$ und schlussendlich wieder $\nabla_u J$ durch \eqref{eq:adjointEssential}.
 
 \subsection{Berechnung des Gradienten}
-Um vorherige Betrachtungen auf die Ableitung des Zielfunktionals \eqref{eq:costfunctional} anwenden zu können wird die Gâteaux Ableitung des Kostenfunktionals \eqref{eq:costfunctional} zu einem Anfangswert $v$ wie folgt gebildet
+Um vorherige Betrachtungen auf die Ableitung des Zielfunktionals 
+\begin{equation}\label{eq:costfunctionalGen}
+ J(x_0) \coloneqq \int_0^T H(x(t),t)dt 
+\end{equation}
+% \eqref{eq:costfunctional}
+anwenden zu können wird die Gâteaux Ableitung des Kostenfunktionals 
+% \eqref{eq:costfunctional} 
+zu einem Anfangswert $v$ wie folgt gebildet
 \begin{equation}
 \label{eq:gatcost}
 \begin{aligned}
@@ -303,7 +310,7 @@ Für den Gradienten des Kostenfunktionals \eqref{eq:gradCostFunctional} entsteht
 \end{equation}
 Um den Gradienten des Kostenfunktionals nun darstellen zu können, benötigen wir die \textit{inhomogene adjungierte Gleichung} (oder auch \textit{inhomogenes adjungierte Tangent Linear Model})
 \begin{equation}
-\label{eq:inhAdjEquation}
+\label{eq:inhAdjEquationRaw}
 -d\gatdiff'x(t) = F'^*(t)\gatdiff'x - \nabla_x H(t)
 \end{equation}
 welche durch die Lösung 
@@ -312,7 +319,7 @@ welche durch die Lösung
  \gatdiff'x(t) = \int_t^{t_1} S(t,\tau)\nabla_x H(\tau)d\tau
 \end{equation}
 mit $\gatdiff x(t_1)=0$ beschrieben ist.
-Dass \eqref{eq:solutionInhAdjEquation} die inhomomgene adjungierte Gleichung \eqref{eq:inhAdjEquation} löst, lässt sich mittels der Eigenschaften des Resolventen \eqref{eq:resolventPropertiesA} und \eqref{eq:resolventPropertiesB} zeigen. Durch Substituieren erhält man
+Dass \eqref{eq:solutionInhAdjEquation} die inhomomgene adjungierte Gleichung \eqref{eq:inhAdjEquationRaw} löst, lässt sich mittels der Eigenschaften des Resolventen \eqref{eq:resolventPropertiesA} und \eqref{eq:resolventPropertiesB} zeigen. Durch Substituieren erhält man
 \begin{equation*}
  \begin{aligned}
   \frac{d\gatdiff'x}{dt} &= \frac{d}{dt} \int_t^{t_1} S(t,\tau)\nabla_x H(\tau)d\tau \\
@@ -346,13 +353,24 @@ Genauer werden die Schritte in Abbildung \ref{alg:genCostFunctionalPseudo} benö
  \begin{enumerate}
  \item Setze $v$ als Anfangswert des Modells \eqref{eq:odemodel} und löse dieses über das Intervall $[0,T]$, speichere berechnete Werte $x(t_i)$ ab\\
  ($0= t_0<~ t_1<\ldots<t_N=T$, $N\in \N$)
- \item Setze $\gatdiff 'x(T) = 0$, integriere die inhomogene adjungierte Gleichung \eqref{eq:inhAdjEquation} rückwärts in der Zeit von $T$ bis $0$, berechne zu den Zeitpunkten $t_i$ den Gradienten $F'^*(t_i)$ und $\nabla_x H(t_i)$ aus den gespeicherten Werten $x(t)$ aus Schritt 1.
+ \item Setze $\gatdiff 'x(T) = 0$, integriere die inhomogene adjungierte Gleichung \eqref{eq:inhAdjEquationRaw} rückwärts in der Zeit von $T$ bis $0$, berechne zu den Zeitpunkten $t_i$ den Gradienten $F'^*(t_i)$ und $\nabla_x H(t_i)$ aus den gespeicherten Werten $x(t)$ aus Schritt 1.
  \item $\nabla_v J = \gatdiff 'x(t_0)$
 \end{enumerate}
 \end{framed}
 \caption{Berechnung der Jacobimatrix des Kostenfunktionals $J$}
 \label{alg:genCostFunctionalPseudo}
 \end{figure}
+
+Für die Ableitung $\nabla_x H$, mit $H$ definiert im Kostenfunktional \ref{eq:costfunctional}, ergibt sich nach Anhang \ref{sec:adjIntegrandCostfunctional}
+\[
+ \nabla_x H = 2\cdot C^\tr (Cx - \xobs)
+\]
+und somit ist für das adjungierte Tangent Linear Model \ref{eq:inhAdjEquationRaw}
+\begin{equation}
+\label{eq:inhAdjEquation}
+ -d\gatdiff'x(t) = F'^*(t)\gatdiff'x - 2\cdot C^\tr (Cx - \xobs).
+\end{equation}
+
 
 % Übersetzt in Pseudocode lautet der Algorithmus
 %  \begin{algorithm}[H]

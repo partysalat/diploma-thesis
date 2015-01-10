@@ -634,18 +634,18 @@ Dass die GIMP eine bessere Integration liefert ist auch in Abbildung \ref{fig:sw
 \caption{SWE Fehler über Zeit mit $I=[0,300], L=100, \Delta x=10, h = 1$ und $U_0^{(2)},k=2,\theta=1$}
 \label{fig:sweErrorOverTime}
 \end{figure}
-Da wir in unserem System periodische Randbedingungen haben und keine Reibung auftritt, muss die Summe der potentiellen und kinetischen Energie konstant sein. Nun können wir den Energieverlust über die Zeit mittels der Formel \eqref{eq:energyVariation} berechnen. Dabei wird die Höhe $h$ als potentielle und $\frac{1}{2}u^2$ als kinetische Energie betrachtet, wobei $u$ sich aus Formel \eqref{eq:sweHuToU} ergibt. Es entsteht (für $\hat h$ als Schrittweite)
-\[
- \hat h \left[\sum_{l=0}^{T/\hat h} \left( h_l + \frac{1}{2} u_l^2 - \left(h_0 + \frac{1}{2} u_0^2\right)\right)^2\right]^{\sfrac{1}{2}}
-\]
-In Abbildung \ref{fig:sweEnergyVariation} ist dieser Fehler über die Schrittweite abgebildet.
-\begin{figure}
-\centering
-\input{img/swe_energy_variation.tikz}
-\caption{Energievariation der SWE mit $L=50,\Delta x = 10, I = [0,25],\theta=1,U_0^{(2)},k=0.5$}
-\label{fig:sweEnergyVariation}
-\end{figure}
-Es ist zu erkennen, dass in diesem Beispiel keine Verbesserung bzgl. des Energievariationsfehlers vorhanden ist.
+% Da wir in unserem System periodische Randbedingungen haben und keine Reibung auftritt, muss die Summe der potentiellen und kinetischen Energie konstant sein. Nun können wir den Energieverlust über die Zeit mittels der Formel \eqref{eq:energyVariation} berechnen. Dabei wird die Höhe $h$ als potentielle und $\frac{1}{2}u^2$ als kinetische Energie betrachtet, wobei $u$ sich aus Formel \eqref{eq:sweHuToU} ergibt. Es entsteht (für $\hat h$ als Schrittweite)
+% \[
+%  \hat h \left[\sum_{l=0}^{T/\hat h} \left( h_l + \frac{1}{2} u_l^2 - \left(h_0 + \frac{1}{2} u_0^2\right)\right)^2\right]^{\sfrac{1}{2}}
+% \]
+% In Abbildung \ref{fig:sweEnergyVariation} ist dieser Fehler über die Schrittweite abgebildet.
+% \begin{figure}
+% \centering
+% \input{img/swe_energy_variation.tikz}
+% \caption{Energievariation der SWE mit $L=50,\Delta x = 10, I = [0,25],\theta=1,U_0^{(2)},k=0.5$}
+% \label{fig:sweEnergyVariation}
+% \end{figure}
+% Es ist zu erkennen, dass in diesem Beispiel keine Verbesserung bzgl. des Energievariationsfehlers vorhanden ist.
 \subsection{Gradient und Optimierung}
 \begin{figure}[H]
 \footnotesize
