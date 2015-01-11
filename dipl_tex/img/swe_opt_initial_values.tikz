@@ -16,8 +16,8 @@
 	legend entries ={
 	$x_0^{(Obs)}$,
 	$x_0^{(Start)}$,
-	$x_0^{(PL)}$,
-	$x_0^{(Impl)}$
+	$x_0^{(Impl)}$,
+	$x_0^{(Pl)}$
 	},
 	legend style={at={(0.5,1.0)},anchor=south},
 	legend columns=2

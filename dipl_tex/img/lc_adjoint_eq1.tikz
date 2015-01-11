@@ -12,7 +12,7 @@
 \begin{axis}[
 	width=\linewidth,
 	xlabel=Zeit $t$,
-	ylabel=$\dot{\overline{x_3}}$,
+	ylabel=$\dot{\bar{x_3}}$,
 	legend entries ={
 	$\dot{\overline{x_3}}$
 	},
