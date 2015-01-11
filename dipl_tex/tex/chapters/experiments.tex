@@ -420,7 +420,15 @@ Als Projektionsoperator $C$ wird die Matrix
   0 &0 &1 &0 &0  \\
  \end{pmatrix}
 \]
-verwendet, welche die Werte $\alpha$ und $\beta$ ausblendet. Als Observierungsparameter wird, falls nicht anders beschrieben, die möglichst exakte Lösung ($4N$-Freiheitsgrade) zu den Anfangswerten $\xobs = (0,0,0,1,10^{-6})$ verwendet, welche danach mittels $C$ projeziert wird. 
+verwendet, welche die Werte $\alpha$ und $\beta$ ausblendet. Als Observierungsparameter wird, falls nicht anders beschrieben, die möglichst exakte Lösung ($4N$-Freiheitsgrade) zu den Anfangswerten $\xobs = (0,0,0,1,10^{-6})$ verwendet, welche danach mittels $C$ projeziert wird. In diesem Beispiel wird eine etwas abgewandelte Funktion als Kostenfunktional verwendet. Das Kostenfunktional wird, nach Tykhonov, mit einem Regularisierungsterm addiert Es entsteht
+\[
+ \tilde J(x_0) = J(x_0) + \|x_0 - x_{\text{res}}\|^2.
+\]
+Damit folgt als Ableitung des abgeänderten Kostenfunktionals
+\[
+ \nabla \tilde J(x_0) = \nabla J(x_0) + 2\cdot (x_0 - x_{\text{res}}). 
+\]
+ für ein Regularisierungsparameter $x_{\text{res}}$. 
 
 Die rechte Seite des inhomogenen adjungierten Tangent Linear Models (\ref{fig:lcAdjointEqRHS}) besitzt in der zweiten Komponente  $\dot{\bar{x_2}}$ Werte nahe der Maschinengenauigkeit. Demgegebenüber hat $\dot{\bar{x_3}}$ sehr große Werte.
 \begin{figure}[H]
@@ -454,7 +462,7 @@ Die rechte Seite des inhomogenen adjungierten Tangent Linear Models (\ref{fig:lc
 \end{figure}
 
 Die Konvergenz der adjungierten Gleichung fällt bei der GIMP deutlich besser aus, als im Rolling Stones Beispiel. Sie konvergiert nahezu quadratisch, sowohl für diskrete (Abbildung \ref{fig:lcAdjointConvergence}(a)) als auch für glatte Observierungen (Abbildung \ref{fig:lcAdjointConvergence}(b)). Demgegenüber besitzt die IMP nur eine knapp lineare Konvergenzordnung.
-Mit der Romberg Extrapolation erhält man sogar für die GIMP eine verbesserte Konvergenzordnung, die jedoch erst ab einem Freiheitsgrad von $5\cdot 10^{3}$ einen genaueren Wert liefert (Abbildung \ref{fig:lcAdjointConvergence}(c,d))
+Mit der Romberg Extrapolation erhält man eine verbesserte Konvergenzordnung für die GIMP , die jedoch erst ab einem Freiheitsgrad von $5\cdot 10^{3}$ einen genaueren Wert liefert (Abbildung \ref{fig:lcAdjointConvergence}(c,d))
 
 
 % Die rechte Seite des inhomogene adjungierten tangent linear models (\ref{fig:lcAdjointEqRHS}) besitzt in der zweiten Komponente Werte unterhalb der Maschinengenauigkeit. Demgegebenüber hat $\dot{\bar{x_3}}$ relativ große Werte.
@@ -479,23 +487,24 @@ Mit der Romberg Extrapolation erhält man sogar für die GIMP eine verbesserte K
 % 
 % Die Optimierungschritte über das Kostenfunktional, welche in Abbildung \ref{fig:lcOpt} gezeigt werden, verläuft mit der GIMP ebenfalls stabiler als mit der IMP. Man sieht, dass nach zirka fünf Schritten die Konvergenz zunimmt bis sie schließlich nach 19 Schritten konvergiert (\ref{fig:lcOpt}(a)). Die Berechnung mittes IMP konvergiert nicht so gleichmäßig wie die GIMP. Jedoch ist das Konvergenzverhalten abhängig vom initial gewählten Anfangswert. In Abbildung \ref{fig:lcOpt}(b) konvergieren die IMP und die GIMP fast gleich schnell für variierte Anfangswerte.
 % 
-% \begin{figure}[H]
-% \footnotesize
-% \centering
-% \begin{minipage}[b]{0.49\linewidth}
-% % \begin{minipage}[t][3cm][t]{5cm}
-% \input{img/lc_opt1_convergence.tikz}
-% \caption*{(a) $x_0=(0,10^{-10},3\cdot 10^{-8})$}
-% \end{minipage}
-% % \quad
-% \begin{minipage}[b]{0.49\linewidth}
-% % \begin{minipage}[t][3cm][t]{5cm}
-% \input{img/lc_opt2_convergence.tikz}
-% \caption*{(b) $x_0=(0,10^{-11},5\cdot 10^{-7})$}
-% \end{minipage}
-% \caption{LC Diode Datenassimilation Optimierung auf dem Intervall $I = [0,10^{-8}], N=512$}
-% \label{fig:lcOpt}
-% \end{figure}
+\begin{figure}[H]
+\footnotesize
+\centering
+\begin{minipage}[b]{0.49\linewidth}
+% \begin{minipage}[t][3cm][t]{5cm}
+\input{img/lc_opt1_convergence.tikz}
+\caption*{(a) Fehler zu den exakten Parametern $\alpha,\beta$}
+\end{minipage}
+% \quad
+\begin{minipage}[b]{0.49\linewidth}
+% \begin{minipage}[t][3cm][t]{5cm}
+\input{img/lc_opt2_convergence.tikz}
+\caption*{(b) Kostenfunktional\\$~~$}
+\end{minipage}
+\caption{LC Diode Datenassimilation Optimierung auf dem Intervall $I = [0,10^{-9}], N=2000,x_0=(0,0,0,2,10^{-5})$,$\xobs(0) =x_{\text{res}}=(0,0,0,1,10^{-3})$}
+\label{fig:lcOpt}
+\end{figure}
+Wie in Abbildung \ref{fig:lcOpt}(a) zu sehen, konvergiert die GIMP gegen die gewünschten Werte, währenddessen die IMP divergiert. Da der Gradient des Kostenfunktionals ein besseres Konvergenzverhalten für die GIMP aufweist, ist offenbar die Optimierung stabiler. Das Kostenfunktional \ref{fig:lcOpt}(b) konvergiert ebenfalls besser für die GIMP als für die IMP.
 
 
 \section{Shallow Water Equation}
@@ -728,7 +737,7 @@ Dass die GIMP eine bessere Integration liefert ist auch in Abbildung \ref{fig:sw
 \input{img/swe_adjoint_eq1.tikz}
 \caption*{(b) $\dot{\overline{hu}}$}
 \end{minipage}
-\caption{SWE Adjungierte Gleichung mit $L=100,\Delta x=10,h = 0.1$ und $U_0^{(2)},k=1,\theta=2,x_{\text{obs}}=U_0^{(2)},k_{\text{obs}}=2$}
+\caption{SWE Adjungierte Gleichung mit $L=100,\Delta x=10,h = 0.1$ und $U_0^{(2)},k=1,\theta=2,\xobs(0)=U_0^{(2)},k_{\text{obs}}=2$}
 \label{fig:sweAdjointEqRHS}
 \end{figure}
 Bei der Konvergenz des Gradienten in Abbildung \ref{fig:sweConvergenceAdjoint} ist für $\theta=1$ kein besseres Verhalten der GIMP gegenüber der IMP feststellbar. Falls $\theta=2$ gesetzt wird (Abbildung \ref{fig:sweConvergenceAdjoint1}), ergibt sich zwar keine bessere Konvergenzordnung der GIMP, jedoch hat sie einen kleineren Fehler. 
@@ -738,22 +747,23 @@ Mit $\theta\approx 2$ ist der Limiter am wenigsten dissipativ, d.h. es entstehen
 Die Vermutung liegt deshalb nahe, dass die GIMP besser oszillatorisches Verhalten der Lösung behandelt, als die IMP.
 Die schlechte Konvergenzordnung der Verfahren ist nicht verwunderlich, da die rechte Seite der adjungierten inhomogenen Gleichung, wie in Abbildung \ref{fig:sweAdjointEqRHS} zu sehen, viele Sprünge besitzt und sehr unregelmäßig ist.
 
-\begin{figure}
+\begin{figure}[H]
 \footnotesize
 \begin{minipage}[b]{0.49\linewidth}
 % \begin{minipage}[t][3cm][t]{5cm}
 \centering
-\input{img/swe_convergence_adjoint_discrete.tikz}
+\input{img_appendix/swe_convergence_adjoint_discrete_theta1.tikz}
 \caption*{(a) Diskrete Observierung}
 \end{minipage}
 %  \quad 
 \begin{minipage}[b]{0.49\linewidth}
 % \begin{minipage}[t][3cm][t]{5cm}
 \centering
-\input{img/swe_convergence_adjoint_smooth.tikz}
+\input{img_appendix/swe_convergence_adjoint_smooth_theta1.tikz}
 \caption*{(b) Glatte Observierung}
 \end{minipage}
-\caption{SWE Konvergenz von $\nabla J$ mit $I=[0,50],L=50,\Delta x=10$, $x_0=U_0^{(2)},k=0.5$, $x_{\text{obs}} = U_0^{(2)}, k=2$ und $\theta=1$}
+% \caption{SWE Konvergenz von $\nabla J$ mit $I=[0,50],L=50,\Delta x=10$, $x_0=U_0^{(2)},k=0.5$, $x_{\text{obs}} = U_0^{(2)}, k=2$ und $\theta=1$}
+\caption{SWE Konvergenz von $\nabla J$ mit $I=[0,50],L=50,\Delta x=10$, $x_0=U_0^{(1)},n=10$, $\xobs(0) = U_0^{(1)}, n=20$ und $\theta=1$}
 \label{fig:sweConvergenceAdjoint}
 % \end{figure}
 % 
@@ -763,44 +773,80 @@ Die schlechte Konvergenzordnung der Verfahren ist nicht verwunderlich, da die re
 \begin{minipage}[b]{0.49\linewidth}
 % \begin{minipage}[t][3cm][t]{5cm}
 \centering
-\input{img/swe_convergence_adjoint_discrete1.tikz}
+\input{img_appendix/swe_convergence_adjoint_discrete_theta2.tikz}
+% \input{img/swe_convergence_adjoint_discrete1.tikz}
 \caption*{(a) Diskrete Observierung}
 \end{minipage}
 %  \quad 
 \begin{minipage}[b]{0.49\linewidth}
 % \begin{minipage}[t][3cm][t]{5cm}
 \centering
-\input{img/swe_convergence_adjoint_smooth1.tikz}
+\input{img_appendix/swe_convergence_adjoint_smooth_theta2.tikz}
+% \input{img/swe_convergence_adjoint_smooth1.tikz}
 \caption*{(b) Glatte Observierung}
 \end{minipage}
-\caption{SWE Konvergenz von $\nabla J$ mit $I=[0,50],L=50,\Delta x=10$, $x_0=U_0^{(2)},k=0.5$, $x_{\text{obs}} = U_0^{(2)}, k=2$ und $\theta=2$}
+% \caption{SWE Konvergenz von $\nabla J$ mit $I=[0,50],L=50,\Delta x=10$, $x_0=U_0^{(2)},k=0.5$, $x_{\text{obs}} = U_0^{(2)}, k=2$ und $\theta=2$}
+\caption{SWE Konvergenz von $\nabla J$ mit $I=[0,50],L=50,\Delta x=10$, $x_0=U_0^{(1)},n=10$, $\xobs(0) = U_0^{(1)}, n=20$ und $\theta=2$}
 \label{fig:sweConvergenceAdjoint1}
 \end{figure}
 
 
-In Abbildung \ref{fig:sweConvergenceOpt} ist das Konvergenzresultat für eine Optimierung erkennbar. Beide Methoden konvergieren in etwa gleich schnell. Da beide Gradienten des Kostenfunktionals für die gegebenen Eingansparameter ein ähnlich schlechtes Konvergenzverhalten besitzen, war kein besseres Verhalten der GIMP zu erwarten. Auch in der Rekonstruktionen der Anfangswerte in Abbildung \ref{fig:sweOptInitValues} ist ersichtlich, dass beide Methoden nicht exakt den ursprünglichen Anfangswert berechnen konnten.
+In Abbildung \ref{fig:sweConvergenceOpt} ist das Konvergenzresultat für eine Optimierung erkennbar.
+Da der Gradient des Kostenfunktionals mit der GIMP besser berechnet wird, ist dementsprechend der Konvergenzgraph glatter (Abbildung \ref{fig:sweConvergenceOpt}(a)) und konvergiert etwas schneller.
+
+% Da beide Gradienten des Kostenfunktionals für die gegebenen Eingansparameter ein ähnlich schlechtes Konvergenzverhalten besitzen, war kein besseres Verhalten der GIMP zu erwarten. Auch in der Rekonstruktionen der Anfangswerte in Abbildung \ref{fig:sweOptInitValues} ist ersichtlich, dass beide Methoden nicht exakt den ursprünglichen Anfangswert berechnen konnten.
 % Da jedoch beide Methoden bei einem relativ großen Fehler abbrechen ist alles kacke
 \begin{figure}[H]
 \centering
+\begin{minipage}[b]{0.49\linewidth}
+ \centering
 \input{img/swe_convergence_opt.tikz}
-\caption{SWE Konvergenz Optimierung mit Parametern $I=[0,100],L=100,\Delta x=10$, $x_0=U_0^{(2)},k=0.5$, $x_{\text{obs}} = U_0^{(2)}, k=1$ und $\theta=2$}
+\caption*{(a) Abstand zur optimalen Lösung}
+\end{minipage}
+\begin{minipage}[b]{0.49\linewidth}
+ \centering
+\input{img/swe_convergence_opt_jac.tikz}
+\caption*{(b) Kostenfunktional}
+\end{minipage}
+% \caption{SWE Konvergenz Optimierung mit Parametern $I=[0,100],L=100,\Delta x=10$, $x_0=U_0^{(2)},k=0.5$, $x_{\text{obs}} = U_0^{(2)}, k=1$ und $\theta=2$}
+\caption{SWE Konvergenz Optimierung mit Parametern $I=[0,50],L=50,\Delta x=10$, $x_0=U_0^{(1)},n=10$, $\xobs(0) = U_0^{(1)}, n=20$ und $\theta=2$}
 \label{fig:sweConvergenceOpt}
 \end{figure}
 
+
+In der Praxis gibt es Abweichungen zwischen den gemessenen Observierungen und dem zu optimierenden Modell. In Abbildung \ref{fig:sweConvergenceOptNoise} wurden deshalb die Observierungsparameter gestört und die Optimierung des Kostenfunktionals darauf angewendet.
+%...ERGÄNZEN
 \begin{figure}[H]
-\begin{minipage}[b]{0.49\linewidth}
-% \begin{minipage}[t][3cm][t]{5cm}
 \centering
-\input{img/swe_opt_initial_values.tikz}
-\caption*{(a) $h$}
+\begin{minipage}[b]{0.49\linewidth}
+ \centering
+\input{img/swe_convergence_opt_noise.tikz}
+\caption*{(a) Abstand zur optimalen Lösung}
 \end{minipage}
 \begin{minipage}[b]{0.49\linewidth}
-% \begin{minipage}[t][3cm][t]{5cm}
-\centering
-\input{img/swe_opt_initial_values_hu.tikz}
-\caption*{(b) $hu$}
+ \centering
+\input{img/swe_convergence_opt_jac_noise.tikz}
+\caption*{(b) Kostenfunktional}
 \end{minipage}
-\caption{SWE Rekonstruktion der Anfangswerte mit $I=[0,100],L=100,\Delta x=10$, $x_0=U_0^{(2)},k=0.5$, $x_{\text{obs}} = U_0^{(2)}, k=1$ und $\theta=2$}
-\label{fig:sweOptInitValues}
+% \caption{SWE Konvergenz Optimierung mit Parametern $I=[0,100],L=100,\Delta x=10$, $x_0=U_0^{(2)},k=0.5$, $x_{\text{obs}} = U_0^{(2)}, k=1$ und $\theta=2$}
+\caption{SWE Konvergenz Optimierung mit Parametern $I=[0,50],L=50,\Delta x=10$, $x_0=U_0^{(1)},n=10$, $\xobs(0) = U_0^{(1)}, n=20$ und $\theta=2$}
+\label{fig:sweConvergenceOptNoise}
 \end{figure}
+% WIEDER MIT REIN NEHMEN MIT RAUSCHEN
+% \begin{figure}[H]
+% \begin{minipage}[b]{0.49\linewidth}
+% % \begin{minipage}[t][3cm][t]{5cm}
+% \centering
+% \input{img/swe_opt_initial_values.tikz}
+% \caption*{(a) $h$}
+% \end{minipage}
+% \begin{minipage}[b]{0.49\linewidth}
+% % \begin{minipage}[t][3cm][t]{5cm}
+% \centering
+% \input{img/swe_opt_initial_values_hu.tikz}
+% \caption*{(b) $hu$}
+% \end{minipage}
+% \caption{SWE Rekonstruktion der Anfangswerte mit $I=[0,100],L=100,\Delta x=10$, $x_0=U_0^{(2)},k=0.5$, $x_{\text{obs}} = U_0^{(2)}, k=1$ und $\theta=2$}
+% \label{fig:sweOptInitValues}
+% \end{figure}
 

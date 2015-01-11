@@ -15,11 +15,11 @@ Angenommen die rechte Seite $F$ unserer Evolutionsgleichung \eqref{eq:odemodel} 
 Damit ist der Gradient eine mengenwertige Abbildung $\partial F(x)^*:\R^n\rightrightarrows \R^n$ und folglich ist \eqref{eq:adjInclusion} eine \textit{Differential Inclusion} an einem Punkt $x^*$.
 
 Gegeben sei beispielsweise die gewöhnliche Differentialgleichung
-\[
+\begin{equation}\label{eq:babyEquation}
 \begin{aligned}
  \xdot = |x|,&& x(0)=x_0,&& x_0\in\R
  \end{aligned}
-\]
+\end{equation}
 deren Lösung in Abbildung in \ref{fig:babyExampleSol}
 
 \begin{figure}[H]
@@ -104,7 +104,7 @@ Dieser Punkt kann numerisch problematisch werden, falls durch Rundungsfehler ode
 % Deren inhomogene adjungierte Gleichung, welche in Abbildung \ref{fig:babyExampleAdjEq}(a) geplottet wurde, weist an der Stelle $t = 1$ und im Intervall $t\in[0,0.01]$ Sprünge auf, die durch die unglatte Stellen in der Lösung (Abbildung \ref{fig:babyExampleAdjEq}(b)) erklärt werden. An diesen Stellen ist die adjungierte Gleichung durch den verallgemeinerten Gradienten $\partial F(x)^*$ eine Inklusion, sodass sie eventuell keine eindeutige Lösung mehr besitzt. 
 
 In der numerischen Berechnung der Lösung des adjungierten Modells muss der verallgemeinerte Gradient in eine Richtung $\Delta x$ betrachtet werden, sinnvollerweise in die Richtung des Inkrements der vorherigen Iteration $\Delta x_i = x_{i-1} - x_i$, falls wir uns in Iteration $i$ befinden, damit aus der mengenwertigen Abbildung $ \partial F(x)^*$ ein Gradient ausgewählt wird. 
-Falls sich nun die Gerade $x_i + \Delta x$ auf einem Kink befindet, wie in Abbildung \ref{fig:adjValleyTracing} zu sehen, sprechen wir von einem so genannten \textit{valley tracing mode}, welcher von Khan und Barton in \cite{khan2014} ausführlich behandelt wird. Ist dies der Fall, so ist Gleichung \ref{eq:adjInclusion} nicht nur punktweise, sondern auf einem Intervall eine Differential Inclusion.
+Falls sich nun die Gerade $x_i + \Delta x$ auf einem Kink befindet, wie in Abbildung \ref{fig:adjValleyTracing} zu sehen, sprechen wir von einem so genannten \textit{valley tracing mode}, welcher von Khan und Barton in \cite{khan2014} ausführlich behandelt wird. Ist dies der Fall, so ist Gleichung \eqref{eq:adjInclusion} nicht nur punktweise, sondern auf einem Intervall eine Differential Inclusion, wie es im Beispiel \eqref{eq:babyEquation} für $x_0=0$ der Falls war.
 \begin{figure}
 \centering
 \begin{minipage}[b]{0.49\linewidth}
