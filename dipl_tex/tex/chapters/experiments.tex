@@ -429,7 +429,8 @@ Damit folgt als Ableitung des abgeänderten Kostenfunktionals
  \nabla \tilde J(x_0) = \nabla J(x_0) + 2\cdot (x_0 - x_{\text{res}}). 
 \]
  für ein Regularisierungsparameter $x_{\text{res}}$. 
-
+Der Prozess der Datenassimilation ergibt nur Sinn, falls die Optimierung in einem Intervall stattfindet, auf welchem die Anfangswerte Einfluss auf die Lösung haben. Da ein periodisches Verhalten der Lösung ab einem bestimmten Zeitpunkt eintritt (Abbildung \ref{fig:lc_solution}), tragen diese Werte ab diesem Zeitpunkt nicht zur Optimierung bei. Es wird daher über das Intervall $I = [0,6\cdot 10^{-9}]$ betrachtet.
+ 
 Die rechte Seite des inhomogenen adjungierten Tangent Linear Models (\ref{fig:lcAdjointEqRHS}) besitzt in der zweiten Komponente  $\dot{\bar{x_2}}$ Werte nahe der Maschinengenauigkeit. Demgegebenüber hat $\dot{\bar{x_3}}$ sehr große Werte.
 \begin{figure}[H]
 \footnotesize 
