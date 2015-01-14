@@ -318,7 +318,7 @@ Zusammenfassend ergibt sich für das Rolling Stones Beispiel ein insgesamt besse
 \end{figure}
 
 
-\section{LC-Diode}
+\section{LC-Diode}\label{sec:expLc}
 Das nächste Beispiel hat mehr Nähe zu praktischen Themengebieten. Eingeführt in \cite{boeck2014experiments}, betrachten wir einen LC-Schaltkreis in welchem wir den Widerstand durch eine Diode ausgewechselt haben. Dies sorgt für Unglätten in unseren Systemgleichungen. In Abbildung \ref{fig:lcDiode} ist eine schematische Darstellung des Problems dargestellt. 
 \begin{figure}[H]
 \centering
@@ -559,9 +559,9 @@ Mit der Romberg Extrapolation erhält man eine verbesserte Konvergenzordnung fü
 \caption{LC Diode Datenassimilation Optimierung auf dem Intervall $I = [0,10^{-9}], N=2000,x_0=(0,0,0,2,10^{-5})$,$\xobs(0) =x_{\text{res}}=(0,0,0,1,10^{-3})$}
 \label{fig:lcOpt}
 \end{figure}
-Wie in Abbildung \ref{fig:lcOpt}(a) zu sehen, konvergiert die GIMP gegen die gewünschten Werte, währenddessen die IMP divergiert. Da der Gradient des Kostenfunktionals ein besseres Konvergenzverhalten für die GIMP aufweist, ist offenbar die Optimierung stabiler. Das Kostenfunktional \ref{fig:lcOpt}(b) konvergiert ebenfalls besser für die GIMP als für die IMP.
+Wie in Abbildung \ref{fig:lcOpt}(a) zu sehen, konvergiert die GIMP gegen die gewünschten Werte, währenddessen die IMP divergiert. Da der Gradient des Kostenfunktionals ein besseres Konvergenzverhalten für die GIMP aufweist, ist offenbar die Optimierung stabiler. Das Kostenfunktional \ref{fig:lcOpt}(b) konvergiert ebenfalls schneller und stabiler mit der GIMP als mit der IMP.
 
-
+Auch das Beispiel der LC Diode zeigt das Potential der stückweisen Linearisierung. Sowohl die Vorwärts- als auch die Rückwärtsintegration, sowie die Optimierung konnten verbessert werden.
 \section{Shallow Water Equation}
 % \subsection{Problemstellung}
 Bisher wurde die stückweise Linearisierung nur mit gewöhnlichen Differentialgleichungen durchgeführt. Somit ist es das Ziel dieses Beispieles, diese Methoden auf eine partielle Differentialgleichung anzuwenden und mit ihr Datenassimilation durchführen.
@@ -700,7 +700,7 @@ Falls die Zeitschritte der Integration zu groß werden und damit über eine Nach
 
 Falls nun aber größere Schrittweiten benutzt werden müssen, oder man nur an der Lösung eines entfernten Zeitschrittes interessiert ist, werden in der Praxis implizite Verfahren benutzt, welche keiner CFL Bedingung unterliegen. Dies liegt darin begründet, dass bei der Lösung des linearen Gleichungssystems der numerische Definitionsbereich der Abhängigkeiten der gesamte Definitionsbereich ist, d.h dass jedes Volumen mit den Anderen durch ein lineares Gleichungssystem gekoppelt ist. Falls in der Realität Observierungen benutzt werden, deren zeitliche Messungen weit auseinander liegen, kommt man nicht umhin, implizite Methoden zu nutzen.
 
-\subsection{Anfangswerte}
+\subsection{Anfangswert}
 \begin{figure}[H]
 \footnotesize
 \centering
@@ -714,17 +714,20 @@ Falls nun aber größere Schrittweiten benutzt werden müssen, oder man nur an d
 \input{img/swe_initial_values_hu.tikz}
 \caption*{(b) $hu$}
 \end{minipage}
-\caption{SWE Anfangswerte}
+\caption{SWE Anfangswert}
 \label{fig:sweInitialValues}
 \end{figure}
-Die benutzten Anfangswerte $U_0 = (h_0,(hu)_0)$ sind in Abbildung \ref{fig:sweInitialValues} ersichtlich. Genauer ergeben sie sich zu
+Der benutzte Anfangswert $U_0 = (h_0,(hu)_0)$ ist in Abbildung \ref{fig:sweInitialValues} ersichtlich. Genauer ergibt er sich zu
 \[
 \begin{aligned}
- h_0^{(1)} \sim n\cdot\mathcal N(0.5\cdot L,L) + 1 &&(hu)_0^{(1)}\sim n\cdot\mathcal N(0.5\cdot L,L) && \text{(Normalverteilt)}\\
- h_0^{(2)}(x)= \sin\left( \frac{2\pi k\cdot x}{L}\right) + 1.5 &&(hu)_0^{(2)}(x) = \cos\left( \frac{2\pi k\cdot x}{L}\right) + 1  && \text{(Schwingung)}
+ h_0^{(1)} \sim n\cdot\mathcal N(\mu,L) + 1 &&(hu)_0^{(1)}\sim n\cdot\mathcal N(\mu,L) && \text{(Normalverteilt)}
+%  h_0^{(2)}(x)= \sin\left( \frac{2\pi k\cdot x}{L}\right) + 1.5 &&(hu)_0^{(2)}(x) = \cos\left( \frac{2\pi k\cdot x}{L}\right) + 1  && \text{(Schwingung)}
 \end{aligned}
 \]
-Wobei $\mathcal N(\mu, \sigma^2)$ die Normalverteilung mit Erwartungswert $\mu$, Varianz $\sigma^2$ und Multiplikator $n$ ist. Falls $U_0^{(2)}$ gewählt wurde, ist mit $k\in \R$ die Periode definiert. 
+Wobei $\mathcal N(\mu, \sigma^2)$ die Normalverteilung mit Erwartungswert $\mu$, Varianz $\sigma^2$ und Multiplikator $n$ ist. Falls nicht anders beschrieben ist $\mu = 0.5\cdot L$.
+
+Ein Beispiel für einen anderen Anfangswert, der jedoch teilweise schlechtere Ergebnisse lieferte, ist im Anhang \ref{sec:sweU2} dargelegt.
+% Falls $U_0^{(2)}$ gewählt wurde, ist mit $k\in \R$ die Periode definiert. 
 \subsection{Lösen der ODE}
 Auch bei der Shallow Water Equation erhalten wir eine Konvergenz von $\mathcal O(\hat h^2)$, mit $\hat h$ als Schrittweite. Wie in Abbildung \ref{fig:sweConvergence} ersichtlich, ist der Konvergenzgraph sehr stabil gegenüber der IMP, wobei letztere stark springt.
 Im Falle einer Schrittweite von $1.6\cdot 10^2$ divergiert die implizite Mittelpunktsregel, wobei die GIMP konvergiert. 
@@ -744,24 +747,27 @@ Die Romberg Extrapolation (Abbildung \ref{fig:sweConvergenceRomberg}) konvergier
 \caption{Konvergenz SWE Romberg im Intervall $I = [0,50], L=100, \Delta x=10$ mit $U_0^{(1)},n=10,\theta=1$}
 \label{fig:sweConvergenceRomberg}
 \end{figure}
-Dass die GIMP eine bessere Integration liefert ist auch in Abbildung \ref{fig:sweErrorOverTime} ersichtlich, in dem der Fehler über die Zeit geplottet wurde. Während die GIMP anfangs schlechter integriert, besitzt sie, über einen längeren Zeitraum betrachtet, einen deutlich geringeren Fehler als die anderen Methoden.
+Dass die GIMP eine bessere Integration liefert ist auch in Abbildung \ref{fig:sweErrorOverTime} ersichtlich, in dem der Fehler über die Zeit geplottet wurde. Während die GIMP anfangs schlechter integriert, besitzt sie, über einen längeren Zeitraum betrachtet, einen geringeren Fehler als die anderen Methoden. Tendenziell ist der Fehler über die Zeit für die GIMP jedoch geringer, wie beispielsweise in Abbildung \ref{fig:sweErrorOverTime2} im Anhang ersichtlich.
 
 \begin{figure}
 \footnotesize
 \begin{minipage}[b]{0.49\linewidth}
 % \begin{minipage}[t][3cm][t]{5cm}
 \centering
-\input{img/swe_error_over_time.tikz}
+\input{img_appendix/swe_error_over_time1.tikz}
+% \input{img/swe_error_over_time.tikz}
 \caption*{(a) Am Zeitpunk $t$}
 \end{minipage}
 %  \quad 
 \begin{minipage}[b]{0.49\linewidth}
 % \begin{minipage}[t][3cm][t]{5cm}
 \centering
-\input{img/swe_error_over_time_all.tikz}
+% \input{img/swe_error_over_time_all.tikz}
+\input{img_appendix/swe_error_over_time_all1.tikz}
 \caption*{(b) Summiert}
 \end{minipage}
-\caption{SWE Fehler über Zeit mit $I=[0,300], L=100, \Delta x=10, h = 1$ und $U_0^{(2)},k=2,\theta=1$}
+\caption{SWE Fehler über Zeit mit $I=[0,300], L=100, \Delta x=10, h = 1$ und $U_0^{(1)},n=10,\theta=1$}
+% \caption{SWE Fehler über Zeit mit $I=[0,300], L=100, \Delta x=10, h = 1$ und $U_0^{(2)},k=2,\theta=1$}
 \label{fig:sweErrorOverTime}
 \end{figure}
 % Da wir in unserem System periodische Randbedingungen haben und keine Reibung auftritt, muss die Summe der potentiellen und kinetischen Energie konstant sein. Nun können wir den Energieverlust über die Zeit mittels der Formel \eqref{eq:energyVariation} berechnen. Dabei wird die Höhe $h$ als potentielle und $\frac{1}{2}u^2$ als kinetische Energie betrachtet, wobei $u$ sich aus Formel \eqref{eq:sweHuToU} ergibt. Es entsteht (für $\hat h$ als Schrittweite)
@@ -782,17 +788,17 @@ Dass die GIMP eine bessere Integration liefert ist auch in Abbildung \ref{fig:sw
 \begin{minipage}[b]{0.49\linewidth}
 % \begin{minipage}[t][3cm][t]{5cm}
 \centering
-\input{img/swe_adjoint_eq.tikz}
+\input{img/swe_adjoint_eq_2.tikz}
 \caption*{(a) $\dot{\overline{h}}$}
 \end{minipage}
 %  \quad 
 \begin{minipage}[b]{0.49\linewidth}
 % \begin{minipage}[t][3cm][t]{5cm}
 \centering
-\input{img/swe_adjoint_eq1.tikz}
+\input{img/swe_adjoint_eq1_2.tikz}
 \caption*{(b) $\dot{\overline{hu}}$}
 \end{minipage}
-\caption{SWE Adjungierte Gleichung mit $L=100,\Delta x=10,h = 0.1$ und $U_0^{(2)},k=1,\theta=2,\xobs(0)=U_0^{(2)},k_{\text{obs}}=2$}
+\caption{SWE Adjungierte Gleichung mit $I=[0,10], L=100,\Delta x=10,h = 0.05$ und $U_0^{(1)},n=10,\theta=2,\xobs(0)=U_0^{(1)},n_{\text{obs}}=20,\mu_{\text{obs}}=30$}
 \label{fig:sweAdjointEqRHS}
 \end{figure}
 Bei der Konvergenz des Gradienten in Abbildung \ref{fig:sweConvergenceAdjoint} ist für $\theta=1$ kein besseres Verhalten der GIMP gegenüber der IMP feststellbar. Falls $\theta=2$ gesetzt wird (Abbildung \ref{fig:sweConvergenceAdjoint1}), ergibt sich zwar keine bessere Konvergenzordnung der GIMP, jedoch hat sie einen kleineren Fehler. 
@@ -818,7 +824,7 @@ Die schlechte Konvergenzordnung der Verfahren ist nicht verwunderlich, da die re
 \caption*{(b) Glatte Observierung}
 \end{minipage}
 % \caption{SWE Konvergenz von $\nabla J$ mit $I=[0,50],L=50,\Delta x=10$, $x_0=U_0^{(2)},k=0.5$, $x_{\text{obs}} = U_0^{(2)}, k=2$ und $\theta=1$}
-\caption{SWE Konvergenz von $\nabla J$ mit $I=[0,50],L=50,\Delta x=10$, $x_0=U_0^{(1)},n=10$, $\xobs(0) = U_0^{(1)}, n=20$ und $\theta=1$}
+\caption{SWE Konvergenz von $\nabla J$ mit $I=[0,50],L=50,\Delta x=10$, $x_0=U_0^{(1)},n=10$, $\xobs(0) = U_0^{(1)}, n_{\text{obs}}=20,\mu_{\text{obs}}=30$ und $\theta=1$}
 \label{fig:sweConvergenceAdjoint}
 % \end{figure}
 % 
@@ -841,7 +847,7 @@ Die schlechte Konvergenzordnung der Verfahren ist nicht verwunderlich, da die re
 \caption*{(b) Glatte Observierung}
 \end{minipage}
 % \caption{SWE Konvergenz von $\nabla J$ mit $I=[0,50],L=50,\Delta x=10$, $x_0=U_0^{(2)},k=0.5$, $x_{\text{obs}} = U_0^{(2)}, k=2$ und $\theta=2$}
-\caption{SWE Konvergenz von $\nabla J$ mit $I=[0,50],L=50,\Delta x=10$, $x_0=U_0^{(1)},n=10$, $\xobs(0) = U_0^{(1)}, n=20$ und $\theta=2$}
+\caption{SWE Konvergenz von $\nabla J$ mit $I=[0,50],L=50,\Delta x=10$, $x_0=U_0^{(1)},n=10$, $\xobs(0) = U_0^{(1)}, n_{\text{obs}}=20,\mu_{\text{obs}}=30$ und $\theta=2$}
 \label{fig:sweConvergenceAdjoint1}
 \end{figure}
 
@@ -864,12 +870,12 @@ Da der Gradient des Kostenfunktionals mit der GIMP besser berechnet wird, ist de
 \caption*{(b) Kostenfunktional}
 \end{minipage}
 % \caption{SWE Konvergenz Optimierung mit Parametern $I=[0,100],L=100,\Delta x=10$, $x_0=U_0^{(2)},k=0.5$, $x_{\text{obs}} = U_0^{(2)}, k=1$ und $\theta=2$}
-\caption{SWE Konvergenz Optimierung mit Parametern $I=[0,50],L=50,\Delta x=10$, $x_0=U_0^{(1)},n=10$, $\xobs(0) = U_0^{(1)}, n=20$ und $\theta=2$}
+\caption{SWE Konvergenz Optimierung mit Parametern $I=[0,50],L=50,\Delta x=10$, $x_0=U_0^{(1)},n=10$, $\xobs(0) = U_0^{(1)}, n_{\text{obs}}=20,\mu_{\text{obs}}=30$ und $\theta=2$}
 \label{fig:sweConvergenceOpt}
 \end{figure}
 
 
-In der Praxis gibt es Abweichungen zwischen den gemessenen Observierungen und dem zu optimierenden Modell. In Abbildung \ref{fig:sweConvergenceOptNoise} wurden deshalb die Observierungsparameter gestört und die Optimierung des Kostenfunktionals darauf angewendet.
+In der Praxis gibt es Abweichungen zwischen den gemessenen Observierungen und dem zu optimierenden Modell. In Abbildung \ref{fig:sweConvergenceOptNoise} wurden deshalb die Observierungsparameter gestört und die Optimierung des Kostenfunktionals darauf angewendet. Zusätzlich wird ein Regularisierungsterm, wie in \cite[S.2]{korotaev2008retrieving} vorgeschlagen und in Abschnitt \ref{sec:expLc} bereits benuzt, zum Kostenfunktional addiert und mit diesem optimiert mit $x_{\text{res}} = U_0^{(1)}$.
 %...ERGÄNZEN
 \begin{figure}[H]
 \centering
@@ -884,7 +890,7 @@ In der Praxis gibt es Abweichungen zwischen den gemessenen Observierungen und de
 \caption*{(b) Kostenfunktional}
 \end{minipage}
 % \caption{SWE Konvergenz Optimierung mit Parametern $I=[0,100],L=100,\Delta x=10$, $x_0=U_0^{(2)},k=0.5$, $x_{\text{obs}} = U_0^{(2)}, k=1$ und $\theta=2$}
-\caption{SWE Konvergenz Optimierung mit Parametern $I=[0,50],L=50,\Delta x=10$, $x_0=U_0^{(1)},n=10$, $\xobs(0) = U_0^{(1)}, n=20$ und $\theta=2$}
+\caption{SWE Konvergenz Optimierung mit gestörten Observierungen mit Parametern $I=[0,50],L=50,\Delta x=10$, $x_0=U_0^{(1)},n=10$, $\xobs(0) = U_0^{(1)}, n_{\text{obs}}=20,\mu_{\text{obs}}=30$ und $\theta=2$}
 \label{fig:sweConvergenceOptNoise}
 \end{figure}
 % WIEDER MIT REIN NEHMEN MIT RAUSCHEN
@@ -901,7 +907,7 @@ In der Praxis gibt es Abweichungen zwischen den gemessenen Observierungen und de
 \input{img/swe_opt_initial_values_hu.tikz}
 \caption*{(b) $hu$}
 \end{minipage}
-\caption{SWE Rekonstruktion der Anfangswerte mit $I=[0,50],L=50,\Delta x=10$, $x_0=U_0^{(1)},n=10$, $x_{\text{obs}}(0) = U_0^{(1)}, n=20$ und $\theta=2$}
+\caption{SWE Rekonstruktion der Anfangswerte mit $I=[0,50],L=50,\Delta x=10$, $x_0=U_0^{(1)},n=10$, $x_{\text{obs}}(0) = U_0^{(1)}, n_{\text{obs}}=20,\mu_{\text{obs}}=30$ und $\theta=2$}
 \label{fig:sweOptInitValues}
 \end{figure}
 

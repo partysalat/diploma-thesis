@@ -5,7 +5,34 @@
 
 % \section{LC-Diode}
 
-\section{Shallow Water Equation}
+\section{Shallow Water Equation}\label{sec:sweU2}
+\subsection{Anfangswert}
+\begin{figure}[H]
+\footnotesize
+\centering
+\begin{minipage}[b]{0.49\linewidth}
+% \begin{minipage}[t][3cm][t]{5cm}
+\input{img/swe_initial_values2.tikz}
+\caption*{(a) $h$}
+\end{minipage}
+\begin{minipage}[b]{0.49\linewidth}
+% \begin{minipage}[t][3cm][t]{5cm}
+\input{img/swe_initial_values_hu2.tikz}
+\caption*{(b) $hu$}
+\end{minipage}
+\caption{SWE Anfangswerte}
+\label{fig:sweInitialValues2}
+\end{figure}
+Der benutzte Anfangswert $U_0 = (h_0,(hu)_0)$ für dieses Beispiel ist in Abbildung \ref{fig:sweInitialValues2} ersichtlich. Genauer ergibt er sich zu
+\[
+\begin{aligned}
+%  h_0^{(1)} \sim n\cdot\mathcal N(0.5\cdot L,L) + 1 &&(hu)_0^{(1)}\sim n\cdot\mathcal N(0.5\cdot L,L) && \text{(Normalverteilt)}\\
+ h_0^{(2)}(x)= \sin\left( \frac{2\pi k\cdot x}{L}\right) + 1.5 &&(hu)_0^{(2)}(x) = \cos\left( \frac{2\pi k\cdot x}{L}\right) + 1  && \text{(Schwingung)}
+\end{aligned}
+\]
+Mit $k\in \R$ ist die Periode der Schwingung definiert. 
+\subsection{Lösen der ODE}
+
 \begin{figure}[H]
 \centering
 \input{img_appendix/swe_convergence1.tikz}
@@ -25,17 +52,40 @@
 \begin{minipage}[b]{0.49\linewidth}
 % \begin{minipage}[t][3cm][t]{5cm}
 \centering
-\input{img_appendix/swe_error_over_time1.tikz}
+% \input{img_appendix/swe_error_over_time1.tikz}
+\input{img/swe_error_over_time.tikz}
 \caption*{(a) Am Zeitpunk $t$}
 \end{minipage}
 %  \quad 
 \begin{minipage}[b]{0.49\linewidth}
 % \begin{minipage}[t][3cm][t]{5cm}
 \centering
-\input{img_appendix/swe_error_over_time_all1.tikz}
+% \input{img_appendix/swe_error_over_time_all1.tikz}
+\input{img/swe_error_over_time_all.tikz}
 \caption*{(b) Summiert}
 \end{minipage}
-\caption{SWE Fehler über Zeit mit $I=[0,300], L=100, \Delta x=10, h = 1$ und $U_0^{(1)},n=10,\theta=1$}
+% \caption{SWE Fehler über Zeit mit $I=[0,300], L=100, \Delta x=10, h = 1$ und $U_0^{(1)},n=10,\theta=1$}
+\caption{SWE Fehler über Zeit mit $I=[0,300], L=100, \Delta x=10, h = 1$ und $U_0^{(2)},k=2,\theta=1$}
+\label{fig:sweErrorOverTime2}
+\end{figure}
+\subsection{Gradient und Optimierung}
+\begin{figure}[H]
+\footnotesize
+\begin{minipage}[b]{0.49\linewidth}
+% \begin{minipage}[t][3cm][t]{5cm}
+\centering
+\input{img/swe_adjoint_eq.tikz}
+\caption*{(a) $\dot{\overline{h}}$}
+\end{minipage}
+%  \quad 
+\begin{minipage}[b]{0.49\linewidth}
+% \begin{minipage}[t][3cm][t]{5cm}
+\centering
+\input{img/swe_adjoint_eq1.tikz}
+\caption*{(b) $\dot{\overline{hu}}$}
+\end{minipage}
+\caption{SWE Adjungierte Gleichung mit $L=100,\Delta x=10,h = 0.1$ und $U_0^{(2)},k=1,\theta=2,\xobs(0)=U_0^{(2)},k_{\text{obs}}=2$}
+\label{fig:sweAdjointEqRHS2}
 \end{figure}
 
 \begin{figure}
