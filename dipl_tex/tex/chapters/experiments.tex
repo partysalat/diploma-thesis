@@ -192,7 +192,7 @@ Die Abbildung \ref{fig:rolling_adjoint_eq} zeigt die rückwärts zu integrierend
 Abbildungen \ref{fig:rollingStonesAdjoint}(a) und \ref{fig:rollingStonesAdjoint1}(a) stellen die Konvergenz mit einer Funktion als Observierungsparameter dar. Das bedeutet, dass in jeder Verfeinerung ebenfalls die Observierungsparameter verfeinert wurden also $t_{\text{state}} = t_{\text{obs}}$. Diskrete Observierungsparameter wurden bei den Abbildungen \ref{fig:rollingStonesAdjoint}(b) und \ref{fig:rollingStonesAdjoint1}(b) benutzt, sie blieben also bei jeder Verfeinerung des Gitters konstant. Die aus der GIMP berechneten Werte wurden mit einem Projektionsoperator vom Zustandsraum $X_{\text{State}}$ in den Raum der Observierungen $X_{\text{obs}}$ projeziert, danach deren Differenz gebildet und wieder zurück nach $X_{\text{State}}$ projeziert.
 Die Konvergenzplots \ref{fig:rollingStonesAdjoint} und \ref{fig:rollingStonesAdjoint1} ergeben ähnliche Robustheitsresultate wie bei der Vorwärtsintegration. 
 Jedoch fällt die in Kapitel \ref{sec:adjointInclusion} vorhergesagte lineare Konvergenz aller Methoden auf, welche durch die Sprünge der rechten Seite erklärt werden kann.
-Durch die Romberg Extrapolation konnte, im Gegensatz zur Vorwärtsintegration, keine Verbesserung der Konvergenzgeschwindigkeit beobachtet werden (Abbildung \ref{fig:rollingStonesAdjointRom} und Abbildung \ref{fig:rollingStonesAdjointRom1}).
+% Durch die Romberg Extrapolation konnte, im Gegensatz zur Vorwärtsintegration, keine Verbesserung der Konvergenzgeschwindigkeit beobachtet werden (Abbildung \ref{fig:rollingStonesAdjointRom} und Abbildung \ref{fig:rollingStonesAdjointRom1}).
 % Die lineare Konvergenz der beiden Plots liefert 
 % Selbst für einfachere Beispiele ohne Kinks ist die Konvergenz nicht schneller als linear.
 % TODO: HERAUSFINDEN WARUM DAS SO IST
@@ -215,23 +215,23 @@ Durch die Romberg Extrapolation konnte, im Gegensatz zur Vorwärtsintegration, k
 \caption{Rolling Stones Konvergenz $\nabla J(x_0)$\\ $I=[0,20],x_0=(1.5,1.5)$}
 \label{fig:rollingStonesAdjoint}
 \end{figure}
-\begin{figure}[H]
-\footnotesize 
-\centering
-\begin{minipage}[b]{0.49\linewidth}
-% \begin{minipage}[t][3cm][t]{5cm}
-\input{img/rolling_convergence_adjoint_smooth_rom.tikz}
-\caption*{(a) Glatte Observierung}
-\end{minipage}
-% \quad
-\begin{minipage}[b]{0.49\linewidth}
-% \begin{minipage}[t][3cm][t]{5cm}
-\input{img/rolling_convergence_adjoint_discrete_rom.tikz}
-\caption*{(b) Diskrete Observierung}
-\end{minipage}
-\caption{Rolling Stones Romberg Konvergenz $\nabla J(x_0)$\\ $I=[0,20],x_0=(1.5,1.5)$}
-\label{fig:rollingStonesAdjointRom}
-\end{figure}
+% \begin{figure}[H]
+% \footnotesize 
+% \centering
+% \begin{minipage}[b]{0.49\linewidth}
+% % \begin{minipage}[t][3cm][t]{5cm}
+% \input{img/rolling_convergence_adjoint_smooth_rom.tikz}
+% \caption*{(a) Glatte Observierung}
+% \end{minipage}
+% % \quad
+% \begin{minipage}[b]{0.49\linewidth}
+% % \begin{minipage}[t][3cm][t]{5cm}
+% \input{img/rolling_convergence_adjoint_discrete_rom.tikz}
+% \caption*{(b) Diskrete Observierung}
+% \end{minipage}
+% \caption{Rolling Stones Romberg Konvergenz $\nabla J(x_0)$\\ $I=[0,20],x_0=(1.5,1.5)$}
+% \label{fig:rollingStonesAdjointRom}
+% \end{figure}
 
 \begin{figure}[H]
 \footnotesize 
@@ -250,23 +250,23 @@ Durch die Romberg Extrapolation konnte, im Gegensatz zur Vorwärtsintegration, k
 \caption{Rolling Stones Konvergenz $\nabla J(x_0)$\\ $I=[0,20],x_0=(0,-1.45)$}
 \label{fig:rollingStonesAdjoint1}
 \end{figure}
-\begin{figure}[H]
-\footnotesize 
-\centering
-\begin{minipage}[b]{0.49\linewidth}
-% \begin{minipage}[t][3cm][t]{5cm}
-\input{img/rolling_convergence_adjoint_smooth_rom1.tikz}
-\caption*{(a) Glatte Observierung}
-\end{minipage}
-% \quad
-\begin{minipage}[b]{0.49\linewidth}
-% \begin{minipage}[t][3cm][t]{5cm}
-\input{img/rolling_convergence_adjoint_discrete_rom1.tikz}
-\caption*{(b) Diskrete Observierung}
-\end{minipage}
-\caption{Rolling Stones Romberg Konvergenz $\nabla J(x_0)$\\ $I=[0,20],x_0=(0,-1.45)$}
-\label{fig:rollingStonesAdjointRom1}
-\end{figure}
+% \begin{figure}[H]
+% \footnotesize 
+% \centering
+% \begin{minipage}[b]{0.49\linewidth}
+% % \begin{minipage}[t][3cm][t]{5cm}
+% \input{img/rolling_convergence_adjoint_smooth_rom1.tikz}
+% \caption*{(a) Glatte Observierung}
+% \end{minipage}
+% % \quad
+% \begin{minipage}[b]{0.49\linewidth}
+% % \begin{minipage}[t][3cm][t]{5cm}
+% \input{img/rolling_convergence_adjoint_discrete_rom1.tikz}
+% \caption*{(b) Diskrete Observierung}
+% \end{minipage}
+% \caption{Rolling Stones Romberg Konvergenz $\nabla J(x_0)$\\ $I=[0,20],x_0=(0,-1.45)$}
+% \label{fig:rollingStonesAdjointRom1}
+% \end{figure}
 
 
 \subsection{Optimierung}
@@ -466,15 +466,15 @@ In diesem Abschnitt sollen die Konstanten $\alpha$ und $\beta$ anhand von Observ
  \end{pmatrix}.
  \label{eq:lcDiodeSystemExtended}
 \end{equation}
-Als Projektionsoperator $C$ wird die Matrix 
-\[C=
+Als Projektionsoperator $C_{\text{Pr}}$ wird die Matrix 
+\[C_{\text{Pr}}=
  \begin{pmatrix}
   1 &0 &0 &0 &0  \\
   0 &1 &0 &0 &0  \\
   0 &0 &1 &0 &0  \\
  \end{pmatrix}
 \]
-verwendet, welche die Werte $\alpha$ und $\beta$ ausblendet. Als Observierungsparameter wird, falls nicht anders beschrieben, die möglichst exakte Lösung ($4N$-Freiheitsgrade) zu den Anfangswerten $\xobs = (0,0,0,1,10^{-6})$ verwendet, welche danach mittels $C$ projeziert wird. In diesem Beispiel wird eine etwas abgewandelte Funktion als Kostenfunktional verwendet. Das Kostenfunktional wird, nach Tykhonov, mit einem Regularisierungsterm addiert Es entsteht
+verwendet, welche die Werte $\alpha$ und $\beta$ ausblendet. Als Observierungsparameter wird, falls nicht anders beschrieben, die möglichst exakte Lösung ($2^4N$-Freiheitsgrade) zu den Anfangswerten $\xobs = (0,0,0,1,10^{-6})$ verwendet, welche danach mittels $C$ projeziert wird. In diesem Beispiel wird eine etwas abgewandelte Funktion als Kostenfunktional verwendet. Das Kostenfunktional wird, nach Tykhonov, mit einem Regularisierungsterm addiert Es entsteht
 \[
  \tilde J(x_0) = J(x_0) + \|x_0 - x_{\text{res}}\|^2.
 \]
@@ -500,24 +500,23 @@ Die rechte Seite des inhomogenen adjungierten Tangent Linear Models (\ref{fig:lc
 \input{img/lc_convergence_adjoint_smooth.tikz}
 \caption*{(b) Glatte Observierung}
 \end{minipage}
-\begin{minipage}[b]{0.49\linewidth}
-% \begin{minipage}[t][3cm][t]{5cm}
-\input{img/lc_convergence_adjoint_discrete_rom.tikz}
-\caption*{(c) Diskrete Observierung Romberg}
-\end{minipage}
-% \quad
-\begin{minipage}[b]{0.49\linewidth}
-% \begin{minipage}[t][3cm][t]{5cm}
-\input{img/lc_convergence_adjoint_smooth_rom.tikz}
-\caption*{(d) Glatte Observierung Romberg}
-\end{minipage}
-
+% \begin{minipage}[b]{0.49\linewidth}
+% % \begin{minipage}[t][3cm][t]{5cm}
+% \input{img/lc_convergence_adjoint_discrete_rom.tikz}
+% \caption*{(c) Diskrete Observierung Romberg}
+% \end{minipage}
+% % \quad
+% \begin{minipage}[b]{0.49\linewidth}
+% % \begin{minipage}[t][3cm][t]{5cm}
+% \input{img/lc_convergence_adjoint_smooth_rom.tikz}
+% \caption*{(d) Glatte Observierung Romberg}
+% \end{minipage}
 \caption{LC Diode Konvergenz $\nabla J(x_0)$, \\$I=[0,10^{-8}],x_0=(0,0,0,2,10^{-5}) $}
 \label{fig:lcAdjointConvergence}
 \end{figure}
 
 Die Konvergenz der adjungierten Gleichung fällt bei der GIMP deutlich besser aus, als im Rolling Stones Beispiel. Sie konvergiert nahezu quadratisch, sowohl für diskrete (Abbildung \ref{fig:lcAdjointConvergence}(a)) als auch für glatte Observierungen (Abbildung \ref{fig:lcAdjointConvergence}(b)). Demgegenüber besitzt die IMP nur eine knapp lineare Konvergenzordnung.
-Mit der Romberg Extrapolation erhält man eine verbesserte Konvergenzordnung für die GIMP , die jedoch erst ab einem Freiheitsgrad von $5\cdot 10^{3}$ einen genaueren Wert liefert (Abbildung \ref{fig:lcAdjointConvergence}(c,d))
+% Mit der Romberg Extrapolation erhält man eine verbesserte Konvergenzordnung für die GIMP , die jedoch erst ab einem Freiheitsgrad von $5\cdot 10^{3}$ einen genaueren Wert liefert (Abbildung \ref{fig:lcAdjointConvergence}(c,d))
 
 
 % Die rechte Seite des inhomogene adjungierten tangent linear models (\ref{fig:lcAdjointEqRHS}) besitzt in der zweiten Komponente Werte unterhalb der Maschinengenauigkeit. Demgegebenüber hat $\dot{\bar{x_3}}$ relativ große Werte.
