@@ -258,7 +258,7 @@ order=6
 
 [item:tex/chapters/experiments.tex]
 archive=true
-column=137
+column=14
 encoding=UTF-8
 highlight=LaTeX
 line=848
@@ -298,10 +298,10 @@ order=4
 
 [item:tex/chapters/outlook.tex]
 archive=true
-column=352
+column=310
 encoding=UTF-8
 highlight=LaTeX
-line=6
+line=8
 mode=LaTeX
 open=true
 order=3
@@ -421,7 +421,7 @@ JumpList=
 ViMarks=.,367,57,[,367,56,],367,57
 
 [view-settings,view=0,item:tex/chapters/experiments.tex]
-CursorColumn=137
+CursorColumn=14
 CursorLine=848
 JumpList=
 ViMarks=.,848,135,[,848,134,],848,135
@@ -445,8 +445,8 @@ JumpList=
 ViMarks=.,6,0,[,6,0,],6,0
 
 [view-settings,view=0,item:tex/chapters/outlook.tex]
-CursorColumn=352
-CursorLine=6
+CursorColumn=310
+CursorLine=8
 JumpList=
 ViMarks=.,10,89,[,10,84,],10,89
 

@@ -189,9 +189,10 @@ Die Abbildung \ref{fig:rolling_adjoint_eq} zeigt die rückwärts zu integrierend
 \end{figure}
 
 
-Abbildung \ref{fig:rollingStonesAdjoint}(a) stellt die Konvergenz mit einer Funktion als Observierungsparameter dar. Das bedeutet, dass in jeder Verfeinerung ebenfalls die Observierungsparameter verfeinert wurden also $t_{\text{state}} = t_{\text{obs}}$. Diskrete Observierungsparameter wurden bei Abbildung \ref{fig:rollingStonesAdjoint}(b) benutzt, sie blieben also bei jeder Verfeinerung des Gitters konstant. Die aus der GIMP berechneten Werte wurden mit einem Projektionsoperator vom Zustandsraum $X_{\text{State}}$ in den Raum der Observierungen $X_{\text{obs}}$ projeziert, danach deren Differenz gebildet und wieder zurück nach $X_{\text{State}}$ projeziert.
-Die Konvergenzplots \ref{fig:rollingStonesAdjoint} ergeben ähnliche Robustheitsresultate wie bei der Vorwärtsintegration. 
+Abbildungen \ref{fig:rollingStonesAdjoint}(a) und \ref{fig:rollingStonesAdjoint1}(a) stellen die Konvergenz mit einer Funktion als Observierungsparameter dar. Das bedeutet, dass in jeder Verfeinerung ebenfalls die Observierungsparameter verfeinert wurden also $t_{\text{state}} = t_{\text{obs}}$. Diskrete Observierungsparameter wurden bei den Abbildungen \ref{fig:rollingStonesAdjoint}(b) und \ref{fig:rollingStonesAdjoint1}(b) benutzt, sie blieben also bei jeder Verfeinerung des Gitters konstant. Die aus der GIMP berechneten Werte wurden mit einem Projektionsoperator vom Zustandsraum $X_{\text{State}}$ in den Raum der Observierungen $X_{\text{obs}}$ projeziert, danach deren Differenz gebildet und wieder zurück nach $X_{\text{State}}$ projeziert.
+Die Konvergenzplots \ref{fig:rollingStonesAdjoint} und \ref{fig:rollingStonesAdjoint1} ergeben ähnliche Robustheitsresultate wie bei der Vorwärtsintegration. 
 Jedoch fällt die in Kapitel \ref{sec:adjointInclusion} vorhergesagte lineare Konvergenz aller Methoden auf, welche durch die Sprünge der rechten Seite erklärt werden kann.
+Durch die Romberg Extrapolation konnte, im Gegensatz zur Vorwärtsintegration, keine Verbesserung der Konvergenzgeschwindigkeit beobachtet werden (Abbildung \ref{fig:rollingStonesAdjointRom} und Abbildung \ref{fig:rollingStonesAdjointRom1}).
 % Die lineare Konvergenz der beiden Plots liefert 
 % Selbst für einfachere Beispiele ohne Kinks ist die Konvergenz nicht schneller als linear.
 % TODO: HERAUSFINDEN WARUM DAS SO IST
@@ -210,11 +211,63 @@ Jedoch fällt die in Kapitel \ref{sec:adjointInclusion} vorhergesagte lineare Ko
 % \begin{minipage}[t][3cm][t]{5cm}
 \input{img/rolling_convergence_adjoint_discrete.tikz}
 \caption*{(b) Diskrete Observierung}
-\label{fig:rollingStonesAdjointDiscrete}
 \end{minipage}
-\caption{Rolling Stones Konvergenz $\nabla J(x_0)$\\ $I=[0,40],x_0=(0.5,0.5)$}
+\caption{Rolling Stones Konvergenz $\nabla J(x_0)$\\ $I=[0,20],x_0=(1.5,1.5)$}
 \label{fig:rollingStonesAdjoint}
 \end{figure}
+\begin{figure}[H]
+\footnotesize 
+\centering
+\begin{minipage}[b]{0.49\linewidth}
+% \begin{minipage}[t][3cm][t]{5cm}
+\input{img/rolling_convergence_adjoint_smooth_rom.tikz}
+\caption*{(a) Glatte Observierung}
+\end{minipage}
+% \quad
+\begin{minipage}[b]{0.49\linewidth}
+% \begin{minipage}[t][3cm][t]{5cm}
+\input{img/rolling_convergence_adjoint_discrete_rom.tikz}
+\caption*{(b) Diskrete Observierung}
+\end{minipage}
+\caption{Rolling Stones Romberg Konvergenz $\nabla J(x_0)$\\ $I=[0,20],x_0=(1.5,1.5)$}
+\label{fig:rollingStonesAdjointRom}
+\end{figure}
+
+\begin{figure}[H]
+\footnotesize 
+\centering
+\begin{minipage}[b]{0.49\linewidth}
+% \begin{minipage}[t][3cm][t]{5cm}
+\input{img/rolling_convergence_adjoint_smooth1.tikz}
+\caption*{(a) Glatte Observierung}
+\end{minipage}
+% \quad
+\begin{minipage}[b]{0.49\linewidth}
+% \begin{minipage}[t][3cm][t]{5cm}
+\input{img/rolling_convergence_adjoint_discrete1.tikz}
+\caption*{(b) Diskrete Observierung}
+\end{minipage}
+\caption{Rolling Stones Konvergenz $\nabla J(x_0)$\\ $I=[0,20],x_0=(0,-1.45)$}
+\label{fig:rollingStonesAdjoint1}
+\end{figure}
+\begin{figure}[H]
+\footnotesize 
+\centering
+\begin{minipage}[b]{0.49\linewidth}
+% \begin{minipage}[t][3cm][t]{5cm}
+\input{img/rolling_convergence_adjoint_smooth_rom1.tikz}
+\caption*{(a) Glatte Observierung}
+\end{minipage}
+% \quad
+\begin{minipage}[b]{0.49\linewidth}
+% \begin{minipage}[t][3cm][t]{5cm}
+\input{img/rolling_convergence_adjoint_discrete_rom1.tikz}
+\caption*{(b) Diskrete Observierung}
+\end{minipage}
+\caption{Rolling Stones Romberg Konvergenz $\nabla J(x_0)$\\ $I=[0,20],x_0=(0,-1.45)$}
+\label{fig:rollingStonesAdjointRom1}
+\end{figure}
+
 
 \subsection{Optimierung}
 Die zu minimierende Funktion, das Kostenfunktional $J$, ist in Abbildung \ref{fig:rolling_costfunctional} gegeben. $J$ ist hierbei offensichtlich nicht konvex, da um den Punkt $(0,0)$ eine Art Spirale entsteht. Sein globales Minimum befindet sich am Punkt $(1,1)$, trivialerweise an der Stelle der Observierungsparameter. 
@@ -228,7 +281,8 @@ Die zu minimierende Funktion, das Kostenfunktional $J$, ist in Abbildung \ref{fi
 
 Die Optimierung in diesem Beispiel wurde mit dem BFGS - Verfahren (siehe Algorithmus \ref{alg:bfgs}) durchgeführt. Dabei war in den Versuchen zu erkennen, dass die verallgemeinerte Methode, durch den glatteren Gradienten, zu einem besseren Konvergenzverhalten führt (Abbildung \ref{fig:rollingStonesOpt2}).
 
-Für bestimmte Anfangswerte divergiert die klassische Methode, wie in Abbildung \ref{fig:rollingStonesOpt1}, wohingegen die Optimierung über GIMP konvergiert. 
+Für bestimmte Anfangswerte divergiert die klassische Methode, wie z.B. in Abbildung \ref{fig:rollingStonesOpt1} für $x_0=(0,-1.45)$, wohingegen die Optimierung über GIMP konvergiert. 
+Die verbesserte Optimierung lässt sich durch den stabileren Gradienten erklären. In den Konvergenzplots \ref{fig:rollingStonesAdjoint} und \ref{fig:rollingStonesAdjoint1} war durchweg eine bessere Konvergenz für die Anfangswerte zur Optimierung zu beobachten, sodass die Optimierung dadurch stabiler verlieft. 
 
 Zusammenfassend ergibt sich für das Rolling Stones Beispiel ein insgesamt besseres Verhalten der verallgemeinerten Methoden im Gegensatz zu den klassischen Methoden.
 \begin{figure}[H]

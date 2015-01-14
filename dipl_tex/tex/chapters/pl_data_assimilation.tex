@@ -14,6 +14,28 @@ Angenommen die rechte Seite $F$ unserer Evolutionsgleichung \eqref{eq:odemodel} 
 \end{equation}
 Damit ist der Gradient eine mengenwertige Abbildung $\partial F(x)^*:\R^n\rightrightarrows \R^n$ und folglich ist \eqref{eq:adjInclusion} eine \textit{Differential Inclusion} an einem Punkt $x^*$.
 
+% ie errechneten Werte für den Gradienten des Kostenfunktionals für kleine Umgebungen 
+% Deren inhomogene adjungierte Gleichung, welche in Abbildung \ref{fig:babyExampleAdjEq}(a) geplottet wurde, weist an der Stelle $t = 1$ und im Intervall $t\in[0,0.01]$ Sprünge auf, die durch die unglatte Stellen in der Lösung (Abbildung \ref{fig:babyExampleAdjEq}(b)) erklärt werden. An diesen Stellen ist die adjungierte Gleichung durch den verallgemeinerten Gradienten $\partial F(x)^*$ eine Inklusion, sodass sie eventuell keine eindeutige Lösung mehr besitzt. 
+
+\begin{figure}
+\centering
+\begin{minipage}[b]{0.49\linewidth}
+\centering
+\input{img/adj_valley_tracing.tikz}
+\caption*{(a) Kink}
+\end{minipage}
+\begin{minipage}[b]{0.49\linewidth}
+\centering
+\input{img/adj_valley_tracing1.tikz}
+\caption*{(b) Valley tracing mode}
+\end{minipage}
+\caption{Berechnung der Ableitungsrichtung $\Delta x$ und polynomial escape $\Delta \hat x$ }
+\label{fig:adjValleyTracing}
+\end{figure}
+
+In der numerischen Berechnung der Lösung des adjungierten Modells muss der verallgemeinerte Gradient in eine Richtung $\Delta x$ betrachtet werden, sinnvollerweise in die Richtung des Inkrements der vorherigen Iteration $\Delta x_i = x_{i-1} - x_i$, falls wir uns in Iteration $i$ befinden, damit aus der mengenwertigen Abbildung $ \partial F(x)^*$ ein Gradient ausgewählt wird. 
+Falls sich nun die Gerade $x_i + \Delta x$ auf einem Kink befindet, wie in Abbildung \ref{fig:adjValleyTracing} zu sehen, sprechen wir von einem so genannten \textit{valley tracing mode}, welcher von Khan und Barton in \cite{khan2014} ausführlich behandelt wird. Ist dies der Fall, so ist Gleichung \eqref{eq:adjInclusion} nicht nur punktweise, sondern auf einem Intervall eine Differential Inclusion.
+
 Gegeben sei beispielsweise die gewöhnliche Differentialgleichung
 \begin{equation}\label{eq:babyEquation}
 \begin{aligned}
@@ -76,7 +98,7 @@ und damit
   x_0\to 0:&& \dot \xadj(t)  &\in \partial F(0) \xadj(t). \\ 
  \end{aligned}
 \]
-Das adjungierte Tangent Linear Model ist demnach für $x_0=0$ eine Differential Inclusion.
+Das adjungierte Tangent Linear Model ist demnach für $x_0=0$ eine Differential Inclusion auf dem gesamten Zeitintervall.
 
 \begin{figure}[H]
 \footnotesize
@@ -94,32 +116,11 @@ Das adjungierte Tangent Linear Model ist demnach für $x_0=0$ eine Differential 
 \input{img/baby_jac_minus.tikz}
 \caption*{(b) adjungierte Gleichung $x_0=-10^{-15}$}
 \end{minipage}
-\caption{Auswirkung kleiner Abweichungen im Anfangswert an Unglätten auf die adjungierte Gleichung ($I=[0,100], \xobs = 0$)}
+\caption{Auswirkung kleiner Abweichungen im Anfangswert an Unglätten auf die adjungierte Gleichung ($I=[0,100], \xobs \equiv 0$)}
 \label{fig:babyExampleAdjEq}
 \end{figure}
 
-Dieser Punkt kann numerisch problematisch werden, falls durch Rundungsfehler oder rechnerische Ungenauigkeiten nicht genau der exakte Punkt getroffen wird, sondern sich in einer Umgebung um $x_0$ befindet. Dann kann es geschehen, dass der Wert des Gradienten des Kostenfunktionals nicht eindeutig ist, wie beispielsweise in Abbildung \ref{fig:babyExampleAdjEq}.
-
-% ie errechneten Werte für den Gradienten des Kostenfunktionals für kleine Umgebungen 
-% Deren inhomogene adjungierte Gleichung, welche in Abbildung \ref{fig:babyExampleAdjEq}(a) geplottet wurde, weist an der Stelle $t = 1$ und im Intervall $t\in[0,0.01]$ Sprünge auf, die durch die unglatte Stellen in der Lösung (Abbildung \ref{fig:babyExampleAdjEq}(b)) erklärt werden. An diesen Stellen ist die adjungierte Gleichung durch den verallgemeinerten Gradienten $\partial F(x)^*$ eine Inklusion, sodass sie eventuell keine eindeutige Lösung mehr besitzt. 
-
-In der numerischen Berechnung der Lösung des adjungierten Modells muss der verallgemeinerte Gradient in eine Richtung $\Delta x$ betrachtet werden, sinnvollerweise in die Richtung des Inkrements der vorherigen Iteration $\Delta x_i = x_{i-1} - x_i$, falls wir uns in Iteration $i$ befinden, damit aus der mengenwertigen Abbildung $ \partial F(x)^*$ ein Gradient ausgewählt wird. 
-Falls sich nun die Gerade $x_i + \Delta x$ auf einem Kink befindet, wie in Abbildung \ref{fig:adjValleyTracing} zu sehen, sprechen wir von einem so genannten \textit{valley tracing mode}, welcher von Khan und Barton in \cite{khan2014} ausführlich behandelt wird. Ist dies der Fall, so ist Gleichung \eqref{eq:adjInclusion} nicht nur punktweise, sondern auf einem Intervall eine Differential Inclusion, wie es im Beispiel \eqref{eq:babyEquation} für $x_0=0$ der Falls war.
-\begin{figure}
-\centering
-\begin{minipage}[b]{0.49\linewidth}
-\centering
-\input{img/adj_valley_tracing.tikz}
-\caption*{(a) Kink}
-\end{minipage}
-\begin{minipage}[b]{0.49\linewidth}
-\centering
-\input{img/adj_valley_tracing1.tikz}
-\caption*{(b) Valley tracing mode}
-\end{minipage}
-\caption{Berechnung der Ableitungsrichtung $\Delta x$ und polynomial escape $\Delta \hat x$ }
-\label{fig:adjValleyTracing}
-\end{figure}
+Dieser Punkt kann numerisch problematisch werden, falls durch Rundungsfehler oder rechnerische Ungenauigkeiten nicht genau der exakte Punkt getroffen wird, sondern sich in einer Umgebung um $x_0$ befindet. Dann kann es geschehen, dass der Wert des Gradienten des Kostenfunktionals springt, wie beispielsweise in Abbildung \ref{fig:babyExampleAdjEq}.
 
 Bei der Anwendung numerischer Verfahren genau diese unglatten Stellen zu treffen, in einen vallery tracing mode zu geraten und keine eindeutige Lösung zu erhalten, tritt mit Wahrscheinlichkeit $0$ auf und wurde in den Experimenten in Kapitel \ref{ch:experiments} nicht beobachtet.
 % Selbst für extreme Beispiele, wie in Abbildung \ref{} bei den Experimenten,  
