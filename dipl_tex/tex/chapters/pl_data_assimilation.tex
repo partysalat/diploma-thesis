@@ -289,7 +289,7 @@ Falls wir den Gradienten des Kostenfunktionals mit der impliziten Mittelpunktsre
 \input{img/multiple_kinks_adjoint_new.tikz}
 \caption*{(b) Verallgemeinerte implizite Mittelpunktsregel}
 \end{minipage}
-\caption{Punkte $\xo$ der Gradientberechnung in der adjungierten Gleichung}
+\caption{Punkte $\xo$ der Gradientberechnung in der adjungierten Gleichung mit $\xo^{(i)} = \xo + 0.5(\tau_i+\tau_{i-1})\Delta x$}
 \label{fig:multipleKinksAdjoint}
 \end{figure}
 
@@ -302,22 +302,22 @@ x_n - x_a &= 2x_n - 2\xo\\
 \end{align*}
 Die inhomogene adjungierte Differentialgleichung ergibt sich aus \eqref{eq:inhAdjEquation} mit adjungierter Variable $\xadj := \gatdiff x$ zu
 \begin{equation}
-\dot{\xadj} = C^\tr(Cx - \xobs) - \frac{\partial F(x,d)}{\partial x}^\tr \cdot \xadj.
+\dot{\xadj} = C^\tr(Cx - \xobs) - \frac{\partial F(x,\Delta x)}{\partial x}^\tr \cdot \xadj.
 \label{eq:adjModel}
 \end{equation}
 
 Wenn nun die verallgemeinerte Mittelpunktsregel \eqref{eq:genMidpointRule} auf die Gleichung \eqref{eq:adjModel} angewendet wird, folgt
 \begin{align*}
-\xadj_n - \xadj_a &= h\cdot \int_{-0.5}^{0.5}C^\tr(C\xo-\rxobs) - \frac{\partial F(\xo,d)}{\partial x}^\tr \cdot \xadj\\
-									&= h\cdot \left[C^\tr(C\xo-\rxobs) - \int_{-0.5}^{0.5} \frac{\partial F(\xo ,d)}{\partial x}^\tr \cdot \xadj dt\right]\\
+\xadj_n - \xadj_a &= h\cdot \int_{-0.5}^{0.5}C^\tr(C\xo-\rxobs) - \frac{\partial F(\xo,\Delta x)}{\partial x}^\tr \cdot \xadj\\
+									&= h\cdot \left[C^\tr(C\xo-\rxobs) - \int_{-0.5}^{0.5} \frac{\partial F(\xo ,\Delta x)}{\partial x}^\tr \cdot \xadj dt\right]\\
 \end{align*}
-Angenommen es existieren $N \in \mathbb{N}$ Kinks zwischen $x_n$ und $x_{a}$, wobei \[-0.5 = \tau_0 <\tau_1 <\ldots < \tau_l=0.5\] gilt, dann kann durch die Additivität das Integral aufgespalten werden, sodass wir über die Teilintervalle $[\tau_j,\tau_j+1],~ j=0,\ldots,N$ integrieren und unabhängige Variablen herausziehen können:
+Angenommen es existieren $N \in \mathbb{N}$ Kinks zwischen $x_n$ und $x_{a}$, wobei \[-0.5 = \tau_0 <\tau_1 <\ldots < \tau_l=0.5\] gilt, dann kann durch die Additivität das Integral aufgespalten werden, sodass wir über die Teilintervalle $[\tau_j,\tau_j+1],~ j=0,\ldots,N$ integrieren, den Gradienten in jedem Teilintervall betrachten und unabhängige Variablen herausziehen können:
 \begin{align*}
-\xadj_n - \xadj_a &= h\cdot \left[ C^\tr(C\xo-\rxobs) - \sum_{i=1}^N \int_{\tau_{i-1}}^{\tau_{i}}\frac{\partial F(\xo+\tau_{i-1}d,d)}{\partial x}^\tr \cdot \xadj dt\right]\\
-									&= h\cdot \left[C^\tr(C\xo -\rxobs) - \sum_{i=1}^N \underbrace{\frac{\partial F(\xo+\tau_{i-1}d,d)}{\partial x}^\tr }_{A_i^\tr} \cdot \int_{\tau_{i-1}}^{\tau_{i}} \xadj dt\right]\\
+\xadj_n - \xadj_a &= h\cdot \left[ C^\tr(C\xo-\rxobs) - \sum_{i=1}^N \int_{\tau_{i-1}}^{\tau_{i}}\frac{\partial F(\xo+\mathring \tau_i\Delta x,\Delta x)}{\partial x}^\tr \cdot \xadj dt\right]\\
+									&= h\cdot \left[C^\tr(C\xo -\rxobs) - \sum_{i=1}^N \underbrace{\frac{\partial F(\xo+\mathring \tau_i\Delta x,\Delta x)}{\partial x}^\tr }_{A_i^\tr} \cdot \int_{\tau_{i-1}}^{\tau_{i}} \xadj dt\right]\\
 \end{align*}
-
-Nun wird die stückweise Linearisierung auf $\xadj$ angewendet. Es entsteht mit $\diff \tau_j=\tau_j-\tau_{j-1}$ und $\mathring \tau_j=\frac{1}{2}(\tau_j+\tau_{j-1})$ die folgende Umformung
+mit $\mathring \tau_i=\frac{1}{2}(\tau_i+\tau_{i-1})$.
+Nun wird die stückweise Linearisierung auf $\xadj$ angewendet. Es entsteht mit $\diff \tau_i=\tau_i-\tau_{i-1}$ die folgende Umformung
 \allowdisplaybreaks
 \begin{align*}
 \xadj_n - \xadj_a &= h\cdot \left[C^\tr(C\xo -\rxobs) - \sum_{i=1}^N A_i^\tr \cdot \int_{\tau_{i-1}}^{\tau_{i}} \rxadj + t\diff \xadj dt\right]\\

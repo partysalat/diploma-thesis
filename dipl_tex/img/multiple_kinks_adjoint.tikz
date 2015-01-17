@@ -8,12 +8,14 @@
 
 \tikzsetnextfilename{multiple_kinks_adjoint}
 \begin{tikzpicture}
+\draw[->] (5.71,1.7)-- (6.04,1.4);
+\draw (5.7,1.35) node[anchor=south west] {$\nabla F'(\mathring x)$};
 \begin{axis}[
-	width=\linewidth,
+	width=13cm,
 	height=5cm,
 	xmajorgrids,
 	xtick={0,2,3.5,6},
-	xticklabels={$ x_a$,$\tau_1\Delta x$,$\tau_2\Delta x$,$x_n$},
+	xticklabels={$ x_a$,$\mathring x+\tau_1\Delta x$,$\quad\mathring x+\tau_2\Delta x$,$x_n$},
 	yticklabel=\empty,
 	ylabel={$F(x)$},
 	every axis y label/.style={
