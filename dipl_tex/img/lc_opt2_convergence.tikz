@@ -23,8 +23,6 @@
 % 	\addplot[mark=none,blue,very thin] table[x index=0,y index=1] {\fromRoot img/data/lc_opt2_convergence.dat};%gen midpoint
 	\addplot[mark=none,green,very thin] table[x index=0,y index=4] {\fromRoot img/data/lc_convergence_opt_new.dat};%impl midpoint
 	\addplot[mark=none,blue,very thin] table[x index=0,y index=3] {\fromRoot img/data/lc_convergence_opt_new.dat};%gen midpoint
-% 		\addplot[mark=none,green,very thin] table[x index=0,y index=6] {\fromRoot img/data/lc_convergence_opt_new.dat};%impl midpoint
-% 	\addplot[mark=none,blue,very thin] table[x index=0,y index=6] {\fromRoot img/data/lc_convergence_opt_new.dat};%gen midpoint
 \end{loglogaxis}
 \end{tikzpicture}
 

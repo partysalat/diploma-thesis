@@ -343,15 +343,15 @@ Das beschreibende System hat die Form
 \end{equation}
 wobei $x_1$ die Zeit, $x_2$ die Ladung des Kondensators $C$ und $x_3$ die elektrische Stromstärke des Gesamtsystems bezeichnet. Die Spannungsquelle wird mittels $V(t)=\sin(\omega t)$ simuliert und $g(z)$ modelliert mittels der stückweisen linearen Funktion 
 \begin{equation}
- g(z) = \frac{z+|z|}{2\alpha} + \frac{z-|z|}{2\beta}  = \begin{cases}
-                                                         \frac{z}{\alpha} & z\geq 0\\
-                                                         \frac{z}{\beta}  & z<0
+ g(z) = \alpha\frac{z+|z|}{2} + \beta\frac{z-|z|}{2}  = \begin{cases}
+                                                         \alpha z & z\geq 0\\
+                                                         \beta z  & z<0
                                                         \end{cases}
 \label{eq:lcOde}                                                       
 \end{equation}
 die Diode. Als Konstanten werden ähnliche Werte wie in echten Schaltkreisen verwendet
 \[
- L= 10^{-6},~ C=10^{-13},~ \omega = 3\cdot 10^{9},~\alpha = 2,~\beta = 10^{-5}
+ L= 10^{-6},~ C=10^{-13},~ \omega = 3\cdot 10^{9},~\alpha =0.5,~\beta = 10^{5}
 \]
 Für den Anfangswert liegt kein Strom an, d.h. es gilt $x_1(0)  = x_2(0) = x_3(0) = 0$.
 
@@ -401,7 +401,7 @@ Die Romberg Extrapolation gestaltet sich in diesem Beispiel schwierig. Zwar ist 
 \input{img/lc_romberg2.tikz}
 \caption*{(b) Ausschnitt}
 \end{minipage}
-\caption{Romberg Extrapolation}
+\caption{Romberg Extrapolation LC Diode im Intervall $[0,1.5\cdot 10^{-8}]$ mit $x_0=(0,0,0)$}
 \label{fig:lcRomberg}
 \end{figure}
 
@@ -426,28 +426,11 @@ Beim Fehler über die Zeit in Abbildung \ref{fig:lcErrorOverTime} ist zu erkenne
 \label{fig:lcErrorOverTime}
 \end{figure}
 \subsection{Gradient und Optimierung}
-\begin{figure}[H]
-\footnotesize
-\begin{minipage}[b]{0.49\linewidth}
-% \begin{minipage}[t][3cm][t]{5cm}
-\centering
-\input{img/lc_adjoint_eq.tikz}
-\caption*{(a) $\dot{\overline{x_2}}$}
-\end{minipage}
-%  \quad 
-\begin{minipage}[b]{0.49\linewidth}
-% \begin{minipage}[t][3cm][t]{5cm}
-\centering
-\input{img/lc_adjoint_eq1.tikz}
-\caption*{(b) $\dot{\overline{x_3}}$}
-\end{minipage}
-\caption{LC Adjungierte Gleichung mit $x_0=(0,0,0,2,10^{-5}),I=[0,10^{-8}], \xobs(0) = (0,0,0,1,10^3)$}
-\label{fig:lcAdjointEqRHS}
-\end{figure}
+
 
 % In diesem Abschnitt werden wir die Lösung im Intervall $[0,10^{-8}]$ mit den Anfangswerten $x_0=(0,0,0)$ als Observierungsparameter benutzen. Da wir keine analytische Lösung berechnen können, wird eine Lösung mit einer erheblich exakteren Schrittweite ($4N$) als Vergleichswert verwendet.
 
-In diesem Abschnitt sollen die Konstanten $\alpha$ und $\beta$ anhand von Observierungen von $x_1,x_2$ und $x_3$ mittels Datenassimilation berechnet werden. Dazu wird Gleichung \eqref{eq:lcDiodeSystemSimple} um die beiden Variablen $\dot \alpha = 0$ und $\dot \beta = 0$ erweitert zu
+Das Ziel der Datenassimilation in diesem Abschnitt wird sein, die Konstanten $\alpha$ und $\beta$ anhand von Observierungen von $x_1,x_2$ und $x_3$ zu berechnen. Dazu wird Gleichung \eqref{eq:lcDiodeSystemSimple} um die beiden Variablen $\dot \alpha = 0$ und $\dot \beta = 0$ erweitert zu
 \begin{equation}
  \begin{pmatrix}
   \dot x_1\\
@@ -474,18 +457,35 @@ Als Projektionsoperator $C_{\text{Pr}}$ wird die Matrix
   0 &0 &1 &0 &0  \\
  \end{pmatrix}
 \]
-verwendet, welche die Werte $\alpha$ und $\beta$ ausblendet. Als Observierungsparameter wird, falls nicht anders beschrieben, die möglichst exakte Lösung ($2^4N$-Freiheitsgrade) zu den Anfangswerten $\xobs = (0,0,0,1,10^{-6})$ verwendet, welche danach mittels $C$ projeziert wird. In diesem Beispiel wird eine etwas abgewandelte Funktion als Kostenfunktional verwendet. Das Kostenfunktional wird, nach Tykhonov, mit einem Regularisierungsterm addiert Es entsteht
-\[
- \tilde J(x_0) = J(x_0) + \|x_0 - x_{\text{res}}\|^2.
-\]
-Damit folgt als Ableitung des abgeänderten Kostenfunktionals
-\[
- \nabla \tilde J(x_0) = \nabla J(x_0) + 2\cdot (x_0 - x_{\text{res}}). 
-\]
- für ein Regularisierungsparameter $x_{\text{res}}$. 
-Der Prozess der Datenassimilation ergibt nur Sinn, falls die Optimierung in einem Intervall stattfindet, auf welchem die Anfangswerte Einfluss auf die Lösung haben. Da ein periodisches Verhalten der Lösung ab einem bestimmten Zeitpunkt eintritt (Abbildung \ref{fig:lc_solution}), tragen diese Werte ab diesem Zeitpunkt nicht zur Optimierung bei. Es wird daher über das Intervall $I = [0,6\cdot 10^{-9}]$ betrachtet.
+verwendet, welche die Werte $\alpha$ und $\beta$ ausblendet. Als Observierungsparameter wird, falls nicht anders beschrieben, die möglichst exakte Lösung ($2^4N$-Freiheitsgrade) zu den Anfangswerten $\xobs = (0,0,0,1,10^{-6})$ verwendet, welche danach mittels $C$ projeziert wird. 
+
+Da wir nur über $\alpha$ und $\beta$ optimieren wollen, werden in der Optimierungsroutine die Werte des Gradienten $\nabla J$ für $x_1$, $x_2$ und $x_3$ auf $0$ gesetzt. Dies hat als Ergebnis, dass sich die durch das BFGS-Verfahren berechnete Optimierungsrichtung nur für $\alpha$ und $\beta$ ändert.
+Die Werte im Gradienten für $\alpha$ und $\beta$ werden nur indirekt durch die Observierungsparameter beeinflusst, da im zweiten Teil der adjungierten Gleichung $\nabla H$ beide Werte durch die Projektion ausgeblendet werden. Einzig der Zusammenhang mit $\dot x_3$ in der rechten Seite der ODE beeinflusst diesen Gradienten.
+
+Der Prozess der Datenassimilation ergibt nur Sinn, falls die Optimierung in einem Intervall stattfindet, auf welchem die Anfangswerte Einfluss auf die Lösung haben.  Da ein periodisches Verhalten der Lösung ab einem bestimmten Zeitpunkt eintritt (Abbildung \ref{fig:lc_solution}), tragen diese Werte ab diesem Zeitpunkt nicht zur Optimierung bei. Es wird daher das Intervall $I = [0,10^{-8}]$ betrachtet.
  
-Die rechte Seite des inhomogenen adjungierten Tangent Linear Models (\ref{fig:lcAdjointEqRHS}) besitzt in der zweiten Komponente  $\dot{\bar{x_2}}$ Werte nahe der Maschinengenauigkeit. Demgegebenüber hat $\dot{\bar{x_3}}$ sehr große Werte.
+\begin{figure}[H]
+\footnotesize
+\begin{minipage}[b]{0.49\linewidth}
+% \begin{minipage}[t][3cm][t]{5cm}
+\centering
+\input{img/lc_adjoint_eq.tikz}
+\caption*{(a) $\dot{\overline{x_2}}$}
+\end{minipage}
+%  \quad 
+\begin{minipage}[b]{0.49\linewidth}
+% \begin{minipage}[t][3cm][t]{5cm}
+\centering
+\input{img/lc_adjoint_eq1.tikz}
+\caption*{(b) $\dot{\overline{x_3}}$}
+\end{minipage}
+\caption{LC Adjungierte Gleichung mit $x_0=(0,0,0,10^3,10^{4}),I=[0,10^{-8}], \xobs(0) = (0,0,0,10^4,10^5)$}
+\label{fig:lcAdjointEqRHS}
+\end{figure} 
+ 
+ 
+ 
+Die rechte Seite des inhomogenen adjungierten Tangent Linear Models (\ref{fig:lcAdjointEqRHS}) besitzt in der zweiten Komponente  $\dot{\bar{x_2}}$ Werte nahe der Maschinengenauigkeit. Demgegebenüber hat $\dot{\bar{x_3}}$ sehr große Werte. Jedoch besitzt sie eine relativ glatte Form aufgrund der wenigen Kinks. 
 \begin{figure}[H]
 \footnotesize 
 \centering
@@ -511,15 +511,16 @@ Die rechte Seite des inhomogenen adjungierten Tangent Linear Models (\ref{fig:lc
 % \input{img/lc_convergence_adjoint_smooth_rom.tikz}
 % \caption*{(d) Glatte Observierung Romberg}
 % \end{minipage}
-\caption{LC Diode Konvergenz $\nabla J(x_0)$, \\$I=[0,10^{-8}],x_0=(0,0,0,2,10^{-5}) $}
+\caption{LC Diode Konvergenz $\nabla J(x_0)$, \\$I=[0,10^{-8}],x_0=(0,0,0,10^3,10^{4}),\xobs(0)=(0,0,0,10^4,10^5) $}
 \label{fig:lcAdjointConvergence}
 \end{figure}
+Dies ist besonders bei der Konvergenz der adjungierten Gleichung mit unseren Methoden zu beobachten.
+% dessen Verhalten bei der GIMP deutlich besser ist, als im Rolling Stones Beispiel. Für diskrete Observierungen konvergiert sie nahezu
+Sie konvergieren für glatte Observierungen nahezu quadratisch (Abbildung \ref{fig:lcAdjointConvergence}(b)). Die GIMP konvergiert für diskrete Observierungen immerhin noch mit einer Ordnung von $1.55$, berechnet aber von Anfang an genauer als die IMP. Gegenüber der GIMP konvergiert die IMP knapp linear ($0.92$). Im glatten Fall zeigt die IMP ein sehr unregelmäßigiges Verhalten, währenddessen die GIMP stabiler konvergiert. Aufgrund der kleinen Werte des Systems haben die wenigen Kinks offenbar viel Einfluss. 
 
-Die Konvergenz der adjungierten Gleichung fällt bei der GIMP deutlich besser aus, als im Rolling Stones Beispiel. Sie konvergiert nahezu quadratisch, sowohl für diskrete (Abbildung \ref{fig:lcAdjointConvergence}(a)) als auch für glatte Observierungen (Abbildung \ref{fig:lcAdjointConvergence}(b)). Demgegenüber besitzt die IMP nur eine knapp lineare Konvergenzordnung.
 % Mit der Romberg Extrapolation erhält man eine verbesserte Konvergenzordnung für die GIMP , die jedoch erst ab einem Freiheitsgrad von $5\cdot 10^{3}$ einen genaueren Wert liefert (Abbildung \ref{fig:lcAdjointConvergence}(c,d))
 
 
-% Die rechte Seite des inhomogene adjungierten tangent linear models (\ref{fig:lcAdjointEqRHS}) besitzt in der zweiten Komponente Werte unterhalb der Maschinengenauigkeit. Demgegebenüber hat $\dot{\bar{x_3}}$ relativ große Werte.
 % Wie in Abbildung \ref{fig:lcAdjointConvergence} zu erkennen, konvergiert der Gradient bei der LC-Diode mit einer deutlich höheren Ordnung als im Rolling Stones Beispiel. Mit glatten Observierungsparametern ist der mit der GIMP berechnete Gradient von Anfang an um zwei Größenordnungen genauer (Abbildung \ref{fig:lcAdjointConvergence}(b)), als im Fall der Berechnung des Gradienten mit der IMP. Da die adjungierte rechte Seite (Abbildung \ref{fig:lcAdjointEqRHS}) fast keine Sprünge aufweist, ist diese Konvergenz zweiter Ordnung zu erwarten.
 % \begin{figure}[H]
 % \footnotesize 
@@ -547,7 +548,7 @@ Die Konvergenz der adjungierten Gleichung fällt bei der GIMP deutlich besser au
 \begin{minipage}[b]{0.49\linewidth}
 % \begin{minipage}[t][3cm][t]{5cm}
 \input{img/lc_opt1_convergence.tikz}
-\caption*{(a) Fehler zu den exakten Parametern $\alpha,\beta$}
+\caption*{(a) Abstand zu den exakten Parametern $\alpha,\beta$}
 \end{minipage}
 % \quad
 \begin{minipage}[b]{0.49\linewidth}
@@ -555,12 +556,12 @@ Die Konvergenz der adjungierten Gleichung fällt bei der GIMP deutlich besser au
 \input{img/lc_opt2_convergence.tikz}
 \caption*{(b) Kostenfunktional\\$~~$}
 \end{minipage}
-\caption{LC Diode Datenassimilation Optimierung auf dem Intervall $I = [0,10^{-9}], N=2000,x_0=(0,0,0,2,10^{-5})$,$\xobs(0) =x_{\text{res}}=(0,0,0,1,10^{-3})$}
+\caption{LC Diode Datenassimilation Optimierung auf dem Intervall $I = [0,10^{-8}], N=500,x_0=(0,0,0,10^3,10^{4})$,$\xobs(0) =(0,0,0,10^4,10^{5})$}
 \label{fig:lcOpt}
 \end{figure}
-Wie in Abbildung \ref{fig:lcOpt}(a) zu sehen, konvergiert die GIMP gegen die gewünschten Werte, währenddessen die IMP divergiert. Da der Gradient des Kostenfunktionals ein besseres Konvergenzverhalten für die GIMP aufweist, ist offenbar die Optimierung stabiler. Das Kostenfunktional \ref{fig:lcOpt}(b) konvergiert ebenfalls schneller und stabiler mit der GIMP als mit der IMP.
+Wie in Abbildung \ref{fig:lcOpt}(a) zu sehen, konvergieren beide Methoden gegen die gewünschten Werte. Da der Gradient des Kostenfunktionals ein besseres Konvergenzverhalten für die GIMP aufweist, ist die Optimierung stabiler und schneller mit einer Konvergenz nach 68 Schritten. Die Optimierung mit der IMP brauchte dafür 78 Schritte.  Das Kostenfunktional \ref{fig:lcOpt}(b) konvergiert ebenfalls schneller und stabiler mit der GIMP als mit der IMP.
 
-Auch das Beispiel der LC Diode zeigt das Potential der stückweisen Linearisierung. Sowohl die Vorwärts- als auch die Rückwärtsintegration, sowie die Optimierung konnten verbessert werden.
+Auch das Beispiel der LC Diode zeigt das Potential der stückweisen Linearisierung. Sowohl die Vorwärts- als auch die Rückwärtsintegration, sowie die Optimierung konnten verbessert werden.% Ebenfalls ist es möglich, die Datenassimilation zu verbessern (Bezu zu "indirekte assimilierung"
 \section{Shallow Water Equation}
 % \subsection{Problemstellung}
 Bisher wurde die stückweise Linearisierung nur mit gewöhnlichen Differentialgleichungen durchgeführt. Somit ist es das Ziel dieses Beispieles, diese Methoden auf eine partielle Differentialgleichung anzuwenden und mit ihr Datenassimilation durchführen.
@@ -851,11 +852,9 @@ Die schlechte Konvergenzordnung der Verfahren ist nicht verwunderlich, da die re
 \end{figure}
 
 
-In Abbildung \ref{fig:sweConvergenceOpt} ist das Konvergenzresultat für eine Optimierung erkennbar.
-Da der Gradient des Kostenfunktionals mit der GIMP besser berechnet wird, ist dementsprechend der Konvergenzgraph glatter (Abbildung \ref{fig:sweConvergenceOpt}(a)) und konvergiert etwas schneller.
+In Abbildung \ref{fig:sweConvergenceOpt} ist das Konvergenzresultat für eine Optimierung erkennbar. Beide Methoden konvergieren in etwa gleich schnell.
+Da der Gradient des Kostenfunktionals mit der GIMP genauer berechnet wird, ist dementsprechend der Konvergenzgraph glatter (Abbildung \ref{fig:sweConvergenceOpt}(a)). 
 
-% Da beide Gradienten des Kostenfunktionals für die gegebenen Eingansparameter ein ähnlich schlechtes Konvergenzverhalten besitzen, war kein besseres Verhalten der GIMP zu erwarten. Auch in der Rekonstruktionen der Anfangswerte in Abbildung \ref{fig:sweOptInitValues} ist ersichtlich, dass beide Methoden nicht exakt den ursprünglichen Anfangswert berechnen konnten.
-% Da jedoch beide Methoden bei einem relativ großen Fehler abbrechen ist alles kacke
 \begin{figure}[H]
 \centering
 \begin{minipage}[b]{0.49\linewidth}
@@ -874,8 +873,22 @@ Da der Gradient des Kostenfunktionals mit der GIMP besser berechnet wird, ist de
 \end{figure}
 
 
-In der Praxis gibt es Abweichungen zwischen den gemessenen Observierungen und dem zu optimierenden Modell. In Abbildung \ref{fig:sweConvergenceOptNoise} wurden deshalb die Observierungsparameter gestört und die Optimierung des Kostenfunktionals darauf angewendet. Zusätzlich wird ein Regularisierungsterm, wie in \cite[S.2]{korotaev2008retrieving} vorgeschlagen und in Abschnitt \ref{sec:expLc} bereits benuzt, zum Kostenfunktional addiert und mit diesem optimiert mit $x_{\text{res}} = U_0^{(1)}$.
-%...ERGÄNZEN
+In der Praxis kann es Abweichungen zwischen den gemessenen Observierungen und dem zu optimierenden Modell geben. In Abbildung \ref{fig:sweConvergenceOptNoise} wurden deshalb die Observierungsparameter gestört ($\pm 0.2$) und die Optimierung des Kostenfunktionals darauf angewendet. 
+In diesem Beispiel wird eine etwas abgewandelte Funktion als Kostenfunktional verwendet. Das Kostenfunktional wird, wie in \cite[S.2]{korotaev2008retrieving} vorgeschlagen, mit einem Regularisierungsterm addiert. Es entsteht
+\[
+ \tilde J(x_0) = J(x_0) + \|x_0 - x_{\text{res}}\|^2.
+\]
+Damit folgt als Ableitung des abgeänderten Kostenfunktionals
+\[
+ \nabla \tilde J(x_0) = \nabla J(x_0) + 2\cdot (x_0 - x_{\text{res}}). 
+\]
+ für ein Regularisierungsparameter $x_{\text{res}}$. Da die Regularisierungstheorie für inverse Probleme durchaus komplex ist (siehe z.B. \cite{engl1996regularization}), wird der Einfachheit halber $x_{\text{res}}= U_0^{(1)}, n=20$ gesetzt.
+
+%TODO...ERGÄNZEN
+In Abbildung \ref{fig:sweConvergenceOptNoise} ist das Konvergenzresultat der Optimierung dargestellt. Obwohl sie mit beiden Methoden unregelmäßig ist, konvergiert jedoch die GIMP etwas stabiler. Eine schnellere Konvergenz einer der beiden Methoden ist nicht erkennbar.
+% Da beide Gradienten des Kostenfunktionals für die gegebenen Eingansparameter ein ähnlich schlechtes Konvergenzverhalten besitzen, war kein besseres Verhalten der GIMP zu erwarten. Auch in der Rekonstruktionen der Anfangswerte in Abbildung \ref{fig:sweOptInitValues} ist ersichtlich, dass beide Methoden nicht exakt den ursprünglichen Anfangswert berechnen konnten.
+% Da jedoch beide Methoden bei einem relativ großen Fehler abbrechen ist alles kacke
+
 \begin{figure}[H]
 \centering
 \begin{minipage}[b]{0.49\linewidth}
@@ -892,6 +905,8 @@ In der Praxis gibt es Abweichungen zwischen den gemessenen Observierungen und de
 \caption{SWE Konvergenz Optimierung mit gestörten Observierungen mit Parametern $I=[0,50],L=50,\Delta x=10$, $x_0=U_0^{(1)},n=10$, $\xobs(0) = U_0^{(1)}, n_{\text{obs}}=20,\mu_{\text{obs}}=30$ und $\theta=2$}
 \label{fig:sweConvergenceOptNoise}
 \end{figure}
+
+Die errechneten Werte der Optimierung werden in Abbildung \ref{fig:sweOptInitValues} gezeigt. An den Rändern weichen sie stärker vom eigentlichen Wert $x_0^{Obs}$ ab, wobei nur ein kleiner Unterschied zwischen den beiden Methoden zu erkennen ist. Keine der beiden Methoden approximiert genauer, weshalb dieses Ergebnis unabhängig der verwendeten Methode ist, sondern auf der Störung der Observierungsparameter beruht.
 % WIEDER MIT REIN NEHMEN MIT RAUSCHEN
 \begin{figure}[H]
 \begin{minipage}[b]{0.49\linewidth}
@@ -910,3 +925,4 @@ In der Praxis gibt es Abweichungen zwischen den gemessenen Observierungen und de
 \label{fig:sweOptInitValues}
 \end{figure}
 
+Versuche mit der Shallow Water Equation sind ebenfalls erfolgreich. Sowohl die Vorwärtsintegration als auch die Rückwärtsintegration zeigen gute Ergebnisse. Die Optimierung ist in beiden Fällen stabiler.

@@ -15,7 +15,7 @@
 	ylabel=$\dot{\bar{x_3}}$,
 	legend entries ={
 	$\dot{\overline{x_3}}$
-	},
+	}
 % 	legend style={at={(0.5,1.0)},anchor=south},
 % 	legend columns=2
 ]
