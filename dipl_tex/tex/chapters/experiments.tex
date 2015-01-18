@@ -353,6 +353,7 @@ die Diode. Als Konstanten werden ähnliche Werte wie in echten Schaltkreisen ver
 \[
  L= 10^{-6},~ C=10^{-13},~ \omega = 3\cdot 10^{9},~\alpha =0.5,~\beta = 10^{5}
 \]
+wobei $L$ die Induktivität der Spule, $C$ die Kapazität des Kondensators und $\omega$ die Frequenz der Spannungsquelle beschreibt. Die Werte $\alpha$ und $\beta$ stellen die Parameter der Durchfluss / Sperrrichtung der Diode dar.
 Für den Anfangswert liegt kein Strom an, d.h. es gilt $x_1(0)  = x_2(0) = x_3(0) = 0$.
 
 Im Gegensatz zu dem Rolling Stones Beispiel lässt sich dieses Problem nicht in einer Abs-Normal Form darstellen, da es kein stückweise lineares Problem ist. Die in Theorem \ref{thm:quadrApproxPL} besagte Konvergenz zweiter Ordnung ist nun hier zu beachten, da sich das Modell nicht exakt Linearisieren lässt. Als weitere numerische Probleme stellen sich die kleinen Konstanten $L,C$ und $\beta$ und die kleine Schrittweite in einem Intervall von $[0, 10^{-8}]$ heraus. In der Lösung erhalten wir für die Ladung des Kondensators Größenordnungen von $10^{-13}$, welche an die Maschinengenauigkeit von $\approx 10^{-16}$ (double precision) grenzen.
