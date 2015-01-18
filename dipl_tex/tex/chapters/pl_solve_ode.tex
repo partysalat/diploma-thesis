@@ -83,7 +83,7 @@ Griewank bewies in \cite[Prop.4]{monster} ihre Konvergenzeigenschaft
 
 Für den von Boeck \cite{boeck14} hergeleiteten Algorithmus zur verallgemeinerten Mittelpunktsregel benötigen wir zum einen die Möglichkeit eine stückweise lineare Funktion möglichst genau in einem Intervall zu integrieren, als auch einen Löser für lineare Gleichungssysteme.
 % Dies wird im nächsten Abschnitt behandelt.
-
+\vfill
 \section{Quadratur und Unfoldeded Newton}
 \subsection{Quadraturverfahren}
 
@@ -99,7 +99,7 @@ $k$ Kinks des Integranten vorhanden sind, wie in Abbildung \ref{fig:quadrature} 
 Um diese Kinks aus der Abs-Normal Form zu berechnen, werden die switching Variablen $z_j$, $j=1,\ldots,s$ aus der Abs-Normal Form betrachtet. Wie bereits in Kapitel \ref{sec:absNormalForm} erwähnt sind diese Werte für sich genommen stückweise affine Funktionen, an deren Nullstellen ein Kink auftritt,
 d.h. an ihren Nullstellen findet ein Vorzeichenwechsel statt. Um zu wissen, wie weit wir von einem Punkt $\xo$ in Richtung $\Delta x$ gehen können bis wir solch eine Nullstelle erreichen, wollen wir diese \textit{kritischen Multiplikatoren} $\tau_j$, $j=1,\ldots, s$ berechnen. Diese beschreiben den Faktor $\tau$ in Richtung $\Delta x$ bis zum nächsten Kink. 
 %Quadraturbeschreibung blub
-\begin{figure}[H]
+\begin{figure}[ht]
 \centering
  \input{img/multiple_kinks.tikz}
  \caption{Quadratur zwischen mehreren Kinks}
@@ -125,7 +125,10 @@ und bilden für jedes $z_j$ seine Tangente
 \[
  z_j + \tau \dot z_k = 0 \quad \iff \quad \tau =- \frac{z_k}{\dot z_k}
 \]
-deren Nullstelle wir berechnen. Da sich das Vorzeichen des Abs Aufrufs in \eqref{eq:absNormalZ} bis zur Nullstelle nicht ändert, wir uns also im selben Polyeder befinden, haben wir lokal eine affine Funktion, deren Richtungsableitung \eqref{eq:absNormalZDerivative} lokal wohldefiniert ist.
+deren Nullstelle wir berechnen.
+%Quadraturbeschreibung blub
+
+Da sich das Vorzeichen des Abs Aufrufs in \eqref{eq:absNormalZ} bis zur Nullstelle nicht ändert, wir uns also im selben Polyeder befinden, haben wir lokal eine affine Funktion, deren Richtungsableitung \eqref{eq:absNormalZDerivative} lokal wohldefiniert ist.
 Falls $z_j\dot z_j <0$ gilt, kreuzt die Tangente in Richtung $\Delta x$ einen Kink.
 Der kritische Multiplikator $\tau_*$ ergibt sich dann als das Minimum der errechneten Werte oder im Falle, dass kein Kink vorhanden ist als obere Integrationsgrenze
 \[
@@ -134,15 +137,12 @@ Der kritische Multiplikator $\tau_*$ ergibt sich dann als das Minimum der errech
 		\inf_j\lbrace -\frac{z_j}{\dot z_j}~ \vert ~ \dot z_j \cdot z_j <0 \rbrace.
 	       \end{cases}
 \]
-
-%Quadraturbeschreibung blub
-\begin{figure}[H]
+\begin{figure}[ht]
 \centering
  \input{img/finding_kinks.tikz}
  \caption{Kink- Berechnung}
 \label{fig:findingKinks} 
 \end{figure}
-
 Nun, da wir die Stellen der $k$ Kinks ausrechnen können, teilen wir das Intervall $[0,\frac{1}{2}]$ in $k$-Abschnitte mit reellen Zahlen $0=\tau_0<\tau_1<\ldots<\tau_k = \sfrac{1}{2}$,  sodass
 \[
  [0,\frac{1}{2}] = \bigcup_{i=0}^{k-1} [\tau_i,\tau_{i+1}]
@@ -160,7 +160,8 @@ Mit $y_i = \Delta F(\xo;\tau_i \Delta x)$ und $F$ stückweise linear folgt, dass
 \end{equation}
 vereinfacht, also zur Trapezregel. Für stückweise lineare Funktionen ist die eben beschriebene Integrationsmethode exakt, da die Trapezregel für lineare Funktionen exakt ist.
 Mit dem Algorithmus in Prozedur \ref{alg:quad} kann nun die Quadratur für stückweise lineare Funktionen berechnet werden. 
-\begin{algorithm}[H]
+\vfill
+\begin{algorithm}[ht]
 % \caption{Quadraturformel für stückweise lineare Funktionen}
 % \label{alg:quad}
 \algrenewcommand{\algorithmiccomment}[1]{\hfill{\scriptsize #1}}
@@ -201,7 +202,7 @@ Mit dem Algorithmus in Prozedur \ref{alg:quad} kann nun die Quadratur für stüc
 \label{alg:quad}
 \end{algorithm}
 
-
+\clearpage
 \subsection{Verallgemeinerte Gradienten}
 
 Zum Lösen eines Gleichungssystems mit einem Newtonverfahren benötigt man den Gradienten der betrachteten verkettet stückweise linearen Funktion. 
@@ -278,7 +279,7 @@ Hier ist $J_\sigma$ die Jacobimatrix von $F$ eingeschränkt auf $P_\sigma$. Sie 
 % \EndFunction
 % \end{algorithmic}
 % \end{algorithm}
-
+\vfill
 
 \subsection{Unfolded Newtonalgorithmus}
 Als nächstes gilt es, ein lineares Gleichungssystem 
