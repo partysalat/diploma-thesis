@@ -44,7 +44,7 @@ Gegeben sei beispielsweise die gewöhnliche Differentialgleichung
 \end{equation}
 deren Lösung in Abbildung in \ref{fig:babyExampleSol}
 
-\begin{figure}[H]
+\begin{figure}[ht]
 \footnotesize
 \centering
 \input{img/baby_solution.tikz}
@@ -100,7 +100,7 @@ und damit
 \]
 Das adjungierte Tangent Linear Model ist demnach für $x_0=0$ eine Differential Inclusion auf dem gesamten Zeitintervall.
 
-\begin{figure}[H]
+\begin{figure}[ht]
 \footnotesize
 \centering
 \begin{minipage}[b]{0.49\linewidth}
@@ -276,7 +276,7 @@ In diesem Abschnitt wollen wir die verallgemeinerte Mittelpunktsregel auf die in
 
 Falls wir den Gradienten des Kostenfunktionals mit der impliziten Mittelpunktsregel berechnen, so würden wir als Auswertungspunkt des Gradienten den Mittelpunkt $\xo$ benutzen. Wie in Abbildung \ref{fig:multipleKinksAdjoint}(a) zu erkennen ist, kann dies dazu führen, dass der Gradient keine sinnvolle Aussage der Steigung widerspiegelt, da der Gradient nur an der Intervallmitte berechnet wird. Im Rolling Stones Beispiel (\ref{sec:rollingStonesExample}) mündet dieses Problem beispielsweise in einem sehr verzerrten Gradienten (siehe Abbildung \ref{fig:rollingGrad}). Wir wollen nun die Eigenschaften der verallgemeinerten impliziten Mittelpunktsregel nutzen, um eine Art Mittelwert des Gradienten berechnen zu können, der an den Stellen zwischen den Kinks, wie in Abbildung \ref{fig:multipleKinksAdjoint}(b), ausgewertet und gewichtet summiert wird. 
 
-\begin{figure}
+\begin{figure}[ht]
 \footnotesize
 \centering
 \begin{minipage}[b]{\linewidth}
@@ -352,7 +352,7 @@ Durch Umsortierung folgt
 \end{equation}
 mit $\bar{A}^\tr = \sum_{i=1}^N A_i^\tr \diff \tau_i $ und $\hat{A}^\tr = \sum_{i=1}^N A_i^\tr \diff \tau_i \rtau_i$.
 Als Algorithmus ergibt sich folglich Prozedur 4, welche die Berechnung von $\bar A$ und $\hat A$ durchführt, als auch Prozedur 5, welche das erstellte Gleichungssystem löst.
- \begin{algorithm}[H]
+ \begin{algorithm}[ht]
  \algrenewcommand{\algorithmiccomment}[1]{\hfill{\scriptsize #1}}
  \caption{Gewichtete Gradienten}
  \label{alg:kinkPartials}
@@ -376,7 +376,7 @@ Als Algorithmus ergibt sich folglich Prozedur 4, welche die Berechnung von $\bar
  \EndFunction
  \end{algorithmic}
  \end{algorithm}
-\begin{algorithm}
+\begin{algorithm}[ht]
  \algrenewcommand{\algorithmiccomment}[1]{\hfill{\scriptsize #1}}
  \caption{Gradient des Kostenfunktionals}
  \label{alg:jacDataAssimilation}
@@ -403,6 +403,8 @@ Als Algorithmus ergibt sich folglich Prozedur 4, welche die Berechnung von $\bar
  \EndFunction
  \end{algorithmic}
  \end{algorithm}
+ 
+
 Bemerkt sei, dass sich die Formel für $l=1$, wenn sich also kein Kink zwischen $x_n$ und $x_a$ befindet, zur bekannten impliziten Mittelpunktsregel vereinfacht. Für diesen Fall gilt $\diff \tau =1,\rtau = 0$ und damit
 \begin{align*}
 && \left[I +h\sum_{i=1}^1 A_i^\tr \left(\frac{1}{2} \diff \tau_i +\diff \tau_i \rtau_i\right) \right]\xadj_n &=\begin{aligned}[t]
@@ -425,7 +427,8 @@ Bemerkt sei, dass sich die Formel für $l=1$, wenn sich also kein Kink zwischen 
 \end{aligned}\\
 \iff &&  \xadj_n - \xadj_a &=h\cdot \left[C^\tr(C\xo -\rxobs) - \frac{\partial F(\xo ,d)}{\partial x}^\tr  \frac{\xadj_n + \xadj_a}{2}\right]\\
 \end{align*}
-Dies entspricht der verallgemeinerten impliziten Mittelpunktsregel \eqref{eq:genMidpointRule} für das inhomogene adjungierte Modell \eqref{eq:adjModel}.
+Dies entspricht der klassischen impliziten Mittelpunktsregel \eqref{eq:classicImplMidpoint} für das inhomogene adjungierte Modell \eqref{eq:adjModel}.
+
  
 
  
