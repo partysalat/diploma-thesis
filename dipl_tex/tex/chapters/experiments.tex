@@ -595,7 +595,7 @@ Dazu nutzen wir die Finite Volumen Methode, welche unter anderem von LeVeque in 
 
 Kurganov bietet in \cite{kurganov2007second} ein robustes second order central upwind Finite Volumen Schema für die SWE an, die sowohl \textit{well balanced} ist als auch den \textit{dry state} behandelt. Es wurde genutzt, um die gewünschte Ortsdiskretisierung durchzuführen. Im Abbildung \ref{fig:sweSolution} ist die Lösung von \eqref{eq:swe} über die Zeit dargestellt.
 
-\begin{figure}
+\begin{figure}[ht]
  \centering
  \input{img/swe_plot.tikz}
  \caption{Lösung der 1-D SWE auf $I=[0,300]$, Länge $L=500,~\Delta x=10,~\Delta t=1$, periodischen Randbedingungen und normalverteiltem Anfangswert}
@@ -603,6 +603,7 @@ Kurganov bietet in \cite{kurganov2007second} ein robustes second order central u
 \end{figure}
 
 % \cite{evans1998partial}
+\vfill
 \subsection{FVM Schema und Unglattheiten}
 \label{sec:fvmFluxEigen}
 Das Schema von Kurganov aus \cite{kurganov2007second} benutzt ein uniformes Gitter mit $x_\alpha=\alpha\cdot \Delta x$ wobei $\Delta x$ den Abstand zum nächsten Gitterpunkt beschreibt. Das Intervall $I_j = [x_{j-\sfrac{1}{2}},x_{j+\sfrac{1}{2}}]$ sei die $j-$te finite Volumenzelle.
@@ -688,7 +689,6 @@ In den numerischen Experimenten ist $\varepsilon = \sfrac{1}{\Delta x^4}$ gewäh
 
 
 Die Berechnung der Eigenwerte und der Ableitungen über den MinMod Limiter bringen Unglattheiten auf die rechten Seite von Gleichung \eqref{eq:swe}.  Der verallgemeinerte MinMod hat die switching depth $\nu = 3$ und erzeugt dadurch Knicke im computational graph. Gleiches gilt für die Eigenwertberechnung, welche eine switching depth von $\nu = 2$ erzeugt. Diese hohe switching depth führt in den Ergebnissen, wie in Abschnitt \ref{sec:absNormalForm} beschrieben, zu einer hohen Komplexität der Abs-Normal Form und numerischen Instabilitäten. In Abbildung \ref{fig:sweGrad} ist die rechte Seite in der Zeit abgebildet. Man kann erkennen, dass Knicke auf der rechten Seite vorhanden sind. Diese treten auf, falls eine flache in eine steile Steigung übergeht und umgekehrt. Ebenso ist das oszillatorische Verhalten an den Knicken zu erkennen, welches zu Fehlern in der Zeitintegration mit klassichen Methoden führt.
-
 \subsection{CFL Bedingung}
 Bei der Wahl der Methode zur Zeitintegration wird in der Praxis zwischen expliziten und impliziten Verfahren abgewägt. Dabei kommen Explizite Verfahren besonders dort zum Einsatz, wo eine Lösung mit möglichst kleinen Schritten benötigt wird. Für diesen Fall werden sogenannte higher order strong stability preserving (SSP) Runge Kutta Methoden verwendet, wozu auch das explizite Euler Verfahren gehört (\cite{gottlieb2003strong}). Dazu werden Anforderungen an die Koeffizienten des Runge Kutta Verfahrens gestellt, sodass sie sich prinzipiell aus einfachen Euler Schritten zusammensetzen und ihre Konvergenzeigenschaft auf die des Expliziten Euler Verfahrens zurückgeführt werden kann (\cite[Lemma 1.1]{gottlieb2003strong}). Explizite Verfahren besitzen den Vorteil, dass bei der Berechnung kein lineares Gleichungssystem gelöst werden muss, welches unter Umständen sehr groß sein kann und daher zu einem höheren Rechenaufwand führt.
 
@@ -850,7 +850,7 @@ Die schlechte Konvergenzordnung der Verfahren ist nicht verwunderlich, da die re
 \label{fig:sweConvergenceAdjoint1}
 \end{figure}
 
-
+\clearpage
 In Abbildung \ref{fig:sweConvergenceOpt} ist das Konvergenzresultat für eine Optimierung erkennbar. Beide Methoden konvergieren in etwa gleich schnell.
 Da der Gradient des Kostenfunktionals mit der GIMP genauer berechnet wird, ist dementsprechend der Konvergenzgraph glatter (Abbildung \ref{fig:sweConvergenceOpt}(a)). 
 
@@ -881,7 +881,7 @@ Damit folgt als Ableitung des abgeänderten Kostenfunktionals
 \[
  \nabla \tilde J(x_0) = \nabla J(x_0) + 2\cdot (x_0 - x_{\text{res}}). 
 \]
- für ein Regularisierungsparameter $x_{\text{res}}$. Da die Regularisierungstheorie für inverse Probleme durchaus komplex ist (siehe z.B. \cite{engl1996regularization}), wird der Einfachheit halber $x_{\text{res}}= U_0^{(1)}, n=20$ gesetzt.
+ für ein Regularisierungsparameter $x_{\text{res}}$. Da die Regularisierungstheorie für inverse Probleme durchaus komplex ist (siehe z.B. \cite{engl1996regularization}), wird der Einfachheit halber $x_{\text{res}}= \xobs(0)$ gesetzt.
 
 %TODO...ERGÄNZEN
 In Abbildung \ref{fig:sweConvergenceOptNoise} ist das Konvergenzresultat der Optimierung dargestellt. Obwohl sie mit beiden Methoden unregelmäßig ist, konvergiert jedoch die GIMP etwas stabiler. Eine schnellere Konvergenz einer der beiden Methoden ist nicht erkennbar.
