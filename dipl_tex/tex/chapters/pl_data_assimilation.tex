@@ -3,11 +3,11 @@
 % \makeatletter\@ifundefined{fromRoot}{\newcommand{\fromRoot}[1]{../../#1}}{}\makeatother
 % \begin{document}
 \chapter{Datenassimilierung mittels stückweiser Linearisierung}
-In diesem Abschnitt widmen wir uns der Aufgabe, das inhomogene adjungierte Tangent Linear Model \eqref{eq:inhAdjEquation} zur verallgemeinerten impliziten Mittelpunktsregel herzuleiten.
+In diesem Abschnitt widmen wir uns der Aufgabe, die Lösung des inhomogenen adjungierten Tangent Linear Model \eqref{eq:inhAdjEquation} mit der verallgemeinerten impliziten Mittelpunktsregel zu berechnen.
 
 \section{Adjoint Inclusion und Valley Tracing Mode}
 \label{sec:adjointInclusion}
-Angenommen die rechte Seite $F$ unserer Evolutionsgleichung \eqref{eq:odemodel} sei eine verkettet stückweise glatte Funktion. Dann behält die inhomogene adjungierte Gleichung \eqref{eq:inhAdjEquation} für die glatten Bereiche von $F$ ihre Gültigkeit. An den Nullstellen der switching Variablen $z$ erhalten wir jedoch
+Angenommen die rechte Seite $F$ der Evolutionsgleichung \eqref{eq:odemodel} sei eine verkettet stückweise glatte Funktion. Dann behält die inhomogene adjungierte Gleichung \eqref{eq:inhAdjEquation} für die glatten Bereiche von $F$ ihre Gültigkeit. An den Nullstellen der switching Variablen $z$ erhalten wir jedoch
 \begin{equation}
  \label{eq:adjInclusion}
  \frac{d \delta' x}{dt} \in- \partial F(x)^*\delta'x + \frac{1}{2}\nabla H(t)
@@ -359,7 +359,7 @@ Als Algorithmus ergibt sich folglich Prozedur 4, welche die Berechnung von $\bar
  \begin{algorithmic}[1]
  \Function{calc\_kink\_partial}{$\cx,\hx,\Delta x$}
  	\State $\hat{\tau} \gets 0$, $x_{kink} \gets \cx$
- 	\State $\bar{A} \gets 0 $, $\hat{A} \gets 0$
+ 	\State $\bar{A} \gets 0_{n\times n} $, $\hat{A} \gets 0_{n\times n}$
  	\Repeat
  	  \State $\check{\tau} \gets \check{\tau} + \hat{\tau}, ~ x_{kink} \gets x_{kink} +\check{\tau}\Delta x$
  	  \State $\hat{\tau} \gets \check{\tau} + \Call{critMult}{ x_{kink},\Delta x}$ 		 \Comment{Berechne kritischen Multiplikator}

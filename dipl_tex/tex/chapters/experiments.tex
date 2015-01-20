@@ -387,7 +387,7 @@ Die Lösung des Schaltkreises \eqref{eq:lcOde} wird in Abbildung \ref{fig:lc_sol
 Im Konvergenzgraph \ref{fig:lcConvergence} ist ein ähnliches Verhalten wie beim Rolling Stones Beispiel zu erkennen. Nachdem sich der Konvergenzgraph der GIMP bis ca. $5\cdot 10^2$ Schritten ähnlich wie die IMP verhält, konvergiert er stabil mit Ordnung 2, während die IMP, bedingt durch die wenigen Kinks, ebenfalls springt. Die explizite Mittelpunktsregel konvergiert unterhalb von $10^3$ Schritten nicht aufgrund der Steifheit des Problems.
 Es ist also von großer Bedeutung, dass unsere Methoden, selbst für nicht stückweise affine Beispiele, stabile Konvergenzresultate erzielen.
 
-Die Romberg Extrapolation gestaltet sich in diesem Beispiel schwierig. Zwar ist in Abbildung \ref{fig:lcRomberg} ein besseres Verhalten der Extrapolation für die GIMP zu erkennen, diese stößt jedoch an die Grenzen, sobald sie sich der Maschinengenauigkeit nähert.  Die Konvergenzgeschwindigkeit betrug in diesem Beispiel nur $2.24$. Insbesondere im Abschnitt zwischen $2\cdot 10^{3}$ und $10^4$ ist jedoch eine deutlich exaktere Extrapolation der GIMP im Gegensatz zur Extrapolation der IMP zu beobachten. In diesem Intervall beträgt die Konvergenzgeschwindigkeit schon $3.89$. 
+Die Romberg Extrapolation gestaltet sich in diesem Beispiel schwierig. Zwar ist in Abbildung \ref{fig:lcRomberg} ein besseres Verhalten der Extrapolation für die GIMP zu erkennen, diese stößt jedoch an die Grenzen, sobald sie sich der Maschinengenauigkeit nähert.  Die Konvergenzgeschwindigkeit betrug in diesem Beispiel nur $2.24$. Insbesondere im Abschnitt zwischen $2\cdot 10^{3}$ und $10^4$ ist jedoch eine deutlich exaktere Extrapolation der GIMP im Gegensatz zur Extrapolation der IMP zu beobachten. In diesem Intervall beträgt die Konvergenzgeschwindigkeit schon $3.89$. Die Konvergenzgeschwindigkeit der Romberg Extrapolation nimmt nach $10^4$ Freiheitsgraden ab, da sich der Abstand der Lösung zur exakten Lösung nahe der Maschinengenauigkeit bewegt. 
 \begin{figure}[ht]
 \footnotesize 
 \centering
@@ -431,7 +431,7 @@ Beim Fehler über die Zeit in Abbildung \ref{fig:lcErrorOverTime} ist zu erkenne
 
 % In diesem Abschnitt werden wir die Lösung im Intervall $[0,10^{-8}]$ mit den Anfangswerten $x_0=(0,0,0)$ als Observierungsparameter benutzen. Da wir keine analytische Lösung berechnen können, wird eine Lösung mit einer erheblich exakteren Schrittweite ($4N$) als Vergleichswert verwendet.
 
-Das Ziel der Datenassimilation in diesem Abschnitt wird sein, die Konstanten $\alpha$ und $\beta$ anhand von Observierungen von $x_1,x_2$ und $x_3$ zu berechnen. Dazu wird Gleichung \eqref{eq:lcDiodeSystemSimple} um die beiden Variablen $\dot \alpha = 0$ und $\dot \beta = 0$ erweitert zu
+Das Ziel der Datenassimilation in diesem Abschnitt wird sein, die Konstanten der Durchfluss-/Sperrrichtung der Diode, $\alpha$ und $\beta$, anhand von Observierungen von $x_1,x_2$ und $x_3$ zu berechnen. Dazu wird Gleichung \eqref{eq:lcDiodeSystemSimple} um die beiden Variablen $\dot \alpha = 0$ und $\dot \beta = 0$ erweitert zu
 \begin{equation}
  \begin{pmatrix}
   \dot x_1\\
@@ -458,12 +458,15 @@ Als Projektionsoperator $C_{\text{Pr}}$ wird die Matrix
   0 &0 &1 &0 &0  \\
  \end{pmatrix}
 \]
-verwendet, welche die Werte $\alpha$ und $\beta$ ausblendet. Als Observierungsparameter wird, falls nicht anders beschrieben, die möglichst exakte Lösung ($2^4N$-Freiheitsgrade) zu den Anfangswerten $\xobs = (0,0,0,1,10^{-6})$ verwendet, welche danach mittels $C$ projeziert wird. 
+verwendet, welche die Werte $\alpha$ und $\beta$ ausblendet. Als Observierungsparameter wird, falls nicht anders beschrieben, die möglichst exakte Lösung ($2^4N$-Freiheitsgrade) zu den Anfangswerten $\xobs(0)$ verwendet, welche danach mittels $C$ projeziert wird. 
 
-Da wir nur über $\alpha$ und $\beta$ optimieren wollen, werden in der Optimierungsroutine die Werte des Gradienten $\nabla J$ für $x_1$, $x_2$ und $x_3$ auf $0$ gesetzt. Dies hat als Ergebnis, dass sich die durch das BFGS-Verfahren berechnete Optimierungsrichtung nur für $\alpha$ und $\beta$ ändert.
-Die Werte im Gradienten für $\alpha$ und $\beta$ werden nur indirekt durch die Observierungsparameter beeinflusst, da im zweiten Teil der adjungierten Gleichung $\nabla H$ beide Werte durch die Projektion ausgeblendet werden. Einzig der Zusammenhang mit $\dot x_3$ in der rechten Seite der ODE beeinflusst diesen Gradienten.
+Da wir nur über $\alpha$ und $\beta$ optimieren wollen, werden in der Optimierungsroutine die Werte des Gradienten $\nabla J$ für $x_1$, $x_2$ und $x_3$ auf $0$ gesetzt, also ebenfalls projeziert, diesmal jedoch auf die Werte $\alpha$ und $\beta$. Dies hat als Ergebnis, dass sich die durch das BFGS-Verfahren berechnete Optimierungsrichtung nur für die beiden Werte ändert.
+Die Werte im Gradienten für $\alpha$ und $\beta$ werden nur indirekt durch die Observierungsparameter beeinflusst, da im zweiten Teil der adjungierten Gleichung $\nabla H$ beide Werte durch die Projektion ausgeblendet werden. Einzig der Zusammenhang mit $\dot x_3$ in der rechten Seite der ODE 
+% und damit durch den Gradienten $\partial F$ 
+beeinflusst den Gradienten 
+% des Kostenfunktionals $\nabla J$.
 
-Der Prozess der Datenassimilation ergibt nur Sinn, falls die Optimierung in einem Intervall stattfindet, auf welchem die Anfangswerte Einfluss auf die Lösung haben.  Da ein periodisches Verhalten der Lösung ab einem bestimmten Zeitpunkt eintritt (Abbildung \ref{fig:lc_solution}), tragen diese Werte ab diesem Zeitpunkt nicht zur Optimierung bei. Es wird daher das Intervall $I = [0,10^{-8}]$ betrachtet.
+Der Prozess der Datenassimilation ist nur dann sinnvoll, falls die Optimierung in einem Intervall stattfindet, auf welchem die Anfangswerte Einfluss auf die Lösung haben. Da ein periodisches Verhalten der Lösung ab einem bestimmten Zeitpunkt eintritt (Abbildung \ref{fig:lc_solution}), tragen diese Werte ab diesem Zeitpunkt nicht zur Optimierung bei. Es wird daher das Intervall $I = [0,10^{-8}]$ betrachtet.
  
 \begin{figure}[ht]
 \footnotesize
@@ -690,7 +693,7 @@ In den numerischen Experimenten ist $\varepsilon = \sfrac{1}{\Delta x^4}$ gewäh
 
 Die Berechnung der Eigenwerte und der Ableitungen über den MinMod Limiter bringen Unglattheiten auf die rechten Seite von Gleichung \eqref{eq:swe}.  Der verallgemeinerte MinMod hat die switching depth $\nu = 3$ und erzeugt dadurch Knicke im computational graph. Gleiches gilt für die Eigenwertberechnung, welche eine switching depth von $\nu = 2$ erzeugt. Diese hohe switching depth führt in den Ergebnissen, wie in Abschnitt \ref{sec:absNormalForm} beschrieben, zu einer hohen Komplexität der Abs-Normal Form und numerischen Instabilitäten. In Abbildung \ref{fig:sweGrad} ist die rechte Seite in der Zeit abgebildet. Man kann erkennen, dass Knicke auf der rechten Seite vorhanden sind. Diese treten auf, falls eine flache in eine steile Steigung übergeht und umgekehrt. Ebenso ist das oszillatorische Verhalten an den Knicken zu erkennen, welches zu Fehlern in der Zeitintegration mit klassichen Methoden führt.
 \subsection{CFL Bedingung}
-Bei der Wahl der Methode zur Zeitintegration wird in der Praxis zwischen expliziten und impliziten Verfahren abgewägt. Dabei kommen Explizite Verfahren besonders dort zum Einsatz, wo eine Lösung mit möglichst kleinen Schritten benötigt wird. Für diesen Fall werden sogenannte higher order strong stability preserving (SSP) Runge Kutta Methoden verwendet, wozu auch das explizite Euler Verfahren gehört (\cite{gottlieb2003strong}). Dazu werden Anforderungen an die Koeffizienten des Runge Kutta Verfahrens gestellt, sodass sie sich prinzipiell aus einfachen Euler Schritten zusammensetzen und ihre Konvergenzeigenschaft auf die des Expliziten Euler Verfahrens zurückgeführt werden kann (\cite[Lemma 1.1]{gottlieb2003strong}). Explizite Verfahren besitzen den Vorteil, dass bei der Berechnung kein lineares Gleichungssystem gelöst werden muss, welches unter Umständen sehr groß sein kann und daher zu einem höheren Rechenaufwand führt.
+Bei der Wahl der Methode zur Zeitintegration wird in der Praxis zwischen expliziten und impliziten Verfahren abgewägt. Dabei kommen explizite Verfahren besonders dort zum Einsatz, wo eine Lösung mit möglichst kleinen Schritten benötigt wird. Für diesen Fall werden sogenannte higher order strong stability preserving (SSP) Runge Kutta Methoden verwendet, wozu auch das explizite Euler Verfahren gehört (\cite{gottlieb2003strong}). Dazu werden Anforderungen an die Koeffizienten des Runge Kutta Verfahrens gestellt, sodass sie sich prinzipiell aus einfachen Euler Schritten zusammensetzen und ihre Konvergenzeigenschaft auf die des Expliziten Euler Verfahrens zurückgeführt werden kann (\cite[Lemma 1.1]{gottlieb2003strong}). Explizite Verfahren besitzen den Vorteil, dass bei der Berechnung kein lineares Gleichungssystem gelöst werden muss, welches unter Umständen sehr groß sein kann und daher zu einem höheren Rechenaufwand führt.
 
 Falls die Zeitschritte der Integration zu groß werden und damit über eine Nachbar - Volumenzelle hinaus zur nächsten propagiert werden, der numerische Flux des expliziten Verfahrens jedoch nur seine direkten Nachbarn betrachtet, kann dies zu einem instabilen Verhalten führen. Dies ist die Konsequenz der \textit{Courant-Friedrich-Levy Bedingung (CFL)}, welche eine notwendige Bedingung zur Stabilität des Verfahrens gibt (\cite[S.69]{leveque2002finite}):
 \begin{theorem*}[CFL Bedingung]
@@ -733,22 +736,45 @@ Im Falle einer Schrittweite von $1.6\cdot 10^2$ divergiert die implizite Mittelp
 %TODO: WARUM?
 Die Romberg Extrapolation (Abbildung \ref{fig:sweConvergenceRomberg}) konvergiert wie in den vorherigen Beispielen mit einer Ordnung von etwas weniger als $\mathcal O(\hat h^3)$. 
 
-\begin{figure}
+\begin{figure}[ht]
 \centering
 \input{img/swe_convergence.tikz}
 \caption{Konvergenz SWE im Intervall $I = [0,50], L=50, \Delta x=10$ mit $U_0^{(1)},n=10,\theta=1$}
 \label{fig:sweConvergence}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[ht]
 \centering
 \input{img/swe_convergence_romberg.tikz}
 \caption{Konvergenz SWE Romberg im Intervall $I = [0,50], L=100, \Delta x=10$ mit $U_0^{(1)},n=10,\theta=1$}
 \label{fig:sweConvergenceRomberg}
 \end{figure}
+Die Konvergenz der Integration für $\theta = 2$ in Abbildung \ref{fig:sweConvergenceTheta2} zeigt die Robustheit der GIMP. Die IMP springt ebenfalls wieder stark, konvergiert jedoch ähnlich wie die GIMP. Beide Methoden konvergieren jedoch langsamer als für $\theta=1$. Der Parameter $\theta$ hat damit Einfluss auf die Konvergenzgeschwindigkeit.
+\begin{figure}[ht]
+\footnotesize
+\begin{minipage}[b]{0.49\linewidth}
+% \begin{minipage}[t][3cm][t]{5cm}
+\centering
+\input{img/swe_convergence_theta2.tikz}
+% \input{img/swe_error_over_time.tikz}
+\caption*{(a) Konvergenz}
+\end{minipage}
+%  \quad 
+\begin{minipage}[b]{0.49\linewidth}
+% \begin{minipage}[t][3cm][t]{5cm}
+\centering
+% \input{img/swe_error_over_time_all.tikz}
+\input{img/swe_convergence_theta2_rom.tikz}
+\caption*{(b) Romberg Extrapolation}
+\end{minipage}
+\caption{Konvergenz SWE im Intervall $I = [0,50], L=100, \Delta x=10$ mit $U_0^{(1)},n=10,\theta=2$}
+% \caption{SWE Fehler über Zeit mit $I=[0,300], L=100, \Delta x=10, h = 1$ und $U_0^{(2)},k=2,\theta=1$}
+\label{fig:sweConvergenceTheta2}
+\end{figure}
+
 Dass die GIMP eine bessere Integration liefert ist auch in Abbildung \ref{fig:sweErrorOverTime} ersichtlich, in dem der Fehler über die Zeit geplottet wurde. Während die GIMP anfangs schlechter integriert, besitzt sie, über einen längeren Zeitraum betrachtet, einen geringeren Fehler als die anderen Methoden. Tendenziell ist der Fehler über die Zeit für die GIMP jedoch geringer, wie beispielsweise in Abbildung \ref{fig:sweErrorOverTime2} im Anhang ersichtlich.
 
-\begin{figure}
+\begin{figure}[ht]
 \footnotesize
 \begin{minipage}[b]{0.49\linewidth}
 % \begin{minipage}[t][3cm][t]{5cm}
@@ -781,8 +807,9 @@ Dass die GIMP eine bessere Integration liefert ist auch in Abbildung \ref{fig:sw
 % \label{fig:sweEnergyVariation}
 % \end{figure}
 % Es ist zu erkennen, dass in diesem Beispiel keine Verbesserung bzgl. des Energievariationsfehlers vorhanden ist.
+\clearpage
 \subsection{Gradient und Optimierung}
-\begin{figure}[H]
+\begin{figure}[ht]
 \footnotesize
 \begin{minipage}[b]{0.49\linewidth}
 % \begin{minipage}[t][3cm][t]{5cm}
@@ -797,7 +824,7 @@ Dass die GIMP eine bessere Integration liefert ist auch in Abbildung \ref{fig:sw
 \input{img/swe_adjoint_eq1_2.tikz}
 \caption*{(b) $\dot{\overline{hu}}$}
 \end{minipage}
-\caption{SWE Adjungierte Gleichung mit $I=[0,10], L=100,\Delta x=10,h = 0.05$ und $U_0^{(1)},n=10,\theta=2,\xobs(0)=U_0^{(1)},n_{\text{obs}}=20,\mu_{\text{obs}}=30$}
+\caption{SWE rechte Seite der Adjungierte Gleichung mit $I=[0,10], L=100,\Delta x=10,h = 0.05$ und $U_0^{(1)},n=10,\theta=2,\xobs(0)=U_0^{(1)},n_{\text{obs}}=20,\mu_{\text{obs}}=30$}
 \label{fig:sweAdjointEqRHS}
 \end{figure}
 Bei der Konvergenz des Gradienten in Abbildung \ref{fig:sweConvergenceAdjoint} ist für $\theta=1$ kein besseres Verhalten der GIMP gegenüber der IMP feststellbar. Falls $\theta=2$ gesetzt wird (Abbildung \ref{fig:sweConvergenceAdjoint1}), ergibt sich zwar keine bessere Konvergenzordnung der GIMP, jedoch hat sie einen kleineren Fehler. 

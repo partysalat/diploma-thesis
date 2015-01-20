@@ -1,6 +1,6 @@
 \chapter{Datenassimilation}
 \section{Problemstellung}
-Die 4-D Variations-Datenassimilation ist eine Methode, welche versucht, die Theorie der optimalen Steuerung auf die Datenassimilation, also das Annähern eines Modells an observierte Parameter durch Steuerungsparameter, zu übertragen.
+Die 4-D Variations-Datenassimilation ist eine Methode, welche die Theorie der optimalen Steuerung auf die Datenassimilation, also das Annähern eines Modells an observierte Parameter durch Steuerungsparameter, überträgt.
 Eingeführt von Talagrand und Le Dimet in \cite{dimet1986variational} findet diese Methode immer mehr Verwendung für reale Beispiele (z.B. \cite{korotaev2008retrieving,elbern20004d,broquet2009application}). Benutzt wird sie meist in atmosphärischen Modellen, um optimale Parameter zur numerischen Wettervorhersage zu finden. Auch in ozeanographischen Modellen findet diese Methode Anwendung.
 
 Ziel der 4-D Datenassimilation ist es durch Steuerungsparameter, wie etwa Anfangswerte zum Zeitpunkt $t_0$, den Abstand eines Modells gegenüber den in der Zeit gemessenen Observierungsparametern minimal werden zu lassen. 
@@ -23,7 +23,7 @@ J(x_0) \coloneqq \frac{1}{2}\int_0^T H(x(t),t)dt = \frac{1}{2}\int_0^T \|C\cdot 
 \end{equation}
 % mit $H(x(t),t) \coloneqq  \|C\cdot x(V)-\xobs\|^2$
 mit $\|\cdot \|$ als euklidische Norm. Die skalarwertige Funktion $J$ ist damit jene Funktion, die das Maß zwischen der Lösung $x$ und den Observierungsparametern $\xobs$ darstellt.
-Man beachte, dass das Zielfunktional nur abhängig vom Anfangswert $x_0$ ist. Das Ziel besteht darin, $x_0 = x_0^*$ zu finden, sodass das unrestringierte Optimierungsproblem
+Man beachte, dass das Zielfunktional nur abhängig vom Anfangswert $x_0$ ist. Das Ziel besteht darin, $x_0 = x_0^*$ zu finden, sodass das Optimierungsproblem
 \begin{equation}
 \label{eq:bolzaProblem}
 \begin{aligned}
@@ -175,10 +175,11 @@ Bei den Optimierungsmethoden, welche wir betrachten, benötigt man den Gradiente
 
 \section{Der Gradient des Zielfunktionals}
 \subsection{Adjungierte Operatoren}
-Für höhere Dimensionen ist die Bestimmung dieses Gradienten jedoch auf klassischem Weg numerisch sehr komplex. Dazu würde man jede Komponente unseres Systems \eqref{eq:odemodel} stören, das gestörte Modell in jeder Komponente integrieren und das Kostenfunktional dieser ausrechnen. Aus der Störung würde sich der Gradient $\partial J/\partial x_0$ ergeben. Dies ist sehr ineffizient. Als effiziente Alternative hat sich die Anwendung adjungierter Methoden erwiesen. Mit ihrer Hilfe kann die numerische Komplexität der Berechnung des Gradienten auf ein weniges Vielfaches des Integrierens der Evolutionsgleichung \eqref{eq:odemodel} vermindert werden.
+Für höhere Dimensionen ist die Bestimmung dieses Gradienten jedoch beispielsweise mittels Differenzenbestimmung numerisch sehr komplex. Dazu würde man jede Komponente unseres Systems \eqref{eq:odemodel} stören, das gestörte Modell in jeder Komponente integrieren und das Kostenfunktional dieser ausrechnen. Aus der Störung würde sich der Gradient $\partial J/\partial x_0$ ergeben. Dies ist sehr ineffizient. Als effiziente Alternative hat sich die Anwendung adjungierter Methoden erwiesen. Mit ihrer Hilfe kann die numerische Komplexität der Berechnung des Gradienten auf ein weniges Vielfaches des Integrierens der Evolutionsgleichung \eqref{eq:odemodel} vermindert werden.
 
 Eine allgemeine Einführung zur Theorie von adjungierten Gleichungen wurde beispielsweise von Cacuci \cite{cacuci1981sensitivity} gegeben, während Talagrand in \cite{talagrand1987variational} adjungierte Operatoren auf Hilberträume einschränkt und mit Diesen die Datenassimilation einführt.
-Für die folgenden Betrachtungen sind Hilberträume von besonderer Wichtigkeit. Sämtliche Lösungstheorie sowohl bei gewöhnlichen als auch bei partiellen Differentialgleichungen basieren auf den speziellen Eigenschaften dieser Räume.
+Für die folgenden Betrachtungen sind Hilberträume von besonderer Wichtigkeit. 
+% Sämtliche Lösungstheorie sowohl bei gewöhnlichen als auch bei partiellen Differentialgleichungen basieren auf den speziellen Eigenschaften dieser Räume.
 
 Ein Hilbertraum ist ein reller oder komplexer Vektorraum mit einem Skalarprodukt, der bzgl. der vom Skalarprodukt induzierten Norm vollständig ist. Da $\R$ vollständig ist, ist jeder endlichdimensionale Vektorraum über $\R$, versehen mit dem Standardskalarprodukt, vollständig. In der numerischen Praxis sind damit sämtliche folgenden Schritte valide. 
 Ein Ableitungsbegriff auf Hilberträumen ist die sogenannte Gâteaux Ableitung (z.B.\cite[]{lindenstrauss2003frechet}).
@@ -229,7 +230,7 @@ wobei $G'^*$ der adjungierte Operator von $G'$ beschreibt. Damit ist
 Die Gleichung \eqref{eq:adjointEssential} stellt die Basis für die Nutzung der adjungierte Operatoren für die Datenassimilation dar. Sie bietet einen besonders effizienten Weg $\nabla_u J$ numerisch zu berechnen. Angewandt auf unser Problem wäre $u\mapsto v =G(u) $ eine Integration eines numerischen Modells. Aus einer Integrationsmethode, welche $G'^*w$ für ein gegebenes $w$ berechnen kann, kann nun aus $\nabla_v J$ mittels \eqref{eq:adjointEssential} einfach $\nabla_u J$ errechnet werden. 
 % Wenn $J$ einfach gewählt wurde, lässt sich daraus $\nabla_v J$ ebenfalls einfach berechnen. 
 Um $\nabla_u J$ zu erhalten, muss zuerst $v = G(u)$ berechnet werden, danach $\nabla_v J$ und schlussendlich wieder $\nabla_u J$ durch \eqref{eq:adjointEssential}.
-
+\vfill
 \subsection{Berechnung des Gradienten}
 Um vorherige Betrachtungen auf die Ableitung des Zielfunktionals 
 \begin{equation}\label{eq:costfunctionalGen}
@@ -397,7 +398,7 @@ Nun, da ein numerischer Weg gefunden wurde, $\nabla_v J$ effizient zu berechnen,
 \label{eq:minProblem}
  \min_{x_0} J(x_0) 
 \end{equation}
-zu minimieren. Dies ist ein unrestringiertes Optimierungsproblem. 
+zu minimieren. %Dies ist ein unrestringiertes Optimierungsproblem. 
 
 \subsection{Grundlagen}
 Im Folgenden sei vorausgesetzt, dass für ein $\tilde x\in D$ die \textit{Niveaumenge}
@@ -449,7 +450,7 @@ Ein allgemeines Abstiegsverfahren mit Schrittweitensteuerung wird ebenfalls in \
 \begin{framed}
  \begin{enumerate}
   \item Wähle einen Startpunkt $x^{(0)}\in \R^n$ und setze $k:=0$
-  \item Ist $\nabla J(x^{(k)})=0_n$: Stopp
+  \item Ist $\nabla J(x^{(k)})=0_n$: Stop
   \item Berechne eine Abstiegsrichtung $d^{(k)}$ und eine Schrittweite $\sigma_k>0$, so dass
   \[
    J(x^{(k)} + \sigma_k d^{(k)}) < J(x^{(k)})
@@ -484,11 +485,11 @@ Um dies zu erreichen wird im Folgenden das Prinzip des hinreichenden Abstiegs fo
  \end{equation}
 
 
-mit von $x$ und $d$ unabhängigen Konstanten $c_1>0$, $c_2>0$ gilt. Eine Schrittweite $\sigma$ heißt \textit{effizient}, falls
+mit von $x$ und $d$ unabhängigen Konstanten $c_1>0$, $c_2>0$ gilt. Eine Schrittweite $\sigma$ heißt \textit{effizient}, falls 
 \[
  J(x+\sigma d) \leq J(x) - c\left( \frac{\nabla J(x)^\tr d}{\|d\|}\right)^2
 \]
-mit einer von $x$ und $d$ unabhängigen Konstanten $c>0$ gilt.
+mit einer von $x$ und $d$ unabhängigen Konstanten $c>0$ gilt, $x\in N(J,J(x^{(0)}))$ und $d$ eine Abstiegsrichtung.
 \end{definition}
 Die erste Bedingung stellt sicher, dass sich der neue Funktionswert $J(x+\sigma d)$ unterhalb der Funktionswerte der von $x$ in Abstiegsrichtung $d$ aufgespannten Geraden befindet. 
 Die zweite Bedingung sichert, dass die Schrittweite $\sigma$ in Bezug zu $\nabla J(x)^\tr d$ nicht zu schnell gegen $0$ geht.
@@ -645,7 +646,7 @@ Eine verbesserte Wahl der Suchrichtung $d$ bietet das BFGS-Verfahren (\cite[Verf
 \begin{framed}
 \begin{enumerate}
  \item Wähle Anfangspunkt $x^{(0)}$, eine symmetrisch positiv definite Matrix $A^{(0)}$ und setze $k:=0$.
- \item Überprüfe $\nabla J(x^{(k)}) = 0$?: Stopp
+ \item Überprüfe $\nabla J(x^{(k)}) = 0$?: Stop
  \item Berechne $d^{(k)} = -\left( A^{(k)} \right)^{-1} \nabla J(x^{(k)})$, wähle eine effiziente Schrittweite $\sigma_k$, berechne 
  \[
  \begin{aligned}

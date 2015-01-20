@@ -6,10 +6,10 @@
 }{%
 }
 \begin{document}
-\tikzsetnextfilename{swe_convergence}
+\tikzsetnextfilename{swe_convergence_theta2}
 \begin{tikzpicture}
 \begin{loglogaxis}[
-	width=9cm,
+	width=\linewidth,
 % 	grid=both,
 	xlabel=Anzahl der Freiheitsgrade $N$,
 	ylabel=Fehler in zum Zeitpunkt $T$,
@@ -21,17 +21,17 @@
 	GIMP 
 % 	Rom. GIMP,
 % 	Rom. IMP
-	},
+	}
 % 	legend style={at={(0.5,1.0)},anchor=south},
 % 	legend columns=2
 ]
-  	\addplot[mark=none,red,very thin] table[x index=0,y index=2] {\fromRoot img/data/swe_convergence.dat};%expl midpoint
- 	\addplot[mark=none,green,very thin] table[x index=0,y index=3] {\fromRoot img/data/swe_convergence.dat};%impl midpoint
-	\addplot[mark=none,blue,very thin] table[x index=0,y index=1] {\fromRoot img/data/swe_convergence.dat};%gen midpoint
+  	\addplot[mark=none,red,very thin] table[x index=0,y index=2] {\fromRoot img/data/swe_convergence_theta2.dat};%expl midpoint
+ 	\addplot[mark=none,green,very thin] table[x index=0,y index=3] {\fromRoot img/data/swe_convergence_theta2.dat};%impl midpoint
+	\addplot[mark=none,blue,very thin] table[x index=0,y index=1] {\fromRoot img/data/swe_convergence_theta2.dat};%gen midpoint
 % 	\addplot[mark=none,lime,very thin] table[x index=0,y index=5] {\fromRoot img/data/swe_convergence.dat};%gen midpoint impl
 % 	\addplot[mark=none,cyan,very thin] table[x index=0,y index=4] {\fromRoot img/data/swe_convergence.dat};%gen midpoint rom
 	\addplot[mark=none,very thin,gray, yshift=-20pt] 
-		table[y={create col/linear regression={x=0,y=1}}] {\fromRoot img/data/swe_convergence.dat}
+		table[y={create col/linear regression={x=0,y=1}}] {\fromRoot img/data/swe_convergence_theta2.dat}
 		  coordinate [pos=0.5] (A)
 		  coordinate [pos=0.6] (B)
 		;
