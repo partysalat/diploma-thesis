@@ -1,0 +1,102 @@
+\documentclass{beamer}
+
+\usetheme[secheader]{Madrid}
+\useinnertheme[]{rectangles}
+\setbeamertemplate{navigation symbols}{}%remove navigation symbols
+
+
+\usepackage[utf8]{inputenc}		% direct input of umlauts (other options: utf8, utf8x)
+\usepackage[T1]{fontenc} 			% better c&p from pdf
+\usepackage[english]{babel}		% language switch. use ngerman
+\usepackage{csquotes}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%  MATHS  %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{mathdots}	% inverse ddots \iddots
+\usepackage{amsmath,amssymb,array}	% core math
+\usepackage[centercolon]{mathtools}	% minor additions for ams
+\usepackage{xfrac}	% 1/2 style fracs with \sfrac
+\usepackage{cancel}	% cancel out terms
+
+
+\usepackage{multicol}	% multicolumns environment
+\usepackage{subcaption}	%subfigures
+
+\usepackage{animate} %need the animate.sty file
+\usepackage[backend=biber,style=authortitle]{biblatex}
+\addbibresource{ad.bib}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%  FEATURES  %%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage[final]{listings}									% pretty print source code
+	\lstloadlanguages{C++}
+	\lstset{
+		numbers=left, 
+		numberstyle=\tiny, 
+		basicstyle=\ttfamily,
+		morecomment=[l][commentstyle]{//},
+		commentstyle={\tiny\itshape},
+		moredelim=**[is][\color{gray}]{@}{@},	% highlight between @..@
+		aboveskip=\smallskipamount,
+		belowskip=\smallskipamount,
+		mathescape=true,
+		breaklines,
+	}
+\newcommand{\src}[1]{\lstinline{#1}}
+	
+\usepackage{algorithm,algpseudocode}	% pseudo code
+
+\usepackage{tikz,pgfplots}						% plotting
+	
+\usetikzlibrary{external}
+\pgfkeys{/pgf/images/include external/.code=\includegraphics{#1}}	%draft mode for external tikz
+\tikzsetexternalprefix{Bilder/tikz/}
+\tikzexternalize
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%  Custom Commands  %%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\pma}[1]{\begin{pmatrix} #1 \end{pmatrix}}
+\newcommand{\bma}[1]{\begin{bmatrix} #1 \end{bmatrix}}
+
+\renewcommand{\d}{\mathchoice{\,d\!\;\!}{\,d}{\,d}{d}} %integral d
+
+\DeclareMathOperator{\sgn}{sign}
+\DeclareMathOperator{\diag}{diag}
+\DeclareMathOperator{\abs}{abs}
+
+\newcommand{\D}{\triangle}%%todo better symbol/space around
+\newcommand{\pl}{\square}
+
+\newcommand{\floor}[1]{\lfloor#1\rfloor}
+\newcommand{\floorS}[1]{\left\lfloor#1\right\rfloor}
+\newcommand{\ceil}[1]{\lceil#1\rceil}
+\newcommand{\ceilS}[1]{\left\lceil#1\right\rceil}
+
+\newcommand{\rx}{\mathring{x}}
+\newcommand{\hx}{\hat{x}}
+\newcommand{\cx}{\check{x}}
+
+
+\title[Dataassimilation with PL]{Integrating and adjoining Lipschitzian ODEs with application to Dataassimilation}
+\author[Lenser ]{Ben Lenser} 
+\institute[]{
+\includegraphics[height=0.3\textheight]{img/husiegel.pdf}\\[0.5cm]
+Humboldt Universität zu Berlin\\Institut für Mathematik
+}
+\date{\today}
+
+\begin{document}
+\frame{\titlepage}
+\frame{\tableofcontents}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%  CONTENTS  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\include{richard.plain}
+%\include{paul.plain}
+\include{tex/introduction}
+
+\end{document}
