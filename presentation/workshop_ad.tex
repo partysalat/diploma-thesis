@@ -49,7 +49,7 @@
 \usepackage{algorithm,algpseudocode}	% pseudo code
 
 \usepackage{tikz,pgfplots}						% plotting
-	
+\pgfplotsset{compat=1.10}	
 \usetikzlibrary{external}
 \pgfkeys{/pgf/images/include external/.code=\includegraphics{#1}}	%draft mode for external tikz
 \tikzsetexternalprefix{img/tikz/}
@@ -78,7 +78,9 @@
 \newcommand{\rx}{\mathring{x}}
 \newcommand{\hx}{\hat{x}}
 \newcommand{\cx}{\check{x}}
+\newcommand{\tr}{\intercal}
 
+\newcommand{\R}{\mathbb R}
 
 \title[Dataassimilation with PL]{Integrating and adjoining Lipschitzian ODEs with application to Dataassimilation}
 \author[Lenser ]{Ben Lenser} 
