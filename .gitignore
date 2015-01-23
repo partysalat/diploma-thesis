@@ -17,3 +17,6 @@
 *.dep
 *.dat~
 *_contourtmp*
+*.fuse_hidden*
+*.nav
+*.snm

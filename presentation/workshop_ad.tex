@@ -52,7 +52,7 @@
 	
 \usetikzlibrary{external}
 \pgfkeys{/pgf/images/include external/.code=\includegraphics{#1}}	%draft mode for external tikz
-\tikzsetexternalprefix{Bilder/tikz/}
+\tikzsetexternalprefix{img/tikz/}
 \tikzexternalize
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -95,8 +95,13 @@ Humboldt Universität zu Berlin\\Institut für Mathematik
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%  CONTENTS  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%\include{richard.plain}
-%\include{paul.plain}
+
 \include{tex/introduction}
+\include{tex/pl}
+\include{tex/pl_ode}
+\include{tex/pl_da}
+\include{tex/experiments}
+\include{tex/outlook}
+
 
 \end{document}
