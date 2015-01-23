@@ -2,7 +2,65 @@
 \begin{frame}[<+->]
 \frametitle{Stückweise Linearisierung}
 \begin{itemize}
- \item Ausweitung auf verkettet stückweise glatte Funktionen
+\item Betrachte nun stückweise lineare Funktionen 
+\[
+\begin{aligned}
+ f&:\R^n \to \R^m, \\
+ f&\in \lbrace f_1,\ldots,f_k\rbrace,~f_i(x)=A_ix+b_i~\forall i,~f \text{ global stetig}
+ \end{aligned}
+\]
+%  \item Betrachte nun $\dot{x} = F(x),~ x_0 = x(0),~F\in C^{0,1}(\R^n)$ (TODO stückweise lineare Funktionen ergänzen)
+ \item $f$ ist als \textit{Abs Normal Form} darstellbar $\ldots$
+ \end{itemize}
+\begin{block}{Abs-Normal Form}
+ \begin{equation}
+\label{eq:absNormalForm}
+  \begin{bmatrix}
+   z\\y
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+   c\\b
+  \end{bmatrix}
+  +
+  \begin{bmatrix}
+   Z & L\\
+   J & Y
+  \end{bmatrix}
+  \begin{bmatrix}
+   x\\|z|
+  \end{bmatrix}
+ \end{equation}
+wobei $c\in \R^s, ~ Z\in \R^{s\times n},~ L\in\R^{s\times s}, ~ b\in\R^m, ~ J\in\R^{m\times n}, ~ Y\in \R^{m\times s}$, $s$ \textit{switching depth} und $z\in \R^s$ \textit{switching Variable}
+\end{block}
+\end{frame}
+
+\begin{frame}[<+->]
+\frametitle{Stückweise Linearisierung}
+\begin{itemize}
+ \item $\ldots$ und kann benutzt werden, um verkettet stückweise glatte Funktionen 
+ \[
+ \begin{aligned}
+   f&:\R^n \to \R^m, \\
+ f&\in \lbrace f_1,\ldots,f_k\rbrace,~f_i(x) \in C^1(\R^n)~\forall i,~f \text{ global stetig}
+ \end{aligned}
+ \]
+an einer Entwicklungsstelle $\xo$ mit einem Fehler von $\mathcal O((\|x-\xo\|)^2)$ (Griewank) zu approximieren
+%  \item Verkettet stückweise glatte Funktionen: stückweise definierte, stetige Funktionen, dessen Auswahlfunktionen stetig differenzierbar sind
+\item Diese Approximation heißt \textit{stückweise Lineariserung} an der Stelle $\xo$ und hat die Form 
+\[
+ F(\xo) + \Delta F(\xo; x-\xo)
+\]
+welche auch als \textit{tangent mode} bezeichnet wird.
 \end{itemize}
 
+\end{frame}
+
+\begin{frame}[<+->]
+\frametitle{Stückweise Linearisierung}
+\begin{figure}
+\centering
+% \resizebox{.9\linewidth}{!}{ \input{../dipl_tex/img/piecewise_linearization.tikz} }
+\includegraphics[width=0.65\linewidth]{../dipl_tex/img/tikz/piecewise_linearization.pdf}
+\end{figure}
 \end{frame}
