@@ -1,4 +1,6 @@
-\documentclass{beamer}
+\documentclass[
+bibliography=totoc
+]{beamer}
 
 \usetheme[secheader]{Madrid}
 \useinnertheme[]{rectangles}
@@ -24,7 +26,7 @@
 \usepackage{subcaption}	%subfigures
 
 \usepackage{animate} %need the animate.sty file
-\usepackage[backend=biber,style=authortitle]{biblatex}
+\usepackage[backend=biber,style=alphabetic]{biblatex}
 \addbibresource{ad.bib}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -99,11 +101,19 @@ Humboldt Universität zu Berlin\\Institut für Mathematik
 
 
 \include{tex/introduction}
+\AtBeginSection[]
+  {
+     \begin{frame}<beamer>
+     \frametitle{Plan}
+     \tableofcontents[currentsection]
+     \end{frame}
+  }
 \include{tex/pl}
 \include{tex/pl_ode}
 \include{tex/pl_da}
 \include{tex/experiments}
 \include{tex/outlook}
+\include{tex/bibliography}
 
 
 \end{document}
