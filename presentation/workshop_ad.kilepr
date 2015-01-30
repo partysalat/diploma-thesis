@@ -131,10 +131,10 @@ order=3
 
 [item:tex/pl.tex]
 archive=true
-column=0
+column=67
 encoding=UTF-8
 highlight=LaTeX
-line=92
+line=88
 mode=LaTeX
 open=true
 order=2
@@ -210,10 +210,10 @@ JumpList=
 ViMarks=.,0,42,[,0,42,],0,42
 
 [view-settings,view=0,item:tex/pl.tex]
-CursorColumn=0
-CursorLine=92
+CursorColumn=67
+CursorLine=88
 JumpList=
-ViMarks=.,88,3,[,88,3,],88,3
+ViMarks=.,88,44,[,88,44,],88,44
 
 [view-settings,view=0,item:tex/pl_da.tex]
 CursorColumn=0

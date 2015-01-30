@@ -78,6 +78,9 @@ bibliography=totoc
 \newcommand{\ceilS}[1]{\left\lceil#1\right\rceil}
 
 \newcommand{\xo}{\mathring{x}}
+\newcommand{\xonew}{\xo^{\text{(n)}}}
+\newcommand{\xoold}{\xo^{\text{(a)}}}
+
 \newcommand{\hx}{\hat{x}}
 \newcommand{\cx}{\check{x}}
 \newcommand{\tr}{\intercal}
@@ -101,16 +104,17 @@ Humboldt Universität zu Berlin\\Institut für Mathematik
 
 
 \include{tex/introduction}
-\AtBeginSection[]
-  {
-     \begin{frame}<beamer>
-     \frametitle{Plan}
-     \tableofcontents[currentsection]
-     \end{frame}
-  }
+% \AtBeginSection[]
+%   {
+%      \begin{frame}<beamer>
+% %      \frametitle{Plan}
+%      \tableofcontents[currentsection]
+%      \end{frame}
+%   }
 \include{tex/pl}
 \include{tex/pl_ode}
 \include{tex/pl_da}
+\include{tex/implementation}
 \include{tex/experiments}
 \include{tex/outlook}
 \include{tex/bibliography}

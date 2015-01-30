@@ -1,4 +1,4 @@
-\section[Problemstellung]{4D- Datenassimilation}
+\section[Datenassimilation]{4D- Datenassimilation}
 \begin{frame}[<+->]
 \frametitle{4D- Datenassimilation}
     \begin{itemize}
@@ -85,10 +85,10 @@
 	\begin{equation}
 	 x_n = x_a + h F \left(0.5 (x_a + x_n), t + 0.5 h\right)
 	\end{equation}
-	Speichere Werte, Berechnung von $J(x_0)$ mittels numerischer Quadratur
+	Speichere Werte $x_i$, berechne $J(x_0)$ mittels numerischer Quadratur
   \end{block}
   \begin{block}{Berechnung des Gradienten $\nabla J(x_0)$}
-	Rückwärtsintegration des inhomogenen adjungierten Tangent Linear Models
+	Integriere das inhomogene adjungierte Tangent Linear Model rückwärts in $t$
 	\begin{equation}
 	  \dot{ \bar{x}}(t) =  -\frac{\partial F(x(t))}{\partial x}^\tr \bar x(t) +C^\tr(Cx(t) - x_{\text{obs}}(t)), ~ \bar x(T) =0
 	\end{equation}
@@ -97,7 +97,19 @@
 	\]
   \end{block}
   \begin{block}{Optimierung}
-	Optimierung mit einem geeigneten Verfahren (z.B. BFGS)
+	Optimiere mit einem geeigneten Verfahren (z.B. BFGS)
   \end{block}
 
+\end{frame} 
+
+\begin{frame}[<+->]
+  \frametitle{Problemstellung}
+  \begin{block}{Problemstellung}
+  \centering
+	Wie kann die Datenassimilation für den Fall
+	\[
+	  \dot{x} = F(x),~ x_0 = x(0),~F\in C^{0,1}(\R^n)
+	\]
+	betrachtet werden?
+  \end{block}
 \end{frame} 

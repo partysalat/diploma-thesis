@@ -1,11 +1,57 @@
-\section[Problemstellung]{Adjungierte Gleichung}
+\section[Adjungierte Gleichung]{Adjungierte Gleichung}
+
+\begin{frame}[<+->]
+\frametitle{Berechnung von $\frac{\partial F(x)}{\partial x}$}
+Nutze die erste Zeile der Abs Normal Form
+\begin{align*}
+z &= c+Zx + L\Sigma z \\
+\iff (I-L\Sigma)z &= c+Zx  \\
+\iff z &= (I-L\Sigma)^{-1}(c+Zx) 
+\end{align*}
+\pause
+um sie in die zweite Zeile einzusetzen
+\begin{align*}
+y &= b+ Jx + Y|z| \\
+y &= b+ Jx + Y\Sigma z \\
+y &= b+ Jx + Y\Sigma (I-L\Sigma)^{-1}(c+Zx) \\
+y &= b+  Y\Sigma (I-L\Sigma)^{-1}c + \underbrace{(J + Y\Sigma (I-L\Sigma)^{-1}Z)}_{J_\sigma} x \\
+\end{align*}
+wobei $(I-L\Sigma)^{-1} = I +L\Sigma + (L\Sigma)^2+\ldots$ eine Neumannreihe ist.
+\end{frame}
+
+\begin{frame}[<+->]
+\frametitle{Differential Inclusion}
+% GRADIENT NICHT NUR STETIGE UNGLÄTTEN SONDERN AUCH SPRÜNGE -> ABS EXAMPLE
+\centering
+\begin{figure}
+  \begin{minipage}{0.45\textwidth} 
+	\includegraphics[width=\linewidth]{../dipl_tex/img/tikz/adj_valley_tracing.pdf}
+	\end{minipage}
+	\hfill
+	\begin{minipage}{0.45\textwidth}
+	\includegraphics[width=\linewidth]{../dipl_tex/img/tikz/adj_valley_tracing1.pdf}	
+	\end{minipage}
+	
+\end{figure}
+Differential Inclusion und Valley Tracing Mode \\
+\pause
+Mögliche Lösungsansätze:\hfill
+\begin{itemize}
+ \item Polynomial Escape
+ \item Einbeziehung der Kinks
+\end{itemize}
+\end{frame}
+
+\begin{frame}[<+->]
+\frametitle{Polynomial Escape}
+POLYNOMIAL ESCAPE
+\end{frame}
+
 \begin{frame}[<+->]
 \frametitle{Adjungierte Gleichung}
 \begin{figure}
 \centering
-% \resizebox{.9\linewidth}{!}{ \input{../dipl_tex/img/piecewise_linearization.tikz} }
 \includegraphics[width=0.65\linewidth]{../dipl_tex/img/tikz/multiple_kinks_adjoint.pdf}
-
 \end{figure}
 \begin{figure}
 \centering
@@ -15,4 +61,9 @@
 \end{figure}
 \centering
 Gradientberechnung der adjungierten Gleichung mit $\xo^{(i)} = \xo + 0.5(\tau_i+\tau_{i-1})\Delta x$
+\end{frame}
+
+\begin{frame}[<+->]
+\frametitle{Adjungierte Gleichung}
+GLEICHUNG HERLEITEN -> ALGORITHMUS?
 \end{frame}
