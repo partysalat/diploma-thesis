@@ -1,1 +1,47 @@
 \section{Implementation}
+\begin{frame}[fragile]
+\frametitle{Implementierung}
+% \TBox{5cm}{%
+%   \TBox[fill=white]{3cm}{
+%     \TBox[fill=red!30]{1cm}{B}
+%     \hfill
+%     \TBox[fill=cyan!30]{1cm}{C}} \\[1ex]
+%   \TBox[fill=green!30]{1cm}{D}\quad\TBox[fill=yellow!30]{1cm}{E}}
+\TBox{5cm}{
+OpenBLAS($[$S+10$]$)\\
+\begin{itemize}
+ \item Optimierte BLAS Bibliothek
+ \item Multithread Unterstützung
+ \item Einfach Einbindung in Armadillo
+\end{itemize}
+}
+\pause
+\TBox{5cm}{
+Armadillo($[$XQS11$]$)
+\begin{itemize}
+ \item Matrix-Vektor Bibliothek
+ \item Matlab ähnliche Syntax in C++ durch Operator Overloading
+ \item Teilweise Sparse Unterstützung
+\end{itemize}
+}
+\pause
+\TBox{5cm}{
+ADOL-C($[$WKG96$]$)
+\begin{itemize}
+ \item Algorithmische Differentiation von C++ Funktionen
+ \item Berechnen der Abs Normal Form
+\end{itemize}
+
+}
+\pause
+\TBox{5cm}{
+PLAN-C($[$Boe14$]$)
+\begin{itemize}
+ \item Implementierung der Abs Normal Form
+ \item Enthält alle Routinen (Kostenfunktional, Gradient, GIMP\ldots)
+\end{itemize}
+
+}
+
+\end{frame}
+

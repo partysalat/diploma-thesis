@@ -12,9 +12,9 @@ z &= c+Zx + L\Sigma z \\
 um sie in die zweite Zeile einzusetzen
 \begin{align*}
 y &= b+ Jx + Y|z| \\
-y &= b+ Jx + Y\Sigma z \\
-y &= b+ Jx + Y\Sigma (I-L\Sigma)^{-1}(c+Zx) \\
-y &= b+  Y\Sigma (I-L\Sigma)^{-1}c + \underbrace{(J + Y\Sigma (I-L\Sigma)^{-1}Z)}_{J_\sigma} x \\
+\iff y &= b+ Jx + Y\Sigma z \\
+\iff y &= b+ Jx + Y\Sigma (I-L\Sigma)^{-1}(c+Zx) \\
+\iff y &= b+  Y\Sigma (I-L\Sigma)^{-1}c + \underbrace{(J + Y\Sigma (I-L\Sigma)^{-1}Z)}_{J_\sigma} x \\
 \end{align*}
 wobei $(I-L\Sigma)^{-1} = I +L\Sigma + (L\Sigma)^2+\ldots$ eine Neumannreihe ist.
 \end{frame}
@@ -44,7 +44,21 @@ Mögliche Lösungsansätze:\hfill
 
 \begin{frame}[<+->]
 \frametitle{Polynomial Escape}
-POLYNOMIAL ESCAPE
+\begin{block}{Polynomial Escape}
+ Es kann kein Pfad der Form
+ \[
+  \Delta \hat x = \sum_{j=1}^n e_j t^j, ~ 0<t<\bar t, e_j\in R^n,~ \det(e_1,\ldots,e_n) \neq 0
+ \]
+auf einem Kink liegen.
+%Nahc vorraussetzung gibts nur endlich viele hyperflächen (Kinks) -> darum geht das
+\end{block}
+\begin{block}{Firstsign}
+ Nutze \[
+        \firstsign(z_i,\Delta z_i^\tr \Delta x) =\sign (z_i + \Delta z_i)
+       \]
+wobei $\firstsign(z)$ das Signum des ersten nichtverschwindende Eintrag von $z$ ist, ansonsten 0.
+\end{block}
+
 \end{frame}
 
 \begin{frame}[<+->]
@@ -65,5 +79,88 @@ Gradientberechnung der adjungierten Gleichung mit $\xo^{(i)} = \xo + 0.5(\tau_i+
 
 \begin{frame}[<+->]
 \frametitle{Adjungierte Gleichung}
-GLEICHUNG HERLEITEN -> ALGORITHMUS?
+Wende auf die adjungierte Gleichung
+\begin{align}
+ \dot \xadj =  - \frac{\partial F(x;\Delta x)}{\partial x}^\tr \xadj + C^\tr (Cx-\xobs) 
+\end{align}
+\pause
+die verallgemeinerte implizite Mittelpunktsregel an:
+\begin{align}
+%  \xadj_n -\xadj_a = \int_{-\frac{1}{2}}^{\frac{1}{2}}C^\tr
+\xadj_n - \xadj_a &= h\cdot \int_{-0.5}^{0.5}C^\tr(C\xo-\rxobs) - \frac{\partial F(\xo,\Delta x)}{\partial x}^\tr \cdot \xadj dt\\
+		  &= h\cdot \left[ C^\tr(C\xo-\rxobs) -\int_{-0.5}^{0.5} \frac{\partial F(\xo,\Delta x)}{\partial x}^\tr \cdot \xadj dt\right]
+\end{align}
+\pause
+mit $N$ Kinks, $-0.5 = \tau_0 <\tau_1 <\ldots < \tau_N=0.5$ und $\mathring \tau_i = 0.5 (\tau_i +\tau_{i-1})$ folgt
+\begin{align}
+\xadj_n - \xadj_a &= h\left[ C^\tr(C\xo-\rxobs) - \sum_{i=1}^N \int_{\tau_{i-1}}^{\tau_{i}}\underbrace{\frac{\partial F(\xo+\mathring \tau_i\Delta x,\Delta x)}{\partial x}^\tr}_{A_i^\tr} \cdot \xadj dt\right]\\
+\end{align}
+\end{frame}
+
+\begin{frame}[<+->]
+\frametitle{Adjungierte Gleichung}
+Mit  $\mathring \tau_i = 0.5 (\tau_i +\tau_{i-1})$ und $\Delta \tau_i = \tau_i-\tau_{i-1}$ folgt
+\pause
+\begin{align}
+\xadj_n - \xadj_a &= h\cdot \left[C^\tr(C\xo -\rxobs) - \sum_{i=1}^N A_i^\tr \cdot \int_{\tau_{i-1}}^{\tau_{i}} \rxadj + t\Delta \xadj dt\right]\\
+		  &= \ldots\\
+		  &= h\cdot \left[C^\tr(C\xo -\rxobs) - \sum_{i=1}^N A_i^\tr \cdot \left( \diff \tau_i\cdot \rxadj +  \diff \tau_i \rtau_i \diff \xadj \right)\right]
+\end{align}
+\pause
+Da $\rxadj = 0.5(\xadj_n + \xadj_a)$ und $\Delta \xadj = \xadj_n-\xadj_a$ gilt, folgt mittels Umsortieren
+\[
+\begin{aligned}
+\left[I +h\sum_{i=1}^N A_i^\tr \left(\frac{1}{2} \diff \tau_i +\diff \tau_i \rtau_i\right) \right]\xadj_n &= 
+&\left[I - h\sum_{i=1}^N A_i^\tr  \left(\frac{1}{2}\diff \tau_i-\diff \tau_i \rtau_i\right)\right]\xadj_a \\
+&&+h C^\tr(C\xo -\rxobs)
+\end{aligned}
+\]
+
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Algorithmus}
+\algrenewcommand{\algorithmiccomment}[1]{\hfill{\scriptsize #1}}
+\begin{algorithmic}[1]
+ \Function{calc\_kink\_partial}{$\cx,\hx,\Delta x$}
+ 	\State $\hat{\tau} \gets 0$,$\check{\tau} \gets 0$, $x_{kink} \gets \cx$
+ 	\State $\bar{A} \gets 0_{n\times n} $, $\hat{A} \gets 0_{n\times n}$
+ 	\Repeat
+ 	  \State $\check{\tau} \gets \check{\tau} + \hat{\tau}, ~ x_{kink} \gets x_{kink} +\check{\tau}\Delta x$
+ 	  \State $\hat{\tau} \gets \check{\tau} + \Call{critMult}{ x_{kink},\Delta x}$ 		 \Comment{Berechne kritischen Multiplikator}
+		\If{$\hat{\tau}>1$} $\hat{\tau}\gets 1$ \EndIf 
+ 		\State $\xo \gets x_{kink}+0.5\cdot \hat{\tau} \Delta x$	\Comment{Berechne Mittelpunkt zwischen den Kinks}
+ 	  \State $\frac{\partial F(\rx)}{\partial x} \gets $ gen\_jac($\rx,\Delta x$) \Comment{Berechne $\partial F$ aus der Abs-Normalform}
+ 	  \State $\bar{A} \gets \bar{A} +  \frac{\partial F(\xo)}{\partial x} \cdot (\hat{\tau} - \check{\tau})$ 
+ 		\State $\hat{A} \gets \hat{A} +  \frac{\partial F(\rx)}{\partial x} \cdot  \left(\frac{1}{2}(\check{\tau} + \hat{\tau})-0.5\right)$ \Comment{Verschiebe $\tau$ um $-0.5$}
+ \Until{$\hat{\tau} \geq 1$	}
+ \State \Return $[\bar{A}, \hat{A}]$;
+ \EndFunction
+ \end{algorithmic}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Algorithmus}
+\algrenewcommand{\algorithmiccomment}[1]{\hfill{\scriptsize #1}}
+\begin{algorithmic}[1]
+%  \Require $x_{0},t_0,T, h,x_{Obs}, TOL$
+ \Function{jac\_data\_assimilation}{$x_{0},t_0,T, h,x_{\text{obs}}, TOL$}
+ \State $N = \ceilS{\frac{t_0 - T}{h}}$, $\hat{\bar{x}} \gets 0$ \Comment{Setze Anfangswert}
+ \State $x \gets  \Call{solveODE}{x_0,t_0, T,h, TOL};$\Comment{Löse ODE in Vorwärtsrichtung}
+ \For{$k\gets$ N-1 to $1$} \Comment{Zeitschritt rückwärts}
+ 	%\State $\rx \gets \cx - \frac h2 F(\cx)$ \Comment{initialization by half Euler}
+ 	\State $\rx \gets 0.5(x_k + x_{k-1})$ \Comment{Berechne Mittelpunkt}
+ 	\State $F(\rx) +\Delta F(\rx;\cdot) \gets$ \Call{Update}{} \Comment{Berechne neue Linearisierung an $\rx$}
+ 	\State $\Delta x \gets x_{k-1}-x_k$\Comment{Berechne neue Richtung}
+ 	\State $[\bar{A},\hat{A}] \gets \Call{calc\_kink\_partials}{x_k,x_{k-1},\Delta x}$  \Comment{Berechne $\partial F$}
+ 	%\Until{$\|\hx - \cx - r - h F(\rx)\|$} < TOL
+ 	\State{\begin{varwidth}[t]{\linewidth}$\check{\bar{x}} \gets$ Solve( \par
+		    \hskip\algorithmicindent $I-\frac{h}{2}\bar{A}^\tr + h \hat{A}^\tr)\check{\bar{x}}=$\par 
+		    \hskip\algorithmicindent $ (I+\frac{h}{2}\bar{A}^\tr + h\hat{A}^\tr)\hat{\bar{x}}- hC^\tr(C\rx-\rx_{\text{obs}}))$
+		    \end{varwidth}
+		    }
+ \EndFor
+ \State \Return $-\check{\bar{x}}$
+ \EndFunction
+  \end{algorithmic}
 \end{frame}

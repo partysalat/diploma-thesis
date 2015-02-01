@@ -48,6 +48,7 @@ bibliography=totoc
 	}
 \newcommand{\src}[1]{\lstinline{#1}}
 	
+% \usepackage{algorithm,algorithmic}	% pseudo code
 \usepackage{algorithm,algpseudocode}	% pseudo code
 \usepackage{standalone}
 \usepackage{tikz,pgfplots}						% plotting
@@ -68,6 +69,8 @@ bibliography=totoc
 \DeclareMathOperator{\sgn}{sign}
 \DeclareMathOperator{\diag}{diag}
 \DeclareMathOperator{\abs}{abs}
+\DeclareMathOperator{\firstsign}{firstsign}
+\DeclareMathOperator{\sign}{sign}
 
 \newcommand{\D}{\triangle}%%todo better symbol/space around
 \newcommand{\pl}{\square}
@@ -78,12 +81,21 @@ bibliography=totoc
 \newcommand{\ceilS}[1]{\left\lceil#1\right\rceil}
 
 \newcommand{\xo}{\mathring{x}}
+\newcommand{\rx}{\xo}
 \newcommand{\xonew}{\xo^{\text{(n)}}}
 \newcommand{\xoold}{\xo^{\text{(a)}}}
+\newcommand{\xadj}{\bar{x}}
+\newcommand{\xobs}{x_\text{obs}}
+\newcommand{\rxobs}{\mathring x_\text{obs}}
+\newcommand{\rxadj}{\mathring \xadj}
+\newcommand{\diff}{\Delta}
+\newcommand{\rtau}{\mathring \tau}
 
 \newcommand{\hx}{\hat{x}}
 \newcommand{\cx}{\check{x}}
 \newcommand{\tr}{\intercal}
+\newcommand\TBox[3][]{%
+  \tikz\node[draw,ultra thick,text width=#2,align=left,#1] {#3};}
 
 \newcommand{\R}{\mathbb R}
 
@@ -104,13 +116,13 @@ Humboldt Universität zu Berlin\\Institut für Mathematik
 
 
 \include{tex/introduction}
-% \AtBeginSection[]
-%   {
-%      \begin{frame}<beamer>
-% %      \frametitle{Plan}
-%      \tableofcontents[currentsection]
-%      \end{frame}
-%   }
+\AtBeginSection[]
+  {
+     \begin{frame}<beamer>
+%      \frametitle{Plan}
+     \tableofcontents[currentsection]
+     \end{frame}
+  }
 \include{tex/pl}
 \include{tex/pl_ode}
 \include{tex/pl_da}
@@ -118,6 +130,7 @@ Humboldt Universität zu Berlin\\Institut für Mathematik
 \include{tex/experiments}
 \include{tex/outlook}
 \include{tex/bibliography}
+\include{tex/appendix}
 
 
 \end{document}
