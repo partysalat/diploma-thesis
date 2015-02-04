@@ -3,11 +3,24 @@
 \begin{frame}[<+->]
 \frametitle{Rolling Stone}
 \begin{minipage}[c]{0.35\textwidth}
+% \vspace*{-1.5cm}
   \includegraphics[width=\linewidth]{../dipl_tex/img/tikz/rolling-stones.pdf} \\
   \includegraphics[width=1.05\linewidth]{../dipl_tex/img/tikz/rolling-stones-solution.pdf}		
 \end{minipage}
 \hfill
-\begin{minipage}[c]{0.55\textwidth}
+\begin{minipage}[c]{0.6\textwidth}
+% \vspace*{-0.3cm}
+Definiere $\ddot x = -V'(z)$ und 
+\[
+ V(z) = 
+ \begin{cases}
+ \frac{(1+z)^2}{2} & z\leq -1\\
+ \frac{(1-z)^2}{2} &  z\geq 1\\
+  0 & \text{sonst}
+ \end{cases},
+\]
+$ V'(z) = \min(\max(-z-1,0),1-z)$
+\pause
 \begin{block}{Rolling Stone}
 \centering
   $
@@ -22,33 +35,76 @@
  \end{pmatrix}
 $
 \end{block}
-Ist in Abs Normal Form darstellbar:
+% Ist in Abs Normal Form darstellbar:
+\vspace*{-0.5cm}
+\pause
 \[
 \begin{aligned}
 c = \begin{pmatrix}
      -1\\
      1
     \end{pmatrix}
-\quad &
+& 
  Z = \begin{pmatrix}
       1 & 0 \\
       1 & 0
-     \end{pmatrix}\\
+     \end{pmatrix} 
+ \\
 J = \begin{pmatrix}
       0&1\\
       -1 & 0
      \end{pmatrix}
-\quad &
+ &
  Y = \begin{pmatrix}
       0 & 0\\
       -0.5  & 0.5
-     \end{pmatrix}.
-     \end{aligned}
+     \end{pmatrix}
+\end{aligned}
 \]
-\\[0.5cm]
 \end{minipage}
+\end{frame}
+\begin{frame}[<+->]
+\frametitle{Rolling Stone Convergence}
+\centering
+\includegraphics[width=0.8\linewidth]{../dipl_tex/img/tikz/convergence_rolling_plot.pdf} \\
+\end{frame}
+\begin{frame}[<+->]
+\frametitle{Rolling Stone Adjungierte Gleichung}
+\begin{minipage}[c]{0.49\textwidth}
+\centering
+\includegraphics[width=1.02\linewidth]{../dipl_tex/img/tikz/rolling_jac_da_gradient1_imp.pdf} \\ 
+IMP
+\end{minipage}
+\hfill
+\begin{minipage}[c]{0.49\textwidth}
+\centering
+\includegraphics[width=1.02\linewidth]{../dipl_tex/img/tikz/rolling_jac_da_gradient1.pdf} \\ 
+GIMP
+\end{minipage}
+\centering
+\\[0.6cm]
+$\xobs$ - Exakte Lösung für $x_0=(1,1)$
 
 \end{frame}
+
+\begin{frame}[<+->]
+\frametitle{Rolling Stone Optimierung}
+\begin{minipage}[c]{0.49\textwidth}
+\centering
+\includegraphics[width=1.02\linewidth]{../dipl_tex/img/tikz/rolling_opt2_cost.pdf} \\ 
+\end{minipage}
+\hfill
+\begin{minipage}[c]{0.49\textwidth}
+\centering
+\includegraphics[width=1.02\linewidth]{../dipl_tex/img/tikz/rolling_opt2_convergence.pdf} \\ 
+\end{minipage}
+\[
+x_0^{(\text{Start})}=(0,-1.45) 
+\]
+
+\end{frame}
+
+
 \begin{frame}[<+->]
 \frametitle{LC Diode}
     
