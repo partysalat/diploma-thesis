@@ -134,10 +134,48 @@ $
 
 \begin{frame}[<+->]
 \frametitle{LC Diode}
-    
-    Experimente
+\begin{block}{LC Diode}
+\[
+ \begin{pmatrix}
+  \dot x_1\\
+  \dot x_2\\
+  \dot x_3\\
+ \end{pmatrix}
+ = 
+ \begin{pmatrix}
+  1\\
+  x_3\\
+  -\left(x_2-CV(x_1) + g(Cx_3)\right)\frac{1}{LC}
+ \end{pmatrix}
+\]
+\end{block}
 
-\end{frame}
+\begin{minipage}{0.45\linewidth}
+\input{../dipl_tex/img/lc_circuit.tikz}
+\end{minipage}
+\begin{minipage}{0.45\linewidth}
+\centering
+ \[
+ g(z) = \alpha\frac{z+|z|}{2} + \beta\frac{z-|z|}{2}
+ \]
+ \pause
+ $ L= 10^{-6},~ C=10^{-13},~ \omega = 3\cdot 10^{9},~\alpha =0.5,~\beta = 10^{5}$
+ \pause
+\begin{itemize}
+\item $x_1$ Zeit
+ \item $x_2$~Ladung~des~Kondensators
+ \item $x_3$ Elektrische Stromstärke
+\end{itemize}
+
+\end{minipage}
+% wobei $x_1$ die Zeit, $x_2$ die Ladung des Kondensators $C$ und $x_3$ die elektrische Stromstärke des Gesamtsystems bezeichnet. Die Spannungsquelle wird mittels $V(t)=\sin(\omega t)$ simuliert und $g(z)$ modelliert mittels der stückweisen linearen Funktion 
+% \begin{equation}
+%  g(z) = \alpha\frac{z+|z|}{2} + \beta\frac{z-|z|}{2}  = \begin{cases}
+%                                                          \alpha z & z\geq 0\\
+%                                                          \beta z  & z<0
+%                                                         \end{cases}
+% \end{equation}
+ \end{frame}
 
 \begin{frame}[<+->]
 \frametitle{Shallow Water Equation}
