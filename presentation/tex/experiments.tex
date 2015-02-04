@@ -2,10 +2,12 @@
 
 \begin{frame}[<+->]
 \frametitle{Rolling Stone}
-\begin{minipage}[c]{0.35\textwidth}
+\begin{minipage}[c]{0.39\textwidth}
 % \vspace*{-1.5cm}
-  \includegraphics[width=\linewidth]{../dipl_tex/img/tikz/rolling-stones.pdf} \\
-  \includegraphics[width=1.05\linewidth]{../dipl_tex/img/tikz/rolling-stones-solution.pdf}		
+%   \includegraphics[width=\linewidth]{../dipl_tex/img/tikz/rolling-stones.pdf} \\
+%   \includegraphics[width=1.05\linewidth]{../dipl_tex/img/tikz/rolling-stones-solution.pdf}
+\scalebox{1.07}{\input{../dipl_tex/img/rolling_stones.tikz}}
+\scalebox{1.2}{\input{../dipl_tex/img/rolling_stones_solution.tikz}}
 \end{minipage}
 \hfill
 \begin{minipage}[c]{0.6\textwidth}
@@ -66,24 +68,46 @@ J = \begin{pmatrix}
 \begin{frame}[<+->]
 \frametitle{Rolling Stone Convergence}
 \centering
-\includegraphics[width=0.8\linewidth]{../dipl_tex/img/tikz/convergence_rolling_plot.pdf} \\
+% \includegraphics[width=0.8\linewidth]{../dipl_tex/img/tikz/convergence_rolling_plot.pdf} \\
+\input{../dipl_tex/img/convergence_rolling_plot.tikz} 
 \end{frame}
 \begin{frame}[<+->]
 \frametitle{Rolling Stone Adjungierte Gleichung}
+\begin{minipage}[c]{0.45\textwidth}
+\centering
+% \includegraphics[width=1.02\linewidth]{../dipl_tex/img/tikz/rolling_jac_da_gradient1_imp.pdf} \\
+\input{../dipl_tex/img/rolling_jac_da_gradient1_imp.tikz} 
+(a) IMP
+\end{minipage}
+\begin{minipage}[c]{0.45\textwidth}
+\centering
+% \includegraphics[width=1.02\linewidth]{../dipl_tex/img/tikz/rolling_jac_da_gradient1.pdf} 
+\input{../dipl_tex/img/rolling_jac_da_gradient1.tikz}
+(b) GIMP
+\end{minipage}
+\hfill
+\centering
+\\[0.6cm]
+$\xobs$ - Exakte Lösung für $x_0=(1,1)$
+\end{frame}
+
+\begin{frame}[<+->]
+\frametitle{Rolling Stone Convergence}
+\centering
 \begin{minipage}[c]{0.49\textwidth}
 \centering
-\includegraphics[width=1.02\linewidth]{../dipl_tex/img/tikz/rolling_jac_da_gradient1_imp.pdf} \\ 
-IMP
+
+% \includegraphics[width=1\linewidth]{../dipl_tex/img/tikz/rolling_convergence_adjoint_smooth.pdf} \\
+\input{../dipl_tex/img/rolling_convergence_adjoint_smooth.tikz} 
+(a) Glatte Observierung
 \end{minipage}
 \hfill
 \begin{minipage}[c]{0.49\textwidth}
 \centering
-\includegraphics[width=1.02\linewidth]{../dipl_tex/img/tikz/rolling_jac_da_gradient1.pdf} \\ 
-GIMP
+\input{../dipl_tex/img/rolling_convergence_adjoint_discrete.tikz} 
+% \includegraphics[width=1\linewidth]{../dipl_tex/img/tikz/rolling_convergence_adjoint_discrete.pdf} \\
+(b) Diskrete Observierung
 \end{minipage}
-\centering
-\\[0.6cm]
-$\xobs$ - Exakte Lösung für $x_0=(1,1)$
 
 \end{frame}
 
@@ -91,16 +115,19 @@ $\xobs$ - Exakte Lösung für $x_0=(1,1)$
 \frametitle{Rolling Stone Optimierung}
 \begin{minipage}[c]{0.49\textwidth}
 \centering
-\includegraphics[width=1.02\linewidth]{../dipl_tex/img/tikz/rolling_opt2_cost.pdf} \\ 
+% \includegraphics[width=1.02\linewidth]{../dipl_tex/img/tikz/rolling_opt2_cost.pdf} \\
+\input{../dipl_tex/img/rolling_opt2_cost.tikz} 
 \end{minipage}
 \hfill
 \begin{minipage}[c]{0.49\textwidth}
 \centering
-\includegraphics[width=1.02\linewidth]{../dipl_tex/img/tikz/rolling_opt2_convergence.pdf} \\ 
+% \includegraphics[width=1.02\linewidth]{../dipl_tex/img/tikz/rolling_opt2_convergence.pdf} 
+\input{../dipl_tex/img/rolling_opt2_convergence.tikz}  
 \end{minipage}
-\[
+\centering
+$
 x_0^{(\text{Start})}=(0,-1.45) 
-\]
+$
 
 \end{frame}
 

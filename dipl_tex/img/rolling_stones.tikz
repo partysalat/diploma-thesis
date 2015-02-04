@@ -16,7 +16,7 @@
             xmin=-2.5,xmax=2.5,
             ymin=-1.5,ymax=1.5,
             xlabel=$z$,
-            legend entries={$V(z)$,$V'(z)$},
+%             legend entries={$V(z)$,$V'(z)$},
             width=\linewidth
         ]
         \addplot[domain=-2.5:-1]{(1+x)^2/2};

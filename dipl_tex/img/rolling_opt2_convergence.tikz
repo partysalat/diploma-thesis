@@ -18,8 +18,8 @@
 	legend style={at={(0.5,1.0)},anchor=south},
 	legend columns=2
 ]
- 	\addplot[mark=none,green,very thin] table[x index=0,y index=2] {img/data/rolling_opt2_convergence.dat};%impl midpoint
-	\addplot[mark=none,blue,very thin] table[x index=0,y index=1] {img/data/rolling_opt2_convergence.dat};%gen midpoint
+ 	\addplot[mark=none,green,very thin] table[x index=0,y index=2] {\fromRoot img/data/rolling_opt2_convergence.dat};%impl midpoint
+	\addplot[mark=none,blue,very thin] table[x index=0,y index=1] {\fromRoot img/data/rolling_opt2_convergence.dat};%gen midpoint
  \end{loglogaxis}
 \end{tikzpicture}
 

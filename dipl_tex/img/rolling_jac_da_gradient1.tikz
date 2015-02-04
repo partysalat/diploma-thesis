@@ -14,7 +14,7 @@
     xlabel={$x_0^{(0)}$},
     ylabel={$x_0^{(1)}$},
     zlabel={$\sfrac{\partial J}{\partial x_0^{(1)}}$}]
-      \addplot3[surf] file {img/data/grad1_gimp.dat};
+      \addplot3[surf] file {\fromRoot img/data/grad1_gimp.dat};
     \end{axis}
 \end{tikzpicture}
 \end{document}
