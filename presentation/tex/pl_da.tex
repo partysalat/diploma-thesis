@@ -115,52 +115,52 @@ Da $\rxadj = 0.5(\xadj_n + \xadj_a)$ und $\Delta \xadj = \xadj_n-\xadj_a$ gilt, 
 &&+h C^\tr(C\xo -\rxobs)
 \end{aligned}
 \]
-
 \end{frame}
+
 % \subsection{Algorithmus}
-\begin{frame}[fragile]
-\frametitle{Algorithmus}
-\algrenewcommand{\algorithmiccomment}[1]{\hfill{\scriptsize #1}}
-\begin{algorithmic}[1]
- \Function{calc\_kink\_partial}{$\cx,\hx,\Delta x$}
- 	\State $\hat{\tau} \gets 0$,$\check{\tau} \gets 0$, $x_{kink} \gets \cx$
- 	\State $\bar{A} \gets 0_{n\times n} $, $\hat{A} \gets 0_{n\times n}$
- 	\Repeat
- 	  \State $\check{\tau} \gets \check{\tau} + \hat{\tau}, ~ x_{kink} \gets x_{kink} +\check{\tau}\Delta x$
- 	  \State $\hat{\tau} \gets \check{\tau} + \Call{critMult}{ x_{kink},\Delta x}$ 		 \Comment{Berechne kritischen Multiplikator}
-		\If{$\hat{\tau}>1$} $\hat{\tau}\gets 1$ \EndIf 
- 		\State $\xo \gets x_{kink}+0.5\cdot \hat{\tau} \Delta x$	\Comment{Berechne Mittelpunkt zwischen den Kinks}
- 	  \State $\frac{\partial F(\rx)}{\partial x} \gets $ gen\_jac($\rx,\Delta x$) \Comment{Berechne $\partial F$ aus der Abs-Normalform}
- 	  \State $\bar{A} \gets \bar{A} +  \frac{\partial F(\xo)}{\partial x} \cdot (\hat{\tau} - \check{\tau})$ 
- 		\State $\hat{A} \gets \hat{A} +  \frac{\partial F(\rx)}{\partial x} \cdot  \left(\frac{1}{2}(\check{\tau} + \hat{\tau})-0.5\right)$ \Comment{Verschiebe $\tau$ um $-0.5$}
- \Until{$\hat{\tau} \geq 1$	}
- \State \Return $[\bar{A}, \hat{A}]$;
- \EndFunction
- \end{algorithmic}
-\end{frame}
-
-\begin{frame}[fragile]
-\frametitle{Algorithmus}
-\algrenewcommand{\algorithmiccomment}[1]{\hfill{\scriptsize #1}}
-\begin{algorithmic}[1]
-%  \Require $x_{0},t_0,T, h,x_{Obs}, TOL$
- \Function{jac\_data\_assimilation}{$x_{0},t_0,T, h,x_{\text{obs}}, TOL$}
- \State $N = \ceilS{\frac{t_0 - T}{h}}$, $\hat{\bar{x}} \gets 0$ \Comment{Setze Anfangswert}
- \State $x \gets  \Call{solveODE}{x_0,t_0, T,h, TOL};$\Comment{Löse ODE in Vorwärtsrichtung}
- \For{$k\gets$ N-1 to $1$} \Comment{Zeitschritt rückwärts}
- 	%\State $\rx \gets \cx - \frac h2 F(\cx)$ \Comment{initialization by half Euler}
- 	\State $\rx \gets 0.5(x_k + x_{k-1})$ \Comment{Berechne Mittelpunkt}
- 	\State $F(\rx) +\Delta F(\rx;\cdot) \gets$ \Call{Update}{} \Comment{Berechne neue Linearisierung an $\rx$}
- 	\State $\Delta x \gets x_{k-1}-x_k$\Comment{Berechne neue Richtung}
- 	\State $[\bar{A},\hat{A}] \gets \Call{calc\_kink\_partials}{x_k,x_{k-1},\Delta x}$  \Comment{Berechne $\partial F$}
- 	%\Until{$\|\hx - \cx - r - h F(\rx)\|$} < TOL
- 	\State{\begin{varwidth}[t]{\linewidth}$\check{\bar{x}} \gets$ Solve( \par
-		    \hskip\algorithmicindent $I-\frac{h}{2}\bar{A}^\tr + h \hat{A}^\tr)\check{\bar{x}}=$\par 
-		    \hskip\algorithmicindent $ (I+\frac{h}{2}\bar{A}^\tr + h\hat{A}^\tr)\hat{\bar{x}}- hC^\tr(C\rx-\rx_{\text{obs}}))$
-		    \end{varwidth}
-		    }
- \EndFor
- \State \Return $-\check{\bar{x}}$
- \EndFunction
-  \end{algorithmic}
-\end{frame}
+% \begin{frame}[fragile]
+% \frametitle{Algorithmus}
+% \algrenewcommand{\algorithmiccomment}[1]{\hfill{\scriptsize #1}}
+% \begin{algorithmic}[1]
+%  \Function{calc\_kink\_partial}{$\cx,\hx,\Delta x$}
+%  	\State $\hat{\tau} \gets 0$,$\check{\tau} \gets 0$, $x_{kink} \gets \cx$
+%  	\State $\bar{A} \gets 0_{n\times n} $, $\hat{A} \gets 0_{n\times n}$
+%  	\Repeat
+%  	  \State $\check{\tau} \gets \check{\tau} + \hat{\tau}, ~ x_{kink} \gets x_{kink} +\check{\tau}\Delta x$
+%  	  \State $\hat{\tau} \gets \check{\tau} + \Call{critMult}{ x_{kink},\Delta x}$ 		 \Comment{Berechne kritischen Multiplikator}
+% 		\If{$\hat{\tau}>1$} $\hat{\tau}\gets 1$ \EndIf 
+%  		\State $\xo \gets x_{kink}+0.5\cdot \hat{\tau} \Delta x$	\Comment{Berechne Mittelpunkt zwischen den Kinks}
+%  	  \State $\frac{\partial F(\rx)}{\partial x} \gets $ gen\_jac($\rx,\Delta x$) \Comment{Berechne $\partial F$ aus der Abs-Normalform}
+%  	  \State $\bar{A} \gets \bar{A} +  \frac{\partial F(\xo)}{\partial x} \cdot (\hat{\tau} - \check{\tau})$ 
+%  		\State $\hat{A} \gets \hat{A} +  \frac{\partial F(\rx)}{\partial x} \cdot  \left(\frac{1}{2}(\check{\tau} + \hat{\tau})-0.5\right)$ \Comment{Verschiebe $\tau$ um $-0.5$}
+%  \Until{$\hat{\tau} \geq 1$	}
+%  \State \Return $[\bar{A}, \hat{A}]$;
+%  \EndFunction
+%  \end{algorithmic}
+% \end{frame}
+% 
+% \begin{frame}[fragile]
+% \frametitle{Algorithmus}
+% \algrenewcommand{\algorithmiccomment}[1]{\hfill{\scriptsize #1}}
+% \begin{algorithmic}[1]
+% %  \Require $x_{0},t_0,T, h,x_{Obs}, TOL$
+%  \Function{jac\_data\_assimilation}{$x_{0},t_0,T, h,x_{\text{obs}}, TOL$}
+%  \State $N = \ceilS{\frac{t_0 - T}{h}}$, $\hat{\bar{x}} \gets 0$ \Comment{Setze Anfangswert}
+%  \State $x \gets  \Call{solveODE}{x_0,t_0, T,h, TOL};$\Comment{Löse ODE in Vorwärtsrichtung}
+%  \For{$k\gets$ N-1 to $1$} \Comment{Zeitschritt rückwärts}
+%  	%\State $\rx \gets \cx - \frac h2 F(\cx)$ \Comment{initialization by half Euler}
+%  	\State $\rx \gets 0.5(x_k + x_{k-1})$ \Comment{Berechne Mittelpunkt}
+%  	\State $F(\rx) +\Delta F(\rx;\cdot) \gets$ \Call{Update}{} \Comment{Berechne neue Linearisierung an $\rx$}
+%  	\State $\Delta x \gets x_{k-1}-x_k$\Comment{Berechne neue Richtung}
+%  	\State $[\bar{A},\hat{A}] \gets \Call{calc\_kink\_partials}{x_k,x_{k-1},\Delta x}$  \Comment{Berechne $\partial F$}
+%  	%\Until{$\|\hx - \cx - r - h F(\rx)\|$} < TOL
+%  	\State{\begin{varwidth}[t]{\linewidth}$\check{\bar{x}} \gets$ Solve( \par
+% 		    \hskip\algorithmicindent $I-\frac{h}{2}\bar{A}^\tr + h \hat{A}^\tr)\check{\bar{x}}=$\par 
+% 		    \hskip\algorithmicindent $ (I+\frac{h}{2}\bar{A}^\tr + h\hat{A}^\tr)\hat{\bar{x}}- hC^\tr(C\rx-\rx_{\text{obs}}))$
+% 		    \end{varwidth}
+% 		    }
+%  \EndFor
+%  \State \Return $-\check{\bar{x}}$
+%  \EndFunction
+%   \end{algorithmic}
+% \end{frame}

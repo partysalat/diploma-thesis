@@ -12,12 +12,13 @@
 \begin{axis}[
    view={-20}{60}, 
    grid=both,
-   width=12cm,
-    xlabel={Zeit $t$},
+%    width=12cm,
+   width=\linewidth,
     ylabel={Gitter $x$},
+    xlabel={Zeit $t$},
     zlabel={$h$},
     ]
-\addplot3[surf] file {img/data/swe_plot.dat};
+\addplot3[surf] file {\fromRoot img/data/swe_plot.dat};
 % \addplot3[surf] file {img/data/grad1_gimp.dat};
 
 \end{axis}

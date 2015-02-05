@@ -95,23 +95,23 @@ Mode=LaTeX
 
 [item:ad.bib]
 archive=true
-column=1
+column=27
 encoding=UTF-8
 highlight=BibTeX
-line=27
+line=128
 mode=BibTeX
-open=false
-order=5
+open=true
+order=7
 
 [item:tex/appendix.tex]
 archive=true
-column=13
+column=0
 encoding=UTF-8
 highlight=LaTeX
-line=20
+line=23
 mode=LaTeX
 open=true
-order=4
+order=2
 
 [item:tex/bibliography.tex]
 archive=true
@@ -125,13 +125,13 @@ order=-1
 
 [item:tex/experiments.tex]
 archive=true
-column=34
+column=0
 encoding=UTF-8
 highlight=LaTeX
-line=0
+line=290
 mode=LaTeX
 open=true
-order=5
+order=3
 
 [item:tex/implementation.tex]
 archive=true
@@ -145,13 +145,13 @@ order=4
 
 [item:tex/introduction.tex]
 archive=true
-column=14
+column=124
 encoding=UTF-8
 highlight=LaTeX
-line=49
+line=92
 mode=LaTeX
-open=false
-order=1
+open=true
+order=0
 
 [item:tex/outlook.tex]
 archive=true
@@ -168,20 +168,20 @@ archive=true
 column=0
 encoding=UTF-8
 highlight=LaTeX
-line=0
+line=43
 mode=LaTeX
 open=true
 order=1
 
 [item:tex/pl_da.tex]
 archive=true
-column=40
+column=57
 encoding=UTF-8
 highlight=LaTeX
-line=51
+line=151
 mode=LaTeX
 open=true
-order=3
+order=5
 
 [item:tex/pl_ode.tex]
 archive=true
@@ -191,7 +191,7 @@ highlight=LaTeX
 line=18
 mode=LaTeX
 open=true
-order=2
+order=6
 
 [item:workshop_ad.kilepr]
 archive=true
@@ -205,25 +205,25 @@ order=-1
 
 [item:workshop_ad.tex]
 archive=true
-column=23
+column=36
 encoding=UTF-8
 highlight=LaTeX
-line=29
+line=73
 mode=LaTeX
 open=true
-order=0
+order=4
 
 [view-settings,view=0,item:ad.bib]
-CursorColumn=1
-CursorLine=27
+CursorColumn=27
+CursorLine=128
 JumpList=
-ViMarks=.,111,0,[,111,0,],111,0
+ViMarks=.,137,2,[,128,0,],-1,-1
 
 [view-settings,view=0,item:tex/appendix.tex]
-CursorColumn=13
-CursorLine=20
+CursorColumn=0
+CursorLine=23
 JumpList=
-ViMarks=.,20,6,[,20,6,],20,12
+ViMarks=.,21,26,[,21,0,],21,26
 
 [view-settings,view=0,item:tex/bibliography.tex]
 CursorColumn=2
@@ -232,10 +232,10 @@ JumpList=
 ViMarks=.,2,0,[,2,0,],2,1
 
 [view-settings,view=0,item:tex/experiments.tex]
-CursorColumn=34
-CursorLine=0
+CursorColumn=0
+CursorLine=290
 JumpList=
-ViMarks=.,24,34,[,24,26,],24,34
+ViMarks=.,290,0,[,290,0,],290,0
 
 [view-settings,view=0,item:tex/implementation.tex]
 CursorColumn=1
@@ -244,10 +244,10 @@ JumpList=
 ViMarks=.,35,0,[,35,0,],35,0
 
 [view-settings,view=0,item:tex/introduction.tex]
-CursorColumn=14
-CursorLine=49
+CursorColumn=124
+CursorLine=92
 JumpList=
-ViMarks=.,0,25,[,0,9,],0,25
+ViMarks=.,116,49,[,116,48,],116,49
 
 [view-settings,view=0,item:tex/outlook.tex]
 CursorColumn=42
@@ -257,15 +257,15 @@ ViMarks=.,0,42,[,0,42,],0,42
 
 [view-settings,view=0,item:tex/pl.tex]
 CursorColumn=0
-CursorLine=0
+CursorLine=43
 JumpList=
-ViMarks=.,13,0,[,13,0,],13,1
+ViMarks=.,44,11,[,40,0,],-1,-1
 
 [view-settings,view=0,item:tex/pl_da.tex]
-CursorColumn=40
-CursorLine=51
+CursorColumn=57
+CursorLine=151
 JumpList=
-ViMarks=.,51,40,[,51,40,],51,40
+ViMarks=.,120,0,[,120,0,],120,1
 
 [view-settings,view=0,item:tex/pl_ode.tex]
 CursorColumn=0
@@ -274,7 +274,7 @@ JumpList=
 ViMarks=.,47,19,[,47,18,],47,19
 
 [view-settings,view=0,item:workshop_ad.tex]
-CursorColumn=23
-CursorLine=29
+CursorColumn=36
+CursorLine=73
 JumpList=
-ViMarks=.,97,0,[,96,0,],97,64
+ViMarks=.,73,35,[,73,34,],73,35

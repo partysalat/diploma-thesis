@@ -66,7 +66,7 @@ J = \begin{pmatrix}
 \end{minipage}
 \end{frame}
 \begin{frame}[<+->]
-\frametitle{Rolling Stone Convergence}
+\frametitle{Rolling Stone Adjungierte Gleichung Konvergenz}
 \centering
 % \includegraphics[width=0.8\linewidth]{../dipl_tex/img/tikz/convergence_rolling_plot.pdf} \\
 \input{../dipl_tex/img/convergence_rolling_plot.tikz} 
@@ -96,17 +96,16 @@ $\xobs$ - Exakte Lösung für $x_0=(1,1)$
 \centering
 \begin{minipage}[c]{0.49\textwidth}
 \centering
-
-% \includegraphics[width=1\linewidth]{../dipl_tex/img/tikz/rolling_convergence_adjoint_smooth.pdf} \\
-\input{../dipl_tex/img/rolling_convergence_adjoint_smooth.tikz} 
-(a) Glatte Observierung
+\input{../dipl_tex/img/rolling_convergence_adjoint_discrete.tikz} 
+% \includegraphics[width=1\linewidth]{../dipl_tex/img/tikz/rolling_convergence_adjoint_discrete.pdf} \\
+(a) Diskrete Observierung
 \end{minipage}
 \hfill
 \begin{minipage}[c]{0.49\textwidth}
 \centering
-\input{../dipl_tex/img/rolling_convergence_adjoint_discrete.tikz} 
-% \includegraphics[width=1\linewidth]{../dipl_tex/img/tikz/rolling_convergence_adjoint_discrete.pdf} \\
-(b) Diskrete Observierung
+% \includegraphics[width=1\linewidth]{../dipl_tex/img/tikz/rolling_convergence_adjoint_smooth.pdf} \\
+\input{../dipl_tex/img/rolling_convergence_adjoint_smooth.tikz} 
+(b) Glatte Observierung
 \end{minipage}
 
 \end{frame}
@@ -135,6 +134,7 @@ $
 \begin{frame}[<+->]
 \frametitle{LC Diode}
 \begin{block}{LC Diode}
+\vspace*{-0.3cm}
 \[
  \begin{pmatrix}
   \dot x_1\\
@@ -146,18 +146,24 @@ $
   1\\
   x_3\\
   -\left(x_2-CV(x_1) + g(Cx_3)\right)\frac{1}{LC}
- \end{pmatrix}
+ \end{pmatrix},
+ g(z) = \begin{cases}
+      \alpha z & z> 0,\\
+      \beta z & z< 0,\\
+0 & \text{sonst}
+      \end{cases}
 \]
 \end{block}
-
 \begin{minipage}{0.45\linewidth}
 \input{../dipl_tex/img/lc_circuit.tikz}
 \end{minipage}
 \begin{minipage}{0.45\linewidth}
 \centering
- \[
- g(z) = \alpha\frac{z+|z|}{2} + \beta\frac{z-|z|}{2}
- \]
+\vspace*{-0.3cm}
+ \begin{align*}
+ \Rightarrow g(z) &= \alpha\frac{z+|z|}{2} + \beta\frac{z-|z|}{2},\\
+  V(t) &= \sin(\omega t)
+ \end{align*}
  \pause
  $ L= 10^{-6},~ C=10^{-13},~ \omega = 3\cdot 10^{9},~\alpha =0.5,~\beta = 10^{5}$
  \pause
@@ -166,20 +172,129 @@ $
  \item $x_2$~Ladung~des~Kondensators
  \item $x_3$ Elektrische Stromstärke
 \end{itemize}
-
 \end{minipage}
-% wobei $x_1$ die Zeit, $x_2$ die Ladung des Kondensators $C$ und $x_3$ die elektrische Stromstärke des Gesamtsystems bezeichnet. Die Spannungsquelle wird mittels $V(t)=\sin(\omega t)$ simuliert und $g(z)$ modelliert mittels der stückweisen linearen Funktion 
-% \begin{equation}
-%  g(z) = \alpha\frac{z+|z|}{2} + \beta\frac{z-|z|}{2}  = \begin{cases}
-%                                                          \alpha z & z\geq 0\\
-%                                                          \beta z  & z<0
-%                                                         \end{cases}
-% \end{equation}
  \end{frame}
+ \begin{frame}[<+->]
+\frametitle{LC Diode Lösung}
+\begin{minipage}{0.45\linewidth}
+\input{../dipl_tex/img/lc_solution.tikz}  
+\end{minipage}  
+\begin{minipage}{0.45\linewidth}
+\input{../dipl_tex/img/lc_solution2.tikz}  
+\end{minipage}
+\centering
+\\[0.3cm]
+Lösung der LC Diode für $x_0=(0,0,0)$
+\end{frame}
+
+\begin{frame}[<+->]
+\frametitle{LC Diode Konvergenz}
+\centering
+\scalebox{0.9}{\input{../dipl_tex/img/lc_convergence.tikz} }
+\end{frame}
+
+\begin{frame}[<+->]
+\frametitle{LC Diode Datenassimilation}
+\centering
+\begin{block}{Erweiterte LC Diode} 
+\[
+ \begin{pmatrix}
+  \dot x_1\\
+  \dot x_2\\
+  \dot x_3\\
+  \dot \alpha\\
+  \dot \beta
+ \end{pmatrix}
+ = 
+ \begin{pmatrix}
+  1\\
+  x_3\\
+  -\left(x_2-CV(x_1) + g(Cx_3)\right)\frac{1}{LC}\\
+  0\\
+  0
+ \end{pmatrix}
+\]
+\end{block}
+\begin{block}{Adjungierte Gleichung}
+\centering
+  $\dot{ \bar{x}}(t) =  -\frac{\partial F(x(t))}{\partial x}^\tr \bar x(t) +C_{\text{Pr}}^\tr(C_{\text{Pr}}x(t) - x_{\text{obs}}(t)), ~ \bar x(T) =0$
+\end{block}
+
+\begin{itemize}
+ \item Observierungen \underline{NUR} über $x_1,x_2,x_3$
+ \item Optimierung \underline{NUR} über $\alpha$ und $\beta$
+ \item \vspace*{-0.45cm} Nutzung der Projektionsmatrix $C_{\text{Pr}}=
+ \begin{pmatrix}
+  1 &0 &0 &0 &0  \\
+  0 &1 &0 &0 &0  \\
+  0 &0 &1 &0 &0  \\
+ \end{pmatrix}
+$
+\end{itemize}
+\end{frame}
+
+\begin{frame}[<+->]
+\frametitle{LC Diode Adjungierte Gleichung Konvergenz}
+\begin{minipage}{0.45\linewidth}
+\centering
+ \input{../dipl_tex/img/lc_convergence_adjoint_discrete.tikz}
+ (a) Diskrete Observierung
+\end{minipage}
+\begin{minipage}{0.45\linewidth}
+\centering
+ \input{../dipl_tex/img/lc_convergence_adjoint_smooth.tikz}
+(b) Glatte Observierung
+ \end{minipage}
+ \centering
+ \\[0.3cm]
+  $I=[0,10^{-8}],x_0=(0,0,0,10^3,10^{4}),\xobs(0)=(0,0,0,10^4,10^5)$
+\end{frame}
+
+
+\begin{frame}[<+->]
+\frametitle{LC Diode Optimierung}
+\begin{minipage}{0.45\linewidth}
+\centering
+ \input{../dipl_tex/img/lc_opt1_convergence.tikz}
+(a) Abstand zu exakten $\alpha,\beta$
+\end{minipage}
+\begin{minipage}{0.45\linewidth}
+\centering
+ \input{../dipl_tex/img/lc_opt2_convergence.tikz}
+(b) Kostenfunktional
+\end{minipage}
+ \centering
+ \\[0.3cm]
+  $N=500,I=[0,10^{-8}],x_0=(0,0,0,10^3,10^{4}),\xobs(0)=(0,0,0,10^4,10^5)$
+\end{frame}
+
 
 \begin{frame}[<+->]
 \frametitle{Shallow Water Equation}
-    
-    Experimente
-
+\begin{minipage}{0.45\linewidth}
+\input{../dipl_tex/img/swe_plot.tikz}
+\end{minipage}
+\begin{minipage}{0.54\linewidth}
+ \begin{block}{1D Saint Venan System}
+     \centering
+     $\begin{cases}
+ h_t + (hu)_x = 0,\\
+ (hu)_t + \left[\frac{(hu)^2}{h} + \frac{g}{2}h^2\right]_x = 0
+\end{cases} $
+    \end{block}
+   \begin{itemize}
+    \item Diskretisierung nach Kurganov (\cite{kurganov2007second})
+    \item Unglätten durch Flux - Limiter
+     \item und Eigenwertberechnung
+   \end{itemize}                           
+\end{minipage}
+\pause
+\begin{align*}
+\minmod(z_1,z_2,\ldots) &= \begin{cases}
+                                  \min_j z_j & \text{falls }z_j>0~\forall j\\
+                                  \max_j z_j & \text{falls }z_j<0~\forall j\\
+                                  0 & \text{sonst}
+                                 \end{cases}\\
+&= \min(\max(z_1,z_2,z_3),0) + \max(\min(z_1,z_2,z_3),0)                                 
+\end{align*}
 \end{frame}

@@ -71,6 +71,7 @@ bibliography=totoc
 \DeclareMathOperator{\abs}{abs}
 \DeclareMathOperator{\firstsign}{firstsign}
 \DeclareMathOperator{\sign}{sign}
+\DeclareMathOperator{\minmod}{minmod}
 
 \newcommand{\D}{\triangle}%%todo better symbol/space around
 \newcommand{\pl}{\square}
@@ -118,13 +119,13 @@ Humboldt Universität zu Berlin\\Institut für Mathematik
 
 
 \include{tex/introduction}
-\AtBeginSection[]
-  {
-     \begin{frame}<beamer>
-%      \frametitle{Plan}
-     \tableofcontents[currentsection]
-     \end{frame}
-  }
+% \AtBeginSection[]
+%   {
+%      \begin{frame}<beamer>
+% %      \frametitle{Plan}
+%      \tableofcontents[currentsection]
+%      \end{frame}
+%   }
 \include{tex/pl}
 \include{tex/pl_ode}
 \include{tex/pl_da}
