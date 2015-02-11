@@ -9,7 +9,7 @@
 \tikzsetnextfilename{swe_convergence}
 \begin{tikzpicture}
 \begin{loglogaxis}[
-	width=9cm,
+	width=10cm,
 % 	grid=both,
 	xlabel=Anzahl der Freiheitsgrade $N$,
 	ylabel=Fehler in zum Zeitpunkt $T$,

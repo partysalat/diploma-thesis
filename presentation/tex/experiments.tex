@@ -270,7 +270,7 @@ $
 
 
 \begin{frame}[<+->]
-\frametitle{Shallow Water Equation}
+\frametitle{Shallow Water Equation (SWE)}
 \begin{minipage}{0.45\linewidth}
 \input{../dipl_tex/img/swe_plot.tikz}
 \end{minipage}
@@ -284,8 +284,7 @@ $
     \end{block}
    \begin{itemize}
     \item Diskretisierung nach Kurganov (\cite{kurganov2007second})
-    \item Unglätten durch Flux - Limiter
-     \item und Eigenwertberechnung
+    \item Unglätten durch Flux - Limiter und Eigenwertberechnung
    \end{itemize}                           
 \end{minipage}
 \pause
@@ -297,4 +296,85 @@ $
                                  \end{cases}\\
 &= \min(\max(z_1,z_2,z_3),0) + \max(\min(z_1,z_2,z_3),0)                                 
 \end{align*}
+\end{frame}
+
+\begin{frame}[<+->]
+\frametitle{SWE Konvergenz}
+\centering
+\begin{minipage}[b]{0.49\linewidth}
+\centering
+\input{../dipl_tex/img/swe_initial_values.tikz}
+(a) $h_0 \sim n\cdot\mathcal N(\mu,L) + 1$
+\end{minipage}
+\begin{minipage}[b]{0.49\linewidth}
+\centering
+\input{../dipl_tex/img/swe_initial_values_hu.tikz}
+(b)  $(hu)_0\sim n\cdot\mathcal N(\mu,L)$
+\end{minipage}
+
+\end{frame}
+
+
+\begin{frame}[<+->]
+\frametitle{SWE Konvergenz}
+\centering
+\scalebox{0.9}{\input{../dipl_tex/img/swe_convergence.tikz}}
+\end{frame}
+
+\begin{frame}[<+->]
+\frametitle{SWE Adjungierte Gleichung}
+\centering
+\begin{minipage}[b]{0.49\linewidth}
+% \begin{minipage}[t][3cm][t]{5cm}
+\centering
+\input{../dipl_tex/img/swe_adjoint_eq_2.tikz}
+(a) $\dot{\overline{h}}$
+\end{minipage}
+%  \quad 
+\begin{minipage}[b]{0.49\linewidth}
+% \begin{minipage}[t][3cm][t]{5cm}
+\centering
+\input{../dipl_tex/img/swe_adjoint_eq1_2.tikz}
+(b) $\dot{\overline{hu}}$
+\end{minipage}
+\centering
+$I=[0,10], L=100,\Delta x=10,h = 0.05$ und $U_0^{(1)},n=10,\theta=2,\xobs(0)=U_0^{(1)},n_{\text{obs}}=20,\mu_{\text{obs}}=30$
+\end{frame}
+
+\begin{frame}[<+->]
+\frametitle{SWE Konvergenz Adjungierte Gleichung}
+\begin{minipage}[b]{0.49\linewidth}
+% \begin{minipage}[t][3cm][t]{5cm}
+\centering
+\input{../dipl_tex/img_appendix/swe_convergence_adjoint_discrete_theta1.tikz}
+(a) Diskrete Observierung
+\end{minipage}
+%  \quad 
+\begin{minipage}[b]{0.49\linewidth}
+% \begin{minipage}[t][3cm][t]{5cm}
+\centering
+\input{../dipl_tex/img_appendix/swe_convergence_adjoint_smooth_theta1.tikz}
+(b) Glatte Observierung
+\end{minipage}
+% \caption{SWE Konvergenz von $\nabla J$ mit $I=[0,50],L=50,\Delta x=10$, $x_0=U_0^{(2)},k=0.5$, $x_{\text{obs}} = U_0^{(2)}, k=2$ und $\theta=1$}
+\centering
+$I=[0,50],L=50,\Delta x=10$, $n=10$, $\xobs(0) = U_0^{(1)}, n_{\text{obs}}=20,\mu_{\text{obs}}=30$ und $\theta=1$
+\end{frame}
+
+\begin{frame}[<+->]
+\frametitle{SWE Optimierung}
+\centering
+\begin{minipage}[b]{0.49\linewidth}
+ \centering
+\input{../dipl_tex/img/swe_convergence_opt.tikz}
+(a) Abstand zur optimalen Lösung
+\end{minipage}
+\begin{minipage}[b]{0.49\linewidth}
+ \centering
+\input{../dipl_tex/img/swe_convergence_opt_jac.tikz}
+(b) Kostenfunktional
+\end{minipage}
+% \caption{SWE Konvergenz Optimierung mit Parametern $I=[0,100],L=100,\Delta x=10$, $x_0=U_0^{(2)},k=0.5$, $x_{\text{obs}} = U_0^{(2)}, k=1$ und $\theta=2$}
+$I=[0,50],L=50,\Delta x=10$, $x_0=U_0^{(1)},n=10$, $\xobs(0) = U_0^{(1)}, n_{\text{obs}}=20,\mu_{\text{obs}}=30$ und $\theta=2$
+
 \end{frame}
