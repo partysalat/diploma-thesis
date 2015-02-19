@@ -4,22 +4,226 @@
 \newcounter{finalframe}
 \setcounter{finalframe}{\value{framenumber}}
 
-\begin{frame}[<+->]
-\frametitle{Experimente}
-  ABS NORMAL EXAMPLE
+\begin{frame}
+\frametitle{3D und 4D Var. data assimilation}
+
+\begin{block}{3D Var}
+ \[J_{3DVar} = \frac{1}{2}(x-x_b)^\tr B^{-1} (x-x_b) +  \frac{1}{2} (C(x) -y)^\tr R^{-1}(C(x) -y)\]
+\end{block}
+\begin{block}{4D Var}
+\[J_{4DVar} = \frac{1}{2}(x-x_b)^\tr B^{-1} (x-x_b) + \frac{1}{2} (C(M_i(x)) -y_i)^\tr R^{-1}(C(M_i(x)) -y_i)\]
+\end{block}
+\begin{itemize}
+\item $x_b$ Hintergrund (vorherige Berechnung, Penalty Parameter)
+ \item $B$ Fehler-Kovarianzmatrix des Hintergrundfeldes
+ \item $R$ Fehler-Kovarianzmatrix der Observierungen
+ \item $M_i$ Modelloperator (überführt $x_0$ nach $x_i$)
+\end{itemize}
+3D Var betrachtet nur einen Zeitpunkt, 4D eine Zeitspanne (rechenintensive, \cite{huang2003introduction})
 \end{frame}
 
-\begin{frame}[<+->]
-\frametitle{Experimente}
-  ROLLING;LC;SWE;ADJOINTS
+\begin{frame}
+\frametitle{Beispiel: Abs Normal Form Berechnung}
+  \begin{block}{Beispiel}
+\centering
+  $
+   \begin{aligned}
+    F(x_1,x_2) = \begin{pmatrix}
+                  x_1 + |z_1| + |z_3|\\
+                  x_2
+                 \end{pmatrix}
+&& \text{mit} &&\begin{aligned}
+        z_1 &= x_1-x_2 \\
+        z_2 &= x_2 \\
+        z_3 &= x_1-z_2        
+       \end{aligned}
+   \end{aligned}$
+  \end{block}
+\[
+ \begin{lbmatrix}{1}
+  z_1\\
+  z_2\\
+  z_3\\
+  \hline
+  y_1\\
+  y_2
+ \end{lbmatrix}
+ =
+ \begin{lbmatrix}{1}
+  0\\
+  0\\
+  0\\
+  \hline
+  0\\
+  0
+ \end{lbmatrix}
+ +
+ \begin{lbmatrix}{6}
+  1&-1 &\vline&0 &0 &0 \\
+  0& 1 &\vline&0 &0 &0 \\
+  1&0 &\vline&0 &-1 &0 \\
+  \hline
+  1&0 &\vline&1 &0 &1 \\
+  0&1 &\vline&0 &0 &0 \\
+ \end{lbmatrix}
+ \begin{lbmatrix}{1}
+  x_1\\
+  x_2\\
+  \hline
+  |z_1|\\
+  |z_2|\\
+  |z_3|
+ \end{lbmatrix}
+\]
 \end{frame}
-\begin{frame}[<+->]
-\frametitle{Experimente}
-CFL IMAGE
+
+% \begin{frame}[<+->]
+% \frametitle{GIMP Algorithmus}
+%  ODE SOLVER ALG
+% \end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Adjoint Algorithmus}
+\algrenewcommand{\algorithmiccomment}[1]{\hfill{\scriptsize #1}}
+\begin{algorithmic}[1]
+ \Function{calc\_kink\_partial}{$\cx,\hx,\Delta x$}
+ 	\State $\hat{\tau} \gets 0$,$\check{\tau} \gets 0$, $x_{kink} \gets \cx$
+ 	\State $\bar{A} \gets 0_{n\times n} $, $\hat{A} \gets 0_{n\times n}$
+ 	\Repeat
+ 	  \State $\check{\tau} \gets \check{\tau} + \hat{\tau}, ~ x_{kink} \gets x_{kink} +\check{\tau}\Delta x$
+ 	  \State $\hat{\tau} \gets \check{\tau} + \Call{critMult}{ x_{kink},\Delta x}$ 		 \Comment{Berechne kritischen Multiplikator}
+		\If{$\hat{\tau}>1$} $\hat{\tau}\gets 1$ \EndIf 
+ 		\State $\xo \gets x_{kink}+0.5\cdot \hat{\tau} \Delta x$	\Comment{Berechne Mittelpunkt zwischen den Kinks}
+ 	  \State $\frac{\partial F(\rx)}{\partial x} \gets $ gen\_jac($\rx,\Delta x$) \Comment{Berechne $\partial F$ aus der Abs-Normalform}
+ 	  \State $\bar{A} \gets \bar{A} +  \frac{\partial F(\xo)}{\partial x} \cdot (\hat{\tau} - \check{\tau})$ 
+ 		\State $\hat{A} \gets \hat{A} +  \frac{\partial F(\rx)}{\partial x} \cdot  \left(\frac{1}{2}(\check{\tau} + \hat{\tau})-0.5\right)$ \Comment{Verschiebe $\tau$ um $-0.5$}
+ \Until{$\hat{\tau} \geq 1$	}
+ \State \Return $[\bar{A}, \hat{A}]$;
+ \EndFunction
+ \end{algorithmic}
 \end{frame}
-\begin{frame}[<+->]
-\frametitle{Experimente}
-POLYNOMIAL ESCAPE ALGORITHM
+
+\begin{frame}[fragile]
+\frametitle{Adjoint Algorithmus}
+\algrenewcommand{\algorithmiccomment}[1]{\hfill{\scriptsize #1}}
+\begin{algorithmic}[1]
+%  \Require $x_{0},t_0,T, h,x_{Obs}, TOL$
+ \Function{jac\_data\_assimilation}{$x_{0},t_0,T, h,x_{\text{obs}}, TOL$}
+ \State $N = \ceilS{\frac{t_0 - T}{h}}$, $\hat{\bar{x}} \gets 0$ \Comment{Setze Anfangswert}
+ \State $x \gets  \Call{solveODE}{x_0,t_0, T,h, TOL};$\Comment{Löse ODE in Vorwärtsrichtung}
+ \For{$k\gets$ N-1 to $1$} \Comment{Zeitschritt rückwärts}
+ 	%\State $\rx \gets \cx - \frac h2 F(\cx)$ \Comment{initialization by half Euler}
+ 	\State $\rx \gets 0.5(x_k + x_{k-1})$ \Comment{Berechne Mittelpunkt}
+ 	\State $F(\rx) +\Delta F(\rx;\cdot) \gets$ \Call{Update}{} \Comment{Berechne neue Linearisierung an $\rx$}
+ 	\State $\Delta x \gets x_{k-1}-x_k$\Comment{Berechne neue Richtung}
+ 	\State $[\bar{A},\hat{A}] \gets \Call{calc\_kink\_partials}{x_k,x_{k-1},\Delta x}$  \Comment{Berechne $\partial F$}
+ 	%\Until{$\|\hx - \cx - r - h F(\rx)\|$} < TOL
+ 	\State{\begin{varwidth}[t]{\linewidth}$\check{\bar{x}} \gets$ Solve( \par
+		    \hskip\algorithmicindent $I-\frac{h}{2}\bar{A}^\tr + h \hat{A}^\tr)\check{\bar{x}}=$\par 
+		    \hskip\algorithmicindent $ (I+\frac{h}{2}\bar{A}^\tr + h\hat{A}^\tr)\hat{\bar{x}}- hC^\tr(C\rx-\rx_{\text{obs}}))$
+		    \end{varwidth}
+		    }
+ \EndFor
+ \State \Return $-\check{\bar{x}}$
+ \EndFunction
+  \end{algorithmic}
+\end{frame}
+
+\begin{frame}
+\frametitle{LC Diode Adjungierte Gleichung I}
+\begin{minipage}[c]{0.45\textwidth}
+\centering
+\scalebox{0.9}{\input{../dipl_tex/img/lc_adjoint_sol1.tikz}}
+\scalebox{0.9}{\input{../dipl_tex/img/lc_adjoint_sol2.tikz}}
+\end{minipage}
+\begin{minipage}[c]{0.45\textwidth}
+\centering
+\scalebox{0.9}{\input{../dipl_tex/img/lc_adjoint_sol1g.tikz}}
+\scalebox{0.9}{\input{../dipl_tex/img/lc_adjoint_sol2g.tikz}}
+\end{minipage}
+\end{frame}
+
+\begin{frame}
+\frametitle{LC Diode Adjungierte Gleichung II}
+\begin{minipage}[c]{0.45\textwidth}
+\centering
+\scalebox{0.9}{\input{../dipl_tex/img/lc_adjoint_sol3.tikz}}
+\scalebox{0.9}{\input{../dipl_tex/img/lc_adjoint_sol4.tikz}}
+\end{minipage}
+\begin{minipage}[c]{0.45\textwidth}
+\centering
+\scalebox{0.9}{\input{../dipl_tex/img/lc_adjoint_sol3g.tikz}}
+\scalebox{0.9}{\input{../dipl_tex/img/lc_adjoint_sol4g.tikz}}
+\end{minipage}
+\end{frame}
+
+\begin{frame}
+\frametitle{Adjungierte Gleichung Shallow Water Equation}
+\begin{minipage}[c]{0.45\textwidth}
+\centering
+\scalebox{0.9}{\input{../dipl_tex/img/swe_adjoint_sol1.tikz}}
+\scalebox{0.9}{\input{../dipl_tex/img/swe_adjoint_sol2.tikz}}
+\end{minipage}
+\begin{minipage}[c]{0.45\textwidth}
+\centering
+\scalebox{0.9}{\input{../dipl_tex/img/swe_adjoint_sol1_grad.tikz}}
+\scalebox{0.9}{\input{../dipl_tex/img/swe_adjoint_sol2_grad.tikz}}
+\end{minipage}
+\end{frame}
+
+
+
+\begin{frame}
+\frametitle{Adjungierte Gleichung Rolling Stones}
+\begin{minipage}[c]{0.45\textwidth}
+\centering
+\scalebox{1.1}{\input{../dipl_tex/img/rolling_adjoint_sol1.tikz}}
+\end{minipage}
+\begin{minipage}[c]{0.45\textwidth}
+\centering
+\scalebox{1.1}{\input{../dipl_tex/img/rolling_adjoint_sol2.tikz}}
+\end{minipage}
+\end{frame}
+
+
+% \begin{frame}[<+->]
+% \frametitle{Experimente}
+% CFL IMAGE
+% \end{frame}
+\begin{frame}[allowframebreaks,fragile]
+\frametitle{Polynomial Escape}
+\algrenewcommand{\algorithmiccomment}[1]{\hfill{\scriptsize #1}}
+\begin{algorithmic}[1]
+ \Function{gen\_jac}{$x,\Delta x$}
+ 	\State $k \gets \max_i\lbrace i~|~\Delta x_i\rbrace$
+ 	\State $z \gets $calculate\_z($x$)
+ 	\For{$i=1\ldots s$}\Comment{Berechnung von $\nabla z$}
+	  \State $\sigma_i\gets \sign(z_i)$ 
+	  \State $\nabla z_{i,1} = Z.row(i)\cdot \Delta x$\Comment{Berechne $Z\Delta x$}
+	  \State $\nabla z_{i,j+1} = Z.row(i)\cdot e_j$, für $j=1,\ldots,k-1$
+	  \State $\nabla z_{i,j} = Z.row(i)\cdot e_j$, für $j=k+1,\ldots, n$
+	  \State $\nabla z.row(i) \mathrel{+}= L_{i,j}\cdot \sigma_j\cdot \nabla z.row(j)$ für $j=1,\ldots, i$\Comment{Berechne $L\Sigma \nabla z$}
+	  \State $j\gets 2$
+	  \While{$\sigma_i==0$ \&\& $j<s$ }\Comment{Firstsign}
+	    \State $\sigma_i \gets \sign(\nabla z_{i,j})$
+	    \State $j++$
+	  \EndWhile
+	\EndFor
+	\For{$i=1\ldots n$}\Comment{Berechnung von $\nabla y$}
+	  \State $\nabla y_{i,1} = J.row(i)\cdot \Delta x$\Comment{Berechne $J\Delta x$}
+	  \State $\nabla y_{i,j+1} = J.row(i)\cdot e_j$, für $j=1,\ldots,k-1$
+	  \State $\nabla y_{i,j} = J.row(i)\cdot e_j$, für $j=k+1,\ldots, n$
+	  \State $\nabla y.row(i) \mathrel{+}= Y_{i,j}\cdot \sigma_j\cdot \nabla z.row(j)$ für $j=1,\ldots, s$\Comment{Berechne $Y\nabla z$}
+	\EndFor
+	\For{$j=1\ldots n$}\Comment{Berechnung von $J_\sigma^E\cdot E^{-1}$}
+	  \State $\tilde J_{i,j} =\nabla y_{j,i+1}$für $i=1,\ldots,k-1$
+	  \State $\tilde J_{i,j} = \nabla y_{j,i} $ für $i=k+1,\ldots,n$
+	  \State $\tilde J_{k,j} = \nabla y_{j,1}$
+	  \State $\tilde J_{k,j} \mathrel{+}= (\tilde J_{i,j}\Delta x_i) / \Delta x_k$ für $i=1,\ldots,k-1,k+1,\ldots,n$
+	\EndFor
+	\State $J_\sigma = \tilde J$
+ \EndFunction
+ \end{algorithmic}
 \end{frame}
 
 

@@ -1,0 +1,30 @@
+\documentclass{standalone}
+\IfStandalone{
+	\usepackage{pgfplots,pgfplotstable}
+	\usetikzlibrary{external}
+	\newcommand{\fromRoot}[1]{../#1}
+}{%
+}
+
+\begin{document}
+\tikzsetnextfilename{rolling_adjoint_sol1}
+\begin{tikzpicture}
+\begin{axis}[
+	width=\linewidth,
+	xlabel=Zeit $t$,
+	ylabel=$\dot{\bar x}$,
+	legend entries ={
+	$\bar x_1$,
+	$\dot{\bar x}_1$
+	},
+% 	legend style={at={(0.5,1.0)},anchor=south},
+% 	legend columns=2
+]
+  	
+  
+  \addplot[mark=none,green,very thin] table[x index=0,y index=1] {\fromRoot img/data/rolling_adjoint_solution.dat};%impl midpoint
+  \addplot[mark=none,blue,very thin] table[x index=0,y index=1] {\fromRoot img/data/rolling_adjoint_sol_grad.dat};%expl midpoint
+  
+\end{axis}
+\end{tikzpicture}
+\end{document}

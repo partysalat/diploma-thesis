@@ -6,6 +6,7 @@
   x_n - x_a = h\int_{-\frac{1}{2}}^{\frac{1}{2}} F(\xo) + \Delta F(\xo; t(x-\xo))dt
  \]
 \end{block}
+Schritte:
 \begin{itemize}
  \item Berechnung der kritischen Multiplikatoren
  \item Integration über stückweise lineare Funktion (exakt)
@@ -25,7 +26,10 @@
 	   $ z = c+ Zx+L|z|$\\
 	    Ableitung\\
 	   $\dot z = Z\Delta x+L\Sigma z, \Sigma = \diag(\sgn(z))$
-	    \[\Rightarrow z_j + \tau_j \dot z_j = 0 \iff \tau_j = -\frac{z_j}{\dot z_j}\]
+	    \begin{align*}
+	    \Rightarrow z_j + \tau_j \dot z_j = 0 \iff & \tau_j = -\frac{z_j}{\dot z_j}\\
+						       & \dot z_j\neq 0
+	    \end{align*}
 	\end{block}
 	\end{minipage}
 	\hfill

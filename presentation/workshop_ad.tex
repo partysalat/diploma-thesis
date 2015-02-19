@@ -65,6 +65,11 @@ bibliography=totoc
 \newcommand{\bma}[1]{\begin{bmatrix} #1 \end{bmatrix}}
 
 \renewcommand{\d}{\mathchoice{\,d\!\;\!}{\,d}{\,d}{d}} %integral d
+\newenvironment{lbmatrix}[1]
+  {\left[\array{@{}*{#1}{c}@{}}}
+  {\endarray\right]}
+
+
 
 \DeclareMathOperator{\sgn}{sign}
 \DeclareMathOperator{\diag}{diag}
@@ -102,7 +107,7 @@ bibliography=totoc
 
 
 
-\title[Dataassimilation with PL]{Integrating and adjoining Lipschitzian ODEs with application to Dataassimilation}
+\title[Dataassimilation with PL]{Integrating and adjoining Lipschitzian ODEs with application to dataassimilation}
 \author[Lenser ]{Ben Lenser} 
 \institute[]{
 \includegraphics[height=0.3\textheight]{img/husiegel.pdf}\\[0.5cm]
@@ -119,13 +124,13 @@ Humboldt Universität zu Berlin\\Institut für Mathematik
 
 
 \include{tex/introduction}
-% \AtBeginSection[]
-%   {
-%      \begin{frame}<beamer>
-% %      \frametitle{Plan}
-%      \tableofcontents[currentsection]
-%      \end{frame}
-%   }
+\AtBeginSection[]
+  {
+     \begin{frame}<beamer>
+%      \frametitle{Plan}
+     \tableofcontents[currentsection]
+     \end{frame}
+  }
 \include{tex/pl}
 \include{tex/pl_ode}
 \include{tex/pl_da}
