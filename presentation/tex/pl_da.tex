@@ -47,17 +47,24 @@ Mögliche Lösungsansätze:\hfill
 \frametitle{Polynomial Escape}
 \begin{block}{Polynomial Escape}
  Es kann kein Pfad der Form
- \[
-  \Delta \hat x = \sum_{j=1}^n e_j t^j, ~ 0<t<\bar t, e_j\in R^n,~ \det(e_1,\ldots,e_n) \neq 0
- \]
-für ein $\bar t$ auf einem Kink liegen (\cite[Proposition 6]{monster},\cite[S.11]{plan}).
+ \vspace*{-0.3cm}
+ \[\Delta \hat x = \sum_{j=1}^n e_j t^j, ~ 0<t<\bar t, e_j\in R^n,~ \det(e_1,\ldots,e_n) \neq 0\]
+ \vspace*{0.3cm}
+ für ein $\bar t$ auf einem Kink liegen (\cite[Proposition 6]{monster},\cite[S.11]{plan}).
 %Nahc vorraussetzung gibts nur endlich viele hyperflächen (Kinks) -> darum geht das
 \end{block}
 \begin{block}{Firstsign}
- Nutze \[
-        \firstsign(z_i,\Delta z_i^\tr \Delta x) =\sign (z_i + \Delta z_i)
-       \]
-wobei $\firstsign(z)$ das Signum des ersten nichtverschwindende Eintrag von $z$ ist, ansonsten 0.
+ Def. $\nabla x$, $\det(\nabla x)\neq 0$, berechne $z$ und Ableitung der Abs Normal Form
+ \vspace*{-0.3cm}
+ \begin{align*}
+ \nabla z &= Z \nabla x + L \Sigma \nabla z\\
+ \nabla y &= J\nabla x + Y\Sigma \nabla z
+ \end{align*}
+ und nutze $
+       \sigma_i = \firstsign(z_i,\nabla z_i^\tr \Delta x) =\sign (z_i + \Delta z_i)
+      $ für $\Sigma$
+wobei $\firstsign(z)$ das Vorzeichen des ersten nichtverschwindende Eintrag von $z$ ist
+% , ansonsten 0.
 \end{block}
 
 \end{frame}

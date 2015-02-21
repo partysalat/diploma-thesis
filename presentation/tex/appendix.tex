@@ -128,6 +128,41 @@
  \EndFunction
   \end{algorithmic}
 \end{frame}
+\begin{frame}[allowframebreaks,fragile]
+\frametitle{Polynomial Escape}
+\algrenewcommand{\algorithmiccomment}[1]{\hfill{\scriptsize #1}}
+\begin{algorithmic}[1]
+ \Function{gen\_jac}{$x,\Delta x$}
+ 	\State $k \gets \max_i\lbrace i~|~\Delta x_i\rbrace$
+ 	\State $z \gets $calculate\_z($x$)
+ 	\For{$i=1\ldots s$}\Comment{Berechnung von $\nabla z$}
+	  \State $\sigma_i\gets \sign(z_i)$ 
+	  \State $\nabla z_{i,1} = Z.row(i)\cdot \Delta x$\Comment{Berechne $Z\Delta x$}
+	  \State $\nabla z_{i,j+1} = Z.row(i)\cdot e_j$, für $j=1,\ldots,k-1$
+	  \State $\nabla z_{i,j} = Z.row(i)\cdot e_j$, für $j=k+1,\ldots, n$
+	  \State $\nabla z.row(i) \mathrel{+}= L_{i,j}\cdot \sigma_j\cdot \nabla z.row(j)$ für $j=1,\ldots, i$\Comment{Berechne $L\Sigma \nabla z$}
+	  \State $j\gets 2$
+	  \While{$\sigma_i==0$ \&\& $j<s$ }\Comment{Firstsign}
+	    \State $\sigma_i \gets \sign(\nabla z_{i,j})$
+	    \State $j++$
+	  \EndWhile
+	\EndFor
+	\For{$i=1\ldots n$}\Comment{Berechnung von $\nabla y$}
+	  \State $\nabla y_{i,1} = J.row(i)\cdot \Delta x$\Comment{Berechne $J\Delta x$}
+	  \State $\nabla y_{i,j+1} = J.row(i)\cdot e_j$, für $j=1,\ldots,k-1$
+	  \State $\nabla y_{i,j} = J.row(i)\cdot e_j$, für $j=k+1,\ldots, n$
+	  \State $\nabla y.row(i) \mathrel{+}= Y_{i,j}\cdot \sigma_j\cdot \nabla z.row(j)$ für $j=1,\ldots, s$\Comment{Berechne $Y\nabla z$}
+	\EndFor
+	\For{$j=1\ldots n$}\Comment{Berechnung von $J_\sigma^E\cdot E^{-1}$}
+	  \State $\tilde J_{i,j} =\nabla y_{j,i+1}$für $i=1,\ldots,k-1$
+	  \State $\tilde J_{i,j} = \nabla y_{j,i} $ für $i=k+1,\ldots,n$
+	  \State $\tilde J_{k,j} = \nabla y_{j,1}$
+	  \State $\tilde J_{k,j} \mathrel{+}= (\tilde J_{i,j}\Delta x_i) / \Delta x_k$ für $i=1,\ldots,k-1,k+1,\ldots,n$
+	\EndFor
+	\State $J_\sigma = \tilde J$
+ \EndFunction
+ \end{algorithmic}
+\end{frame}
 
 \begin{frame}
 \frametitle{Adjungierte Gleichung Shallow Water Equation}
@@ -192,41 +227,6 @@
 % \frametitle{Experimente}
 % CFL IMAGE
 % \end{frame}
-\begin{frame}[allowframebreaks,fragile]
-\frametitle{Polynomial Escape}
-\algrenewcommand{\algorithmiccomment}[1]{\hfill{\scriptsize #1}}
-\begin{algorithmic}[1]
- \Function{gen\_jac}{$x,\Delta x$}
- 	\State $k \gets \max_i\lbrace i~|~\Delta x_i\rbrace$
- 	\State $z \gets $calculate\_z($x$)
- 	\For{$i=1\ldots s$}\Comment{Berechnung von $\nabla z$}
-	  \State $\sigma_i\gets \sign(z_i)$ 
-	  \State $\nabla z_{i,1} = Z.row(i)\cdot \Delta x$\Comment{Berechne $Z\Delta x$}
-	  \State $\nabla z_{i,j+1} = Z.row(i)\cdot e_j$, für $j=1,\ldots,k-1$
-	  \State $\nabla z_{i,j} = Z.row(i)\cdot e_j$, für $j=k+1,\ldots, n$
-	  \State $\nabla z.row(i) \mathrel{+}= L_{i,j}\cdot \sigma_j\cdot \nabla z.row(j)$ für $j=1,\ldots, i$\Comment{Berechne $L\Sigma \nabla z$}
-	  \State $j\gets 2$
-	  \While{$\sigma_i==0$ \&\& $j<s$ }\Comment{Firstsign}
-	    \State $\sigma_i \gets \sign(\nabla z_{i,j})$
-	    \State $j++$
-	  \EndWhile
-	\EndFor
-	\For{$i=1\ldots n$}\Comment{Berechnung von $\nabla y$}
-	  \State $\nabla y_{i,1} = J.row(i)\cdot \Delta x$\Comment{Berechne $J\Delta x$}
-	  \State $\nabla y_{i,j+1} = J.row(i)\cdot e_j$, für $j=1,\ldots,k-1$
-	  \State $\nabla y_{i,j} = J.row(i)\cdot e_j$, für $j=k+1,\ldots, n$
-	  \State $\nabla y.row(i) \mathrel{+}= Y_{i,j}\cdot \sigma_j\cdot \nabla z.row(j)$ für $j=1,\ldots, s$\Comment{Berechne $Y\nabla z$}
-	\EndFor
-	\For{$j=1\ldots n$}\Comment{Berechnung von $J_\sigma^E\cdot E^{-1}$}
-	  \State $\tilde J_{i,j} =\nabla y_{j,i+1}$für $i=1,\ldots,k-1$
-	  \State $\tilde J_{i,j} = \nabla y_{j,i} $ für $i=k+1,\ldots,n$
-	  \State $\tilde J_{k,j} = \nabla y_{j,1}$
-	  \State $\tilde J_{k,j} \mathrel{+}= (\tilde J_{i,j}\Delta x_i) / \Delta x_k$ für $i=1,\ldots,k-1,k+1,\ldots,n$
-	\EndFor
-	\State $J_\sigma = \tilde J$
- \EndFunction
- \end{algorithmic}
-\end{frame}
 
 
 \begin{frame}[fragile]

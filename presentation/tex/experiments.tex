@@ -159,19 +159,20 @@ $
 \end{minipage}
 \begin{minipage}{0.45\linewidth}
 \centering
-\vspace*{-0.3cm}
- \begin{align*}
- \Rightarrow g(z) &= \alpha\frac{z+|z|}{2} + \beta\frac{z-|z|}{2},\\
-  V(t) &= \sin(\omega t)
- \end{align*}
- \pause
- $ L= 10^{-6},~ C=10^{-13},~ \omega = 3\cdot 10^{9},~\alpha =0.5,~\beta = 10^{5}$
- \pause
 \begin{itemize}
 \item $x_1$ Zeit
  \item $x_2$~Ladung~des~Kondensators
  \item $x_3$ Elektrische Stromstärke
 \end{itemize}
+ $\begin{aligned}
+L= 10^{-6}, C=10^{-13}, \omega=3\cdot 10^{9},\\
+\alpha =0.5,\beta=10^{5}, V(t) = \sin(\omega t)   
+  \end{aligned}
+$
+ \pause
+\begin{align*}
+ \Rightarrow g(z) &= \alpha\frac{z+|z|}{2} + \beta\frac{z-|z|}{2}
+ \end{align*}
 \end{minipage}
  \end{frame}
  \begin{frame}[<+->]
@@ -297,22 +298,22 @@ $
 &= \min(\max(z_1,z_2,z_3),0) + \max(\min(z_1,z_2,z_3),0)                                 
 \end{align*}
 \end{frame}
-
-\begin{frame}[<+->]
-\frametitle{SWE Konvergenz}
-\centering
-\begin{minipage}[b]{0.49\linewidth}
-\centering
-\input{../dipl_tex/img/swe_initial_values.tikz}
-(a) $h_0 \sim n\cdot\mathcal N(\mu,L) + 1$
-\end{minipage}
-\begin{minipage}[b]{0.49\linewidth}
-\centering
-\input{../dipl_tex/img/swe_initial_values_hu.tikz}
-(b)  $(hu)_0\sim n\cdot\mathcal N(\mu,L)$
-\end{minipage}
-
-\end{frame}
+% 
+% \begin{frame}[<+->]
+% \frametitle{SWE Konvergenz}
+% \centering
+% \begin{minipage}[b]{0.49\linewidth}
+% \centering
+% \input{../dipl_tex/img/swe_initial_values.tikz}
+% (a) $h_0 \sim n\cdot\mathcal N(\mu,L) + 1$
+% \end{minipage}
+% \begin{minipage}[b]{0.49\linewidth}
+% \centering
+% \input{../dipl_tex/img/swe_initial_values_hu.tikz}
+% (b)  $(hu)_0\sim n\cdot\mathcal N(\mu,L)$
+% \end{minipage}
+% 
+% \end{frame}
 
 
 \begin{frame}[<+->]
@@ -321,25 +322,25 @@ $
 \scalebox{0.9}{\input{../dipl_tex/img/swe_convergence.tikz}}
 \end{frame}
 
-\begin{frame}[<+->]
-\frametitle{SWE Adjungierte Gleichung}
-\centering
-\begin{minipage}[b]{0.49\linewidth}
-% \begin{minipage}[t][3cm][t]{5cm}
-\centering
-\input{../dipl_tex/img/swe_adjoint_eq_2.tikz}
-(a) $\dot{\overline{h}}$
-\end{minipage}
-%  \quad 
-\begin{minipage}[b]{0.49\linewidth}
-% \begin{minipage}[t][3cm][t]{5cm}
-\centering
-\input{../dipl_tex/img/swe_adjoint_eq1_2.tikz}
-(b) $\dot{\overline{hu}}$
-\end{minipage}
-\centering
-$I=[0,10], L=100,\Delta x=10,h = 0.05$ und $U_0^{(1)},n=10,\theta=2,\xobs(0)=U_0^{(1)},n_{\text{obs}}=20,\mu_{\text{obs}}=30$
-\end{frame}
+% \begin{frame}[<+->]
+% \frametitle{SWE Adjungierte Gleichung}
+% \centering
+% \begin{minipage}[b]{0.49\linewidth}
+% % \begin{minipage}[t][3cm][t]{5cm}
+% \centering
+% \input{../dipl_tex/img/swe_adjoint_eq_2.tikz}
+% (a) $\dot{\overline{h}}$
+% \end{minipage}
+% %  \quad 
+% \begin{minipage}[b]{0.49\linewidth}
+% % \begin{minipage}[t][3cm][t]{5cm}
+% \centering
+% \input{../dipl_tex/img/swe_adjoint_eq1_2.tikz}
+% (b) $\dot{\overline{hu}}$
+% \end{minipage}
+% \centering
+% $I=[0,10], L=100,\Delta x=10,h = 0.05$ und $U_0^{(1)},n=10,\theta=2,\xobs(0)=U_0^{(1)},n_{\text{obs}}=20,\mu_{\text{obs}}=30$
+% \end{frame}
 
 \begin{frame}[<+->]
 \frametitle{SWE Konvergenz Adjungierte Gleichung}
