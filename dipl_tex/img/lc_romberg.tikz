@@ -11,7 +11,7 @@
 \begin{loglogaxis}[
 	width=\linewidth,
 	xlabel=Anzahl der Freiheitsgrade $N$,
-	ylabel=Fehler in zum Zeitpunkt $T$,
+% 	ylabel=Fehler in zum Zeitpunkt $T$,
 % 	ymin=1E-13,
 %  	ymax=4E-7,
 	legend entries ={

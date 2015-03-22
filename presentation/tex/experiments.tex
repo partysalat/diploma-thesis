@@ -66,11 +66,23 @@ J = \begin{pmatrix}
 \end{minipage}
 \end{frame}
 \begin{frame}[<+->]
-\frametitle{Rolling Stone Adjungierte Gleichung Konvergenz}
+\frametitle{Rolling Stone Konvergenz}
 \centering
 % \includegraphics[width=0.8\linewidth]{../dipl_tex/img/tikz/convergence_rolling_plot.pdf} \\
+% \input{../dipl_tex/img/convergence_rolling_plot.tikz} 
+% \input{../dipl_tex/img/convergence_rolling_romberg_plot.tikz} 
+\begin{minipage}[c]{0.49\textwidth}
+\centering
 \input{../dipl_tex/img/convergence_rolling_plot.tikz} 
+\end{minipage}
+\begin{minipage}[c]{0.49\textwidth}
+\centering
+\input{../dipl_tex/img/convergence_rolling_romberg_plot.tikz} 
+\end{minipage}
+\centering
+Fehler zum Zeitpunkt $T$
 \end{frame}
+
 \begin{frame}[<+->]
 \frametitle{Rolling Stone Adjungierte Gleichung}
 \begin{minipage}[c]{0.45\textwidth}
@@ -92,7 +104,7 @@ $\xobs$ - Exakte Lösung für $x_0=(1,1)$
 \end{frame}
 
 \begin{frame}[<+->]
-\frametitle{Rolling Stone Convergence}
+\frametitle{Rolling Stone Adjungierte Gleichung Konvergenz}
 \centering
 \begin{minipage}[c]{0.49\textwidth}
 \centering
@@ -191,7 +203,15 @@ Lösung der LC Diode für $x_0=(0,0,0)$
 \begin{frame}[<+->]
 \frametitle{LC Diode Konvergenz}
 \centering
-\scalebox{0.9}{\input{../dipl_tex/img/lc_convergence.tikz} }
+% \scalebox{0.9}{\input{../dipl_tex/img/lc_convergence.tikz} }
+\begin{minipage}{0.49\linewidth}
+\input{../dipl_tex/img/lc_convergence.tikz}
+\end{minipage}
+\begin{minipage}{0.49\linewidth}
+\input{../dipl_tex/img/lc_romberg.tikz}
+\end{minipage}
+\centering
+Fehler zum Zeitpunkt $T$
 \end{frame}
 
 \begin{frame}[<+->]
@@ -319,7 +339,14 @@ $
 \begin{frame}[<+->]
 \frametitle{SWE Konvergenz}
 \centering
-\scalebox{0.9}{\input{../dipl_tex/img/swe_convergence.tikz}}
+\begin{minipage}{0.49\linewidth}
+\input{../dipl_tex/img/swe_convergence.tikz}
+\end{minipage}
+\begin{minipage}{0.49\linewidth}
+\input{../dipl_tex/img/swe_convergence_romberg.tikz}
+\end{minipage}
+\centering
+Fehler zum Zeitpunkt $T$
 \end{frame}
 
 % \begin{frame}[<+->]

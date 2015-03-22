@@ -11,7 +11,7 @@
 \begin{loglogaxis}[
 	width=\linewidth,
 	xlabel=Anzahl der Freiheitsgrade $N$,
-	ylabel=Fehler in $x$,
+% 	ylabel=Fehler in $x$,
 % 	title=Convergence of SWE,
 	legend entries ={
 % 	Expl. MP,
