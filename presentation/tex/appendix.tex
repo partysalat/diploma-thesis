@@ -107,7 +107,7 @@ x_n - x_a -h F(\xo) &= r(x_n,x_a)
  	  \State $\check{\tau} \gets \check{\tau} + \hat{\tau}, ~ x_{kink} \gets x_{kink} +\check{\tau}\Delta x$
  	  \State $\hat{\tau} \gets \check{\tau} + \Call{critMult}{ x_{kink},\Delta x}$ 		 \Comment{Berechne kritischen Multiplikator}
 		\If{$\hat{\tau}>1$} $\hat{\tau}\gets 1$ \EndIf 
- 		\State $\xo \gets x_{kink}+0.5\cdot \hat{\tau} \Delta x$	\Comment{Berechne Mittelpunkt zwischen den Kinks}
+ 		\State $\xo \gets x_{kink}+0.5\cdot \hat{\tau} \Delta x$	\Comment{Berechne Mittelpunkt zwischen den Knicken}
  	  \State $\frac{\partial F(\rx)}{\partial x} \gets $ gen\_jac($\rx,\Delta x$) \Comment{Berechne $\partial F$ aus der Abs-Normalform}
  	  \State $\bar{A} \gets \bar{A} +  \frac{\partial F(\xo)}{\partial x} \cdot (\hat{\tau} - \check{\tau})$ 
  		\State $\hat{A} \gets \hat{A} +  \frac{\partial F(\rx)}{\partial x} \cdot  \left(\frac{1}{2}(\check{\tau} + \hat{\tau})-0.5\right)$ \Comment{Verschiebe $\tau$ um $-0.5$}

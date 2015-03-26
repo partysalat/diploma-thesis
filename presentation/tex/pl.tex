@@ -5,18 +5,19 @@
 \item Betrachte nun stückweise lineare Funktionen 
 \[
 \begin{aligned}
- f&:\R^n \to \R^m, \\
- f&\in \lbrace f_1,\ldots,f_k\rbrace,~f_i(x)=A_ix+b_i~\forall i,~f\text{ global stetig}, \\
+ F&:\R^n \to \R^m, \\
+ F&\in \lbrace F_1,\ldots,F_k\rbrace,~F_i(x)=A_ix+b_i~\forall i,~F\text{ global stetig}, \\
  A&\in\R^{m\times n},b\in\R^m
  \end{aligned}
 \]
 %  \item Betrachte nun $\dot{x} = F(x),~ x_0 = x(0),~F\in C^{0,1}(\R^n)$ (TODO stückweise lineare Funktionen ergänzen)
 % \item Es existiert eine Lösung (Filippov)
- \item $f$ ist als \textit{Abs Normal Form} darstellbar $\ldots$
+ \item $F$ ist als \textit{Abs Normal Form} darstellbar $\ldots$
  \end{itemize}
 \begin{block}{Abs-Normal Form}
  \begin{equation}
 \label{eq:absNormalForm}
+F(x) = y,\quad 
   \begin{bmatrix}
    z\\y
   \end{bmatrix}
@@ -50,9 +51,9 @@ $s$ \textit{switching depth}, $z\in \R^s$ \textit{switching Variable} und $L$ st
  \item $\ldots$ und kann benutzt werden, um verkettet stückweise glatte Funktionen 
  \[
  \begin{aligned}
-   f&:\R^n \to \R^m, \\
- f&\in \lbrace f_1,\ldots,f_k\rbrace,~f_i(x) \in C^1(\R^n)~\forall i,~f \text{ global stetig}\\
- &\text{verknüpft durch }\varphi_i \in \lbrace +,*,sin,exp,abs ,\ldots\rbrace                                                                
+   F&:\R^n \to \R^m, \\
+ F&\in \lbrace F_1,\ldots,F_k\rbrace,~F_i(x) \in C^1(\R^n)~\forall i,~F \text{ global stetig}\\
+ &\text{verknüpft durch }\abs(\cdot) %\varphi_i \in \lbrace +,*,sin,exp,abs ,\ldots\rbrace                                                                
  \end{aligned}
  \]
 an einer Entwicklungsstelle $\xo$ zu approximieren
@@ -91,12 +92,25 @@ an einer Entwicklungsstelle $\xo$ zu approximieren
   
  \end{itemize}
 \end{block}
-\begin{block}{AD}
- Automatische Berechnung der Stückweisen Linearisierung in Abs Normal Form mittels zusätzlicher AD Regel:
+\end{frame}
+
+\begin{frame}[<+->]
+\frametitle{Algorithmisches Differenzieren}
+\begin{block}{Klassische AD-Regeln}
+\[
+  \begin{aligned}
+    \Delta v_i &= \Delta v_j \pm \Delta v_k & \text{für } v_i = v_j \pm v_k\\
+    \Delta v_i &= \vo_j* \Delta v_k +\Delta v_j*\vo_k& \text{für } v_i = v_j * v_k\\
+    \Delta v_i &= \mathring c_{ij} * \Delta v_j  & \text{für } v_i = \phi_i(v_j) \not \equiv \abs(v_j)
+  \end{aligned}
+\]
+wobei $\mathring c_{ij} = \phi'_i(\vo_j)$, $\phi_i \in \lbrace sin, cos, sqrt, exp, \ldots,\rbrace$
+\end{block}
+ \begin{block}{Stückweise Linearisierung}
+ Automatische Berechnung der Stückweisen Linearisierung mittels zusätzlicher AD Regel:
  \[
 %   \Delta v_i = (v_j \neq 0)?sign(v_j )\Delta v_j : abs(\Delta v_j) \text{ für } v_i = abs(v_j), j\prec i
     \Delta v_i =\abs(v_j + \Delta v_j) - v_i \text{ für } v_i = abs(v_j), j\prec i
  \]
 \end{block}
-
 \end{frame}

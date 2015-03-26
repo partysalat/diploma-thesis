@@ -39,7 +39,7 @@ Differential Inclusion und Valley Tracing Mode \\
 Mögliche Lösungsansätze:\hfill
 \begin{itemize}
  \item Polynomial Escape
- \item Einbeziehung der Kinks
+ \item Einbeziehung der Knicke
 \end{itemize}
 \end{frame}
 % \subsection{Polynomial Escape}
@@ -50,7 +50,7 @@ Mögliche Lösungsansätze:\hfill
  \vspace*{-0.3cm}
  \[\Delta \hat x = \sum_{j=1}^n e_j t^j, ~ 0<t<\bar t, e_j\in R^n,~ \det(e_1,\ldots,e_n) \neq 0\]
  \vspace*{0.3cm}
- für ein $\bar t$ auf einem Kink liegen (\cite[Proposition 6]{monster},\cite[S.11]{plan}).
+ für ein $\bar t$ auf einem Knick liegen (\cite[Proposition 6]{monster},\cite[S.11]{plan}).
 %Nahc vorraussetzung gibts nur endlich viele hyperflächen (Kinks) -> darum geht das
 \end{block}
 \begin{block}{Firstsign}
@@ -135,7 +135,7 @@ die verallgemeinerte implizite Mittelpunktsregel an:
 		  &= h\cdot \left[ C^\tr(C\xo-\rxobs) -\int_{-0.5}^{0.5} \frac{\partial F(\xo,\Delta x)}{\partial x}^\tr \cdot \xadj dt\right]
 \end{align}
 \pause
-mit $N$ Kinks, $-0.5 = \tau_0 <\tau_1 <\ldots < \tau_N=0.5$ und $\mathring \tau_i = 0.5 (\tau_i +\tau_{i-1})$ folgt
+mit $N$ Knicken, $-0.5 = \tau_0 <\tau_1 <\ldots < \tau_N=0.5$ und $\mathring \tau_i = 0.5 (\tau_i +\tau_{i-1})$ folgt
 \begin{align}
 \xadj_n - \xadj_a &= h\left[ C^\tr(C\xo-\rxobs) - \sum_{i=1}^N \int_{\tau_{i-1}}^{\tau_{i}}\underbrace{\frac{\partial F(\xo+\mathring \tau_i\Delta x,\Delta x)}{\partial x}^\tr}_{A_i^\tr} \cdot \xadj dt\right]\\
 \end{align}

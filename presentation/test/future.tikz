@@ -1,0 +1,35 @@
+\documentclass{standalone}
+\IfStandalone{
+	\usepackage{pgfplots,pgfplotstable}
+	\usetikzlibrary{external}
+	\newcommand{\fromRoot}[1]{../#1}
+}{%
+}
+
+\begin{document}
+\tikzsetnextfilename{future}
+\begin{tikzpicture}
+% \draw[scale=3,domain=-10:10,samples=100,variable=\x,blue] plot ({\x},{sin(\x,\x)});
+% MODEL
+  \draw[scale=1,domain=0:7,blue,samples=100] plot function{sin(x)*sin(2.75 * x)};
+\draw[scale=1,domain=7:10,dashed,blue,samples=100] plot function{sin(x)*sin(2.75 * x)};
+% HORIZONTAL LINE
+\draw[red] (7,1.7) -- (7,-1.4);
+
+% DOT CLOUD
+\foreach \Point in {(0.1,0),(0.5,0.5), (1,-0.7), (2.2,-0.3), (3,-0.1), (4,0.8), (4.5,0),(5,-1),(5.7,0.2),(6.4,0.2),(7,0)}{
+    \node at \Point {\textbullet};
+}
+
+%TEXT
+ \node[draw] at (4,1.3) {Vergangenheit};
+ \node[draw] at (9,1.3) {Zukunft};
+% \draw[scale=3,domain=-1:1.5,samples=100,variable=\x,green] plot ({\x},{0.5*(\x+\x*\x + abs(\x-\x*\x)))});
+% \draw[scale=3,domain=-1:1.5,samples=100,variable=\dx,blue] plot ({\dx},{ 0.5*(\xo+\xo*\xo + abs(\xo-\xo*\xo))+ 0.5*(\dx + 2*\xo*\dx + abs(\xo-\xo*\xo +\dx-2*\xo*\dx) - abs(\xo-\xo*\xo))});
+%  \addplot[domain=-1:1.5, green,samples=200] {0.5*(x+x*x + abs(x-x*x))};
+%  \addplot[domain=-1:1.5, blue,samples=200] {0.5*(\xo+\xo*\xo + abs(\xo-\xo*\xo)) +  0.5*((x-\xo) + 2*\xo*(x-\xo) + abs(\xo-\xo*\xo +(x-\xo)-2*\xo*(x-\xo)) - abs(\xo-\xo*\xo))};
+%  \addplot[domain=-1:1.5, blue] {0.5*(\xo+\xo*\xo + abs(\xo-\xo*\xo))}; 
+
+
+\end{tikzpicture}
+\end{document}
