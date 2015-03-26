@@ -2,11 +2,12 @@
 \begin{frame}[<+->]
 \frametitle{4D- Datenassimilation}
     \begin{itemize}
-     \item Benutzt im Kontext der numerischen Wettervorhersage und ozeanographischen Modellen
-     \item Eingeführt von Talagrand und Dimet $\approx$ 1986 (\cite{dimet1986variational})
+     \item Kontext: z.B. numerische Wettervorhersage oder ozeanographische Modelle
+     \item Eingeführt von Dimet und Talagrand $\approx$ 1986 (\cite{dimet1986variational})
      \item Ziel: Annäherung eines Modells an Observierungsparameter durch Steuerungsparameter um über $T$ hinaus zu extrapolieren
-%      \item Wendet Methoden der optimalen Steuerung auf die Datenassimilation an
+%TODO Bild einfügen
     \end{itemize}
+%     \input{test/future.tex}
 
 \end{frame}
 
@@ -68,7 +69,7 @@
 	\begin{equation}\label{eq:costFunctional}
 		\min_{x_o} J(x_0) = \min_{x_o} \frac{1}{2}\int_0^T \|Cx(t) - x_{Obs}(t)\|^2dt
 	\end{equation}
-	  $C$ - Projektion von $X_{\text{State}}$ nach $X_{\text{Obs}}$ 
+	  $C$ - Projektion von $X_{\text{State}}$ nach $X_{\text{Obs}}$ um eine sinnvolle Extrapolation zu erhalten.
 	\end{block}
 % 	\begin{block}{Datenassimilation Schritte}
 % 	\begin{enumerate}
@@ -97,7 +98,8 @@
 	\]
   \end{block}
   \begin{block}{Optimierung}
-	Optimiere $x_0$ mit einem geeigneten Verfahren über $J$ mit $\nabla J$ (z.B. BFGS)
+  Finde $\argmin_{x_0} J(x_0)$ mit geeignetem Optimierungsverfahren (z.B. BFGS)
+% 	Optimiere $x_0$ mit einem geeigneten Verfahren über $J$ mit $\nabla J$ (z.B. BFGS)
   \end{block}
 
 \end{frame} 
@@ -115,7 +117,7 @@
 %   \begin{block}
    \begin{itemize}
     \item Unglatte Modelle in Ingeneursdisziplinen z.B. Elektrotechnik (Diode)
-    \item Partielle Differentialgleichungen (Flux Limiter $\to$ Shallow Water Equation)
+    \item Diskretisierungen partieller Differentialgleichungen (Flux Limiter $\to$ Shallow Water Equation)
    \end{itemize}
 
 %   \end{block}

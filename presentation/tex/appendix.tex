@@ -81,6 +81,20 @@
 % \frametitle{GIMP Algorithmus}
 %  ODE SOLVER ALG
 % \end{frame}
+\begin{frame}[<+->]
+\frametitle{Berechnung der GIMP}
+\begin{align}
+x_n - x_a &= h \int_{-\frac{1}{2}}^{\frac{1}{2}} F(\xo) + \Delta F(\xo,t(x_n-x_a))dt\\
+\iff x_n - x_a -h F(\xo)&= \underbrace{h \int_{-\frac{1}{2}}^{\frac{1}{2}} \Delta F(\xo,t(x_n-x_a))dt}_{r(x_n,x_a)}\\
+x_n - x_a -h F(\xo) &= r(x_n,x_a)
+\end{align}
+\begin{align}
+  x_n^{\text{(n)}} - x_a - h (F(\xoold) +\Delta F(\xoold,\xonew - \xoold)) &= r(x_n^{\text{(a)}},x_a)\\
+ \iff 2\xonew - 2x_a - h (F(\xoold) +\Delta F(\xoold,\xonew - \xoold)) &= r(x_n^{\text{(a)}},x_a)\\
+ \iff  2\xonew -  h (F(\xoold) +\Delta F(\xoold,\xonew - \xoold)) &= r(x_n^{\text{(a)}},x_a) + 2x_a
+\end{align}
+\[x_n = 2\xo - x_a\]
+\end{frame}
 
 \begin{frame}[fragile]
 \frametitle{Adjoint Algorithmus}

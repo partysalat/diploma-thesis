@@ -50,7 +50,7 @@
 \addplot[blue!60!white,very thin] {tf2(x)} 
 	node[anchor=north,pos=0.15,sloped] {$\mathring F_2 + F_2'(\mathring x)\D x$};
 \addplot[black,very thin,yshift=1pt] {max(tf1(x),tf2(x)} 
-	node[anchor=south,pos=0.75,sloped] {$\mathring F + \D F(\mathring x)\D x$};
+	node[anchor=south,pos=0.75,sloped] {$\mathring F + \D F(\mathring x;\D x)$};
 %\addplot [color=black,only marks,mark=*] coordinates { (-1,-0.6) };
 %\addplot [color=black,only marks,mark=*] coordinates { (-1,-5.67362) };
 \end{axis}

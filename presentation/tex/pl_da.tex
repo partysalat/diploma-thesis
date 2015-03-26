@@ -44,8 +44,8 @@ Mögliche Lösungsansätze:\hfill
 \end{frame}
 % \subsection{Polynomial Escape}
 \begin{frame}[<+->]
-\frametitle{Polynomial Escape}
-\begin{block}{Polynomial Escape}
+\frametitle{Polynomial Escape I}
+\begin{block}{Polynomial Escape \cite[Prop. 6]{monster}}
  Es kann kein Pfad der Form
  \vspace*{-0.3cm}
  \[\Delta \hat x = \sum_{j=1}^n e_j t^j, ~ 0<t<\bar t, e_j\in R^n,~ \det(e_1,\ldots,e_n) \neq 0\]
@@ -54,20 +54,56 @@ Mögliche Lösungsansätze:\hfill
 %Nahc vorraussetzung gibts nur endlich viele hyperflächen (Kinks) -> darum geht das
 \end{block}
 \begin{block}{Firstsign}
- Def. $\nabla x$, $\det(\nabla x)\neq 0$, berechne $z$ und Ableitung der Abs Normal Form
+ Def. $\nabla x = (\nabla x_i^\tr)_{i=1,\ldots,n}$, $\det(\nabla x)\neq 0$, $\Delta x_k$ betragsmäßig größtes Element von $\Delta x$: 
  \vspace*{-0.3cm}
- \begin{align*}
- \nabla z &= Z \nabla x + L \Sigma \nabla z\\
- \nabla y &= J\nabla x + Y\Sigma \nabla z
- \end{align*}
+ \[
+ \nabla x = E =
+\begin{pmatrix}
+  \nabla x_1^\tr\\
+  \vdots\\
+  \nabla x_n^\tr\\
+ \end{pmatrix}
+ =
+  \begin{pmatrix}
+   I_{n-k} & \vdots &0\\
+  0 & \Delta x_k & 0\\
+    0 & \vdots&I_{k-1}
+ \end{pmatrix}
+\]
+
+% , ansonsten 0.
+\end{block}
+
+\end{frame}
+
+\begin{frame}[<+->]
+\frametitle{Polynomial Escape II}
+\begin{block}{Firstsign}
+ Berechne $z$ und Ableitung der Abs Normal Form
+ \vspace*{-0.3cm}
+ \begin{equation}\label{eq:polynomialEscape}
+ \begin{aligned}
+  \nabla z &= Z \nabla x + L \Sigma \nabla z\\
+  \nabla y &= J\nabla x + Y\Sigma \nabla z
+ \end{aligned}
+ \end{equation}
  und nutze $
        \sigma_i = \firstsign(z_i,\nabla z_i^\tr \Delta x) =\sign (z_i + \Delta z_i)
       $ für $\Sigma$
 wobei $\firstsign(z)$ das Vorzeichen des ersten nichtverschwindende Eintrag von $z$ ist
 % , ansonsten 0.
 \end{block}
+\begin{block}{Polynomial Escape \cite[Prop. 8]{monster}}
+Die Auswertung von \eqref{eq:polynomialEscape} ergibt eine Matrix $J_\sigma^E = (\nabla y_{i})_{i=1,\ldots,m}$ dessen Rücktransformation
+\[
+ J_\sigma\equiv J_\sigma^E E^{-1} \in \partial^L \Delta F(\xo;0)
+\]
+eine limiting Jacobian von $F'(\xo;\Delta x)$ am Punkt $\xo$ ist.
+\end{block}
 
 \end{frame}
+
+
 % \subsection{Adjungierte Gleichung}
 \begin{frame}[<+->]
 \frametitle{Adjungierte Gleichung}

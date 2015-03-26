@@ -20,8 +20,8 @@
 % 	Expl. MP,
 	IMP,
 	GIMP, 
-	Romberg GIMP,
-	Romberg IMP
+	Rom. IMP,
+	Rom. GIMP
 	},
 	legend style={at={(0.5,1.0)},anchor=south},
 	legend columns=2
