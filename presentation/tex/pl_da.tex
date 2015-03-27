@@ -23,6 +23,33 @@ wobei $(I-L\Sigma)^{-1} = I +L\Sigma + (L\Sigma)^2+\ldots$ eine Neumannreihe ist
 \begin{frame}[<+->]
 \frametitle{Differential Inclusion}
 % GRADIENT NICHT NUR STETIGE UNGLÄTTEN SONDERN AUCH SPRÜNGE -> ABS EXAMPLE
+
+  \begin{minipage}{0.4\textwidth} 
+  \scalebox{0.65}{\input{../dipl_tex/img/baby_solution.tikz}}
+  \end{minipage}
+  \hfill
+  \begin{minipage}{0.59\textwidth}
+   \[
+   \begin{aligned}
+    \dot x &= F(x) = |x| \\
+    \Rightarrow & \partial F(x) = \begin{cases}
+                               1 & x>0\\
+                               -1 & x<0\\
+                               [-1,1] & x=0
+                              \end{cases}                             
+    \end{aligned}
+   \]
+  \end{minipage}
+   Adjungiertes TLM:
+   \[
+    \dot{ \bar{x}}(t) =  -\frac{\partial F(x(t))}{\partial x}^\tr \bar x(t) +C^\tr(Cx(t) - x_{\text{obs}}(t)), ~ \bar x(T) =0
+   \]
+
+  \end{frame}
+
+\begin{frame}[<+->]
+\frametitle{Differential Inclusion}
+% GRADIENT NICHT NUR STETIGE UNGLÄTTEN SONDERN AUCH SPRÜNGE -> ABS EXAMPLE
 \centering
 \begin{figure}
   \begin{minipage}{0.45\textwidth} 
@@ -34,7 +61,7 @@ wobei $(I-L\Sigma)^{-1} = I +L\Sigma + (L\Sigma)^2+\ldots$ eine Neumannreihe ist
 	\end{minipage}
 	
 \end{figure}
-Differential Inclusion und Valley Tracing Mode \\
+Differential Inclusion und Valley Tracing Mode (\cite{khan2014}) \\
 \pause
 Mögliche Lösungsansätze:\hfill
 \begin{itemize}
