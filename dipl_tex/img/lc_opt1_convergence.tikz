@@ -9,7 +9,7 @@
 \begin{document}
 \tikzsetnextfilename{lc_opt1_convergence}
 \begin{tikzpicture}
-\begin{loglogaxis}[
+\begin{axis}[
 	width=\linewidth,
 	xlabel=Optimierungsschritte,
 	ylabel=Fehler,
@@ -21,7 +21,7 @@
   	
  	\addplot[mark=none,green,very thin] table[x index=0,y index=2] {\fromRoot img/data/lc_convergence_opt_new.dat};%impl midpoint
 	\addplot[mark=none,blue,very thin] table[x index=0,y index=1] {\fromRoot img/data/lc_convergence_opt_new.dat};%gen midpoint
-\end{loglogaxis}
+\end{axis}
 \end{tikzpicture}
 
 \end{document}

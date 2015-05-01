@@ -1,0 +1,27 @@
+\documentclass{standalone}
+\usepackage{pgfplots,pgfplotstable}
+\IfStandalone{
+	\usepackage{pgfplots,pgfplotstable}
+	\usetikzlibrary{external}
+	\newcommand{\fromRoot}[1]{../#1}
+}{%
+}
+\begin{document}
+\tikzsetnextfilename{lc_opt_5000}
+\begin{tikzpicture}
+\begin{axis}[
+	width=\linewidth,
+	xlabel=Optimierungsschritte,
+	ylabel=Fehler,
+% 	title=Convergence of Optimization for Rolling Stones,
+	legend entries ={IMP,GIMP},
+	legend style={at={(0.5,1.0)},anchor=south},
+	legend columns=2
+]	
+%  	\addplot[mark=none,green,very thin] table[x index=0,y index=2] {\fromRoot img/data/lc_opt2_convergence.dat};%impl midpoint
+% 	\addplot[mark=none,blue,very thin] table[x index=0,y index=1] {\fromRoot img/data/lc_opt2_convergence.dat};%gen midpoint
+	\addplot[mark=none,green,very thin] table[x index=0,y index=2] {\fromRoot img/data/lc_opt_5000.dat};%impl midpoint
+	\addplot[mark=none,blue,very thin] table[x index=0,y index=1] {\fromRoot img/data/lc_opt_5000.dat};%gen midpoint
+\end{axis}
+\end{tikzpicture}
+\end{document}

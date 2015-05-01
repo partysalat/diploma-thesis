@@ -1,0 +1,29 @@
+\documentclass{standalone}
+\usepackage{pgfplots,pgfplotstable}
+\IfStandalone{
+	\usepackage{pgfplots,pgfplotstable}
+	\usetikzlibrary{external}
+	\newcommand{\fromRoot}[1]{../#1}
+}{%
+}
+\begin{document}
+\tikzsetnextfilename{lc_solution_multiple2}
+\begin{tikzpicture}
+\begin{axis}[
+	width=\linewidth,
+	legend entries ={
+	$\alpha=0.5~\beta=10^5$,
+	$\alpha=10^3~\beta=10^4$,
+	$\alpha=10^4~\beta=10^5$
+	},
+	legend style={at={(0.5,1.2)},anchor=south},
+	legend columns=1,
+ 	xlabel=$x_1$,
+ 	ylabel=$x_3$
+]
+ \addplot[blue] table[x index=0,y index=3] {\fromRoot img/data/lc_multiple_sol/solOldAlphaBeta.dat};
+ \addplot[green] table[x index=0,y index=3] {\fromRoot img/data/lc_multiple_sol/solE3E4.dat};
+ \addplot[red] table[x index=0,y index=3] {\fromRoot img/data/lc_multiple_sol/solE4E5.dat};
+\end{axis}
+\end{tikzpicture}
+\end{document}
