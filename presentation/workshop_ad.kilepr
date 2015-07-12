@@ -95,12 +95,12 @@ Mode=LaTeX
 
 [item:ad.bib]
 archive=true
-column=10
+column=25
 encoding=UTF-8
 highlight=BibTeX
-line=29
+line=170
 mode=BibTeX
-open=false
+open=true
 order=2
 
 [item:tex/appendix.tex]
@@ -125,10 +125,10 @@ order=-1
 
 [item:tex/experiments.tex]
 archive=true
-column=1
+column=32
 encoding=UTF-8
 highlight=LaTeX
-line=252
+line=447
 mode=LaTeX
 open=true
 order=0
@@ -214,10 +214,10 @@ open=false
 order=1
 
 [view-settings,view=0,item:ad.bib]
-CursorColumn=10
-CursorLine=29
+CursorColumn=25
+CursorLine=170
 JumpList=
-ViMarks=.,169,0,[,164,0,],169,0
+ViMarks=.,179,0,[,170,0,],179,0
 
 [view-settings,view=0,item:tex/appendix.tex]
 CursorColumn=28
@@ -232,10 +232,10 @@ JumpList=
 ViMarks=.,2,0,[,2,0,],2,1
 
 [view-settings,view=0,item:tex/experiments.tex]
-CursorColumn=1
-CursorLine=252
+CursorColumn=32
+CursorLine=447
 JumpList=
-ViMarks=.,314,4,[,314,4,],314,4
+ViMarks=.,447,32,[,447,30,],447,32
 
 [view-settings,view=0,item:tex/implementation.tex]
 CursorColumn=6

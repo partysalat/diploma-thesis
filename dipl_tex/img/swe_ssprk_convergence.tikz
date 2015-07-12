@@ -1,0 +1,49 @@
+\documentclass{standalone}
+\IfStandalone{
+	\usepackage{pgfplots,pgfplotstable}
+	\usetikzlibrary{external}
+	\newcommand{\fromRoot}[1]{../#1}
+}{%
+}
+\begin{document}
+\tikzsetnextfilename{swe_ssprk_convergence}
+\begin{tikzpicture}
+\begin{loglogaxis}[
+% 	width=10cm,
+	width=\linewidth,
+% 	grid=both,
+% 	xlabel=Anzahl der Freiheitsgrade $N$,
+% 	ylabel=Fehler in zum Zeitpunkt $T$,
+% 	ymin=1E-13,
+%  	ymax=4E-7,
+	legend entries ={
+	{SSPRK 3,3},
+	{SSPRK 5,4},
+	GIMP,
+	Rom. GIMP
+	},
+	legend style={at={(0.5,1.0)},anchor=south},
+	legend columns=2
+]
+  	\addplot[mark=none,red,very thin] table[x index=0,y index=2] {\fromRoot img/data/swe_ssprk_convergence.dat};%ssprk 33
+ 	\addplot[mark=none,green,very thin] table[x index=0,y index=3] {\fromRoot img/data/swe_ssprk_convergence.dat};%ssprk 54
+	\addplot[mark=none,blue,very thin] table[x index=0,y index=1] {\fromRoot img/data/swe_ssprk_convergence.dat};%GIMP
+	\addplot[mark=none,cyan,very thin] table[x index=0,y index=5] {\fromRoot img/data/swe_ssprk_convergence.dat};%GIMP ROM
+	\addplot[mark=none,very thin,gray, yshift=-20pt] 
+		table[y={create col/linear regression={x=0,y=5}}] {\fromRoot img/data/swe_ssprk_convergence.dat}
+		  coordinate [pos=0.5] (A)
+		  coordinate [pos=0.6] (B)
+		;
+	% save the slope parameter:
+	\pgfmathparse{-\pgfplotstableregressiona}	
+	\pgfmathsetmacro{\slope}{\pgfmathresult}
+	
+	% draw the opposite and adjacent sides
+	% of the triangle
+	\draw[very thin,gray] (B) -| (A)
+	node [pos=0.2,anchor=north]
+	{\pgfmathprintnumber{\slope}};
+	%deufe
+\end{loglogaxis}
+\end{tikzpicture}
+\end{document}
