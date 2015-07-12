@@ -96,6 +96,26 @@ x_n - x_a -h F(\xo) &= r(x_n,x_a)
 \[x_n = 2\xo - x_a\]
 \end{frame}
 
+\begin{frame}
+ \frametitle{Implizite SSP Methoden und CFL}
+ \centering
+\begin{tabular*}{0.75\textwidth}{  c | c | c | r  }
+\hline 
+family & stages & order & CFL \\ 
+\hline 
+Gauß-Legendre & 1 & 2 & 2 \\
+\hline 
+Radau IA& 1 & 1 & $\infty$ \\
+\hline 
+Radau IIA & 1 & 1 & $\infty$ \\
+\hline 
+Lobatto IIIA & 2 & 2 & 2 \\
+\hline 
+Lobatto IIIB & 2 & 2 & 2 \\
+\hline 
+\end{tabular*}
+\end{frame}
+
 \begin{frame}[fragile]
 \frametitle{Adjoint Algorithmus}
 \algrenewcommand{\algorithmiccomment}[1]{\hfill{\scriptsize #1}}
