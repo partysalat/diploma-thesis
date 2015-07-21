@@ -97,7 +97,7 @@ x_n - x_a -h F(\xo) &= r(x_n,x_a)
 \end{frame}
 
 \begin{frame}
- \frametitle{Implizite SSP Methoden und CFL}
+ \frametitle{Implizite SSP Methoden und CFL (\cite{ketcheson2009optimal})}
  \centering
 \begin{tabular*}{0.75\textwidth}{  c | c | c | r  }
 \hline 
@@ -197,6 +197,43 @@ Lobatto IIIB & 2 & 2 & 2 \\
  \EndFunction
  \end{algorithmic}
 \end{frame}
+
+\begin{frame}[allowframebreaks,fragile]
+\frametitle{Finite Volumen Schema von Kurganov (\cite{kurganov2007second})}
+ \[
+ \frac{d}{dt} \bar U_j = - \frac{H_{j+\sfrac{1}{2}}-H_{j-\sfrac{1}{2}}}{\Delta x}
+\]
+Mittelwert der Erhaltungsgrößen der j-ten Zelle 
+\[
+ \bar U_j \approx \frac{1}{\Delta x}\int_{I_j} U(x,t) dx, \quad U:=(h,hu)^\tr
+\]
+Numerischer Fluss: $H_{j+\sfrac{1}{2}}$:
+\[
+\begin{aligned}
+ H_{j+\sfrac{1}{2}}(t) =& \frac{a^+_{j+\sfrac{1}{2}}F(U^-_{j+\sfrac{1}{2}}) - a^-_{j+\sfrac{1}{2}}F(U^+_{j+\sfrac{1}{2}})}{a^+_{j+\sfrac{1}{2}} -a^-_{j+\sfrac{1}{2}}} \\
+ & +\frac{a^+_{j+\sfrac{1}{2}} \cdot a^-_{j+\sfrac{1}{2}}}{a^+_{j+\sfrac{1}{2}} -a^-_{j+\sfrac{1}{2}}}\left[U^+_{j+\sfrac{1}{2}} - U^-_{j+\sfrac{1}{2}}\right].
+\end{aligned}
+ \]
+Rechte Seite der PDE:
+\[
+ F(U) := \left( hu, \frac{(hu)^2}{h}  +\frac{g}{2} h^2 \right)^\tr
+\]
+Linke/rechte Seiten einer stückweise linearen Rekonstruktion von $U$ zum Zeitpunkt $t$:
+\[
+ U^\pm_{j+\sfrac{1}{2}} = U_{j+\sfrac{1}{2} \pm \sfrac{1}{2}} + \frac{\Delta x}{2} \left(U_x\right)_{j+\sfrac{1}{2}\pm\sfrac{1}{2}}
+\]
+MinMod Flux Limiter
+\[
+ \left(U_x\right) = \text{minmod}\left(\theta \frac{\bar U_j- \bar U_{j-1}}{\Delta x},\frac{\bar U_{j+1}- \bar U_{j-1}}{2\Delta x},\theta\frac{ \bar U_{j+1}- \bar U_{j}}{\Delta x}  \right), \quad \theta \in [1,2]
+\]
+mit minmod
+ \[
+\text{minmod}(z_1,z_2,z_3) = \min(\max(z_1,z_2,z_3),0) + \max(\min(z_1,z_2,z_3),0)    
+ \]
+und $\theta = 1$
+\end{frame}
+
+
 
 \begin{frame}
 \frametitle{LC Diode Adjungierte Gleichung I}
